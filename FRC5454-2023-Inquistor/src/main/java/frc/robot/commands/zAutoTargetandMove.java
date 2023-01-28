@@ -16,8 +16,8 @@ private int m_pipeline=0;
 private double m_targetHeight;
 private DrivetrainSubsystem m_drive;
 private final MedianFilter m_filter = new MedianFilter(5);
-private PIDController m_pidRight = new PIDController(Constants.PIDSteering.rightKP,PIDSteering.KI,PIDSteering.KD);
-private PIDController m_pidLeft = new PIDController(Constants.PIDSteering.leftKP,PIDSteering.KI,PIDSteering.KD);
+private PIDController m_pidRight = new PIDController(Constants.PIDSteering.rightKP,PIDSteering.rightKI,PIDSteering.rightKD);
+private PIDController m_pidLeft = new PIDController(Constants.PIDSteering.leftKP,PIDSteering.leftKI,PIDSteering.leftKD);
 
 
 

@@ -17,6 +17,37 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    public static final class ChargedUp {
+        public static final double targetHeightAprilTag=18;     // middle of April Tag in Distance
+        public static final double targetHeighMLowTape=24.125;  // middle of low tape in inches
+        public static final double targetHeightHighTape=43.875; // middle of high tape in inches 
+        public static final int GridPosUpperLeft=1;
+        public static final int GridPosMiddleLeft=2;
+        public static final int GridPosBottomLeft=3;
+        public static final int GridPosUpperCenter=4;
+        public static final int GridPosMiddleCenter=5;
+        public static final int GridPosBottomCenter=6;
+        public static final int GridPosUpperRight=7;
+        public static final int GridPosMiddleRight=8;
+        public static final int GridPosBottomRight=9;
+        public static final int GridPosUpperConeAny=10;
+        public static final int GridPosMiddleConeAny=11;
+        public static final int GridPosBottomConeAny=12;
+        public static final int GridPosUpperCubeAny=13;
+        public static final int GridPosMiddleCubeAny=14;
+        public static final int GridPosBottomCubeAny=15;
+    }
+    public static final class VisionPipelines{
+        public static final int AprilTag=0;
+        public static final int TopTape=1;
+        public static final int BottomTape=2;
+    }
+
+    public static enum TargetHeight
+    {
+                    TOP,MIDDLE,BOTTOM;	
+    }
+    
     public class Intake{
         public static final int intakePort=90;
         public static final double intakeInSpeed=0.50;
@@ -170,5 +201,20 @@ public static class RobotMap {
     public static final int DRIVETRAIN_BACK_LEFT_ANGLE_ENCODER = 3; // Analog
     public static final int DRIVETRAIN_BACK_LEFT_DRIVE_MOTOR = 23; // CAN
    }
+ 
+   public static final class PIDSteering{
+    public static final double rightKP=-0.09;
+    public static final double leftKP=0.09;
+    public static final double rightKI=-0;  
+    public static final double leftKI=0;
+    public static final double rightKD=-0;
+    public static final double leftKD=0;
+    public static final double forwardKP= -0.15;
+    public static final double backwardKP = 0.15;
+    public static final double forwardKI = -0;
+    public static final double backwardKI = 0;
+    public static final double forwardKD = -0;
+    public static final double backwardKD = 0;
 
+}
 }
