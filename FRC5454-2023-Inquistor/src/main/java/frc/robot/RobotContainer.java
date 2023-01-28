@@ -188,18 +188,18 @@ public class RobotContainer {
         final IntakeCommand intakeInCommand = new IntakeCommand(m_Intake, Constants.Intake.intakeInSpeed);
         final IntakeCommand intakeOutCommand = new IntakeCommand(m_Intake, Constants.Intake.intakeOutSpeed);
         final GyroResetCommand gyroResetCommand = new GyroResetCommand(m_RobotDrive,m_Limelight);
-        final SequentialCommandGroup zAutoTargetTL= new SequentialCommandGroup(new zAutoTargetandMove(m_Limelight, m_RobotDrive ,Constants.ChargedUp.GridPosUpperLeft),
-                                                                              new zPivotAndExtend(Constants.TargetHeight.TOP),
+/*         final SequentialCommandGroup zAutoTargetTL= new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,Constants.ChargedUp.GridPosUpperLeft),
+                                                                              new zPivotandExtendCommand(Constants.TargetHeight.TOP),
                                                                               new ClawCommand(m_Claw,Constants.Claw.ReleaseSpeed));
         Trigger targetTopLeft= new JoystickButton(m_CustomController,ButtonConstants.TargetTopLeft);
         targetTopLeft.toggleOnTrue(zAutoTargetTL);
 
-        final SequentialCommandGroup zAutoTargetML= new SequentialCommandGroup(new zAutoTargetandMove(m_Limelight, m_RobotDrive ,Constants.ChargedUp.GridPosMiddleLeft),
-                                                                              new zPivotAndExtend(Constants.TargetHeight.MIDDLE),
+        final SequentialCommandGroup zAutoTargetML= new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,Constants.ChargedUp.GridPosMiddleLeft),
+                                                                              new zPivotandExtendCommand(Constants.TargetHeight.MIDDLE),
                                                                               new ClawCommand(m_Claw,Constants.Claw.ReleaseSpeed));
         Trigger targetMiddleLeft= new JoystickButton(m_CustomController,ButtonConstants.TargetMiddleLeft);
         targetMiddleLeft.toggleOnTrue(zAutoTargetML);
-
+*/
         //final LatchCommand latchCommand =new LatchCommand(m_Pnuematics);
         final SwitchDriveModeCommand switchDriveCommand=new SwitchDriveModeCommand(m_DriveControlMode);       
         Trigger driverMode=new JoystickButton(m_xBoxDriver,ButtonConstants.DriverDriveMode);
@@ -211,19 +211,19 @@ public class RobotContainer {
         Trigger driverIntakeOut =  new JoystickButton(m_xBoxDriver, ButtonConstants.DriverIntakeOut);
         driverIntakeOut.whileTrue(intakeOutCommand);
 
+     
+        Trigger driverGyroReset = new JoystickButton(m_xBoxDriver,ButtonConstants.DriverGyroReset);
+        driverGyroReset.whileTrue(gyroResetCommand);
+/*            
         Trigger operatorIntakeIn =  new JoystickButton(m_xBoxDriver, ButtonConstants.OperatorIntakeIn);
         operatorIntakeIn.whileTrue(intakeInCommand);
 
         Trigger operatorIntakeOut =  new JoystickButton(m_xBoxDriver, ButtonConstants.OperatorIntakeOut);
         operatorIntakeOut.whileTrue(intakeInCommand);
 
-        Trigger driverGyroReset = new JoystickButton(m_xBoxDriver,ButtonConstants.DriverGyroReset);
-        driverGyroReset.whileTrue(gyroResetCommand);
-           
-        
         Trigger operatorGyroReset = new JoystickButton(m_xBoxOperator,ButtonConstants.OperatorGyroReset);
         operatorGyroReset.whileTrue(gyroResetCommand);
-        
+ */       
         
  
    }

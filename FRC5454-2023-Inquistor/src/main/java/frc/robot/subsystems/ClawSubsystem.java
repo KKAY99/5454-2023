@@ -8,10 +8,12 @@ public class ClawSubsystem  extends SubsystemBase {
   
     /** Creates a new ExampleSubsystem. */
     public  ClawSubsystem(Integer MotorPort) {
-      m_ClawMotor = new CANSparkMax(MotorPort, MotorType.kBrushed);   
+    //Disabled until we have a motor 
+    /*   m_ClawMotor = new CANSparkMax(MotorPort, MotorType.kBrushed);   
       m_ClawMotor.setOpenLoopRampRate(0.25);
       m_ClawMotor.setSmartCurrentLimit(30);  // likely gets ignored due to brushed motor
       m_ClawMotor.setSecondaryCurrentLimit(30); //Set as well at 30
+   */
     }
     public void run(double power) {
       m_ClawMotor.set(power);

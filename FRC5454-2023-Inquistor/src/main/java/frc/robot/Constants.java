@@ -1,21 +1,6 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
+ 
 package frc.robot;
 
-/**
- * The Constants class provides a convenient place for teams to hold robot-wide
- * numerical or boolean
- * constants. This class should not be used for any other purpose. All constants
- * should be declared
- * globally (i.e. public static). Do not put anything functional in this class.
- *
- * <p>
- * It is advised to statically import this class (or one of its inner classes)
- * wherever the
- * constants are needed, to reduce verbosity.
- */
 public final class Constants {
     public static final class ChargedUp {
         public static final double targetHeightAprilTag=18;     // middle of April Tag in Distance
@@ -56,12 +41,16 @@ public final class Constants {
     public class Elevator{
         public static final int elevatorPort=91;
         public static final double elevatorSpeed=.50;
+
     }
     public class Claw{
         public static final int clawPort=92;
+        public static final double GrabSpeed=0.5;
+        public static final double ReleaseSpeed=0.5;
     }
-    public class pivotWheelPort{
+    public class pivotWheel{
         public static final int pivotWheelPort=93;
+        
     }
     public class swerveDrive{
         public static final double driveDeadband=0.05;
@@ -80,18 +69,18 @@ public final class Constants {
              
     }
     public static final class ButtonConstants{
-       public static final int DriverIntakeIn=2;
-       public static final int DriverIntakeOut=3;
-       public static final int DriverGyroReset=7;
-       public static final int DriverDriveMode=1;
-       
-       public static final int OperatorIntakeIn=6;
-       public static final int OperatorIntakeOut=7;
-    
-       public static final int OperatorTurretAxis=0;
-       public static final int OperatorTurretFindAxis=1;
-       public static final int OperatorClimbAxis=5;
-       public static final int OperatorGyroReset=7;
+        public static final int DriverDriveMode=1;
+        public static final int DriverIntakeIn=2;
+        public static final int DriverIntakeOut=3;
+        public static final int DriverGyroReset=7;
+  
+        public static final int OperatorIntakeIn=6;
+        public static final int OperatorIntakeOut=7;
+     
+        public static final int OperatorGyroReset=7;
+     
+        public static final int TargetTopLeft=4;
+        public static final int TargetMiddleLeft=5;
     }
 
     public static final class LimitSwitches{
@@ -137,8 +126,8 @@ public final class Constants {
     public static final class InputControllers {
         public static final int kXboxDrive = 0;
         public static final int kXboxOperator = 1;
+        public static final int kCustomController = 1;
     }
-
     public static final class PhotonVision{
         public static String camera="";
     }
@@ -184,24 +173,24 @@ public final class Constants {
         }
     }
        
-public static class RobotMap {
-    public static final int DRIVETRAIN_FRONT_LEFT_ANGLE_MOTOR = 25; // CAN
-    public static final int DRIVETRAIN_FRONT_LEFT_ANGLE_ENCODER = 0; // Analog
-    public static final int DRIVETRAIN_FRONT_LEFT_DRIVE_MOTOR = 20; // CAN
-
-    public static final int DRIVETRAIN_FRONT_RIGHT_ANGLE_MOTOR = 26; // CAN
-    public static final int DRIVETRAIN_FRONT_RIGHT_ANGLE_ENCODER = 1; // Analog
-    public static final int DRIVETRAIN_FRONT_RIGHT_DRIVE_MOTOR = 21; // CAN
-
-    public static final int DRIVETRAIN_BACK_RIGHT_ANGLE_MOTOR = 27; // CAN
-    public static final int DRIVETRAIN_BACK_RIGHT_ANGLE_ENCODER = 2; // Analog
-    public static final int DRIVETRAIN_BACK_RIGHT_DRIVE_MOTOR = 22; // CAN
-
-    public static final int DRIVETRAIN_BACK_LEFT_ANGLE_MOTOR = 28; // CAN
-    public static final int DRIVETRAIN_BACK_LEFT_ANGLE_ENCODER = 3; // Analog
-    public static final int DRIVETRAIN_BACK_LEFT_DRIVE_MOTOR = 23; // CAN
-   }
- 
+    public static class RobotMap {
+        public static final int DRIVETRAIN_FRONT_LEFT_ANGLE_MOTOR = 25; // CAN
+        public static final int DRIVETRAIN_FRONT_LEFT_ANGLE_ENCODER = 0; // Analog
+        public static final int DRIVETRAIN_FRONT_LEFT_DRIVE_MOTOR = 20; // CAN
+    
+        public static final int DRIVETRAIN_FRONT_RIGHT_ANGLE_MOTOR = 26; // CAN
+        public static final int DRIVETRAIN_FRONT_RIGHT_ANGLE_ENCODER = 1; // Analog
+        public static final int DRIVETRAIN_FRONT_RIGHT_DRIVE_MOTOR = 21; // CAN
+    
+        public static final int DRIVETRAIN_BACK_RIGHT_ANGLE_MOTOR = 27; // CAN
+        public static final int DRIVETRAIN_BACK_RIGHT_ANGLE_ENCODER = 2; // Analog
+        public static final int DRIVETRAIN_BACK_RIGHT_DRIVE_MOTOR = 22; // CAN
+    
+        public static final int DRIVETRAIN_BACK_LEFT_ANGLE_MOTOR = 28; // CAN
+        public static final int DRIVETRAIN_BACK_LEFT_ANGLE_ENCODER = 3; // Analog
+        public static final int DRIVETRAIN_BACK_LEFT_DRIVE_MOTOR = 23; // CAN
+       }
+    
    public static final class PIDSteering{
     public static final double rightKP=-0.09;
     public static final double leftKP=0.09;
