@@ -8,23 +8,23 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
 public class Limelight {
-    private static NetworkTable llTable = NetworkTableInstance.getDefault().getTable("limelight");
+
+    private static NetworkTable llTable;
     // x location of the target
-    private static NetworkTableEntry tx = llTable.getEntry("tx");
+    private static NetworkTableEntry tx;
     // y location of the target
-    private static NetworkTableEntry ty = llTable.getEntry("ty");
+    private static NetworkTableEntry ty;
     // area of the target
-    private static NetworkTableEntry ta = llTable.getEntry("ta");
+    private static NetworkTableEntry ta;
     // does the limelight have a target
-    private static NetworkTableEntry tv = llTable.getEntry("tv");
-    private static NetworkTableEntry pipeline=llTable.getEntry("pipeline");
-    
-    private double m_targetHeight;
+    private static NetworkTableEntry tv;
+
+
     private double m_limeLightHeight;
     private double m_mountingAngle;
     private double m_targetDistance = 0;
@@ -39,7 +39,7 @@ public class Limelight {
     PIDController limeLightSteeringController = new PIDController(kP, kI, kD);
 
     boolean m_dynamicEnabled = false;
-
+    double  m_targetHeight=0;
     public Limelight() {
         this(0.0, 0.0, 0.0);
     };
@@ -51,19 +51,33 @@ public class Limelight {
     public Limelight(double targetHeight, double limeLightHeight, double mountingAngle, double xoffSet) {
         this(targetHeight, limeLightHeight, mountingAngle, xoffSet,0 );
     };
+    public Limelight(double targetHeight, double limeLightHeight, double mountingAngle, double xoffSet,
+    double targetDistance) {
+        //Default Name to limelight 
+        this(targetHeight, limeLightHeight, mountingAngle, xoffSet,targetDistance,"limelight" );
+        
+    }
 
     public Limelight(double targetHeight, double limeLightHeight, double mountingAngle, double xoffSet,
-            double targetDistance) {
+            double targetDistance,String limeLightName) {
+        
+        llTable = NetworkTableInstance.getDefault().getTable(limeLightName);
+        // x location of the target
+        tx = llTable.getEntry("tx");
+        // y location of the target
+        ty = llTable.getEntry("ty");
+        // area of the target
+        ta = llTable.getEntry("ta");
+        // does the limelight have a target
+        tv = llTable.getEntry("tv");
+        
         m_targetHeight = targetHeight;
         m_limeLightHeight = limeLightHeight;
         m_mountingAngle = mountingAngle;
         m_xStaticOffset = xoffSet;
         m_targetDistance = targetDistance;
     };
-    
-    public void setTargetHeight (double height){
-        m_targetHeight=height;
-    }
+
 
     public double getOffset(){
         return m_xStaticOffset;
@@ -77,10 +91,18 @@ public class Limelight {
         // d = (h2-h1) / tan(a1+a2)
         double measuredAngle = getY();
         if (measuredAngle != 0) {
-            distance = (m_targetHeight - m_limeLightHeight) / Math.tan(Math.toRadians(m_mountingAngle + measuredAngle));
+            distance = (Math.abs(m_targetHeight - m_limeLightHeight)) / Math.tan(Math.toRadians(Math.abs(m_mountingAngle + measuredAngle)));
         }
-
+        //System.out.println(distance + " - " + m_targetHeight + " -- " + m_limeLightHeight + " --- " + measuredAngle);
         return distance;
+    }
+    public void setPipeline(int pipeline){
+        llTable.getEntry("pipeline").setNumber(pipeline);
+        
+    }
+    public int getPipeline(){
+        
+        return (int) llTable.getEntry("pipeline").getInteger(99);
     }
 
     public double getRotationPower(double measurement) {
@@ -96,32 +118,16 @@ public class Limelight {
         return 0.0;
     }
 
-    // public double getStafePower(double error) {
-    // //Adjust the coefficient to adjust power don't excede 0.14 maybe?
-    // return 0.145*Math.pow(Math.abs(error), 0.5);
-    // }
 
-    // public double getFwdPower(double error) {
-    // //Adjust the coefficient to adjust power don't excede 0.06 maybe?
-    // return 0.115*Math.pow(Math.abs(error), 0.5);
-    // }
-
-   
-   
-    private static double getEquation(double value, double xOne, double yOne, double xTwo, double yTwo) {
-        double slope = (yTwo - yOne) / (xTwo - xOne);
-        return (slope * (value - xOne)) + yOne;
-    }
-
-    private static double[] offsetValues = new double[] { Constants.LimeLightValues.kVisionXMinDistanceOffset,
-            Constants.LimeLightValues.kVisionXMaxDistanceOffset };
-
+     public double getXRaw(){
+        return tx.getDouble(0.0);
+     }
     public double getX() {
-        if (m_dynamicEnabled) {
+ //       if (m_dynamicEnabled) {
+//            return tx.getDouble(0.0) + getOffset(offsetValues, getDistance());
+ //       } else {
             return tx.getDouble(0.0) + m_xStaticOffset;
-        } else {
-            return tx.getDouble(0.0) + m_xStaticOffset;
-        }
+ //       }
     }
 
     public double getactualX() {
@@ -131,6 +137,10 @@ public class Limelight {
     public double getY() {
         return ty.getDouble(0.0);
     }
+    public double getYRaw(){
+        return ty.getDouble(0.0);
+    }
+    
 
     public double getArea() {
         return ta.getDouble(0.0);
@@ -143,7 +153,7 @@ public class Limelight {
 
     public static void ledMode(boolean on) {
         double mode = on ? 0 : 1;
-        NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(mode);
+        llTable.getEntry("ledMode").setNumber(mode);
     }
 
     public enum VisionModes {
@@ -167,11 +177,14 @@ public class Limelight {
     }
 
     public static String getVisionMode() {
-        return NetworkTableInstance.getDefault().getTable("limelight").getEntry("getpipe").getString("0");
+        return llTable.getEntry("getpipe").getString("0");
     }
 
     public void setTargetDistance(double distance) {
         m_targetDistance = distance;
+    }
+    public void setTargetHeight (double height){
+        m_targetHeight=height;
     }
 
     private boolean isAtTargetDistance() {
@@ -218,28 +231,15 @@ public class Limelight {
         SmartDashboard.putString("limelight mode", getVisionMode());
 
     }
-    public void setPipeline(int pipeline){
-        NetworkTableInstance inst = NetworkTableInstance.getDefault();
 
-        inst.getTable("limelight").getEntry("pipeline").setNumber(pipeline);
-        
-    }
-    public int getPipeline(){
-        
-        return (int) pipeline.getInteger(99);
-    }
-
-  public double getXRaw(){
-        return tx.getDouble(0.0);
-     }
     public void turnLEDOff() {
-        NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
+        llTable.getEntry("ledMode").setNumber(1);
         m_LimelightLEDOn = false;
     }
 
     public void turnLEDOn() {
         // turn off lED
-        NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(3);
+        llTable.getEntry("ledMode").setNumber(3);
         m_LimelightLEDOn = true;
     }
 
