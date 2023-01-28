@@ -9,7 +9,7 @@ import edu.wpi.first.math.filter.MedianFilter;
 
 
 
-public class zAutoTargetandMove extends CommandBase{
+public class zAutoTargetandMoveCommand extends CommandBase{
 private int m_gridChoice=0;
 private Limelight m_limeLight;
 private int m_pipeline=0;
@@ -21,7 +21,7 @@ private PIDController m_pidLeft = new PIDController(Constants.PIDSteering.leftKP
 
 
 
-public zAutoTargetandMove(Limelight limelight,DrivetrainSubsystem drive,int gridChoice){
+public zAutoTargetandMoveCommand(Limelight limelight,DrivetrainSubsystem drive,int gridChoice){
         m_gridChoice=gridChoice;
         m_limeLight=limelight;
         m_drive=drive;

@@ -26,8 +26,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(349-180);//(164.53+180); //30.6 last 6.5 - was 161.8
     private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(299.54+180);
-    private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(22.1);//+180
-    private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(69.84);//+180
+    private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(22.1);//+180 22.1
+    private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(180+69.84);//+180
 
     private static DrivetrainSubsystem instance;
 
@@ -102,10 +102,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
                         return true;
                 }
     }
-    public void stop(){
-        drive(new Translation2d(0,0), 0, true);
-        periodic();       
-}
     public void move (double direction, double rotation,double speed, double distance, boolean stopAtEnd)
 {       double startDistance;
         double forward=0;
@@ -154,12 +150,16 @@ public class DrivetrainSubsystem extends SubsystemBase {
               drive(new Translation2d(forward, strafe), rotation, false);
               periodic();
               distanceTravelled=Math.abs(backLeftModule.getCurrentDistance()-startDistance);
-              System.out.print("(" + forward + ", "+ strafe +") " + distanceTravelled + " / " + distance );
+        //      System.out.print("(" + forward + ", "+ strafe +") " + distanceTravelled + " / " + distance );
         } while(distanceTravelled<=distance);
         if (stopAtEnd) {
                 drive(new Translation2d(0,0), 0, true);
                 periodic();                
         }
+}
+public void stop(){
+        drive(new Translation2d(0,0), 0, true);
+        periodic();       
 }
 public void spin (double direction,double speed)
 {       double startAngle;
