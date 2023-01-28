@@ -38,6 +38,8 @@ import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.common.control.PidController;
 import frc.robot.commands.AlignMoveForward;
+import frc.robot.commands.PhotonAlign;
+import frc.robot.classes.PhotonVision;
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -56,7 +58,9 @@ public class RobotContainer {
    //private final SwerveSubsystem m_RobotDrive = new SwerveSubsystem();+
 
     private final Limelight m_Limelight = new Limelight(Constants.LimeLightValues.targetHeight, Constants.LimeLightValues.limelightHeight, Constants.LimeLightValues.limelightAngle,Constants.LimeLightValues.kVisionXOffset,80);
-    
+     
+     private PhotonVision m_PhotonVision = new PhotonVision();
+
      private final LEDStrip m_ledStrip = new LEDStrip(Constants.LEDS.PORT, Constants.LEDS.COUNT);
      private static enum LEDMode
      {
@@ -271,6 +275,7 @@ public class RobotContainer {
     private AlignMoveForward m_align = new AlignMoveForward(m_Limelight, m_RobotDrive,0,Constants.ChargedUp.targetHeighMLowTape);
     private zAutoTargetandMove m_test = new zAutoTargetandMove(m_Limelight, m_RobotDrive, 2);
     private boolean m_turretHasReset =false;
+    private PhotonAlign m_photonAlign = new PhotonAlign(m_RobotDrive,m_PhotonVision);
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
@@ -360,7 +365,7 @@ public class RobotContainer {
         JoystickButton pipelineswitch0=new JoystickButton(m_xBoxDriver,ButtonConstants.DriverPipeline0);
         JoystickButton pipelineswitch1=new JoystickButton(m_xBoxDriver,ButtonConstants.DriverPipeline1);
         JoystickButton pipelineswitch2=new JoystickButton(m_xBoxDriver,ButtonConstants.DriverPipeline2);
-        pipelineswitch0.toggleOnTrue(m_pipelineswap0);
+        pipelineswitch0.toggleOnTrue(m_photonAlign);
         pipelineswitch1.toggleOnTrue(m_align);
         pipelineswitch2.toggleOnTrue(m_pipelineswap2);
         

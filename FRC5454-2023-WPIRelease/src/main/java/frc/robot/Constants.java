@@ -21,7 +21,7 @@ import frc.robot.classes.Gains;
 public final class Constants {
 
     public static final class ChargedUp {
-        public static final double targetHeightAprilTag=18;     // middle of April Tag in Distance
+        public static final double targetHeightAprilTag=0.4572;     // middle of April Tag in Distance
         public static final double targetHeighMLowTape=24.125;  // middle of low tape in inches
         public static final double targetHeightHighTape=43.875; // middle of high tape in inches 
     }
@@ -54,7 +54,7 @@ public final class Constants {
     public static final double turretOuterLimit=.4;
     public static final double turretInnerLimit=.2;
     public static final double driveDeadband=0.05;
-    public static final String rightCamera = "rightcamera";
+    public static final String rightCamera = "photonvisioncamera";
     public static final String leftCamera = "leftcamera";
 
     public static final class Pneumatics {
