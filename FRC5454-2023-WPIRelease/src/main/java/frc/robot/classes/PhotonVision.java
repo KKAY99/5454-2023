@@ -11,14 +11,16 @@ import edu.wpi.first.math.util.Units;
 
 public class PhotonVision {
 
-PhotonCamera m_camera;
+PhotonCamera m_rightcamera;
+PhotonCamera m_leftcamera;
 
 public PhotonVision(){
-    m_camera = new PhotonCamera(Constants.camera);
+    m_rightcamera = new PhotonCamera(Constants.rightCamera);
+    m_leftcamera = new PhotonCamera(Constants.leftCamera);
 }
 
 public boolean CanSeeAnyTarget(){
-    var result = m_camera.getLatestResult();
+    var result = m_rightcamera.getLatestResult();
     boolean hasTargets = result.hasTargets();
     return hasTargets;
    
@@ -31,7 +33,7 @@ private PhotonTrackedTarget getTarget(int matchTagID){
     boolean foundTarget=false;
     int targetLoop=0;
     PhotonTrackedTarget target=null;
-    var result = m_camera.getLatestResult();
+    var result = m_rightcamera.getLatestResult();
     boolean hasTargets = result.hasTargets();
     if(hasTargets){
         List<PhotonTrackedTarget> targets = result.getTargets();
@@ -77,7 +79,7 @@ public double GetY(int matchTagID){
 }
 
 public int GetBestMatchAprilTagID () {
-    var result = m_camera.getLatestResult();
+    var result = m_rightcamera.getLatestResult();
     List<PhotonTrackedTarget> targets = result.getTargets();
     PhotonTrackedTarget target = result.getBestTarget(); 
     int aprilTagID = target.getFiducialId();
