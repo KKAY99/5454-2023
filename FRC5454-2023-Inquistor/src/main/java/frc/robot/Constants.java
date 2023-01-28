@@ -81,6 +81,13 @@ public final class Constants {
      
         public static final int TargetTopLeft=4;
         public static final int TargetMiddleLeft=5;
+        public static final int TargetBottomLeft=6;
+        public static final int TargetTopCenter=7;
+        public static final int TargetMiddleCenter=8;
+        public static final int TargetBottomCenter=9;
+        public static final int TargetTopRight=10;
+        public static final int TargetMiddleRight=11;
+        public static final int TargetBottomRight=12;
     }
 
     public static final class LimitSwitches{

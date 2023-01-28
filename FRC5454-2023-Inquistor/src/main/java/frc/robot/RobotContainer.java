@@ -188,18 +188,72 @@ public class RobotContainer {
         final IntakeCommand intakeInCommand = new IntakeCommand(m_Intake, Constants.Intake.intakeInSpeed);
         final IntakeCommand intakeOutCommand = new IntakeCommand(m_Intake, Constants.Intake.intakeOutSpeed);
         final GyroResetCommand gyroResetCommand = new GyroResetCommand(m_RobotDrive,m_Limelight);
-/*         final SequentialCommandGroup zAutoTargetTL= new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,Constants.ChargedUp.GridPosUpperLeft),
+
+        // *** 9 Box targeting
+        final SequentialCommandGroup zAutoTargetTL= new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive,
+                                                                                Constants.ChargedUp.GridPosUpperLeft),
                                                                               new zPivotandExtendCommand(Constants.TargetHeight.TOP),
                                                                               new ClawCommand(m_Claw,Constants.Claw.ReleaseSpeed));
         Trigger targetTopLeft= new JoystickButton(m_CustomController,ButtonConstants.TargetTopLeft);
         targetTopLeft.toggleOnTrue(zAutoTargetTL);
 
-        final SequentialCommandGroup zAutoTargetML= new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,Constants.ChargedUp.GridPosMiddleLeft),
+        final SequentialCommandGroup zAutoTargetML= new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
+                                                                                Constants.ChargedUp.GridPosMiddleLeft),
                                                                               new zPivotandExtendCommand(Constants.TargetHeight.MIDDLE),
                                                                               new ClawCommand(m_Claw,Constants.Claw.ReleaseSpeed));
         Trigger targetMiddleLeft= new JoystickButton(m_CustomController,ButtonConstants.TargetMiddleLeft);
         targetMiddleLeft.toggleOnTrue(zAutoTargetML);
-*/
+
+        final SequentialCommandGroup zAutoTargetBL= new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive,
+                                                                                Constants.ChargedUp.GridPosBottomLeft),
+                                                                              new zPivotandExtendCommand(Constants.TargetHeight.BOTTOM),
+                                                                              new ClawCommand(m_Claw,Constants.Claw.ReleaseSpeed));
+        Trigger targetMiddleBottom= new JoystickButton(m_CustomController,ButtonConstants.TargetBottomLeft);
+        targetMiddleBottom.toggleOnTrue(zAutoTargetBL);
+
+        final SequentialCommandGroup zAutoTargetTC= new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive,
+                                                                                Constants.ChargedUp.GridPosUpperCenter),
+                                                                              new zPivotandExtendCommand(Constants.TargetHeight.TOP),
+                                                                              new ClawCommand(m_Claw,Constants.Claw.ReleaseSpeed));
+        Trigger targetTopCenter= new JoystickButton(m_CustomController,ButtonConstants.TargetTopCenter);
+        targetTopLeft.toggleOnTrue(zAutoTargetTC);
+
+        final SequentialCommandGroup zAutoTargetMC= new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
+                                                                                Constants.ChargedUp.GridPosMiddleCenter),
+                                                                              new zPivotandExtendCommand(Constants.TargetHeight.MIDDLE),
+                                                                              new ClawCommand(m_Claw,Constants.Claw.ReleaseSpeed));
+        Trigger targetMiddleCenter= new JoystickButton(m_CustomController,ButtonConstants.TargetMiddleCenter);
+        targetMiddleCenter.toggleOnTrue(zAutoTargetMC);
+
+        final SequentialCommandGroup zAutoTargetBC= new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
+                                                                                Constants.ChargedUp.GridPosBottomCenter),
+                                                                              new zPivotandExtendCommand(Constants.TargetHeight.BOTTOM),
+                                                                              new ClawCommand(m_Claw,Constants.Claw.ReleaseSpeed));
+        Trigger targetBottomCenter= new JoystickButton(m_CustomController,ButtonConstants.TargetBottomCenter);
+        targetBottomCenter.toggleOnTrue(zAutoTargetBC);
+
+        final SequentialCommandGroup zAutoTargetTR= new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
+                                                                                Constants.ChargedUp.GridPosUpperRight),
+                                                                               new zPivotandExtendCommand(Constants.TargetHeight.TOP),
+                                                                               new ClawCommand(m_Claw,Constants.Claw.ReleaseSpeed));
+
+        Trigger targetTopRight =new JoystickButton(m_CustomController,ButtonConstants.TargetTopRight);
+        targetTopRight.toggleOnTrue(zAutoTargetTR);
+
+        final SequentialCommandGroup zAutoTargetMR= new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
+                                                                                Constants.ChargedUp.GridPosMiddleRight),
+                                                                               new zPivotandExtendCommand(Constants.TargetHeight.MIDDLE),
+                                                                               new ClawCommand(m_Claw,Constants.Claw.ReleaseSpeed));
+        Trigger targetMiddleRight= new JoystickButton(m_CustomController,ButtonConstants.TargetMiddleRight);
+        targetMiddleRight.toggleOnTrue(zAutoTargetMR);
+
+        final SequentialCommandGroup zAutoTargetBR= new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
+                                                                                Constants.ChargedUp.GridPosBottomRight),
+                                                                               new zPivotandExtendCommand(Constants.TargetHeight.BOTTOM),
+                                                                               new ClawCommand(m_Claw,Constants.Claw.ReleaseSpeed));
+        Trigger targetBottomRight= new JoystickButton(m_CustomController,ButtonConstants.TargetBottomRight);
+        targetBottomRight.toggleOnTrue(zAutoTargetBR);
+
         //final LatchCommand latchCommand =new LatchCommand(m_Pnuematics);
         final SwitchDriveModeCommand switchDriveCommand=new SwitchDriveModeCommand(m_DriveControlMode);       
         Trigger driverMode=new JoystickButton(m_xBoxDriver,ButtonConstants.DriverDriveMode);

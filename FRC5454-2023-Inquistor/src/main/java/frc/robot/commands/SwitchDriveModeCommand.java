@@ -16,8 +16,10 @@ public class SwitchDriveModeCommand extends CommandBase {
     @Override
     public void execute() {
         if(m_driveControlMode.isFieldOrientated()){
+            System.out.println("Switching Drive to Robot Centric Mode");
             m_driveControlMode.setRobotMode();
         }else{
+        System.out.println("Switching Drive to Field Centric Mode");
             m_driveControlMode.setFieldMode();
         }
     }

@@ -1,6 +1,9 @@
 package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
+
+import javax.lang.model.util.ElementScanner14;
+
 import java.util.function.BooleanSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -51,8 +54,14 @@ public class DefaultDriveCommand extends CommandBase {
     // Square the rotation stick
     rotation = Math.copySign(Math.pow(rotation, 2.0), rotation);
     //System.out.println(forward + " -- " + strafe + " -- " + rotation);
-    //m_drive.drive(new Translation2d(forward, strafe), rotation, true);
-    m_drive.drive(new Translation2d(forward, strafe), rotation, m_fieldMode.getAsBoolean());
+    if(m_fieldMode.getAsBoolean()){
+      System.out.println("As true");
+      m_drive.drive(new Translation2d(forward, strafe), rotation, true);
+    
+    } else{
+      System.out.println("As false");
+      m_drive.drive(new Translation2d(forward, strafe), rotation, false);
+    }
     
    
   }
