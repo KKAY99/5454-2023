@@ -2,11 +2,9 @@ package frc.robot.commands;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class zPivotandExtendCommand extends CommandBase {
-    public Constants.TargetHeight m_height;
-      //TODO: Write this actual Command
-    public zPivotandExtendCommand(Constants.TargetHeight height){
-        m_height = height;
+public class zPivotArmResetCommand extends CommandBase {
+    //TODO: Write this actual Command
+    public zPivotArmResetCommand(){
     }
 
     @Override

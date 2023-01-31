@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.net.PortForwarder;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -48,22 +47,41 @@ public class Robot extends LoggedRobot {
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
-    Logger.getInstance().recordMetadata("ProjectName", "MyProject"); // Set a metadata value
+    Logger logger = Logger.getInstance();
 
-  if (isReal()) {
-      String logPath="C:" + File.separator + "RobotLogs" + File.separator;
-      Logger.getInstance().addDataReceiver(new WPILOGWriter(logPath)); // Log to a USB stick
-      Logger.getInstance().addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
-      new PowerDistribution(1, ModuleType.kRev); // Enables power distribution logging
-  } else {
-      setUseTiming(false); // Run as fast as possible
-      String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
-      Logger.getInstance().setReplaySource(new WPILOGReader(logPath)); // Read replay log
-      Logger.getInstance().addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to a new log
-  }
-
-  Logger.getInstance().start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
+    // Record metadata
+    logger.recordMetadata("ProjectName", "2023-Inquistor");
     
+    // Set up data receivers & replay source
+    switch (Constants.currentMode) {
+      // Running on a real robot, log to a USB stick
+      case REAL:
+        String logFolder="C:" + File.separator + "RobotLogs" + File.separator;
+        System.out.println(logFolder);  
+        logger.addDataReceiver(new WPILOGWriter(logFolder));
+        logger.addDataReceiver(new NT4Publisher());
+        new PowerDistribution(1, ModuleType.kRev); // Enables power distribution logging
+        break;
+
+      // Running a physics simulator, log to local folder
+      case SIM:
+        logger.addDataReceiver(new WPILOGWriter(""));
+        logger.addDataReceiver(new NT4Publisher());
+        break;
+
+      // Replaying a log, set up replay source
+      case REPLAY:
+        setUseTiming(false); // Run as fast as possible
+        String logPath = LogFileUtil.findReplayLog();
+        logger.setReplaySource(new WPILOGReader(logPath));
+        logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim")));
+        break;
+    }
+
+    // Start AdvantageKit logger
+    logger.start();
+
+
     m_robotContainer = new RobotContainer();
     
  

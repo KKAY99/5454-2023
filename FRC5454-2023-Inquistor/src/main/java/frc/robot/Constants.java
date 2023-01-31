@@ -48,8 +48,8 @@ public final class Constants {
         public static final double GrabSpeed=0.5;
         public static final double ReleaseSpeed=0.5;
     }
-    public class pivotWheel{
-        public static final int pivotWheelPort=93;
+    public class RotateArm{
+        public static final int rotateArmPort=93;
         
     }
     public class swerveDrive{
@@ -126,7 +126,9 @@ public final class Constants {
         public static final int delayValMode3=8;
         public static final int defaultDelayMode=0;
         public static final double MoveSpeed=0.5;
-        public static final double LeaveZoneDistance=30;
+        public static final double LeaveCommunityDistance=174; // 15 feet = 174-30
+        public static final double DistanceToCharging=20;// x feet
+        public static final double DistanceToDock=30;
     }
             
         
@@ -213,4 +215,18 @@ public final class Constants {
     public static final double backwardKD = 0;
 
 }
+// AdvantageKit Constants
+public static final Mode currentMode = Mode.REAL;
+
+public static enum Mode {
+  /** Running on a real robot. */
+  REAL,
+
+  /** Running a physics simulator. */
+  SIM,
+
+  /** Replaying from a log file. */
+  REPLAY
 }
+}
+

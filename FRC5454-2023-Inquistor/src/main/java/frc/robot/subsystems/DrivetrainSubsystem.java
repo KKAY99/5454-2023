@@ -3,10 +3,11 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import frc.robot.Constants.RobotMap;
-
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.LoggedRobot;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.TimedRobot;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.hal.ThreadsJNI;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -194,13 +195,14 @@ public void spin (double direction,double speed)
 
         SmartDashboard.putNumber("Gyroscope Angle", m_gyroscope.getAngle().toDegrees());
 
-        frontLeftModule.updateState(TimedRobot.kDefaultPeriod);
-        frontRightModule.updateState(TimedRobot.kDefaultPeriod);
-        backLeftModule.updateState(TimedRobot.kDefaultPeriod);
-        backRightModule.updateState(TimedRobot.kDefaultPeriod);
+        frontLeftModule.updateState(LoggedRobot.defaultPeriodSecs);
+        frontRightModule.updateState(LoggedRobot.defaultPeriodSecs);
+        backLeftModule.updateState(LoggedRobot.defaultPeriodSecs);
+        backRightModule.updateState(LoggedRobot.defaultPeriodSecs);
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldOriented) {
+        Logger.getInstance().recordOutput("Drive s",translation.toString());
         rotation *= 2.0 / Math.hypot(WHEELBASE, TRACKWIDTH);
         ChassisSpeeds speeds;
         if (fieldOriented) {

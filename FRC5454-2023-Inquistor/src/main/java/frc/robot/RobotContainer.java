@@ -6,38 +6,41 @@ package frc.robot;
 
  
 import java.util.Map;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.Timer;
+
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
-import frc.robot.classes.SpectrumAxisButton;
-import frc.robot.commands.*;
-import frc.robot.common.drivers.NavX;
-import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.AutoModes;
 import frc.robot.Constants.ButtonConstants;
 import frc.robot.Constants.InputControllers;
 import frc.robot.Constants.LEDS.Colors;
-import frc.robot.classes.Limelight;
 import frc.robot.classes.DriveControlMode;
 import frc.robot.classes.LEDStrip;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.classes.Limelight;
+import frc.robot.commands.AutoDoNothingCommand;
+import frc.robot.commands.AutoMoveCommand;
+import frc.robot.commands.ClawCommand;
+import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.commands.GyroResetCommand;
+import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.SwitchDriveModeCommand;
+import frc.robot.commands.zAutoTargetandMoveCommand;
+import frc.robot.commands.zPivotArmResetCommand;
+import frc.robot.commands.zPivotandExtendCommand;
+import frc.robot.common.drivers.NavX;
+import frc.robot.subsystems.ClawSubsystem;
+import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -294,8 +297,54 @@ public class RobotContainer {
         System.out.println("Autonomouse Selected Mode = " + selectedMode);
         switch (selectedMode) {
           case AutoModes.autoMoveForward:
-             autoCommand= new AutoMoveCommand(m_RobotDrive,0,AutoModes.LeaveZoneDistance);
+             autoCommand= new AutoMoveCommand(m_RobotDrive,180,AutoModes.LeaveCommunityDistance);
             break;
+          case AutoModes.autoConeLeave:
+             autoCommand = new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
+                                                          Constants.ChargedUp.GridPosBottomConeAny),
+                                                      new zPivotandExtendCommand(Constants.TargetHeight.TOP),
+                                                      new ClawCommand(m_Claw,Constants.Claw.ReleaseSpeed),
+                                                      new zPivotArmResetCommand(),
+                                                      new AutoMoveCommand(m_RobotDrive,180,AutoModes.LeaveCommunityDistance));
+            break;
+          case AutoModes.autoCubeLeave:
+            autoCommand = new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
+                                                         Constants.ChargedUp.GridPosBottomCubeAny),
+                                                     new zPivotandExtendCommand(Constants.TargetHeight.TOP),
+                                                     new ClawCommand(m_Claw,Constants.Claw.ReleaseSpeed),
+                                                     new zPivotArmResetCommand(),
+                                                     new AutoMoveCommand(m_RobotDrive,180,AutoModes.LeaveCommunityDistance));
+           break;
+          case AutoModes.autoConeDock:
+          autoCommand = new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
+                                                        Constants.ChargedUp.GridPosBottomConeAny),
+                                                new zPivotandExtendCommand(Constants.TargetHeight.TOP),
+                                                new ClawCommand(m_Claw,Constants.Claw.ReleaseSpeed),
+                                                new zPivotArmResetCommand(),
+                                                new AutoMoveCommand(m_RobotDrive,180,AutoModes.DistanceToDock));
+          break;
+          case AutoModes.autoCubeDock:
+            autoCommand = new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
+                                                                Constants.ChargedUp.GridPosBottomCubeAny),
+                                                        new zPivotandExtendCommand(Constants.TargetHeight.TOP),
+                                                        new ClawCommand(m_Claw,Constants.Claw.ReleaseSpeed),
+                                                        new zPivotArmResetCommand(),
+                                                        new AutoMoveCommand(m_RobotDrive,180,AutoModes.DistanceToDock));
+          break;
+          case AutoModes.autoConeEngage:
+          autoCommand = new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
+                                                                Constants.ChargedUp.GridPosBottomConeAny),
+                                                        new zPivotandExtendCommand(Constants.TargetHeight.TOP),
+                                                        new ClawCommand(m_Claw,Constants.Claw.ReleaseSpeed),
+                                                        new zPivotArmResetCommand(),
+                                                        new AutoMoveCommand(m_RobotDrive,180,AutoModes.DistanceToCharging),
+                                                        new zEngageonChargingCommand());
+
+         
+          break;
+
+          case AutoModes.autoCubeEngage:
+          break;
           default:
             autoCommand = new AutoDoNothingCommand();
         }
