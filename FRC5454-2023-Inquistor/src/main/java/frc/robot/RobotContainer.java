@@ -37,6 +37,7 @@ import frc.robot.commands.SwitchDriveModeCommand;
 import frc.robot.commands.zAutoTargetandMoveCommand;
 import frc.robot.commands.zPivotArmResetCommand;
 import frc.robot.commands.zPivotandExtendCommand;
+import frc.robot.commands.zEngageonChargingCommand;
 import frc.robot.common.drivers.NavX;
 import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;

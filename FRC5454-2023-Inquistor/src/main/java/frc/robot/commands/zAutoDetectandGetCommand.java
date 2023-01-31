@@ -1,12 +1,17 @@
 package frc.robot.commands;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.classes.Limelight;
+import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class zAutoDetectandGetCommand extends CommandBase {
-   
+  private Limelight m_limelight;
+  private DrivetrainSubsystem m_drive;
+
       //TODO: Write this actual Command
-    public zAutoDetectandGetCommand(int elementType){
-    
+    public zAutoDetectandGetCommand(Limelight limelight,DrivetrainSubsystem drive, int elementType){
+      m_limelight = limelight;
+      m_drive = drive;
    
     }
 
@@ -16,8 +21,20 @@ public class zAutoDetectandGetCommand extends CommandBase {
   
     @Override
     public void execute() {
-    
+    m_limelight.setPipeline(3);
+    if(m_limelight.isTargetAvailible() == true){
+      m_drive.move(90, 90, 0, 1, false);
+    }else{
+      m_limelight.setPipeline(4);
+      if(m_limelight.isTargetAvailible() ==true){
+        m_drive.move(90, 90, 0, 1, false);
+
+      }else{
+        m_drive.move(270, 270, 0, 1, false);
+
+      }
     }
+   }  
   
     @Override
     public void end(boolean interrupted) {
