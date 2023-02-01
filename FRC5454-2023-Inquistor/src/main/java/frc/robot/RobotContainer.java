@@ -34,7 +34,9 @@ import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.GyroResetCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.SwitchDriveModeCommand;
+import frc.robot.commands.zAutoDetectandGetCommand;
 import frc.robot.commands.zAutoTargetandMoveCommand;
+import frc.robot.commands.zEngageonChargingCommand;
 import frc.robot.commands.zPivotArmResetCommand;
 import frc.robot.commands.zPivotandExtendCommand;
 import frc.robot.common.drivers.NavX;
@@ -339,12 +341,44 @@ public class RobotContainer {
                                                         new zPivotArmResetCommand(),
                                                         new AutoMoveCommand(m_RobotDrive,180,AutoModes.DistanceToCharging),
                                                         new zEngageonChargingCommand());
-
          
-          break;
-
+          break;            
           case AutoModes.autoCubeEngage:
+          autoCommand = new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
+                                                                Constants.ChargedUp.GridPosBottomCubeAny),
+                                                        new zPivotandExtendCommand(Constants.TargetHeight.TOP),
+                                                        new ClawCommand(m_Claw,Constants.Claw.ReleaseSpeed),
+                                                        new zPivotArmResetCommand(),
+                                                        new AutoMoveCommand(m_RobotDrive,180,AutoModes.DistanceToCharging),
+                                                        new zEngageonChargingCommand());
+
           break;
+          case AutoModes.autoConeScore2:
+             autoCommand = new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
+                                                        Constants.ChargedUp.GridPosBottomCubeAny),
+                                                new zPivotandExtendCommand(Constants.TargetHeight.TOP),
+                                                new ClawCommand(m_Claw,Constants.Claw.ReleaseSpeed),
+                                                new zPivotArmResetCommand(),
+                                                new zAutoDetectandGetCommand(Constants.ChargedUp.Cone),
+                                                new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
+                                                        Constants.ChargedUp.GridPosBottomCubeAny),
+                                                new zPivotandExtendCommand(Constants.TargetHeight.TOP),
+                                                new ClawCommand(m_Claw,Constants.Claw.ReleaseSpeed),
+                                                new zPivotArmResetCommand());
+         break;
+          case AutoModes.autoCubeScore2:
+             autoCommand = new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
+                                                        Constants.ChargedUp.GridPosBottomCubeAny),
+                                                new zPivotandExtendCommand(Constants.TargetHeight.TOP),
+                                                new ClawCommand(m_Claw,Constants.Claw.ReleaseSpeed),
+                                                new zPivotArmResetCommand(),
+                                                new zAutoDetectandGetCommand(Constants.ChargedUp.Cube),
+                                                new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
+                                                        Constants.ChargedUp.GridPosBottomCubeAny),
+                                                new zPivotandExtendCommand(Constants.TargetHeight.TOP),
+                                                new ClawCommand(m_Claw,Constants.Claw.ReleaseSpeed),
+                                                new zPivotArmResetCommand());
+                                                
           default:
             autoCommand = new AutoDoNothingCommand();
         }

@@ -7,7 +7,7 @@ import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.LoggedRobot;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.SPI;
-
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.hal.ThreadsJNI;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -20,7 +20,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.common.math.Vector2;
 import frc.robot.common.drivers.Mk2SwerveModuleBuilder;
 import frc.robot.common.drivers.NavX;
- 
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import edu.wpi.first.math.geometry.Pose2d;
+
 public class DrivetrainSubsystem extends SubsystemBase {
     private static final double TRACKWIDTH = 20;
     private static final double WHEELBASE = 25;
@@ -72,12 +74,19 @@ public class DrivetrainSubsystem extends SubsystemBase {
             new Translation2d(-TRACKWIDTH / 2.0, WHEELBASE / 2.0),
             new Translation2d(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0)
     );
+    private final SwerveDrivePoseEstimator estimator;
 
         
     public DrivetrainSubsystem(NavX navX) {
         m_gyroscope = navX;
         m_gyroscope.calibrate();
         m_gyroscope.setInverted(true); // You might not need to invert the gyro
+
+        estimator = new SwerveDrivePoseEstimator(getGyroscopeRotation(), new Pose2d(), kinematics,
+                VecBuilder.fill(0.02, 0.02, 0.01), // estimator values (x, y, rotation) std-devs
+                VecBuilder.fill(0.01), // Gyroscope rotation std-dev
+                VecBuilder.fill(0.1, 0.1, 0.01)); // Vision (x, y, rotation) std-devs
+        
 
         frontLeftModule.setName("Front Left");
         frontRightModule.setName("Front Right");
@@ -231,7 +240,11 @@ public void spin (double direction,double speed)
     public double getbackRightAngle(){
         return backRightModule.getCurrentAngle();
         }
-    public void resetGyroscope() {
+        private Rotation2d getGyroscopeRotation() {
+                return Rotation2d.fromDegrees(m_gyroscope.getYaw());
+            }
+ 
+        public void resetGyroscope() {
         
         m_gyroscope.setAdjustmentAngle(m_gyroscope.getUnadjustedAngle());
     }
