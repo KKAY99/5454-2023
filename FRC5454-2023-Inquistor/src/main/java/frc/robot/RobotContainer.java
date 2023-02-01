@@ -77,7 +77,7 @@ public class RobotContainer {
      private static final int LEDMODE_SOLID = 3;
      private static final int LEDMODE_OFF = 4;
      private LEDMode m_oldLEDmode=LEDMode.NOTSET;  
-     private final IntakeSubsystem m_Intake = new IntakeSubsystem(Constants.Intake.intakePort);
+     private final IntakeSubsystem m_intake = new IntakeSubsystem(Constants.Intake.intakePort);
    
     private final PowerDistribution m_robotPDH = new PowerDistribution(1, PowerDistribution.ModuleType.kRev);
 
@@ -191,8 +191,8 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-        final IntakeCommand intakeInCommand = new IntakeCommand(m_Intake, Constants.Intake.intakeInSpeed);
-        final IntakeCommand intakeOutCommand = new IntakeCommand(m_Intake, Constants.Intake.intakeOutSpeed);
+        final IntakeCommand intakeInCommand = new IntakeCommand(m_intake, Constants.Intake.intakeInSpeed);
+        final IntakeCommand intakeOutCommand = new IntakeCommand(m_intake, Constants.Intake.intakeOutSpeed);
         final GyroResetCommand gyroResetCommand = new GyroResetCommand(m_RobotDrive,m_Limelight);
 
         // *** 9 Box targeting
@@ -360,7 +360,7 @@ public class RobotContainer {
                                                 new zPivotandExtendCommand(Constants.TargetHeight.TOP),
                                                 new ClawCommand(m_Claw,Constants.Claw.ReleaseSpeed),
                                                 new zPivotArmResetCommand(),
-                                                new zAutoDetectandGetCommand(Constants.ChargedUp.Cone),
+                                                new zAutoDetectandGetCommand(m_Limelight,m_RobotDrive,m_intake,Constants.ChargedUp.Cone),
                                                 new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
                                                         Constants.ChargedUp.GridPosBottomCubeAny),
                                                 new zPivotandExtendCommand(Constants.TargetHeight.TOP),
@@ -373,7 +373,7 @@ public class RobotContainer {
                                                 new zPivotandExtendCommand(Constants.TargetHeight.TOP),
                                                 new ClawCommand(m_Claw,Constants.Claw.ReleaseSpeed),
                                                 new zPivotArmResetCommand(),
-                                                new zAutoDetectandGetCommand(Constants.ChargedUp.Cube),
+                                                new zAutoDetectandGetCommand(m_Limelight,m_RobotDrive,m_intake,Constants.ChargedUp.Cube),
                                                 new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
                                                         Constants.ChargedUp.GridPosBottomCubeAny),
                                                 new zPivotandExtendCommand(Constants.TargetHeight.TOP),

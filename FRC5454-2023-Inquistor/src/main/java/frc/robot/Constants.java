@@ -21,11 +21,16 @@ public final class Constants {
         public static final int GridPosUpperCubeAny=13;
         public static final int GridPosMiddleCubeAny=14;
         public static final int GridPosBottomCubeAny=15;
+
+        public static final int Cone=0;
+        public static final int Cube=1;
     }
     public static final class VisionPipelines{
         public static final int AprilTag=0;
         public static final int TopTape=1;
         public static final int BottomTape=2;
+        public static final int AprilTagID1=3;
+        public static final int AprilTagID6=4;
     }
 
     public static enum TargetHeight
@@ -103,7 +108,9 @@ public final class Constants {
         public static final String autoMode5="1-Score Cone / Dock Charging Station";
         public static final String autoMode6="1-Score Cube / Engage Charging Station";
         public static final String autoMode7="1-Score Cone / Engage Charging Station";
-        
+        public static final String autoMode8="2-Score Cone / Leave / Get Cone / Score";
+        public static final String autoMode9="2-Score Cube / Leave / Get Cone / Score";
+
        
         public static final int defaultAutoMode=1;
 
@@ -115,6 +122,10 @@ public final class Constants {
         public static final int autoConeDock = 5;
         public static final int autoCubeEngage = 6;
         public static final int autoConeEngage = 7;
+        public static final int autoConeScore2=8;
+        public static final int autoCubeScore2=9;
+        
+        
         
         public static final String delayMode0="0 Seconds";
         public static final String delayMode1="3 Seconds";

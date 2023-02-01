@@ -74,7 +74,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             new Translation2d(-TRACKWIDTH / 2.0, WHEELBASE / 2.0),
             new Translation2d(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0)
     );
-    private final SwerveDrivePoseEstimator estimator;
+   // private final SwerveDrivePoseEstimator estimator;
 
         
     public DrivetrainSubsystem(NavX navX) {
@@ -82,10 +82,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
         m_gyroscope.calibrate();
         m_gyroscope.setInverted(true); // You might not need to invert the gyro
 
-        estimator = new SwerveDrivePoseEstimator(getGyroscopeRotation(), new Pose2d(), kinematics,
-                VecBuilder.fill(0.02, 0.02, 0.01), // estimator values (x, y, rotation) std-devs
-                VecBuilder.fill(0.01), // Gyroscope rotation std-dev
-                VecBuilder.fill(0.1, 0.1, 0.01)); // Vision (x, y, rotation) std-devs
+        //FIXME
+        //estimator = new SwerveDrivePoseEstimator(getGyroscopeRotation(), new Pose2d(), kinematics,
+        //        VecBuilder.fill(0.02, 0.02, 0.01), // estimator values (x, y, rotation) std-devs
+        //        VecBuilder.fill(0.01), // Gyroscope rotation std-dev
+        //        VecBuilder.fill(0.1, 0.1, 0.01)); // Vision (x, y, rotation) std-devs
         
 
         frontLeftModule.setName("Front Left");

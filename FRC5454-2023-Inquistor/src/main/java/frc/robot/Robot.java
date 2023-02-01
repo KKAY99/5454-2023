@@ -102,6 +102,10 @@ public class Robot extends LoggedRobot {
     m_autoChooser.addOption(AutoModes.autoMode5, AutoModes.autoConeDock);
     m_autoChooser.addOption(AutoModes.autoMode6, AutoModes.autoCubeEngage);
     m_autoChooser.addOption(AutoModes.autoMode7, AutoModes.autoConeEngage);
+    m_autoChooser.addOption(AutoModes.autoMode8, AutoModes.autoConeEngage);
+    m_autoChooser.addOption(AutoModes.autoMode9, AutoModes.autoConeEngage);
+    
+    
     m_autoChooser.setDefaultOption(AutoModes.autoMode6, AutoModes.autoCubeEngage);
     m_delayChooser.addOption(AutoModes.delayMode0,AutoModes.delayValMode0);
     m_delayChooser.addOption(AutoModes.delayMode1,AutoModes.delayValMode1);
