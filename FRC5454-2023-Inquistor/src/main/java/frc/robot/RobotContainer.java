@@ -36,6 +36,7 @@ import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.SwitchDriveModeCommand;
 import frc.robot.commands.zAutoDetectandGetCommand;
 import frc.robot.commands.zAutoTargetandMoveCommand;
+import frc.robot.commands.zBalanceRobotCommand;
 import frc.robot.commands.zEngageonChargingCommand;
 import frc.robot.commands.zPivotArmResetCommand;
 import frc.robot.commands.zPivotandExtendCommand;
@@ -194,6 +195,11 @@ public class RobotContainer {
         final IntakeCommand intakeInCommand = new IntakeCommand(m_intake, Constants.Intake.intakeInSpeed);
         final IntakeCommand intakeOutCommand = new IntakeCommand(m_intake, Constants.Intake.intakeOutSpeed);
         final GyroResetCommand gyroResetCommand = new GyroResetCommand(m_RobotDrive,m_Limelight);
+
+
+        final zBalanceRobotCommand balanceRobotCommand = new zBalanceRobotCommand(m_NavX,m_RobotDrive);
+        Trigger balanceRobot=new JoystickButton(m_xBoxDriver,ButtonConstants.DriverBalance);
+        balanceRobot.whileTrue(balanceRobotCommand);
 
         // *** 9 Box targeting
         final SequentialCommandGroup zAutoTargetTL= new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive,
