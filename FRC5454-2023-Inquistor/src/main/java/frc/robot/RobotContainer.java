@@ -305,8 +305,9 @@ public class RobotContainer {
         Command autoCommand = new AutoDoNothingCommand(); // Default Command is DoNothing
         System.out.println("Autonomouse Selected Mode = " + selectedMode);
         switch (selectedMode) {
-          case AutoModes.autoMoveForward:
-             autoCommand= new AutoMoveCommand(m_RobotDrive,180,AutoModes.LeaveCommunityDistance);
+          case AutoModes.autoMoveBack:
+             autoCommand= new SequentialCommandGroup(new AutoMoveCommand(m_RobotDrive,0,AutoModes.pushDistance),
+                                                     new AutoMoveCommand(m_RobotDrive,180, AutoModes.LeaveCommunityDistance));
             break;
           case AutoModes.autoConeLeave:
              autoCommand = new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
@@ -432,7 +433,7 @@ public class RobotContainer {
     }
    
     public void resetDriveModes(){
-//        m_RobotDrive.resetDriveMode();
+       m_RobotDrive.resetDriveMode();
     }
    
     private void LEDUpdate(){            

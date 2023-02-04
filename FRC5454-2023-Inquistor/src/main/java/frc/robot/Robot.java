@@ -19,6 +19,7 @@ import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import org.littletonrobotics.junction.LogFileUtil;
@@ -35,7 +36,7 @@ public class Robot extends LoggedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-  private SendableChooser<Integer> m_autoChooser = new SendableChooser<Integer>();
+  private LoggedDashboardChooser<Integer> m_autoChooser = new LoggedDashboardChooser<>("Auto Choices");
   private SendableChooser<Integer> m_delayChooser = new SendableChooser<Integer>();
   /**
    * This function is run when the robot is first started up and should be used
@@ -95,7 +96,7 @@ public class Robot extends LoggedRobot {
     PortForwarder.add(5805, "limelight.local", 5805);
     
     m_autoChooser.addOption(AutoModes.autoMode0, AutoModes.autoNothing);
-    m_autoChooser.addOption(AutoModes.autoMode1, AutoModes.autoMoveForward);
+    m_autoChooser.addOption(AutoModes.autoMode1, AutoModes.autoMoveBack);
     m_autoChooser.addOption(AutoModes.autoMode2, AutoModes.autoCubeLeave);
     m_autoChooser.addOption(AutoModes.autoMode3, AutoModes.autoConeLeave);
     m_autoChooser.addOption(AutoModes.autoMode4, AutoModes.autoCubeDock);
@@ -106,15 +107,15 @@ public class Robot extends LoggedRobot {
     m_autoChooser.addOption(AutoModes.autoMode9, AutoModes.autoConeEngage);
     
     
-    m_autoChooser.setDefaultOption(AutoModes.autoMode6, AutoModes.autoCubeEngage);
+    m_autoChooser.addDefaultOption(AutoModes.autoMode1, AutoModes.autoMoveBack);
     m_delayChooser.addOption(AutoModes.delayMode0,AutoModes.delayValMode0);
     m_delayChooser.addOption(AutoModes.delayMode1,AutoModes.delayValMode1);
     m_delayChooser.addOption(AutoModes.delayMode2,AutoModes.delayValMode2);
     m_delayChooser.addOption(AutoModes.delayMode3,AutoModes.delayValMode3);
     
-    SmartDashboard.putData("Auto Selector", m_autoChooser);
-    SmartDashboard.putData("Delay Time", m_delayChooser);
-    CameraServer.startAutomaticCapture();
+    //SmartDashboard.putData("Auto Selector", m_autoChooser);
+    //SmartDashboard.putData("Delay Time", m_delayChooser);
+//    CameraServer.startAutomaticCapture();
 
   }
 
@@ -171,7 +172,8 @@ public class Robot extends LoggedRobot {
     m_robotContainer.resetDriveModes();
     m_robotContainer.LEDAutoMode();
     //m_robotContainer.resetTurret(); move to command groups
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand(m_autoChooser.getSelected());
+
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand(m_autoChooser.get());
     
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -190,11 +192,11 @@ public class Robot extends LoggedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    m_robotContainer.resetDriveModes();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
     m_robotContainer.enableLimelights();
-    m_robotContainer.resetDriveModes();
     m_robotContainer.TeleopMode();
     m_robotContainer.EnableMode();
   }

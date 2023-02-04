@@ -21,6 +21,7 @@ import frc.robot.common.math.Vector2;
 import frc.robot.common.drivers.Mk2SwerveModuleBuilder;
 import frc.robot.common.drivers.NavX;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.geometry.Pose2d;
 
 public class DrivetrainSubsystem extends SubsystemBase {
@@ -31,6 +32,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(299.54+180);
     private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(22.1);//+180 22.1
     private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(180+69.84);//+180
+
+    private boolean m_autoControl = false;
 
     private static DrivetrainSubsystem instance;
 
@@ -74,7 +77,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             new Translation2d(-TRACKWIDTH / 2.0, WHEELBASE / 2.0),
             new Translation2d(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0)
     );
-   // private final SwerveDrivePoseEstimator estimator;
+    private final SwerveDrivePoseEstimator estimator;
 
         
     public DrivetrainSubsystem(NavX navX) {
@@ -83,12 +86,19 @@ public class DrivetrainSubsystem extends SubsystemBase {
         m_gyroscope.setInverted(true); // You might not need to invert the gyro
 
         //FIXME
-        //estimator = new SwerveDrivePoseEstimator(getGyroscopeRotation(), new Pose2d(), kinematics,
-        //        VecBuilder.fill(0.02, 0.02, 0.01), // estimator values (x, y, rotation) std-devs
-        //        VecBuilder.fill(0.01), // Gyroscope rotation std-dev
-        //        VecBuilder.fill(0.1, 0.1, 0.01)); // Vision (x, y, rotation) std-devs
+        SwerveModulePosition frontLeftPosition=new SwerveModulePosition(frontLeftModule.getCurrentDistance(),new Rotation2d(frontLeftModule.getCurrentAngle()));
+        SwerveModulePosition frontRightPosition=new SwerveModulePosition(frontRightModule.getCurrentDistance(),new Rotation2d(frontRightModule.getCurrentAngle()));
+        SwerveModulePosition backleftPosition=new SwerveModulePosition(backLeftModule.getCurrentDistance(),new Rotation2d(backLeftModule.getCurrentAngle()));
+        SwerveModulePosition backRightPosition=new SwerveModulePosition(backRightModule.getCurrentDistance(),new Rotation2d(backRightModule.getCurrentAngle()));
+        estimator = new SwerveDrivePoseEstimator(kinematics,getGyroscopeRotation(),
+        new SwerveModulePosition[] { 
+                frontLeftPosition,
+                frontRightPosition,
+                backleftPosition,
+                backRightPosition
+              },new Pose2d());           
         
-
+       
         frontLeftModule.setName("Front Left");
         frontRightModule.setName("Front Right");
         backLeftModule.setName("Back Left");
@@ -118,6 +128,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         double forward=0;
         double strafe=0;
         Translation2d targetTranslation;
+        m_autoControl = true;
         startDistance=backLeftModule.getCurrentDistance();
         switch ((int) direction){
                 case 0:
@@ -157,12 +168,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
         }
 
         double distanceTravelled=backLeftModule.getCurrentDistance()-startDistance;
-        do {
+        while(distanceTravelled<=distance && m_autoControl){
               drive(new Translation2d(forward, strafe), rotation, false);
               periodic();
               distanceTravelled=Math.abs(backLeftModule.getCurrentDistance()-startDistance);
         //      System.out.print("(" + forward + ", "+ strafe +") " + distanceTravelled + " / " + distance );
-        } while(distanceTravelled<=distance);
+        } 
         if (stopAtEnd) {
                 drive(new Translation2d(0,0), 0, true);
                 periodic();                
@@ -209,6 +220,18 @@ public void spin (double direction,double speed)
         frontRightModule.updateState(LoggedRobot.defaultPeriodSecs);
         backLeftModule.updateState(LoggedRobot.defaultPeriodSecs);
         backRightModule.updateState(LoggedRobot.defaultPeriodSecs);
+
+        SwerveModulePosition frontLeftPosition=new SwerveModulePosition(frontLeftModule.getCurrentDistance(),new Rotation2d(frontLeftModule.getCurrentAngle()));
+        SwerveModulePosition frontRightPosition=new SwerveModulePosition(frontRightModule.getCurrentDistance(),new Rotation2d(frontRightModule.getCurrentAngle()));
+        SwerveModulePosition backleftPosition=new SwerveModulePosition(backLeftModule.getCurrentDistance(),new Rotation2d(backLeftModule.getCurrentAngle()));
+        SwerveModulePosition backRightPosition=new SwerveModulePosition(backRightModule.getCurrentDistance(),new Rotation2d(backRightModule.getCurrentAngle()));
+        estimator.update(getGyroscopeRotation(),  new SwerveModulePosition[] { 
+                frontLeftPosition,
+                frontRightPosition,
+                backleftPosition,
+                backRightPosition
+              });
+        //System.out.println("Current Pose: " + estimator.getEstimatedPosition().toString());
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldOriented) {
@@ -248,5 +271,10 @@ public void spin (double direction,double speed)
         public void resetGyroscope() {
         
         m_gyroscope.setAdjustmentAngle(m_gyroscope.getUnadjustedAngle());
+    }
+
+    public void resetDriveMode(){
+        m_autoControl = false;
+        stop();
     }
 }

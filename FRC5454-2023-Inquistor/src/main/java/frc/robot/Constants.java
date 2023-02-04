@@ -102,7 +102,7 @@ public final class Constants {
 
     public static final class AutoModes {
         public static final String autoMode0="0-Do Nothing";
-        public static final String autoMode1="0-Move Foward Out of Zone";
+        public static final String autoMode1="1-Push Forward/Move Back Out of Zone";
         public static final String autoMode2="1=Score Cube / Move out of Zone";
         public static final String autoMode3="1=Score Cone / Move out of Zone";
         public static final String autoMode4="1-Score Cube / Dock Charging Station";
@@ -113,10 +113,8 @@ public final class Constants {
         public static final String autoMode9="2-Score Cube / Leave / Get Cone / Score";
 
        
-        public static final int defaultAutoMode=1;
-
         public static final int autoNothing = 0;
-        public static final int autoMoveForward = 1;
+        public static final int autoMoveBack = 1;
         public static final int autoCubeLeave = 2;
         public static final int autoConeLeave = 3;
         public static final int autoCubeDock = 4;
@@ -139,6 +137,7 @@ public final class Constants {
         public static final int defaultDelayMode=0;
         public static final double MoveSpeed=0.5;
         public static final double LeaveCommunityDistance=174; // 15 feet = 174-30
+        public static final double pushDistance = 5;
         public static final double DistanceToCharging=20;// x feet
         public static final double DistanceToDock=30;
     }
