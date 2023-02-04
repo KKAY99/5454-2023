@@ -11,7 +11,7 @@ public class zAutoTargetToColumnCommand extends CommandBase{
     private double m_targetHeight;
     private double m_targetColumnDistance;
     
-    public zAutoDetectandGetCommand(Limelight limelight,DrivetrainSubsystem drive,int gridChoice){
+    public zAutoTargetToColumnCommand(Limelight limelight,DrivetrainSubsystem drive,int gridChoice){
         m_limeLight = limelight;
         m_drive = drive;
         switch(gridChoice)
