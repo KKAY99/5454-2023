@@ -24,6 +24,11 @@ public final class Constants {
 
         public static final int Cone=0;
         public static final int Cube=1;
+
+        public static final int leftTargetPositionX = 1;
+        public static final int middleTargetPositionX = 0;
+        public static final int rightTargetPositionX = -1;
+        public static final int distanceFromTag = 0;
     }
     public static final class VisionPipelines{
         public static final int AprilTag=0;

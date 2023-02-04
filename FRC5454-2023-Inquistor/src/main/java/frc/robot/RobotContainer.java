@@ -35,6 +35,7 @@ import frc.robot.commands.GyroResetCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.SwitchDriveModeCommand;
 import frc.robot.commands.zAutoDetectandGetCommand;
+import frc.robot.commands.zAutoTargetToColumnCommand;
 import frc.robot.commands.zAutoTargetandMoveCommand;
 import frc.robot.commands.zBalanceRobotCommand;
 import frc.robot.commands.zEngageonChargingCommand;
