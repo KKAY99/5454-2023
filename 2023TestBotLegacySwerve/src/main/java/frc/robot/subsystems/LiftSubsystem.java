@@ -9,22 +9,26 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax.IdleMode;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
 public class LiftSubsystem extends SubsystemBase {
     private CANSparkMax m_RotateMotor;
     private CANSparkMax m_ElevatorMotor;
-
+    private DutyCycleEncoder m_RotateEncoder;
+    
     public LiftSubsystem(){
         m_RotateMotor = new CANSparkMax(Constants.RotateMotorPort, MotorType.kBrushless);   
         m_ElevatorMotor = new CANSparkMax(Constants.ElevatorMotorPort, MotorType.kBrushless);      
         m_ElevatorMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
         m_RotateMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        m_RotateEncoder= new DutyCycleEncoder(Constants.Encoders.PivotWheelEncoder);
 
       }
     
     @Override
     public void periodic() {
       // This method will be called once per scheduler run
+      System.out.println("Rotate Position is " + m_RotateEncoder.getAbsolutePosition());
     }
 
     public void rotate(double power){
@@ -32,7 +36,7 @@ public class LiftSubsystem extends SubsystemBase {
       m_RotateMotor.set(power);
       
     }
-
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public void runElevator(double power){
       System.out.println("Setting Power on Elevator - " + power);
       m_ElevatorMotor.set(power);

@@ -123,6 +123,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
                         return true;
                 }
     }
+    public void movenodistance (double direction, double rotation){
+        move(direction,rotation,0,false);
+    }
     public void move (double direction, double rotation,double speed, double distance, boolean stopAtEnd)
 {       double startDistance;
         double forward=0;
@@ -166,14 +169,19 @@ public class DrivetrainSubsystem extends SubsystemBase {
                         break;
                 
         }
-
-        double distanceTravelled=backLeftModule.getCurrentDistance()-startDistance;
-        while(distanceTravelled<=distance && m_autoControl){
-              drive(new Translation2d(forward, strafe), rotation, false);
-              periodic();
-              distanceTravelled=Math.abs(backLeftModule.getCurrentDistance()-startDistance);
-        //      System.out.print("(" + forward + ", "+ strafe +") " + distanceTravelled + " / " + distance );
-        } 
+        //if not travelling distance then just turn movement on 
+        if(distance==0){
+                drive(new Translation2d(forward, strafe), rotation, false);
+                periodic();
+        }else {
+                double distanceTravelled=backLeftModule.getCurrentDistance()-startDistance;
+                while(distanceTravelled<=distance && m_autoControl){
+                drive(new Translation2d(forward, strafe), rotation, false);
+                periodic();
+                distanceTravelled=Math.abs(backLeftModule.getCurrentDistance()-startDistance);
+                //      System.out.print("(" + forward + ", "+ strafe +") " + distanceTravelled + " / " + distance );
+                } 
+        }
         if (stopAtEnd) {
                 drive(new Translation2d(0,0), 0, true);
                 periodic();                

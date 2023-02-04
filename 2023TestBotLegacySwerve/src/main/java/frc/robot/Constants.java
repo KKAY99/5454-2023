@@ -114,7 +114,11 @@ public final class Constants {
         public final static double Shot4Bottom=3000;
 
     }
+    public static final class Encoders{ 
+        public static final int PivotWheelEncoder=0;
+    }
     public static final class LimitSwitches{
+        
         public static final int ClimberBottom=9;
         
         public static final int TurretRight=1;
