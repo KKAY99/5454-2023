@@ -23,6 +23,6 @@ public class zPivotArmResetCommand extends CommandBase {
   
     @Override
     public boolean isFinished() {
-     return false;
+     return true;
     }
 }

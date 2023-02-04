@@ -36,8 +36,8 @@ public class Robot extends LoggedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-  private LoggedDashboardChooser<Integer> m_autoChooser = new LoggedDashboardChooser<>("Auto Choices");
-  private SendableChooser<Integer> m_delayChooser = new SendableChooser<Integer>();
+  //private LoggedDashboardChooser<Integer> m_autoChooser = new LoggedDashboardChooser<>("Auto Choices");
+  //private SendableChooser<Integer> m_delayChooser = new SendableChooser<Integer>();
   /**
    * This function is run when the robot is first started up and should be used
    * for any
@@ -95,23 +95,8 @@ public class Robot extends LoggedRobot {
     PortForwarder.add(5804, "limelight.local", 5804);
     PortForwarder.add(5805, "limelight.local", 5805);
     
-    m_autoChooser.addOption(AutoModes.autoMode0, AutoModes.autoNothing);
-    m_autoChooser.addOption(AutoModes.autoMode1, AutoModes.autoMoveBack);
-    m_autoChooser.addOption(AutoModes.autoMode2, AutoModes.autoCubeLeave);
-    m_autoChooser.addOption(AutoModes.autoMode3, AutoModes.autoConeLeave);
-    m_autoChooser.addOption(AutoModes.autoMode4, AutoModes.autoCubeDock);
-    m_autoChooser.addOption(AutoModes.autoMode5, AutoModes.autoConeDock);
-    m_autoChooser.addOption(AutoModes.autoMode6, AutoModes.autoCubeEngage);
-    m_autoChooser.addOption(AutoModes.autoMode7, AutoModes.autoConeEngage);
-    m_autoChooser.addOption(AutoModes.autoMode8, AutoModes.autoConeEngage);
-    m_autoChooser.addOption(AutoModes.autoMode9, AutoModes.autoConeEngage);
+   
     
-    
-    m_autoChooser.addDefaultOption(AutoModes.autoMode1, AutoModes.autoMoveBack);
-    m_delayChooser.addOption(AutoModes.delayMode0,AutoModes.delayValMode0);
-    m_delayChooser.addOption(AutoModes.delayMode1,AutoModes.delayValMode1);
-    m_delayChooser.addOption(AutoModes.delayMode2,AutoModes.delayValMode2);
-    m_delayChooser.addOption(AutoModes.delayMode3,AutoModes.delayValMode3);
     
     //SmartDashboard.putData("Auto Selector", m_autoChooser);
     //SmartDashboard.putData("Delay Time", m_delayChooser);
@@ -172,8 +157,7 @@ public class Robot extends LoggedRobot {
     m_robotContainer.resetDriveModes();
     m_robotContainer.LEDAutoMode();
     //m_robotContainer.resetTurret(); move to command groups
-
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand(m_autoChooser.get());
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
