@@ -52,8 +52,8 @@ public class zBalanceRobotCommand extends CommandBase {
   @Override
   public boolean isFinished() {
 
-      double kOffBalanceAngleThresholdDegrees = 10;
-      double kOonBalanceAngleThresholdDegrees  = 5;
+       double kLowBalanceAngleThresholdDegrees  = -0.05;
+       double kHighBalanceAngleThresholdDegrees  = 0.05;
 
 
         double xAxisRate            = 0;
@@ -65,22 +65,22 @@ public class zBalanceRobotCommand extends CommandBase {
 
         if ( !autoBalanceXMode && 
              (Math.abs(pitchAngleDegrees) >= 
-              Math.abs(kOffBalanceAngleThresholdDegrees))) {
+              Math.abs(kHighBalanceAngleThresholdDegrees))) {
             autoBalanceXMode = true;
         }
         else if ( autoBalanceXMode && 
                   (Math.abs(pitchAngleDegrees) <= 
-                   Math.abs(kOonBalanceAngleThresholdDegrees))) {
+                   Math.abs(kHighBalanceAngleThresholdDegrees))) {
             autoBalanceXMode = false;
         }
         if ( !autoBalanceYMode && 
              (Math.abs(pitchAngleDegrees) >= 
-              Math.abs(kOffBalanceAngleThresholdDegrees))) {
+              Math.abs(kHighBalanceAngleThresholdDegrees))) {
             autoBalanceYMode = true;
         }
         else if ( autoBalanceYMode && 
                   (Math.abs(pitchAngleDegrees) <= 
-                   Math.abs(kOonBalanceAngleThresholdDegrees))) {
+                   Math.abs(kHighBalanceAngleThresholdDegrees))) {
             autoBalanceYMode = false;
         }
         
@@ -88,9 +88,19 @@ public class zBalanceRobotCommand extends CommandBase {
         // driving in reverse direction of pitch/roll angle,
         // with a magnitude based upon the angle
         
-        if ( autoBalanceXMode ) {
+        if (autoBalanceXMode) {
             double pitchAngleRadians = pitchAngleDegrees * (Math.PI / 180.0);
             xAxisRate = Math.sin(pitchAngleRadians) * -1;
+            if(pitchAngleDegrees>kHighBalanceAngleThresholdDegrees){
+              m_drive.move(180,0,0.,1,false);
+
+            }else if(pitchAngleDegrees<kLowBalanceAngleThresholdDegrees){
+              m_drive.move(0,0,0,1,false);
+              
+            }else{
+              m_drive.stop();
+              return true;
+            }
         }
         if ( autoBalanceYMode ) {
             double rollAngleRadians = rollAngleDegrees * (Math.PI / 180.0);
