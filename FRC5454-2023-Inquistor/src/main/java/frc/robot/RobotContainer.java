@@ -35,6 +35,7 @@ import frc.robot.commands.GyroResetCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.SwitchDriveModeCommand;
 import frc.robot.commands.zAutoDetectandGetCommand;
+import frc.robot.commands.zAutoTargetToColumnCommand;
 import frc.robot.commands.zAutoTargetandMoveCommand;
 import frc.robot.commands.zBalanceRobotCommand;
 import frc.robot.commands.zEngageonChargingCommand;
@@ -291,6 +292,7 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
 
 
         final zBalanceRobotCommand balanceRobotCommand = new zBalanceRobotCommand(m_NavX,m_RobotDrive);
+        final zAutoTargetToColumnCommand targetColumnCommand = new zAutoTargetToColumnCommand(m_Limelight,m_RobotDrive,0);
         Trigger balanceRobot=new JoystickButton(m_xBoxDriver,ButtonConstants.DriverBalance);
         balanceRobot.whileTrue(balanceRobotCommand);
 
