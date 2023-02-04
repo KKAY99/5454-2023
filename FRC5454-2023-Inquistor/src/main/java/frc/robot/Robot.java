@@ -56,10 +56,8 @@ public class Robot extends LoggedRobot {
     // Set up data receivers & replay source
     switch (Constants.currentMode) {
       // Running on a real robot, log to a USB stick
-      case REAL:
-        String logFolder="C:" + File.separator + "RobotLogs" + File.separator;
-        System.out.println(logFolder);  
-        logger.addDataReceiver(new WPILOGWriter(logFolder));
+      case REAL:    
+        logger.addDataReceiver(new WPILOGWriter("/media/sda1/"));;
         logger.addDataReceiver(new NT4Publisher());
         new PowerDistribution(1, ModuleType.kRev); // Enables power distribution logging
         break;
