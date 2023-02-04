@@ -114,6 +114,9 @@ public final class Constants {
         public final static double Shot4Bottom=3000;
 
     }
+    public static final class Claw{
+        public static final int port=1;
+    }
     public static final class Encoders{ 
         public static final int PivotWheelEncoder=0;
     }
