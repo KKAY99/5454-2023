@@ -25,10 +25,10 @@ public final class Constants {
         public static final int Cone=0;
         public static final int Cube=1;
 
-        public static final int leftTargetPositionX = 1;
-        public static final int middleTargetPositionX = 0;
-        public static final int rightTargetPositionX = -1;
-        public static final int distanceFromTag = 0;
+        public static final double leftTargetPositionX = 9;
+        public static final double middleTargetPositionX = 0;
+        public static final double rightTargetPositionX = -6;
+        public static final double distanceFromTag = -8;
     }
     public static final class VisionPipelines{
         public static final int AprilTag=0;
@@ -223,8 +223,8 @@ public final class Constants {
     public static final double leftKI=0;
     public static final double rightKD=-0;
     public static final double leftKD=0;
-    public static final double forwardKP= -0.15;
-    public static final double backwardKP = 0.15;
+    public static final double forwardKP= -0.45;
+    public static final double backwardKP = 0.45;
     public static final double forwardKI = -0;
     public static final double backwardKI = 0;
     public static final double forwardKD = -0;

@@ -61,7 +61,7 @@ public class zAutoTargetToColumnCommand extends CommandBase{
 
     @Override
     public void execute(){
-        m_limeLight.setPipeline(m_pipeline);
+        m_limeLight.setPipeline(0);
     }
 
     @Override
@@ -72,11 +72,11 @@ public class zAutoTargetToColumnCommand extends CommandBase{
         boolean m_right = false;
         boolean m_left = false;
         
-        if(m_limeLight.getX()>m_targetColumnDistance){
+        if(m_limeLight.getX()<m_targetColumnDistance){
             m_right = true;
 
         }else{
-            if (m_limeLight.getX()<m_targetColumnDistance){
+            if (m_limeLight.getX()>m_targetColumnDistance){
                 m_left = true;
             }
         }
@@ -88,19 +88,22 @@ public class zAutoTargetToColumnCommand extends CommandBase{
                 m_back = true;
             }
         }
-
         if(m_forward||m_back||m_right||m_left){
-            
+            System.out.println("Left"+m_left);
+        System.out.println("Right"+m_right);
+        System.out.println("Forward"+m_forward);
+        System.out.println("Back"+m_back);
+            System.out.println("Moving");
             if(m_left){
                if(m_forward){
-                m_drive.move(235,0,0,1,false);
+                m_drive.move(315,0,0.3,1,false);
 
                }else{
                 if(m_back){
-                    m_drive.move(315,0,0,1,false);
+                    m_drive.move(235,0,0.3,1,false);
 
                 }else{
-                    m_drive.move(270,0,0,1,false);
+                    m_drive.move(270,0,0.3,1,false);
 
                 }
                }
@@ -108,28 +111,29 @@ public class zAutoTargetToColumnCommand extends CommandBase{
             }else{
                 if(m_right){
                     if(m_forward){
-                        m_drive.move(45,0,0,1,false);
+                        m_drive.move(45,0,0.3,1,false);
 
                         if(m_back){
-                            m_drive.move(135,0,0,1,false);
+                            m_drive.move(135,0,0.3,1,false);
 
                         }else{
-                            m_drive.move(90,0,0,1,false);
+                            m_drive.move(90,0,0.3,1,false);
 
                         }
                     }
 
                 }else{
                     if(m_forward){
-                        m_drive.move(0,0,0,1,false);
+                        m_drive.move(0,0,0.3,1,false);
                     }else{
-                        m_drive.move(180,0,0,1,false);
+                        m_drive.move(180,0,0.3,1,false);
                     }
                 }
 
             }
             returnValue = false;
         }else{
+            System.out.println("Is Not moving");
             returnValue = true; 
             
         }

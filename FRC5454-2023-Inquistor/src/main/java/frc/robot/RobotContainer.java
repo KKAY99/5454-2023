@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -38,11 +39,13 @@ import frc.robot.commands.zAutoDetectandGetCommand;
 import frc.robot.commands.zAutoTargetToColumnCommand;
 import frc.robot.commands.zAutoTargetandMoveCommand;
 import frc.robot.commands.zBalanceRobotCommand;
+import frc.robot.commands.zBalanceRobotTestCommand;
 import frc.robot.commands.zEngageonChargingCommand;
 import frc.robot.commands.zPivotArmResetCommand;
 import frc.robot.commands.zPivotandExtendCommand;
 import frc.robot.commands.zEngageonChargingCommand;
 import frc.robot.common.drivers.NavX;
+import frc.robot.common.drivers.NavX.Axis;
 import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -169,6 +172,7 @@ public class RobotContainer {
 
     static GenericEntry shuffleboardRobotMoving=SwerveTab.add("Robot Moving","")
                                .getEntry();
+    static GenericEntry gryoRoll = TargetingTab.add("Gyro Roll",0).getEntry();
  
     static String ShuffleboardLogString;
      
@@ -292,9 +296,12 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
 
 
         final zBalanceRobotCommand balanceRobotCommand = new zBalanceRobotCommand(m_NavX,m_RobotDrive);
-        final zAutoTargetToColumnCommand targetColumnCommand = new zAutoTargetToColumnCommand(m_Limelight,m_RobotDrive,0);
+        final zBalanceRobotTestCommand balanceRobotTestCommand = new zBalanceRobotTestCommand(m_NavX, m_RobotDrive);
+        final zAutoTargetToColumnCommand targetColumnCommand = new zAutoTargetToColumnCommand(m_Limelight,m_RobotDrive,Constants.ChargedUp.GridPosUpperLeft);
         Trigger balanceRobot=new JoystickButton(m_xBoxDriver,ButtonConstants.DriverBalance);
+        Trigger targetColumn = new JoystickButton(m_xBoxDriver,ButtonConstants.DriverIntakeOut);
         balanceRobot.whileTrue(balanceRobotCommand);
+        targetColumn.toggleOnTrue(targetColumnCommand);
 
         // *** 9 Box targeting
         final SequentialCommandGroup zAutoTargetTL= new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive,
@@ -494,6 +501,7 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
         frontRightAngle.setDouble(m_RobotDrive.getFrontRightAngle());
         backLeftAngle.setDouble(m_RobotDrive.getBackLeftAngle());
         backRightAngle.setDouble(m_RobotDrive.getbackRightAngle());
+        gryoRoll.setDouble(m_NavX.getAxis(Axis.ROLL));
         m_Limelight.update();
         //override disabled led mode
         if(m_disabled){

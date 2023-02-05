@@ -123,10 +123,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
                         return true;
                 }
     }
-    public void movenodistance (double direction, double rotation){
-        move(direction,rotation,0,false);
+    public void movenodistance(double direction, double rotation, double speed){
+        move(direction,rotation,speed,0,false);
     }
-    public void move (double direction, double rotation,double speed, double distance, boolean stopAtEnd)
+    public void move(double direction, double rotation,double speed, double distance, boolean stopAtEnd)
 {       double startDistance;
         double forward=0;
         double strafe=0;
