@@ -36,7 +36,7 @@ public class LiftSubsystem extends SubsystemBase {
       m_RotateMotor.set(power);
       
     }
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
     public void runElevator(double power){
       System.out.println("Setting Power on Elevator - " + power);
       m_ElevatorMotor.set(power);
