@@ -297,11 +297,16 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
 
         final zBalanceRobotCommand balanceRobotCommand = new zBalanceRobotCommand(m_NavX,m_RobotDrive);
         final zBalanceRobotTestCommand balanceRobotTestCommand = new zBalanceRobotTestCommand(m_NavX, m_RobotDrive);
-        final zAutoTargetToColumnCommand targetColumnCommand = new zAutoTargetToColumnCommand(m_Limelight,m_RobotDrive,Constants.ChargedUp.GridPosUpperLeft);
+        final zAutoTargetToColumnCommand targetColumnCommandUpperLeft = new zAutoTargetToColumnCommand(m_Limelight,m_RobotDrive,Constants.ChargedUp.GridPosUpperLeft);
+        final zAutoTargetToColumnCommand targetColumnCommandUpperRight = new zAutoTargetToColumnCommand(m_Limelight,m_RobotDrive,Constants.ChargedUp.GridPosUpperRight);
+        final zAutoTargetandMoveCommand targetandMoveCommand = new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive,
+        Constants.ChargedUp.GridPosMiddleLeft);
         Trigger balanceRobot=new JoystickButton(m_xBoxDriver,ButtonConstants.DriverBalance);
-        Trigger targetColumn = new JoystickButton(m_xBoxDriver,ButtonConstants.DriverIntakeOut);
-        balanceRobot.whileTrue(balanceRobotCommand);
-        targetColumn.toggleOnTrue(targetColumnCommand);
+        Trigger targetColumnUpperLeft = new JoystickButton(m_xBoxDriver,ButtonConstants.DriverIntakeOut);
+        Trigger targetColumnUpperRight = new JoystickButton(m_xBoxDriver,ButtonConstants.DriverIntakeIn);
+        balanceRobot.whileTrue(targetandMoveCommand);
+        targetColumnUpperLeft.toggleOnTrue(targetColumnCommandUpperLeft);
+        targetColumnUpperRight.toggleOnTrue(targetColumnCommandUpperRight);
 
         // *** 9 Box targeting
         final SequentialCommandGroup zAutoTargetTL= new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive,

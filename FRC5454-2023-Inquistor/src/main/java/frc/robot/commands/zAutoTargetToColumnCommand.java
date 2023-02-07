@@ -24,11 +24,11 @@ public class zAutoTargetToColumnCommand extends CommandBase{
             case Constants.ChargedUp.GridPosUpperRight:
             case Constants.ChargedUp.GridPosMiddleRight:
             case Constants.ChargedUp.GridPosBottomRight:
-            m_targetColumnDistance = Constants.ChargedUp.middleTargetPositionX;
+            m_targetColumnDistance = Constants.ChargedUp.rightTargetPositionX;
             break;
             default:
                 // Assume AprilTag if not a Cone Position
-                m_targetColumnDistance = Constants.ChargedUp.rightTargetPositionX;
+                m_targetColumnDistance = Constants.ChargedUp.middleTargetPositionX;
             
 
         }
@@ -72,70 +72,67 @@ public class zAutoTargetToColumnCommand extends CommandBase{
         boolean m_right = false;
         boolean m_left = false;
         
-        if(m_limeLight.getX()<m_targetColumnDistance){
+        if(m_limeLight.getX()>m_targetColumnDistance){
             m_right = true;
 
         }else{
-            if (m_limeLight.getX()>m_targetColumnDistance){
+            if (m_limeLight.getX()<m_targetColumnDistance){
                 m_left = true;
             }
         }
             
-        if(m_limeLight.getYRaw()>Constants.ChargedUp.distanceFromTag){
+        if(m_limeLight.getArea()<Constants.ChargedUp.distanceFromTag){
             m_forward = true;
         }else{
-            if(m_limeLight.getYRaw()<Constants.ChargedUp.distanceFromTag){
+            if(m_limeLight.getArea()>Constants.ChargedUp.distanceFromTag){
                 m_back = true;
             }
         }
-        if(m_forward||m_back||m_right||m_left){
-            System.out.println("Left"+m_left);
-        System.out.println("Right"+m_right);
-        System.out.println("Forward"+m_forward);
-        System.out.println("Back"+m_back);
-            System.out.println("Moving");
-            if(m_left){
-               if(m_forward){
-                m_drive.move(315,0,0.3,1,false);
-
-               }else{
-                if(m_back){
-                    m_drive.move(235,0,0.3,1,false);
-
-                }else{
-                    m_drive.move(270,0,0.3,1,false);
-
-                }
-               }
-
-            }else{
-                if(m_right){
-                    if(m_forward){
-                        m_drive.move(45,0,0.3,1,false);
-
-                        if(m_back){
-                            m_drive.move(135,0,0.3,1,false);
-
+        if(m_limeLight.isTargetAvailible()){
+            if(m_forward||m_back||m_right||m_left){
+                    if(m_left){
+                        if(m_forward){
+                            m_drive.movenodistance(45,0,0.1);
+    
+                        }else if(m_back){
+                            m_drive.movenodistance(135,0,0.1);
+    
                         }else{
-                            m_drive.move(90,0,0.3,1,false);
-
+                            m_drive.movenodistance(90,0,0.1);
+    
                         }
-                    }
-
-                }else{
-                    if(m_forward){
-                        m_drive.move(0,0,0.3,1,false);
                     }else{
-                        m_drive.move(180,0,0.3,1,false);
+                        if(m_right){
+                            if(m_forward){
+                                m_drive.movenodistance(315,0,0.1);
+                
+                               }else if(m_back){
+                                m_drive.movenodistance(235,0,0.1);
+                
+                               }else{
+                                m_drive.movenodistance(270,0,0.1);
+                
+                               }
+        
+                        }else{
+                            if(m_forward){
+                                m_drive.movenodistance(0,0,0.1);
+                            }else{
+                                m_drive.movenodistance(180,0,0.1);
+                            }
+                        }
+        
                     }
+                    returnValue = false;
+                }else{
+                    System.out.println("Is Not moving");
+                    m_drive.stop();
+                    returnValue = true; 
+                    
                 }
-
-            }
-            returnValue = false;
         }else{
-            System.out.println("Is Not moving");
+            m_drive.stop();
             returnValue = true; 
-            
         }
         return returnValue;
     }
