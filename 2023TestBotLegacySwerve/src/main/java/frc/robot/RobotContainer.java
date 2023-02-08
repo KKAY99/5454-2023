@@ -36,6 +36,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.commands.RotateCommand;
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -74,8 +75,7 @@ public class RobotContainer {
      private LEDMode m_oldLEDmode=LEDMode.NOTSET;  
      
     private final LiftSubsystem m_LiftSubsystem = new LiftSubsystem();
-    private final PneumaticsSubsystem m_Pnuematics = new PneumaticsSubsystem(Constants.Pneumatics.CompressorID,Constants.Pneumatics.IntakeArmPort,Constants.Pneumatics.ClimbPort);
-    
+    private final ClawSubsystem m_ClawSubsystem = new ClawSubsystem();
     private final PowerDistribution m_robotPDH = new PowerDistribution(1, PowerDistribution.ModuleType.kRev);
 
 
@@ -241,7 +241,12 @@ public class RobotContainer {
       JoystickButton ElevateBack=new JoystickButton(m_xBoxDriver,3);
       ElevateBack.whileTrue(ElevateBackwardCommand);
 
-
+      final ClawOpenCommand clawOpenCommand = new ClawOpenCommand(m_ClawSubsystem);
+      final ClawCloseCommand clawClosecommand = new ClawCloseCommand(m_ClawSubsystem);
+      JoystickButton ClawOpen = new JoystickButton(m_xBoxDriver,5);
+      ClawOpen.toggleOnTrue(clawOpenCommand);
+      JoystickButton ClawClose = new JoystickButton(m_xBoxDriver,6);
+      ClawClose.toggleOnTrue(clawClosecommand);
    }
 
     /**
