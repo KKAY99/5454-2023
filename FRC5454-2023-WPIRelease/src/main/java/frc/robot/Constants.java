@@ -61,8 +61,8 @@ public final class Constants {
         public static final int CompressorID=0; 
         public static final int LatchPort=5;
         public static final int ClimbArmPort=0;
-        public static final int IntakeArmPort=3;
-        public static final int HookCablesPort=1;
+        public static final int IntakeArmPort=1;
+        public static final int HookCablesPort=3;
         
     }
 

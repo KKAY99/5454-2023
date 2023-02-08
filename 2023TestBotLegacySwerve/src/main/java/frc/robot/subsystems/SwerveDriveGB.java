@@ -871,7 +871,7 @@ public class SwerveDriveGB extends SubsystemBase{
     }
     public double getBackLeftAngle(){
         double angle= m_SrxBackLeftSteering.getSelectedSensorPosition(Constants.SwerveDriveGBConfig.kSlotIdx);
-        System.out.println("Back Left " + angle) ;
+      //  System.out.println("Back Left " + angle) ;
         return angle;
     }
     public double getbackRightAngle(){
