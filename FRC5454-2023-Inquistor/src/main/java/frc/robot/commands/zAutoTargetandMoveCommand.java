@@ -76,30 +76,32 @@ public zAutoTargetandMoveCommand(Limelight limelight,DrivetrainSubsystem drive,i
   
     @Override
     public boolean isFinished() {
-        boolean returnValue=false;
-        if(m_limeLight.isTargetAvailible()){
-          if(Math.abs(m_limeLight.getXRaw())<0.15){ 
-            System.out.println("stopping on target");
-            m_drive.stop();
-            returnValue=true;;
-          }else {
-            
-            double measurement = m_limeLight.getXRaw();
-            double filteredMeasurement = m_filter.calculate(measurement);
-            if(filteredMeasurement>0){
-                  double pidOutput = m_pidRight.calculate(filteredMeasurement);
-                  System.out.println("Aligning - X is " + m_limeLight.getXRaw() + " filtered is " + filteredMeasurement + " pidOutput is " + pidOutput);
-                  m_drive.move(90 ,0, pidOutput ,0.1,false);
-                }
-                  else{
-                  double pidOutput = m_pidLeft.calculate(filteredMeasurement);
-                  System.out.println("Aligning - X is " + m_limeLight.getXRaw() + " filtered is " + filteredMeasurement + " pidOutput is " + pidOutput);
-                  m_drive.move(270 ,0, pidOutput ,0.1,false);
-                }
-              }         
-        }
+      boolean returnValue = false;
+      double measurement = m_limeLight.getXRaw();
+      double filteredMeasurement = m_filter.calculate(measurement);
+      if(Math.abs(filteredMeasurement)<0.8){
+        System.out.println("stopping");
+        m_drive.stop();
+        returnValue = true;
+        return returnValue; 
+      }else{
+        if(filteredMeasurement>0){
+          System.out.println("move right");
+          double pidOutput = m_pidRight.calculate(filteredMeasurement);
+          pidOutput=Math.min(Math.max(pidOutput,-0.10),.10);
+          System.out.println("Aligning - X is " + m_limeLight.getXRaw() + " filtered is " + filteredMeasurement + " pidOutput is " + pidOutput);
+          m_drive.move(270 ,0,pidOutput,1,true);
+        }else{
+          System.out.println("move left");
+          double pidOutput = m_pidLeft.calculate(filteredMeasurement);
+          pidOutput=Math.min(Math.max(pidOutput,-0.10),.10);
+         
+          System.out.println("Aligning - X is " + m_limeLight.getXRaw() + " filtered is " + filteredMeasurement + " pidOutput is " + pidOutput);
+          m_drive.move(90 ,0,pidOutput,1,true);
+        }     
+      }
         return returnValue;
     
-          }
+  }
     
 }

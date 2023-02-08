@@ -91,9 +91,9 @@ public class Limelight {
         // d = (h2-h1) / tan(a1+a2)
         double measuredAngle = getY();
         if (measuredAngle != 0) {
-            distance = (Math.abs(m_targetHeight - m_limeLightHeight)) / Math.tan(Math.toRadians(Math.abs(m_mountingAngle + measuredAngle)));
-        }
-        //System.out.println(distance + " - " + m_targetHeight + " -- " + m_limeLightHeight + " --- " + measuredAngle);
+           distance = (m_targetHeight - m_limeLightHeight) / Math.tan(Math.toRadians(m_mountingAngle + measuredAngle));
+        }   
+        //System.out.println(distance + " - " + m_targetHeight + " -- " + m_limeLightHeight + " --- " + measuredAngle + "----" + m_mountingAngle);
         return distance;
     }
     public void setPipeline(int pipeline){
@@ -224,7 +224,7 @@ public class Limelight {
         SmartDashboard.putNumber("limelight x", getX());
         SmartDashboard.putNumber("limelight y", getY());
         SmartDashboard.putNumber("limelight area", getArea());
-        SmartDashboard.putNumber("limelight distance", getDistance());
+        SmartDashboard.putNumber("Our limelight distance", getDistance());
         SmartDashboard.putBoolean("limelight has target", isTargetAvailible());
         SmartDashboard.putBoolean("Target Distance", isAtTargetDistance());
         SmartDashboard.putBoolean("On TargetX", isOnTargetX());

@@ -20,12 +20,12 @@ public class IntakeSubsystem extends SubsystemBase {
     m_IntakeMotor.setSecondaryCurrentLimit(30); //Set as well at 30
   */}
   public void runIntake(double power) {
-    m_IntakeMotor.set(power);
+    //m_IntakeMotor.set(power);
     
   }
 
   public void stopIntake() {
-    m_IntakeMotor.set(0);
+    //m_IntakeMotor.set(0);
   }
 
   @Override
