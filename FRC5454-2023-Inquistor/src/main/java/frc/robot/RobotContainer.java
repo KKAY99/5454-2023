@@ -626,6 +626,8 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
     public void TeleopMode(){
         m_LEDMode=LEDMode.TELEOP;  
         LEDUpdate();
+        //Set Default Pipeline to AprilTags
+        m_Limelight.setPipeline(Constants.VisionPipelines.AprilTag);
         
 }
     public void DisableMode(){

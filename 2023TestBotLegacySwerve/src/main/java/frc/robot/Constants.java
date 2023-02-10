@@ -19,6 +19,28 @@ import frc.robot.classes.Gains;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+    
+    public static final class Rotate{
+        public static final double rotateAutoOutStage1Speed=-0.7;
+        public static final double rotateAutoOutStage2Speed=-0.4; 
+        public static final double rotateAutoInSpeed=0.5; 
+        public static final double angleLowConeStage1=.15;    
+        public static final double angleLowConeStage2=.18;  
+        public static final double angleIntakePos=0.07;
+
+    }
+    public static final class Lift{
+        public static final double liftAutoExtendStage1Speed=-0.7;
+        public static final double liftAutoExtendStage2Speed=-0.4;
+        public static final double liftAutoRetractSpeed=0.3;
+        public static final double liftAutoRetractHomeSpeed=0.1;
+        public static final double posInitLift=-30;
+        public static final double posFullLiftStage1=-100.00;
+        public static final double posFullLiftStage2=-110.00;    
+        public static final double posHome=10;
+    }
+    
     public static final int ElevatorMotorPort=19;
     public static final int RotateMotorPort=50;
     public static final double kSpeedMultiplier = 1.0;

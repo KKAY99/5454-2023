@@ -37,7 +37,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import frc.robot.subsystems.ClawSubsystem;
-import frc.robot.commands.RotateCommand;
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -242,11 +241,18 @@ public class RobotContainer {
       ElevateBack.whileTrue(ElevateBackwardCommand);
 
       final ClawOpenCommand clawOpenCommand = new ClawOpenCommand(m_ClawSubsystem);
-      final ClawCloseCommand clawClosecommand = new ClawCloseCommand(m_ClawSubsystem);
+      final ClawCloseCommand clawCloseCommand = new ClawCloseCommand(m_ClawSubsystem);
       JoystickButton ClawOpen = new JoystickButton(m_xBoxDriver,5);
       ClawOpen.toggleOnTrue(clawOpenCommand);
       JoystickButton ClawClose = new JoystickButton(m_xBoxDriver,6);
-      ClawClose.toggleOnTrue(clawClosecommand);
+      ClawClose.toggleOnTrue(clawCloseCommand);
+      final SequentialCommandGroup autoMoveArm =new SequentialCommandGroup( clawCloseCommand,
+                                                           new zMoveArmExtend(m_LiftSubsystem),
+                                                           clawOpenCommand,
+                                                           new zMoveArmRetract(m_LiftSubsystem));
+
+      JoystickButton moveArm = new JoystickButton(m_xBoxDriver, 7);
+      moveArm.toggleOnTrue(autoMoveArm);
    }
 
     /**

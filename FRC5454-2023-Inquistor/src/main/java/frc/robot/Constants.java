@@ -29,7 +29,9 @@ public final class Constants {
         public static final double middleTargetPositionX = 0;
         public static final double rightTargetPositionX = -15;
         public static final double distanceFromTag = 2.8;
-    }
+        public static final double AprilTagAlignmentToleranceX=1.5;
+        public static final double AprilTagAlignmentToleranceArea=.25;
+    }   
 
     public static final class VisionPipelines{
         public static final int AprilTag=0;
@@ -175,7 +177,7 @@ public final class Constants {
         public static final double limelightHeight = 19; //37
         public static final double limelightAngle = 0; //40
         public static final double kVisionDistanceTolerance = 5;
-        public static final double kVisionXTolerance = .1;
+        public static final double kVisionXTolerance = 1;
         public static final double kVisionXOffset=4;
         public static final double kVisionXMaxDistanceOffset=4.31; // was 1.7
         public static final double kVisionXMinDistanceOffset=0.91; // was 1.7

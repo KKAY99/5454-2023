@@ -3,6 +3,9 @@ import frc.robot.classes.Limelight;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import edu.wpi.first.math.filter.MedianFilter;
+import edu.wpi.first.math.controller.PIDController;
+import frc.robot.Constants.PIDSteering;
 
 public class zAutoTargetToColumnCommand extends CommandBase{
     private Limelight m_limeLight;
@@ -78,69 +81,64 @@ public class zAutoTargetToColumnCommand extends CommandBase{
         double speed=0;
         int rotation=0; 
         
-        if(m_limeLight.getX()>Constants.LimeLightValues.kVisionXTolerance){
+        if(m_limeLight.getX()>Constants.ChargedUp.AprilTagAlignmentToleranceX){
             right = true;
 
         }else{
-            if (m_limeLight.getX()<-(0-Constants.LimeLightValues.kVisionXTolerance)){
+            if (m_limeLight.getX()<-(0-Constants.ChargedUp.AprilTagAlignmentToleranceX)){
                 left = true;
             }
         }
             
-        if(m_limeLight.getArea()<Constants.ChargedUp.distanceFromTag){
+        if(m_limeLight.getArea()<(Constants.ChargedUp.distanceFromTag-Constants.ChargedUp.AprilTagAlignmentToleranceArea)){
             forward = true;
         }else{
-            if(m_limeLight.getArea()>Constants.ChargedUp.distanceFromTag){
+            if(m_limeLight.getArea()>Constants.ChargedUp.distanceFromTag+Constants.ChargedUp.AprilTagAlignmentToleranceArea){
                 back = true;
             }
         }
-     //   double measurement = m_limeLight.getXRaw();
-     //   double filteredMeasurement = m_filter.calculate(measurement);
-     //   double pidOutput = m_pidRight.calculate(filteredMeasurement);
-     //   pidOutput=Math.min(Math.max(pidOutput,-0.10),.10);
-          
+        double measurement = m_limeLight.getXRaw();
+        double filteredMeasurement = m_filter.calculate(measurement);
+        double pidRightOutput = m_pidRight.calculate(filteredMeasurement);
+        double pidLeftOutput = m_pidLeft.calculate(filteredMeasurement);
+        
+        pidLeftOutput=Math.min(Math.max(pidLeftOutput,-0.10),.10);
+        pidRightOutput=Math.min(Math.max(pidRightOutput,-0.10),.10);
+     
         //determine direction, rotation and speed to move
         if(m_limeLight.isTargetAvailible()){
             if(forward||back||right||left){
                     if(left){
+                        speed=pidLeftOutput;
                         if(forward){
-                           direction=45;
-                           speed=0.1;
-                           
+                           direction=45;                                    
                         }else if(back){
                             direction=135;
-                            speed=0.1;
-                               
                         }else{
-                           direction=90;
-                           speed=0.1;
-                           
-    
+                           direction=90;                          
                         }
                     }else{
                         if(right){
+                            speed=pidRightOutput;
                             if(forward){
-                               direction=315;
-                               speed=0.1;                                                
+                               direction=315;                                           
                             }else if(back){
-                                direction=235;
-                                speed=0.1;                               
+                                direction=235;                           
                                }else{
-                                direction=270;
-                                speed=0.1;                                               
+                                direction=270;                                               
                                }
         
                         }else{
+                            speed=0.1; // TODO Determine optimal front / back speed
                             if(forward){
-                               direction=0;
-                               speed=0.1;                               
+                               direction=0;                             
                             }else{
                                 direction=180;
-                                speed=0.1;
                             }
                         }
         
                     }
+                    System.out.println("xPos " + filteredMeasurement+ " direction " + direction + " -- speed " +speed);
                     m_drive.movenodistance(direction, rotation, speed);
                     returnValue = false;
                 }else{

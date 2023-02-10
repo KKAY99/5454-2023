@@ -15,12 +15,15 @@ public class LiftSubsystem extends SubsystemBase {
     private CANSparkMax m_RotateMotor;
     private CANSparkMax m_ElevatorMotor;
     private DutyCycleEncoder m_RotateEncoder;
-    
+    private RelativeEncoder m_ElevatorRelativeEncoder;
     public LiftSubsystem(){
         m_RotateMotor = new CANSparkMax(Constants.RotateMotorPort, MotorType.kBrushless);   
         m_ElevatorMotor = new CANSparkMax(Constants.ElevatorMotorPort, MotorType.kBrushless);      
         m_ElevatorMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
         m_RotateMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        m_ElevatorRelativeEncoder=m_ElevatorMotor.getEncoder();
+        //TODO: Need to reset elevator back to zero and setPos
+        m_ElevatorRelativeEncoder.setPosition(0);
         m_RotateEncoder= new DutyCycleEncoder(Constants.Encoders.PivotWheelEncoder);
 
       }
@@ -28,8 +31,15 @@ public class LiftSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
       // This method will be called once per scheduler run
+      System.out.println("Rotator -- " + m_RotateEncoder.getAbsolutePosition() + " Elevator -- "+  m_ElevatorRelativeEncoder.getPosition());
     }
-
+    public double getElevatorPos(){
+      return m_ElevatorRelativeEncoder.getPosition();
+    
+    }
+    public double getRotatePos(){
+      return m_RotateEncoder.getAbsolutePosition();
+    }
     public void rotate(double power){
       System.out.println("Setting Power on Rotate - " + power);
       m_RotateMotor.set(power);
