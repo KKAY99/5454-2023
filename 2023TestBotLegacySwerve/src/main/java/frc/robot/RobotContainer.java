@@ -246,13 +246,20 @@ public class RobotContainer {
       ClawOpen.toggleOnTrue(clawOpenCommand);
       JoystickButton ClawClose = new JoystickButton(m_xBoxDriver,6);
       ClawClose.toggleOnTrue(clawCloseCommand);
-      final SequentialCommandGroup autoMoveArm =new SequentialCommandGroup( clawCloseCommand,
-                                                           new zMoveArmExtend(m_LiftSubsystem),
-                                                           clawOpenCommand,
+      final SequentialCommandGroup autoMiddleMoveArm =new SequentialCommandGroup( new ClawCloseCommand (m_ClawSubsystem),
+                                                           new zMoveArmExtend(m_LiftSubsystem,Constants.ChargedUP.TargetLevels.MiDDLE),
+                                                           new ClawOpenCommand(m_ClawSubsystem),
                                                            new zMoveArmRetract(m_LiftSubsystem));
 
-      JoystickButton moveArm = new JoystickButton(m_xBoxDriver, 7);
-      moveArm.toggleOnTrue(autoMoveArm);
+      JoystickButton moveArmMiddle = new JoystickButton(m_xBoxDriver, 7);
+      moveArmMiddle.toggleOnTrue(autoMiddleMoveArm);
+      final SequentialCommandGroup autoLowMoveArm =new SequentialCommandGroup( new ClawCloseCommand (m_ClawSubsystem),
+                                                           new zMoveArmExtend(m_LiftSubsystem,Constants.ChargedUP.TargetLevels.LOW),
+                                                           new ClawOpenCommand(m_ClawSubsystem),
+                                                           new zMoveArmRetract(m_LiftSubsystem));
+
+      JoystickButton moveArmLow = new JoystickButton(m_xBoxDriver, 8);
+      moveArmLow.toggleOnTrue(autoLowMoveArm);
    }
 
     /**

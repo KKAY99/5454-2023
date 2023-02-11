@@ -31,19 +31,20 @@ public class LiftSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
       // This method will be called once per scheduler run
-      System.out.println("Rotator -- " + m_RotateEncoder.getAbsolutePosition() + " Elevator -- "+  m_ElevatorRelativeEncoder.getPosition());
-    }
+    } 
     public double getElevatorPos(){
+      System.out.println("EP-Rotator -- " + m_RotateEncoder.getAbsolutePosition() + " Elevator -- "+  m_ElevatorRelativeEncoder.getPosition());
       return m_ElevatorRelativeEncoder.getPosition();
     
     }
     public double getRotatePos(){
-      return m_RotateEncoder.getAbsolutePosition();
+      System.out.println("RP-Rotator -- " + m_RotateEncoder.getAbsolutePosition() + " Elevator -- "+  m_ElevatorRelativeEncoder.getPosition());
+      return m_RotateEncoder.getAbsolutePosition();    
     }
     public void rotate(double power){
       System.out.println("Setting Power on Rotate - " + power);
       m_RotateMotor.set(power);
-      System.out.println("Rotate Position - " + m_RotateEncoder.getAbsolutePosition());
+      System.out.println("RO-Rotate Position - " + m_RotateEncoder.getAbsolutePosition());
       
     }
 
