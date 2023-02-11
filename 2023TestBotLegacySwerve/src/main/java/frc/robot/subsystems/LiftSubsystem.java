@@ -17,7 +17,7 @@ public class LiftSubsystem extends SubsystemBase {
     private DutyCycleEncoder m_RotateEncoder;
     private RelativeEncoder m_ElevatorRelativeEncoder;
     public LiftSubsystem(){
-        m_RotateMotor = new CANSparkMax(Constants.RotateMotorPort, MotorType.kBrushless);   
+        m_RotateMotor = new CANSparkMax(/*Constants.RotateMotorPort*/ 9999, MotorType.kBrushless);   
         m_ElevatorMotor = new CANSparkMax(Constants.ElevatorMotorPort, MotorType.kBrushless);      
         m_ElevatorMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
         m_RotateMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
@@ -33,23 +33,23 @@ public class LiftSubsystem extends SubsystemBase {
       // This method will be called once per scheduler run
     } 
     public double getElevatorPos(){
-      System.out.println("EP-Rotator -- " + m_RotateEncoder.getAbsolutePosition() + " Elevator -- "+  m_ElevatorRelativeEncoder.getPosition());
+      //System.out.println("EP-Rotator -- " + m_RotateEncoder.getAbsolutePosition() + " Elevator -- "+  m_ElevatorRelativeEncoder.getPosition());
       return m_ElevatorRelativeEncoder.getPosition();
     
     }
     public double getRotatePos(){
-      System.out.println("RP-Rotator -- " + m_RotateEncoder.getAbsolutePosition() + " Elevator -- "+  m_ElevatorRelativeEncoder.getPosition());
+      //System.out.println("RP-Rotator -- " + m_RotateEncoder.getAbsolutePosition() + " Elevator -- "+  m_ElevatorRelativeEncoder.getPosition());
       return m_RotateEncoder.getAbsolutePosition();    
     }
     public void rotate(double power){
-      System.out.println("Setting Power on Rotate - " + power);
+      //System.out.println("Setting Power on Rotate - " + power);
       m_RotateMotor.set(power);
-      System.out.println("RO-Rotate Position - " + m_RotateEncoder.getAbsolutePosition());
-      
+      //System.out.println("RO-Rotate Position - " + m_RotateEncoder.getAbsolutePosition());
+      System.out.println(m_ElevatorRelativeEncoder.getPosition());
     }
 
     public void runElevator(double power){
-      System.out.println("Setting Power on Elevator - " + power);
+      //System.out.println("Setting Power on Elevator - " + power);
       m_ElevatorMotor.set(power);
       
     }
@@ -58,7 +58,7 @@ public class LiftSubsystem extends SubsystemBase {
     }
 
     public void stopRotate(){
-      System.out.println("Rotate Position - " + m_RotateEncoder.getAbsolutePosition());
+      //System.out.println("Rotate Position - " + m_RotateEncoder.getAbsolutePosition());
     
       m_RotateMotor.set(0);
 

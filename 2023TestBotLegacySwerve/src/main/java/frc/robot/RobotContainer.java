@@ -37,6 +37,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import frc.robot.subsystems.ClawSubsystem;
+import frc.robot.subsystems.BrakeSubsystem;
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -76,6 +77,7 @@ public class RobotContainer {
     private final LiftSubsystem m_LiftSubsystem = new LiftSubsystem();
     private final ClawSubsystem m_ClawSubsystem = new ClawSubsystem();
     private final PowerDistribution m_robotPDH = new PowerDistribution(1, PowerDistribution.ModuleType.kRev);
+    private final BrakeSubsystem m_BrakeSubsystem = new BrakeSubsystem();
 
 
 
@@ -246,20 +248,29 @@ public class RobotContainer {
       ClawOpen.toggleOnTrue(clawOpenCommand);
       JoystickButton ClawClose = new JoystickButton(m_xBoxDriver,6);
       ClawClose.toggleOnTrue(clawCloseCommand);
+
+      final zMoveArmRetract RetractArmCommand = new zMoveArmRetract(m_LiftSubsystem);
+      JoystickButton Retract=new JoystickButton(m_xBoxOperator,1);
+      Retract.onTrue(RetractArmCommand);
+
       final SequentialCommandGroup autoMiddleMoveArm =new SequentialCommandGroup( new ClawCloseCommand (m_ClawSubsystem),
                                                            new zMoveArmExtend(m_LiftSubsystem,Constants.ChargedUP.TargetLevels.MiDDLE),
                                                            new ClawOpenCommand(m_ClawSubsystem),
                                                            new zMoveArmRetract(m_LiftSubsystem));
 
-      JoystickButton moveArmMiddle = new JoystickButton(m_xBoxDriver, 7);
+      JoystickButton moveArmMiddle = new JoystickButton(m_xBoxOperator, 7);
       moveArmMiddle.toggleOnTrue(autoMiddleMoveArm);
       final SequentialCommandGroup autoLowMoveArm =new SequentialCommandGroup( new ClawCloseCommand (m_ClawSubsystem),
                                                            new zMoveArmExtend(m_LiftSubsystem,Constants.ChargedUP.TargetLevels.LOW),
                                                            new ClawOpenCommand(m_ClawSubsystem),
                                                            new zMoveArmRetract(m_LiftSubsystem));
 
-      JoystickButton moveArmLow = new JoystickButton(m_xBoxDriver, 8);
+      JoystickButton moveArmLow = new JoystickButton(m_xBoxOperator, 8);
       moveArmLow.toggleOnTrue(autoLowMoveArm);
+
+      final TestBrakeCommand brakeCommand = new TestBrakeCommand(m_BrakeSubsystem);
+      JoystickButton brakeButton = new JoystickButton(m_xBoxDriver, 7);
+      brakeButton.onTrue(brakeCommand);
    }
 
     /**

@@ -48,11 +48,11 @@ public final class Constants {
         public static final double liftAutoRetractHomeSpeed=0.1;
         public static final double posInitLift=-20;
         public static final double posLowFullLiftStage1=-100.00;
-        public static final double posLowFullLiftStage2=-110.00;    
+        public static final double posLowFullLiftStage2=-111.50;    
         public static final double posMiddleFullLiftStage1=-99.00;
         public static final double posMiddleFullLiftStage2=-110.00;    
         public static final double posHighFullLiftStage1=-99.00;
-        public static final double posHighFullLiftStage2=-110.00;    
+        public static final double posHighFullLiftStage2=-111.50;    
         public static final double posHome=10;
     }
 
