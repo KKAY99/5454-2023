@@ -1,21 +1,25 @@
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import frc.robot.Constants;
 
 public class IntakeSubsystem  extends SubsystemBase {
-  private Spark m_Intake= new Spark(Constants.intake.motorPWM);
-
-  public IntakeSubsystem() {
-
+  private TalonSRX m_Intake;
+ public IntakeSubsystem(int canPort) {
+ m_Intake=new TalonSRX(canPort);
+ 
   }
 
    public void run(double speed){
-    m_Intake.set(speed);
+    m_Intake.set(ControlMode.PercentOutput,speed);
    }
 
    public void stop(){
-    m_Intake.set(0);
+    m_Intake.set(ControlMode.PercentOutput,0);
   }
   
 

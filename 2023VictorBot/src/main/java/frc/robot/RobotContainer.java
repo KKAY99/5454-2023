@@ -13,6 +13,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SpindexSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -40,14 +41,16 @@ public class RobotContainer {
   private Joystick m_rightJoystick = new Joystick(InputControllers.kJoystickRight);
   private ExampleSubsystem m_subsystem = new ExampleSubsystem();
   private DriveSubsystem m_RobotDrive = new DriveSubsystem();
-  private IntakeSubsystem m_intake = new IntakeSubsystem();
+  private IntakeSubsystem m_paddle = new IntakeSubsystem(Constants.intake.motorPaddlePort);
+  private IntakeSubsystem m_intake = new IntakeSubsystem(Constants.intake.motorLowerIntakePort);
   private SpindexSubsystem m_SpindexSubsystem = new SpindexSubsystem();
   private testCommand m_command = new testCommand(m_gyro,m_subsystem);
   // private moveCommand m_moveBack = new moveCommand(m_subsystem,-0.3);
   // private moveCommand m_moveForward = new moveCommand(m_subsystem,0.3);
-  private IntakeCommand m_intakeInCommand = new IntakeCommand(m_intake,Constants.intake.speedIn);
-  private IntakeCommand m_intakeOutCommand = new IntakeCommand(m_intake,Constants.intake.speedOut);
-  private SpindexCommand m_SpindexCommand = new SpindexCommand(m_SpindexSubsystem,Constants.spindex.spinspeed);
+  private IntakeCommand m_intakePaddleCommand = new IntakeCommand(m_paddle,Constants.intake.paddleSpeedIn );
+  private IntakeCommand m_intakeInnerCommand = new IntakeCommand(m_intake,Constants.intake.intakeSpeedIn);
+  private SpindexCommand m_SpindexRCommand = new SpindexCommand(m_SpindexSubsystem,Constants.spindex.spinspeed);
+  private SpindexCommand m_SpindexLCommand = new SpindexCommand(m_SpindexSubsystem,-Constants.spindex.spinspeed);
   
   private XboxController m_xBox = new XboxController(0);
 
@@ -56,14 +59,6 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
-    m_gyro.reset();
-    m_gyro.zeroYaw();
-    m_gyro.enableLogging(true);
-    while(m_gyro.isCalibrating()){
-      System.out.println("Calibrating");
-    }
-    System.out.println("setting roll zero to " + m_gyro.getRoll());
-    m_command.setLevel(m_gyro.getRoll());
     m_RobotDrive.setDefaultCommand(new DefaultDrive(m_RobotDrive,()->m_xBox.getLeftX()  , ()-> m_xBox.getLeftY()));
   }
 
@@ -93,9 +88,10 @@ public class RobotContainer {
     new JoystickButton(m_xBox, 2).whileTrue(m_command);
     //new JoystickButton(m_xBox, 1).whileTrue(m_moveForward);
     //new JoystickButton(m_xBox, 4).whileTrue(m_moveBack);
-    new JoystickButton(m_xBox,1).whileTrue(m_intakeInCommand);
-    new JoystickButton(m_xBox,4).whileTrue(m_intakeOutCommand);
-    new JoystickButton(m_xBox,2).whileTrue(m_SpindexCommand);
+  new JoystickButton(m_xBox,1).whileTrue(new ParallelCommandGroup(m_intakePaddleCommand,m_intakeInnerCommand));
+  //  new JoystickButton(m_xBox,4).whileTrue(m_intakeInnerCommand);
+    new JoystickButton(m_xBox,5).whileTrue(m_SpindexRCommand);
+    new JoystickButton(m_xBox,6).whileTrue(m_SpindexLCommand);
   }
 
   /**

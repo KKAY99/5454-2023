@@ -29,12 +29,12 @@ public class DefaultDrive extends CommandBase {
     System.out.println("Speeds" +  m_left.getAsDouble()  + " ** " + m_right.getAsDouble());
     double left;
     double right;
-    left=m_left.getAsDouble();
-    right=m_right.getAsDouble();
+    left=0-m_left.getAsDouble();
+    right=0-m_right.getAsDouble();
   
     //m_drive.tankDrive(m_left.getAsDouble(), -m_right.getAsDouble()* Constants.kSpeedMultiplier);
   
-    m_drive.arcadeDrive(m_left.getAsDouble(), m_right.getAsDouble());
+    m_drive.arcadeDrive(left, right);
   
   }
 } 

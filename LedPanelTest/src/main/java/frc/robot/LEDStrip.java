@@ -79,6 +79,63 @@ public class LEDStrip {
         // Check bounds
         m_rainbowFirstPixelHue %= 180;
     }
+    public void show5454(){
+        int hue=150;
+        m_ledBuffer.setHSV(12, hue, 255, 255);
+        m_ledBuffer.setHSV(13, hue, 255, 255);
+        m_ledBuffer.setHSV(14, hue, 255, 255);
+        m_ledBuffer.setHSV(15, hue, 255, 255);
+        m_ledBuffer.setHSV(8, hue, 255, 255);
+        m_ledBuffer.setHSV(16, hue, 255, 255);
+        m_ledBuffer.setHSV(19, hue, 255, 255);
+        m_ledBuffer.setHSV(23, hue, 255, 255);
+        m_ledBuffer.setHSV(31, hue, 255, 255);
+        m_ledBuffer.setHSV(27, hue, 255, 255);
+        m_ledBuffer.setHSV(26, hue, 255, 255);
+        m_ledBuffer.setHSV(25, hue, 255, 255);
+        m_ledBuffer.setHSV(47, hue, 255, 255);
+        m_ledBuffer.setHSV(46, hue, 255, 255);
+        m_ledBuffer.setHSV(45, hue, 255, 255);
+        m_ledBuffer.setHSV(44, hue, 255, 255);
+        m_ledBuffer.setHSV(51, hue, 255, 255);
+        m_ledBuffer.setHSV(63, hue, 255, 255);
+        m_ledBuffer.setHSV(62, hue, 255, 255);
+        m_ledBuffer.setHSV(61, hue, 255, 255);
+        m_ledBuffer.setHSV(60, hue, 255, 255);
+        m_ledBuffer.setHSV(59, hue, 255, 255);
+        m_ledBuffer.setHSV(58, hue, 255, 255);
+        m_ledBuffer.setHSV(57, hue, 255, 255);
+        m_ledBuffer.setHSV(56, hue, 255, 255);
+        m_ledBuffer.setHSV(79, hue, 255, 255);
+        m_ledBuffer.setHSV(78, hue, 255, 255);
+        m_ledBuffer.setHSV(77, hue, 255, 255);
+        m_ledBuffer.setHSV(76, hue, 255, 255);
+        m_ledBuffer.setHSV(72, hue, 255, 255);
+        m_ledBuffer.setHSV(80, hue, 255, 255);
+        m_ledBuffer.setHSV(83, hue, 255, 255);
+        m_ledBuffer.setHSV(95, hue, 255, 255);
+        m_ledBuffer.setHSV(80, hue, 255, 255);
+        m_ledBuffer.setHSV(91, hue, 255, 255);
+        m_ledBuffer.setHSV(90, hue, 255, 255);
+        m_ledBuffer.setHSV(89, hue, 255, 255);
+        m_ledBuffer.setHSV(87, hue, 255, 255);
+        m_ledBuffer.setHSV(72, hue, 255, 255);
+        m_ledBuffer.setHSV( 111, hue, 255, 255);
+        m_ledBuffer.setHSV(110, hue, 255, 255);
+        m_ledBuffer.setHSV(109, hue, 255, 255);
+        m_ledBuffer.setHSV(108, hue, 255, 255);
+        m_ledBuffer.setHSV(115, hue, 255, 255);
+        m_ledBuffer.setHSV(127, hue, 255, 255);
+        m_ledBuffer.setHSV(126, hue, 255, 255);
+        m_ledBuffer.setHSV(125, hue, 255, 255);
+        m_ledBuffer.setHSV(124, hue, 255, 255);
+        m_ledBuffer.setHSV(123, hue, 255, 255);
+        m_ledBuffer.setHSV(122, hue, 255, 255);
+        m_ledBuffer.setHSV(121, hue, 255, 255);
+        m_ledBuffer.setHSV(120, hue, 255, 255);
+        m_led.setData(m_ledBuffer);
+ 
+    }
 
     private void wave() {
         // set the hue to the selected color

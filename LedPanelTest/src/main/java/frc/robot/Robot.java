@@ -84,6 +84,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     System.out.println("update LEDs");
     m_robotContainer.runLEDs();
+    m_robotContainer.testRevHub(0);
   }
 
   @Override

@@ -1,20 +1,22 @@
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import frc.robot.Constants;
 
 public class SpindexSubsystem  extends SubsystemBase {
-    private Spark m_Spindex= new Spark(Constants.spindex.motorPWM);
+    private TalonSRX m_Spindex= new TalonSRX(Constants.spindex.motor);
 
   public SpindexSubsystem() {
   }
 
    public void run(double speed){
-    m_Spindex.set (speed);
+    m_Spindex.set (ControlMode.PercentOutput,speed);
    }
 
    public void stop(){
-    m_Spindex.set(0);
+    m_Spindex.set(ControlMode.PercentOutput,0);
   }
   
 

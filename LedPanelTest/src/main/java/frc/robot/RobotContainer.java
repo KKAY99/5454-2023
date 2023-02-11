@@ -12,7 +12,9 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.Solenoid;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -21,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
+  public static    PneumaticsModuleType pModule = PneumaticsModuleType.REVPH;
   
   private final LEDStrip m_ledStrip = new LEDStrip(Constants.LEDS.PORT, Constants.LEDS.COUNT);
   private static final int LEDMODE_WAVE = 0;
@@ -53,10 +56,17 @@ public class RobotContainer {
   }
   
   public void runLEDs(){
-    m_ledStrip.setColor(Constants.LEDS.Colors.GREEN);
-    m_ledStrip.setMode(LEDMODE_SOLID);
-    m_ledStrip.update();
+    m_ledStrip.show5454();
+    //m_ledStrip.setColor(Constants.LEDS.Colors.PURPLE);
+    //m_ledStrip.setMode(LEDMODE_WAVE);
+    //`m_ledStrip.update();
 
+  }
+  public void testRevHub(int nodeID){
+     
+    //Compressor Compressor = new Compressor(nodeID,pModule)  ; 
+    //Solenoid m_solenoidIntakeArm = new Solenoid(pModule, 0); 
+  
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

@@ -17,13 +17,15 @@ import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
  */
 public final class Constants {
   public class intake{
-      public static final int motorPWM=4;
-      public static final double speedIn=.5;
-      public static final double speedOut=.5;
+      public static final int motorPaddlePort=35;
+      public static final int motorLowerIntakePort=40;
+      public static final double paddleSpeedIn=-1.0;
+      public static final double paddleSpeedOut=.5;
+      public static final double intakeSpeedIn=-1.0;
   }
   public class spindex{
-      public static final int motorPWM=5;
-      public static final double spinspeed=0.3;
+      public static final int motor=21;
+      public static final double spinspeed=0.99;
 }
 
   public static class OperatorConstants {

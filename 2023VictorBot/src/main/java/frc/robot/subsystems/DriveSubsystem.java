@@ -4,7 +4,8 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import javax.lang.model.util.ElementScanner6;
-import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.Timer;
 
 
@@ -18,16 +19,16 @@ public class DriveSubsystem extends SubsystemBase {
   
     // The motors on the left side of the drive.
   private final MotorControllerGroup m_leftMotors =
-      new MotorControllerGroup(new PWMVictorSPX(8),
-                               new PWMVictorSPX(9));
+      new MotorControllerGroup(new WPI_VictorSPX(10),
+                               new WPI_VictorSPX(11));
 
   // The motors on the right side of the drive.
   private final MotorControllerGroup m_rightMotors =
-      new MotorControllerGroup(new PWMVictorSPX(1),
-                               new PWMVictorSPX(2));
+      new MotorControllerGroup(new WPI_VictorSPX(12),
+                               new WPI_VictorSPX(13));
 
   // The robot's drive
- 
+  
   private final DifferentialDrive m_drive = new DifferentialDrive(m_leftMotors, m_rightMotors);
   private boolean m_ReverseMode=false; 
   // The left-side drive encoder
@@ -63,6 +64,7 @@ public class DriveSubsystem extends SubsystemBase {
     }
   }
   public void arcadeDrive (double moveSpeed, double  rotation) {  
+    System.out.println("arcade mode "+ moveSpeed + " - " + rotation);
      m_drive.arcadeDrive(moveSpeed, rotation); 
   }
   public void commandDriveStraight (double speed,double duration){
