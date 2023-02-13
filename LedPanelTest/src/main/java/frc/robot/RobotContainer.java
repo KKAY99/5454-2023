@@ -55,8 +55,12 @@ public class RobotContainer {
     
   }
   
+  public void setupAnimate(){
+    m_ledStrip.animationSeup(112,8,16,1);
+  }
+
   public void runLEDs(){
-    m_ledStrip.show5454();
+    m_ledStrip.animate5454();
     //m_ledStrip.setColor(Constants.LEDS.Colors.PURPLE);
     //m_ledStrip.setMode(LEDMODE_WAVE);
     //`m_ledStrip.update();
@@ -64,8 +68,8 @@ public class RobotContainer {
   }
   public void testRevHub(int nodeID){
      
-    //Compressor Compressor = new Compressor(nodeID,pModule)  ; 
-    //Solenoid m_solenoidIntakeArm = new Solenoid(pModule, 0); 
+    Compressor Compressor = new Compressor(nodeID,pModule)  ; 
+    Solenoid m_solenoidIntakeArm = new Solenoid(pModule, 0); 
   
   }
   /**

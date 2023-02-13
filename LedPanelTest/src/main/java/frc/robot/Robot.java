@@ -77,6 +77,9 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    m_robotContainer.setupAnimate();
+    m_robotContainer.testRevHub(2);
+  
   }
 
   /** This function is called periodically during operator control. */
@@ -84,7 +87,6 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     System.out.println("update LEDs");
     m_robotContainer.runLEDs();
-    m_robotContainer.testRevHub(0);
   }
 
   @Override

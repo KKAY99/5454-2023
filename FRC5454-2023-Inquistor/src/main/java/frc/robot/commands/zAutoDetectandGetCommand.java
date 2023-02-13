@@ -4,22 +4,22 @@ import edu.wpi.first.vision.VisionPipeline;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.classes.Limelight;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.PaddleSubsystem;
 import frc.robot.classes.AprilTags;
 public class zAutoDetectandGetCommand extends CommandBase {
    
   private Limelight m_limelight;
   private DrivetrainSubsystem m_drive;
-  private IntakeSubsystem m_intake;
+  private PaddleSubsystem m_paddle;
   private int m_elementType;
   private AprilTags m_AprilTags; 
     
-    public zAutoDetectandGetCommand(Limelight limelight,DrivetrainSubsystem drive, IntakeSubsystem intake,int elementType){
+    public zAutoDetectandGetCommand(Limelight limelight,DrivetrainSubsystem drive, PaddleSubsystem paddle,int elementType){
       m_limelight = limelight;
       m_AprilTags = new AprilTags(m_limelight);
       m_drive = drive;
-      m_intake=intake;
-      addRequirements(intake);
+      m_paddle=paddle;
+      addRequirements(paddle);
       m_elementType=elementType;
     }
 
@@ -38,10 +38,10 @@ public class zAutoDetectandGetCommand extends CommandBase {
         
           m_drive.move(turnAngle, turnAngle, 0, 1, false);
           
-          //runintake
-          m_intake.runIntake(Constants.Intake.intakeInSpeed);
+          //runintakem
+          m_paddle.run(Constants.Paddle.intakeInSpeed);
           Thread.sleep(10);
-          m_intake.stopIntake();
+          m_paddle.stop();
 
 
     

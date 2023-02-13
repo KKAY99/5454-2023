@@ -46,7 +46,23 @@ public final class Constants {
                     TOP,MIDDLE,BOTTOM;	
     }
     
-    public class Intake{
+    public class IntakeConvey{
+        public static final int motorPort=92;
+        public static final double inSpeed=0.5;
+        public static final double outSpeed=0.5;
+    }
+    public class IntakeArms{
+        public static final int motorPort=95;
+        public static final double inSpeed=0.5;
+        public static final double outSpeed=-0.5;
+    }
+    public class Spindexer {
+        public static final int motorPort =03;
+        public static final double spinForward=0.5;
+        public static final double spinBack=-0.5;
+    }
+
+    public class Paddle{
         public static final int intakePort=90;
         public static final double intakeInSpeed=0.50;
         public static final double intakeOutSpeed=-0.50;
@@ -63,7 +79,7 @@ public final class Constants {
     }
     public class RotateArm{
         public static final int rotateArmPort=93;
-        
+        public static final double manualSpeed=0.4;
     }
     public class swerveDrive{
         public static final double driveDeadband=0.05;

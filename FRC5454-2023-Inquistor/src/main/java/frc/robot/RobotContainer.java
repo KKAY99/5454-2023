@@ -33,7 +33,7 @@ import frc.robot.commands.AutoMoveCommand;
 import frc.robot.commands.ClawCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.GyroResetCommand;
-import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.PaddleCommand;
 import frc.robot.commands.SwitchDriveModeCommand;
 import frc.robot.commands.zAutoDetectandGetCommand;
 import frc.robot.commands.zAutoTargetToColumnCommand;
@@ -48,7 +48,7 @@ import frc.robot.common.drivers.NavX;
 import frc.robot.common.drivers.NavX.Axis;
 import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.PaddleSubsystem;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -87,7 +87,7 @@ public class RobotContainer {
      private static final int LEDMODE_SOLID = 3;
      private static final int LEDMODE_OFF = 4;
      private LEDMode m_oldLEDmode=LEDMode.NOTSET;  
-     private final IntakeSubsystem m_intake = new IntakeSubsystem(Constants.Intake.intakePort);
+     private final PaddleSubsystem m_paddle = new PaddleSubsystem(Constants.Paddle.intakePort);
    
     private final PowerDistribution m_robotPDH = new PowerDistribution(1, PowerDistribution.ModuleType.kRev);
 
@@ -256,7 +256,7 @@ Command commandAutoConeScore2= new SequentialCommandGroup(new zAutoTargetandMove
                                        new zPivotandExtendCommand(Constants.TargetHeight.TOP),
                                        new ClawCommand(m_Claw,Constants.Claw.ReleaseSpeed),
                                        new zPivotArmResetCommand(),
-                                       new zAutoDetectandGetCommand(m_Limelight,m_RobotDrive,m_intake,Constants.ChargedUp.Cone),
+                                       new zAutoDetectandGetCommand(m_Limelight,m_RobotDrive,m_paddle,Constants.ChargedUp.Cone),
                                        new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
                                                Constants.ChargedUp.GridPosBottomCubeAny),
                                        new zPivotandExtendCommand(Constants.TargetHeight.TOP),
@@ -268,7 +268,7 @@ Command commandAutoConeScore2= new SequentialCommandGroup(new zAutoTargetandMove
                                        new zPivotandExtendCommand(Constants.TargetHeight.TOP),
                                        new ClawCommand(m_Claw,Constants.Claw.ReleaseSpeed),
                                        new zPivotArmResetCommand(),
-                                       new zAutoDetectandGetCommand(m_Limelight,m_RobotDrive,m_intake,Constants.ChargedUp.Cube),
+                                       new zAutoDetectandGetCommand(m_Limelight,m_RobotDrive,m_paddle,Constants.ChargedUp.Cube),
                                        new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
                                                Constants.ChargedUp.GridPosBottomCubeAny),
                                        new zPivotandExtendCommand(Constants.TargetHeight.TOP),
@@ -290,8 +290,8 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-        final IntakeCommand intakeInCommand = new IntakeCommand(m_intake, Constants.Intake.intakeInSpeed);
-        final IntakeCommand intakeOutCommand = new IntakeCommand(m_intake, Constants.Intake.intakeOutSpeed);
+        final PaddleCommand intakeInCommand = new PaddleCommand(m_paddle, Constants.Paddle.intakeInSpeed);
+        final PaddleCommand intakeOutCommand = new PaddleCommand(m_paddle, Constants.Paddle.intakeOutSpeed);
         final GyroResetCommand gyroResetCommand = new GyroResetCommand(m_RobotDrive,m_Limelight);
 
 
@@ -474,7 +474,7 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
                                                 new zPivotandExtendCommand(Constants.TargetHeight.TOP),
                                                 new ClawCommand(m_Claw,Constants.Claw.ReleaseSpeed),
                                                 new zPivotArmResetCommand(),
-                                                new zAutoDetectandGetCommand(m_Limelight,m_RobotDrive,m_intake,Constants.ChargedUp.Cone),
+                                                new zAutoDetectandGetCommand(m_Limelight,m_RobotDrive,m_paddle,Constants.ChargedUp.Cone),
                                                 new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
                                                         Constants.ChargedUp.GridPosBottomCubeAny),
                                                 new zPivotandExtendCommand(Constants.TargetHeight.TOP),
@@ -487,7 +487,7 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
                                                 new zPivotandExtendCommand(Constants.TargetHeight.TOP),
                                                 new ClawCommand(m_Claw,Constants.Claw.ReleaseSpeed),
                                                 new zPivotArmResetCommand(),
-                                                new zAutoDetectandGetCommand(m_Limelight,m_RobotDrive,m_intake,Constants.ChargedUp.Cube),
+                                                new zAutoDetectandGetCommand(m_Limelight,m_RobotDrive,m_paddle,Constants.ChargedUp.Cube),
                                                 new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
                                                         Constants.ChargedUp.GridPosBottomCubeAny),
                                                 new zPivotandExtendCommand(Constants.TargetHeight.TOP),

@@ -97,7 +97,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 backleftPosition,
                 backRightPosition
               },new Pose2d());           
-        
+        Logger.getInstance().recordOutput("Odometry X", estimator.getEstimatedPosition().getX());
+        Logger.getInstance().recordOutput("Odometry Y", estimator.getEstimatedPosition().getY());
+ 
        
         frontLeftModule.setName("Front Left");
         frontRightModule.setName("Front Right");

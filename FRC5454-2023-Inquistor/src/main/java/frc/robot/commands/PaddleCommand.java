@@ -4,13 +4,13 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.PaddleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class IntakeCommand extends CommandBase {
+public class PaddleCommand extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-  private final IntakeSubsystem m_IntakeSubsystem;
+  private final PaddleSubsystem m_IntakeSubsystem;
   private final double m_speed;
 
   /**
@@ -18,7 +18,7 @@ public class IntakeCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public IntakeCommand(IntakeSubsystem intake,double speed) {
+  public PaddleCommand(PaddleSubsystem intake,double speed) {
     m_IntakeSubsystem = intake;
     m_speed=speed;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -33,13 +33,13 @@ public class IntakeCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_IntakeSubsystem.runIntake(m_speed);
+    m_IntakeSubsystem.run(m_speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_IntakeSubsystem.stopIntake();
+    m_IntakeSubsystem.stop();
   }
 
   // Returns true when the command should end.
