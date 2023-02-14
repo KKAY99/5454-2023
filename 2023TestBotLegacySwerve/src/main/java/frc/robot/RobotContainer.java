@@ -37,7 +37,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import frc.robot.subsystems.ClawSubsystem;
-import frc.robot.subsystems.BrakeSubsystem;
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -77,7 +76,6 @@ public class RobotContainer {
     private final LiftSubsystem m_LiftSubsystem = new LiftSubsystem();
     private final ClawSubsystem m_ClawSubsystem = new ClawSubsystem();
     private final PowerDistribution m_robotPDH = new PowerDistribution(1, PowerDistribution.ModuleType.kRev);
-    private final BrakeSubsystem m_BrakeSubsystem = new BrakeSubsystem();
 
 
 
@@ -268,7 +266,7 @@ public class RobotContainer {
       JoystickButton moveArmLow = new JoystickButton(m_xBoxOperator, 8);
       moveArmLow.toggleOnTrue(autoLowMoveArm);
 
-      final TestBrakeCommand brakeCommand = new TestBrakeCommand(m_BrakeSubsystem);
+      final LiftBrakeCommand brakeCommand = new LiftBrakeCommand(m_LiftSubsystem);
       JoystickButton brakeButton = new JoystickButton(m_xBoxDriver, 7);
       brakeButton.onTrue(brakeCommand);
    }
@@ -459,5 +457,9 @@ public class RobotContainer {
     public void DisableMode(){
             m_LEDMode=LEDMode.DISBLED;
             LEDUpdate();
+    }
+
+    public void InitHome(){
+        m_LiftSubsystem.InitHomeElevator();
     }
 }

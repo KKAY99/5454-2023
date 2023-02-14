@@ -24,7 +24,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     
   }
 
-  public void stope() {
+  public void stop() {
     //m_Motor.set(0);
   }
 

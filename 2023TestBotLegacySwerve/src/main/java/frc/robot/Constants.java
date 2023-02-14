@@ -54,6 +54,7 @@ public final class Constants {
         public static final double posHighFullLiftStage1=-99.00;
         public static final double posHighFullLiftStage2=-111.50;    
         public static final double posHome=10;
+        public static final double absHome = 0.08;
     }
 
     public static final int ElevatorMotorPort=19;
