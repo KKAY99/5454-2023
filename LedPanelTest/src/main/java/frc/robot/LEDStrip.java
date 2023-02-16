@@ -23,14 +23,37 @@ public class LEDStrip {
     private int m_animateCurPos=0;
     private int m_animateEndPos=0;
     private int m_animateLoop=0;
-    private int m_animateDelay=0;
+    private double m_animateDelay=0;
     private double m_animateLastTime=0;
     public static final int MODE_WAVE = 0;
     public static final int MODE_BAR = 1;
     public static final int MODE_RAINBOW = 2;
     public static final int MODE_SOLID = 3;
     public static final int MODE_OFF = 4;
-
+    private static final int LEDLETTERSIZE=32;
+    private static final int [] letterA={8,9,10,11,12,13,14,15,16,18,19,24,25,26,27,28,29,30,31};
+    private static final int [] letterB={8,9,10,11,12,13,14,15,16,19,20,23,24,25,26,29,30,31};
+    private static final int [] letterC={8,9,10,11,12,13,14,15,16,23,24,31};
+    private static final int [] letterD={8,9,10,11,12,13,14,15,16,23,25,26,27,28,29,30};
+    private static final int [] letterE={8,9,10,11,12,13,14,15,16,17,19,20,22,23,24,25,27,28,30,31};
+    private static final int [] letterF={8,9,10,11,12,13,14,15,16,17,19,20,27,28,30,31};
+    private static final int [] letterG={8,9,10,11,12,13,14,15,16,20,23,24,25,26,27,30,31};
+    private static final int [] letterH={8,9,10,11,12,13,14,15,19,20,24,25,26,27,28,29,30,31};
+    private static final int [] letterI={8,9,14,15,16,17,18,19,20,21,22,23,24,25,30,31};
+    private static final int [] letterJ={8,9,10,11,22,23,24,25,26,27,28,29,30,31};
+    private static final int [] letterK={8,9,10,11,12,13,14,15,19,20,24,25,26,29,30};
+    private static final int [] letterL={8,9,10,11,12,13,14,15,22,23,24,25};
+    private static final int [] letterM={8,9,10,11,12,13,14,15,17,18,19,24,25,26,27,28,29,30,31};
+    private static final int [] letterN={8,9,10,11,12,13,14,15,16,17,24,25,26,27,28,29,30,31};
+    private static final int [] letterO = {8,9,10,11,12,13,14,15,16,23,24,25,26,27,28,29,30,31};
+    private static final int [] letterP={8,9,10,11,12,13,14,15,16,19,28,29,30,31};
+    private static final int [] letterU={8,9,10,11,12,13,14,15,22,23,24,25,26,27,28,29,30,31};
+    private static final int [] letterR={8,9,10,11,12,13,14,15,16,18,19,24,25,26,27,30,31};
+    private static final int [] letterS={8,12,13,14,15,16,19,20,23,24,25,26,27,31};
+    private static final int [] letterT={14,15,16,17,18,19,20,21,22,23,30,31};
+    private static final int [] shapeCube = {8,9,10,11,12,13,14,15,16,23,24,31,32,39,40,47,48,49,50,51,52,53,54,55};
+    private static final int [] shapeCone = {8,9,20,21,23,24,28,29,32,33,39,40,44,45,52,53,55,56,57};
+   
     public LEDStrip(int port, int leds) {
         // initialize all relevant objects
         m_led = new AddressableLED(port);
@@ -84,7 +107,7 @@ public class LEDStrip {
         // Check bounds
         m_rainbowFirstPixelHue %= 180;
     }
-    public void animationSeup(int startPos,int endPos,int loopCount,int delayTime){
+    public void animationSeup(int startPos,int endPos,int loopCount,double delayTime){
         m_animateStartPos=startPos;
         m_animateCurPos=startPos;
         m_animateEndPos=endPos;
@@ -104,12 +127,119 @@ public class LEDStrip {
             m_animateLastTime=currentTime;
         }    
     }
-    public void show5454(int startingLED){
+    private void clearStrip(){
         int ledLoop=0;
         while (ledLoop<(m_ledBuffer.getLength())){
             m_ledBuffer.setHSV(ledLoop,0,0,0);
             ledLoop++;
         }
+    }
+    public void clearLED(){
+        clearStrip();
+        m_led.setData(m_ledBuffer);
+ 
+    }
+
+    private void showArray(int startingLED,int hue, int[] ledMap){
+        int ledCount=ledMap.length;
+        int iLedLoop=0;
+        int ledPos=0;
+        while(iLedLoop<ledCount){
+            ledPos=ledMap[iLedLoop]+startingLED;
+            if(ledPos<Constants.LEDS.COUNT){
+              m_ledBuffer.setHSV(ledPos,hue,255,255);
+            }
+              iLedLoop++;
+        }
+
+    }
+    public void showCone(int startingLED,int hue){
+        clearStrip();
+       
+        int iCurrentPos=startingLED;
+        showArray(iCurrentPos,hue, letterC);
+        iCurrentPos=iCurrentPos+LEDLETTERSIZE;
+        showArray(iCurrentPos,hue, letterO);
+        iCurrentPos=iCurrentPos+LEDLETTERSIZE;
+        showArray(iCurrentPos,hue, letterN);
+        iCurrentPos=iCurrentPos+LEDLETTERSIZE;
+        showArray(iCurrentPos,hue, letterE);
+        
+        iCurrentPos=iCurrentPos+LEDLETTERSIZE+LEDLETTERSIZE;
+        showArray(iCurrentPos,hue, shapeCone);
+      
+        //Update Display
+        m_led.setData(m_ledBuffer);
+ 
+    }
+    public void showObsidian(int startingLED){
+        clearStrip();
+        int hue=150;
+        int iCurrentPos=startingLED;
+        showArray(iCurrentPos,hue, letterO);
+        iCurrentPos=iCurrentPos+LEDLETTERSIZE;
+        showArray(iCurrentPos,hue, letterB);
+        iCurrentPos=iCurrentPos+LEDLETTERSIZE;
+        showArray(iCurrentPos,hue, letterS);
+        iCurrentPos=iCurrentPos+LEDLETTERSIZE;
+        showArray(iCurrentPos,hue, letterI);
+        iCurrentPos=iCurrentPos+LEDLETTERSIZE;
+        showArray(iCurrentPos,hue, letterD);
+        iCurrentPos=iCurrentPos+LEDLETTERSIZE;
+        showArray(iCurrentPos,hue, letterI);
+        iCurrentPos=iCurrentPos+LEDLETTERSIZE;
+        showArray(iCurrentPos,hue, letterA);
+        iCurrentPos=iCurrentPos+LEDLETTERSIZE;
+        showArray(iCurrentPos,hue, letterN);
+        
+        
+ 
+     //Update Display
+        m_led.setData(m_ledBuffer);
+ 
+    }
+   
+    public void showCube(int startingLED,int hue){
+        clearStrip();
+       
+        int iCurrentPos=startingLED;
+        showArray(iCurrentPos,hue, letterC);
+        iCurrentPos=iCurrentPos+LEDLETTERSIZE;
+        showArray(iCurrentPos,hue, letterU);
+        iCurrentPos=iCurrentPos+LEDLETTERSIZE;
+        showArray(iCurrentPos,hue, letterB);
+        iCurrentPos=iCurrentPos+LEDLETTERSIZE;
+        showArray(iCurrentPos,hue, letterE);
+        iCurrentPos=iCurrentPos+LEDLETTERSIZE+LEDLETTERSIZE;
+        showArray(iCurrentPos,hue, shapeCube);
+      
+ 
+     //Update Display
+        m_led.setData(m_ledBuffer);
+ 
+    }
+    public void showGoBlue(int startingLED){
+        clearStrip();
+        int hue=120;
+        int iCurrentPos=startingLED;
+        showArray(iCurrentPos,hue, letterG);
+        iCurrentPos=iCurrentPos+LEDLETTERSIZE;
+        showArray(iCurrentPos,hue, letterO);
+        iCurrentPos=iCurrentPos+LEDLETTERSIZE+LEDLETTERSIZE;
+        showArray(iCurrentPos,hue, letterB);
+        iCurrentPos=iCurrentPos+LEDLETTERSIZE;
+        showArray(iCurrentPos,hue, letterL);
+        iCurrentPos=iCurrentPos+LEDLETTERSIZE;
+        showArray(iCurrentPos,hue, letterU);
+        iCurrentPos=iCurrentPos+LEDLETTERSIZE;
+        showArray(iCurrentPos,hue, letterE);
+        iCurrentPos=iCurrentPos+LEDLETTERSIZE;
+        //Update Display
+        m_led.setData(m_ledBuffer);
+ 
+    }
+    public void show5454(int startingLED){
+        clearStrip();
         int hue=150;
         m_ledBuffer.setHSV(startingLED+12, hue, 255, 255);
         m_ledBuffer.setHSV(startingLED+13, hue, 255, 255);

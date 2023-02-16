@@ -141,7 +141,8 @@ public class Robot extends TimedRobot {
     }
     m_robotContainer.enableLimelights();
     m_robotContainer.resetDriveModes();
-      // m_robotContainer.InitHome();
+    System.out.println("Teleop Init - About to Home");
+    m_robotContainer.HomeRotator();
 
     m_robotContainer.TeleopMode();
   

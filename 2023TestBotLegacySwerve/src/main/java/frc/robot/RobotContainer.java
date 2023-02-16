@@ -459,7 +459,7 @@ public class RobotContainer {
             LEDUpdate();
     }
 
-    public void InitHome(){
-        m_LiftSubsystem.InitHomeElevator();
+    public void HomeRotator(){
+        m_LiftSubsystem.HomeLifSystem();
     }
 }

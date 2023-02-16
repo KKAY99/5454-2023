@@ -39,6 +39,10 @@ public final class Constants {
         public static final double angleHighConeStage1=.15;    
         public static final double angleHighConeStage2=.18;  
         public static final double angleIntakePos=0.07;
+        public static final double homePos = 0.075;
+        public static final double homeTimeFailsafe=5;
+        public static final double homeSpeedForward=0.03;
+        public static final double homeSpeedBackward=-0.03;
 
     }
     public static final class Lift{
@@ -54,7 +58,7 @@ public final class Constants {
         public static final double posHighFullLiftStage1=-99.00;
         public static final double posHighFullLiftStage2=-111.50;    
         public static final double posHome=10;
-        public static final double absHome = 0.08;
+        
     }
 
     public static final int ElevatorMotorPort=19;

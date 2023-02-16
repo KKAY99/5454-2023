@@ -46,10 +46,9 @@ import frc.robot.commands.zPivotandExtendCommand;
 import frc.robot.commands.zEngageonChargingCommand;
 import frc.robot.common.drivers.NavX;
 import frc.robot.common.drivers.NavX.Axis;
-import frc.robot.subsystems.ClawSubsystem;
-import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.PaddleSubsystem;
+import frc.robot.subsystems.*;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -68,6 +67,7 @@ public class RobotContainer {
   
     private final DrivetrainSubsystem m_RobotDrive = new DrivetrainSubsystem(m_NavX); 
     private final DriveControlMode m_DriveControlMode = new DriveControlMode();
+    private final PnuematicsSubystem m_PnuematicsSubystem = new PnuematicsSubystem(Constants.Pneumatics.CompressorID);
     private final ClawSubsystem m_Claw = new ClawSubsystem(Constants.Claw.clawPort); 
     private final Limelight m_Limelight = new Limelight(Constants.LimeLightValues.targetHeight, Constants.LimeLightValues.limelightHeight, Constants.LimeLightValues.limelightAngle,Constants.LimeLightValues.kVisionXOffset,80);
     

@@ -87,7 +87,8 @@ public class zMoveArmExtend extends CommandBase {
             m_liftSubsystem.runElevator(Constants.Lift.liftAutoExtendStage1Speed);
           } else{
             m_liftSubsystem.stopElevator();
-            m_state=STATE.EXTENDANDROTATE;
+           // m_state=STATE.EXTENDANDROTATE;
+           m_state=STATE.ABORT;
           }
           returnValue=false;
           break;

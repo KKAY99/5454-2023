@@ -54,13 +54,21 @@ public class RobotContainer {
   private void configureBindings() {
     
   }
+
+  public void clearLED(){
+    m_ledStrip.clearLED();
+  }
   
   public void setupAnimate(){
-    m_ledStrip.animationSeup(112,8,16,1);
+    m_ledStrip.animationSeup(112,8,16,0.5);
   }
 
   public void runLEDs(){
-    m_ledStrip.animate5454();
+    m_ledStrip.showObsidian(0);
+    //   m_ledStrip.showGoBlue(16);
+ // m_ledStrip.showCube(0,120);
+// m_ledStrip.showCone(0,11);
+ // m_ledStrip.animate5454();
     //m_ledStrip.setColor(Constants.LEDS.Colors.PURPLE);
     //m_ledStrip.setMode(LEDMODE_WAVE);
     //`m_ledStrip.update();

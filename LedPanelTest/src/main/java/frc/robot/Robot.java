@@ -48,7 +48,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    m_robotContainer.clearLED();
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -78,7 +80,9 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
     m_robotContainer.setupAnimate();
-    m_robotContainer.testRevHub(2);
+    m_robotContainer.runLEDs();
+  
+   // m_robotContainer.testRevHub(2);
   
   }
 
@@ -86,7 +90,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     System.out.println("update LEDs");
-    m_robotContainer.runLEDs();
+   m_robotContainer.runLEDs();
   }
 
   @Override

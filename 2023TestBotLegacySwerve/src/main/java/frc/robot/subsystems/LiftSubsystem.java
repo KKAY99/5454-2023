@@ -27,7 +27,521 @@ public class LiftSubsystem extends SubsystemBase {
     private static final SparkMaxAlternateEncoder.Type kAltEncType = SparkMaxAlternateEncoder.Type.kQuadrature;
     private static final int kCPR = 8192;
     private double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
-    private double m_targetPos=0;
+    private double m
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    ++
+    _targetPos=0;
     public LiftSubsystem(){
         m_RotateMotor = new CANSparkMax(Constants.RotateMotorPort, MotorType.kBrushless);   
         m_ElevatorMotor = new CANSparkMax(Constants.ElevatorMotorPort, MotorType.kBrushless);      
@@ -64,7 +578,7 @@ public class LiftSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
       // This method will be called once per scheduler run
-      System.out.println("ABS Pos " + m_RotateEncoder.getAbsolutePosition() + " Current Pos "+ GetPos() + " Target Pos "+ m_targetPos);
+   //   System.out.println("ABS Pos " + m_RotateEncoder.getAbsolutePosition() + " Current Pos "+ GetPos() + " Target Pos "+ m_targetPos);
     } 
     public double getElevatorPos(){
       //System.out.println("EP-Rotator -- " + m_RotateEncoder.getAbsolutePosition() + " Elevator -- "+  m_ElevatorRelativeEncoder.getPosition());
@@ -72,12 +586,12 @@ public class LiftSubsystem extends SubsystemBase {
     
     }
     public double getRotatePos(){
-      //System.out.println("RP-Rotator -- " + m_RotateEncoder.getAbsolutePosition() + " Elevator -- "+  m_ElevatorRelativeEncoder.getPosition());
+      System.out.println("RP-Rotator -- " + m_RotateEncoder.getAbsolutePosition() + " Elevator -- "+  m_ElevatorRelativeEncoder.getPosition());
       return m_RotateEncoder.getAbsolutePosition();    
     }
     public void rotate(double power){
       //System.out.println("Setting Power on Rotate - " + power);
-      m_RotateMotor.set(power);
+     // m_RotateMotor.set(power);
       //System.out.println("RO-Rotate Position - " + m_RotateEncoder.getAbsolutePosition());
       System.out.println(m_ElevatorRelativeEncoder.getPosition());
     }
@@ -114,25 +628,37 @@ public class LiftSubsystem extends SubsystemBase {
       m_targetPos = targetPos;
     }
 
-    public void InitHomeElevator(){
-      double timer = Timer.getFPGATimestamp();
-      while(timer != 5){
-        while(m_RotateEncoder.getAbsolutePosition() != Lift.absHome){
-          if(m_RotateEncoder.getAbsolutePosition() > Lift.absHome){
-            runElevator(-0.01);
-          }else{
-            runElevator(0.01);
+    public void HomeLifSystem(){
+      HomeElevator();
+      HomeRotator();
+    }
+    private void HomeElevator(){
+      //TODO: Move it based on limit switch before resetting
+      m_ElevatorRelativeEncoder.setPosition(0);
+    }
+    private void HomeRotator(){
+       double startTime = Timer.getFPGATimestamp();
+      double currentTime=startTime;
+      boolean hasHomed=false;
+      System.out.println("Start Homing " + currentTime + " " + startTime);
+      while (((currentTime-startTime<Constants.Rotate.homeTimeFailsafe)) && (hasHomed==false)){ 
+        currentTime=Timer.getFPGATimestamp();   
+        System.out.println("Current Position" + m_RotateEncoder.getAbsolutePosition());     
+        if(m_RotateEncoder.getAbsolutePosition() > Constants.Rotate.homePos){
+          rotate(Constants.Rotate.homeSpeedForward);
+        }else{
+            if (m_RotateEncoder.getAbsolutePosition() < Constants.Rotate.homePos){
+              rotate(Constants.Rotate.homeSpeedBackward);
+            }else{
+            hasHomed=true;
+            stopRotate();
+            }
           }
         }
-        if(m_RotateEncoder.getAbsolutePosition() == Lift.absHome){
-          stopElevator();
-          m_RotateEncoder.reset();
-        }
-      }
+      //may fall through with rotator moving if time delay hit
+      stopRotate();
+      //always reset encoder even if timed out so robot can kind of work
+      m_RotateRelativeEncoder.setPosition(0);
 
-      if(timer >= 5.0){
-        stopElevator();
-        m_RotateEncoder.reset();
-      }
     }
 }
