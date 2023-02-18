@@ -37,7 +37,6 @@ import frc.robot.commands.zAutoDetectandGetCommand;
 import frc.robot.commands.zAutoTargetToColumnCommand;
 import frc.robot.commands.zAutoTargetandMoveCommand;
 import frc.robot.commands.zBalanceRobotCommand;
-import frc.robot.commands.zBalanceRobotTestCommand;
 import frc.robot.commands.zEngageonChargingCommand;
 import frc.robot.commands.zPivotArmResetCommand;
 import frc.robot.commands.zPivotandExtendCommand;
@@ -47,6 +46,10 @@ import frc.robot.commands.zMoveArmRetract;
 import frc.robot.common.drivers.NavX;
 import frc.robot.common.drivers.NavX.Axis;
 import frc.robot.subsystems.*;
+
+import java.awt.Color;
+
+import org.littletonrobotics.junction.networktables.LoggedDashboardBoolean;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 import org.littletonrobotics.junction.networktables.LoggedDashboardString;
@@ -137,8 +140,13 @@ public class RobotContainer {
 
     static LoggedDashboardNumber shuffleboardGyroFused = new LoggedDashboardNumber("Gyro - Fused Heading", 0);
 
-   
     static LoggedDashboardNumber gryoRoll = new LoggedDashboardNumber("Gyro Roll",0);
+
+    static LoggedDashboardBoolean isOnTarget = new LoggedDashboardBoolean("Is On Target", false);
+    
+    static LoggedDashboardBoolean isTargetAvailable = new LoggedDashboardBoolean("Is Target Available", false);
+    
+    static LoggedDashboardBoolean isAtDistanceFromTarget = new LoggedDashboardBoolean("Is At Right Distance", false);
  
     private XboxController m_xBoxDriver = new XboxController(InputControllers.kXboxDrive);
     private XboxController m_xBoxOperator = new XboxController(InputControllers.kXboxOperator);
@@ -535,6 +543,13 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
         }else{
                 dashDriveMode.set("Robot");
         }
+
+        if(m_Limelight.isTargetAvailible()){
+                isTargetAvailable.set(true);
+        }else{
+                isTargetAvailable.set(false);
+        }
+
         //override disabled led mode
         if(m_disabled){
                 m_LEDMode=LEDMode.DISBLED;
