@@ -294,6 +294,9 @@ public void spin (double direction,double speed)
         m_gyroscope.setAdjustmentAngle(m_gyroscope.getUnadjustedAngle());
     }
 
+    public boolean isFieldCentric(){
+        return true;
+    }
     public void resetDriveMode(){
         m_autoControl = false;
         stop();
