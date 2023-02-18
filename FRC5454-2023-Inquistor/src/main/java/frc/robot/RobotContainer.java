@@ -54,6 +54,7 @@ import frc.robot.common.drivers.NavX;
 import frc.robot.common.drivers.NavX.Axis;
 import frc.robot.subsystems.*;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 import org.littletonrobotics.junction.networktables.LoggedDashboardString;
 
 /**
@@ -101,84 +102,51 @@ public class RobotContainer {
      private final PaddleSubsystem m_paddle = new PaddleSubsystem(Constants.Paddle.intakePort);
    
     private final PowerDistribution m_robotPDH = new PowerDistribution(1, PowerDistribution.ModuleType.kRev);
-
-
-    private static ShuffleboardTab SwerveTab = Shuffleboard.getTab("Swerve");
-    private static ShuffleboardTab SwerveEncoders = Shuffleboard.getTab("SwerveEncoders");
-    private static ShuffleboardTab AutoTab = Shuffleboard.getTab("Auto");
-    private static ShuffleboardTab TargetingTab = Shuffleboard.getTab("Targeting");
    
     static LoggedDashboardString dashDriveMode= new LoggedDashboardString("Drive Mode", "Field"); 
-    static GenericEntry networkTableEntryVisionDistance = TargetingTab.add("Vision Distance", 0)
-            .withWidget(BuiltInWidgets.kNumberBar).withSize(2, 2).getEntry();
-
     
-    static GenericEntry networkTableEntryFrontLeftSpeed = SwerveTab.add("FL Speed", 0)
-            .withWidget(BuiltInWidgets.kVoltageView)
-            .withProperties(Map.of("Min", 0, "Max", 1, "Center", 0, "Orientation", "VERTICAL"))
-            .withPosition(1, 0).withSize(2, 5).getEntry();
+    static LoggedDashboardNumber networkTableEntryVisionDistance = new LoggedDashboardNumber("Vision Distance", 0);
 
-    static GenericEntry networkTableEntryFrontRightSpeed = SwerveTab.add("FR Speed", 0)
-            .withWidget(BuiltInWidgets.kVoltageView)
-            .withProperties(Map.of("Min", 0, "Max", 1, "Center", 0, "Orientation", "VERTICAL"))
-            .withPosition(14, 0).withSize(2, 5).getEntry();
+    static LoggedDashboardNumber networkTableEntryFrontLeftSpeed = new LoggedDashboardNumber("FL Speed", 0);
 
-    static GenericEntry networkTableEntryBackLeftSpeed = SwerveTab.add("BL Speed", 0)
-            .withWidget(BuiltInWidgets.kVoltageView)
-            .withProperties(Map.of("Min", 0, "Max", 1, "Center", 0, "Orientation", "VERTICAL"))
-            .withPosition(1, 5).withSize(2, 5).getEntry();
+    static LoggedDashboardNumber networkTableEntryFrontRightSpeed = new LoggedDashboardNumber("FR Speed", 0);
 
-    static GenericEntry networkTableEntryBackRightSpeed = SwerveTab.add("BR Speed", 0)
-            .withWidget(BuiltInWidgets.kVoltageView)
-            .withProperties(Map.of("Min", 0, "Max", 1, "Center", 0, "Orientation", "VERTICAL"))
-            .withPosition(14, 5).withSize(2, 5).getEntry();
+    static LoggedDashboardNumber networkTableEntryBackLeftSpeed = new LoggedDashboardNumber("BL Speed", 0);
 
-    static GenericEntry networkTableEntryFrontLeftEncoderActual = SwerveEncoders.add("FL Encoder Actual", 0)
-            .withWidget(BuiltInWidgets.kTextView).withPosition(0, 0).withSize(2, 1).getEntry();
+    static LoggedDashboardNumber networkTableEntryBackRightSpeed = new LoggedDashboardNumber("BR Speed", 0);
+
+    static LoggedDashboardNumber networkTableEntryFrontLeftEncoderActual = new LoggedDashboardNumber("FL Encoder Actual", 0);
  
-    static GenericEntry networkTableEntryFrontRightEncoderActual = SwerveEncoders.add("FR Encoder Actual", 0)
-            .withWidget(BuiltInWidgets.kTextView).withPosition(2, 0).withSize(2, 1).getEntry();
+    static LoggedDashboardNumber networkTableEntryFrontRightEncoderActual = new LoggedDashboardNumber("FR Encoder Actual", 0);
 
-    static GenericEntry networkTableEntryBackLeftEncoderActual = SwerveEncoders.add("BL Encoder Actual", 0)
-            .withWidget(BuiltInWidgets.kTextView).withPosition(0, 1).withSize(2, 1).getEntry();
+    static LoggedDashboardNumber networkTableEntryBackLeftEncoderActual = new LoggedDashboardNumber("BL Encoder Actual", 0);
 
-    static GenericEntry networkTableEntryBackRightEncoderActual = SwerveEncoders.add("BR Encoder Actual", 0)
-            .withWidget(BuiltInWidgets.kTextView).withPosition(2, 1).withSize(2, 1).getEntry();
+    static LoggedDashboardNumber networkTableEntryBackRightEncoderActual = new LoggedDashboardNumber("BR Encoder Actual", 0);
 
-    static GenericEntry networkTableEntryFrontLeftEncoderTarget = SwerveEncoders.add("FL Encoder Target", 0)
-            .withWidget(BuiltInWidgets.kTextView).withPosition(5, 0).withSize(2, 1).getEntry();
+    static LoggedDashboardNumber networkTableEntryFrontLeftEncoderTarget = new LoggedDashboardNumber("FL Encoder Target", 0);
 
-    static GenericEntry networkTableEntryFrontRightEncoderTarget = SwerveEncoders.add("FR Encoder Target", 0)
-            .withWidget(BuiltInWidgets.kTextView).withPosition(7, 0).withSize(2, 1).getEntry();
+    static LoggedDashboardNumber networkTableEntryFrontRightEncoderTarget = new LoggedDashboardNumber("FR Encoder Target", 0);
 
-    static GenericEntry networkTableEntryBackLeftEncoderTarget = SwerveEncoders.add("BL Encoder Target", 0)
-            .withWidget(BuiltInWidgets.kTextView).withPosition(5, 1).withSize(2, 1).getEntry();
+    static LoggedDashboardNumber networkTableEntryBackLeftEncoderTarget = new LoggedDashboardNumber("BL Encoder Target", 0);
 
-    static GenericEntry networkTableEntryBackRightEncoderTarget = SwerveEncoders.add("BR Encoder Target", 0)
-            .withWidget(BuiltInWidgets.kTextView).withPosition(7, 1).withSize(2, 1).getEntry();
+    static LoggedDashboardNumber networkTableEntryBackRightEncoderTarget = new LoggedDashboardNumber("BR Encoder Target", 0);
 
-    static GenericEntry frontLeftAngle = SwerveEncoders.add("FL Angle", 0).withWidget(BuiltInWidgets.kTextView)
-            .withPosition(0, 3).withSize(2, 1).getEntry();
-    static GenericEntry frontRightAngle = SwerveEncoders.add("FR Angle", 0)
-            .withWidget(BuiltInWidgets.kTextView).withPosition(2, 3).withSize(2, 1).getEntry();
-    static GenericEntry backLeftAngle = SwerveEncoders.add("BL Angle", 0).withWidget(BuiltInWidgets.kTextView)
-            .withPosition(0, 4).withSize(2, 1).getEntry();
-    static GenericEntry backRightAngle = SwerveEncoders.add("BR Angle", 0).withWidget(BuiltInWidgets.kTextView)
-            .withPosition(2, 4).withSize(2, 1).getEntry();
+    static LoggedDashboardNumber frontLeftAngle = new LoggedDashboardNumber("FL Angle", 0);
 
+    static LoggedDashboardNumber frontRightAngle = new LoggedDashboardNumber("FR Angle", 0);
+
+    static LoggedDashboardNumber backLeftAngle = new LoggedDashboardNumber("BL Angle", 0);
+
+    static LoggedDashboardNumber backRightAngle = new LoggedDashboardNumber("BR Angle", 0);
   
-    static GenericEntry ShuffleboardLog = SwerveEncoders.add("ShuffleboardLog", "")
-            .withWidget(BuiltInWidgets.kTextView).withSize(4, 2).withPosition(0, 6).getEntry();
+    static LoggedDashboardString ShuffleboardLog = new LoggedDashboardString("ShuffleboardLog", "");
 
-    static GenericEntry shuffleboardGyroFused = SwerveTab.add("Gyro - Fused Heading", 0)
-            .withWidget(BuiltInWidgets.kTextView).getEntry();
+    static LoggedDashboardNumber shuffleboardGyroFused = new LoggedDashboardNumber("Gyro - Fused Heading", 0);
 
-    static GenericEntry shuffleboardRobotMoving=SwerveTab.add("Robot Moving","")
-                               .getEntry();
-    static GenericEntry gryoRoll = TargetingTab.add("Gyro Roll",0).getEntry();
+    static LoggedDashboardString shuffleboardRobotMoving = new LoggedDashboardString("Robot Moving","");
+
+    static LoggedDashboardNumber gryoRoll = new LoggedDashboardNumber("Gyro Roll",0);
  
-    static String ShuffleboardLogString;
-     
     private XboxController m_xBoxDriver = new XboxController(InputControllers.kXboxDrive);
     private XboxController m_xBoxOperator = new XboxController(InputControllers.kXboxOperator);
     private Joystick m_CustomController = new Joystick(InputControllers.kCustomController);
@@ -548,18 +516,18 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
     }   
     public void refreshSmartDashboard()
     {  
-        frontLeftAngle.setDouble(m_RobotDrive.getFrontLeftAngle());
+        frontLeftAngle.set(m_RobotDrive.getFrontLeftAngle());
         
-        frontRightAngle.setDouble(m_RobotDrive.getFrontRightAngle());
-        backLeftAngle.setDouble(m_RobotDrive.getBackLeftAngle());
-        backRightAngle.setDouble(m_RobotDrive.getbackRightAngle());
+        frontRightAngle.set(m_RobotDrive.getFrontRightAngle());
+        backLeftAngle.set(m_RobotDrive.getBackLeftAngle());
+        backRightAngle.set(m_RobotDrive.getbackRightAngle());
 
-        gryoRoll.setDouble(m_NavX.getAxis(Axis.ROLL));
+        gryoRoll.set(m_NavX.getAxis(Axis.ROLL));
         m_Limelight.update();
         if(m_RobotDrive.isFieldCentric()){
                 dashDriveMode.set("Field");
         }else{
-                dashDriveMode.set("Robot"));
+                dashDriveMode.set("Robot");
         }
         //override disabled led mode
         if(m_disabled){
@@ -572,10 +540,10 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
     
      private void updateRobotMoving(){
                 if (m_RobotDrive.IsRobotMoving()){
-                        shuffleboardRobotMoving.setString("True");
+                        shuffleboardRobotMoving.set("True");
                 }
                 else{
-                        shuffleboardRobotMoving.setString("False");     
+                        shuffleboardRobotMoving.set("False");     
                 }
         }
 
