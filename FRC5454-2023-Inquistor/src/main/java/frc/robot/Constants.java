@@ -72,7 +72,7 @@ public final class Constants {
     public class Elevator{
         public static final int elevatorPort=91;
         public static final double elevatorSpeed=.50;
-
+        public static final double elevatorLimitSpeed=.50;
     }
     public class Claw{
         public static final int clawPort=92;
@@ -82,6 +82,7 @@ public final class Constants {
     public class RotateArm{
         public static final int rotateArmPort=93;
         public static final double manualSpeed=0.4;
+        public static final double manualLimitSpeed=0.4;
     }
     public class swerveDrive{
         public static final double driveDeadband=0.05;
