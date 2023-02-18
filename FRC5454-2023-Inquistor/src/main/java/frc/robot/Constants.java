@@ -96,6 +96,40 @@ public final class Constants {
         public static final int kBackRightDrive = 6;
     }
 
+    public static final class Lift{
+        public static final double liftAutoExtendStage1Speed=-0.80;
+        public static final double liftAutoExtendStage2Speed=-0.4;
+        public static final double liftAutoRetractSpeed=0.3;
+        public static final double liftAutoRetractHomeSpeed=0.1;
+        public static final double posInitLift=-20;
+        public static final double posLowFullLiftStage1=-100.00;
+        public static final double posLowFullLiftStage2=-111.50;    
+        public static final double posMiddleFullLiftStage1=-99.00;
+        public static final double posMiddleFullLiftStage2=-110.00;    
+        public static final double posHighFullLiftStage1=-99.00;
+        public static final double posHighFullLiftStage2=-111.50;    
+        public static final double posHome=10;
+        
+    }
+
+    public static final class Rotate{
+        public static final double rotateAutoOutStage1Speed=-0.75;
+        public static final double rotateAutoOutStage2Speed=-0.4; 
+        public static final double rotateAutoInSpeed=0.5; 
+        public static final double angleLowConeStage1=.28;    
+        public static final double angleLowConeStage2=.30;  
+        public static final double angleMiddleConeStage1=.15;    
+        public static final double angleMiddleConeStage2=.18;  
+        public static final double angleHighConeStage1=.15;    
+        public static final double angleHighConeStage2=.18;  
+        public static final double angleIntakePos=0.07;
+        public static final double homePos = 0.075;
+        public static final double homeTimeFailsafe=5;
+        public static final double homeSpeedForward=0.03;
+        public static final double homeSpeedBackward=-0.03;
+
+    }
+
     public static final class Pneumatics {
         public static final int CompressorID=0; 
         public static final int HubID=62;
