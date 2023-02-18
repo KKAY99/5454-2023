@@ -4,20 +4,12 @@
 
 package frc.robot;
 
- 
-import java.util.Map;
 
-import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.PS4Controller.Button;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -25,7 +17,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.AutoModes;
 import frc.robot.Constants.ButtonConstants;
 import frc.robot.Constants.InputControllers;
-import frc.robot.Constants.TargetHeight;
 import frc.robot.Constants.LEDS.Colors;
 import frc.robot.classes.DriveControlMode;
 import frc.robot.classes.LEDStrip;
@@ -143,8 +134,7 @@ public class RobotContainer {
 
     static LoggedDashboardNumber shuffleboardGyroFused = new LoggedDashboardNumber("Gyro - Fused Heading", 0);
 
-    static LoggedDashboardString shuffleboardRobotMoving = new LoggedDashboardString("Robot Moving","");
-
+   
     static LoggedDashboardNumber gryoRoll = new LoggedDashboardNumber("Gyro Roll",0);
  
     private XboxController m_xBoxDriver = new XboxController(InputControllers.kXboxDrive);
@@ -534,22 +524,14 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
                 m_LEDMode=LEDMode.DISBLED;
         }
         LEDUpdate();
-        updateRobotMoving();
-      
+     
 }
     
-     private void updateRobotMoving(){
-                if (m_RobotDrive.IsRobotMoving()){
-                        shuffleboardRobotMoving.set("True");
-                }
-                else{
-                        shuffleboardRobotMoving.set("False");     
-                }
-        }
+     
 
      public void disabledPerioidicUpdates(){
         LEDUpdate();
-        updateRobotMoving();
+     
 
     }
 
