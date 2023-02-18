@@ -111,7 +111,6 @@ public final class Constants {
         public static final double posHighFullLiftStage1=-99.00;
         public static final double posHighFullLiftStage2=-111.50;    
         public static final double posHome=10;
-        
     }
 
     public static final class Rotate{
@@ -166,6 +165,9 @@ public final class Constants {
         public static final int TargetTopRight=10;
         public static final int TargetMiddleRight=11;
         public static final int TargetBottomRight=12;
+
+        public static final double ElevatorDeadBand = 0.05;
+        public static final double RotateDeadBand = 0.05;
     }
 
     public static final class LimitSwitches{
@@ -312,4 +314,3 @@ public static enum Mode {
   REPLAY
 }
 }
-

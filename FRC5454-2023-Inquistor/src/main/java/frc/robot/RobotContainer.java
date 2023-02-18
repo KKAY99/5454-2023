@@ -34,9 +34,11 @@ import frc.robot.commands.AutoDoNothingCommand;
 import frc.robot.commands.AutoMoveCommand;
 import frc.robot.commands.ClawCommand;
 import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.commands.ElevatorCommand;
 import frc.robot.commands.GyroResetCommand;
 import frc.robot.commands.IntakeArmsCommand;
 import frc.robot.commands.PaddleCommand;
+import frc.robot.commands.RotateCommand;
 import frc.robot.commands.SpindexerCommand;
 import frc.robot.commands.SwitchDriveModeCommand;
 import frc.robot.commands.zAutoDetectandGetCommand;
@@ -269,6 +271,8 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
         final IntakeArmsCommand ExtendArmsCommand = new IntakeArmsCommand(m_IntakeArmsSubsystem, 0.1);
         final IntakeArmsCommand RetractArmsCommand = new IntakeArmsCommand(m_IntakeArmsSubsystem, -0.1);
         final ClawCommand closeClawCommand = new ClawCommand(m_PnuematicsSubystem, m_disabled);
+        final RotateCommand rotateCommand = new RotateCommand(m_Rotate, null, LEDMODE_BAR);
+        final ElevatorCommand elevatorCommand = new ElevatorCommand(m_Elevator, null, LEDMODE_BAR);
         final ClawCommand openClawCommand = new ClawCommand(m_PnuematicsSubystem, m_disabled);
 // Auto commands
         final zBalanceRobotCommand balanceRobotCommand = new zBalanceRobotCommand(m_NavX,m_RobotDrive);
@@ -410,12 +414,16 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
         Trigger operatorAutoBalance = new JoystickButton(m_xBoxOperator,ButtonConstants.OperatorAutoBalance);
         operatorAutoBalance.toggleOnTrue(balanceRobotCommand);
    
-        Trigger OperatorClawClose = new JoystickButton(m_xBoxOperator, ButtonConstants.OperatorClawClose);
-        OperatorClawClose.toggleOnTrue(closeClawCommand);
+        Trigger operatorClawClose = new JoystickButton(m_xBoxOperator, ButtonConstants.OperatorClawClose);
+        operatorClawClose.toggleOnTrue(closeClawCommand);
 
-        Trigger OperatorClawOpen = new JoystickButton(m_xBoxOperator, ButtonConstants.OperatorClawOpen);
-        OperatorClawOpen.toggleOnTrue(openClawCommand);
+        Trigger operatorClawOpen = new JoystickButton(m_xBoxOperator, ButtonConstants.OperatorClawOpen);
+        operatorClawOpen.toggleOnTrue(openClawCommand);
 
+        Trigger operatorElevator = new Trigger(() -> Math.abs(m_xBoxOperator.getLeftY())>ButtonConstants.ElevatorDeadBand);
+        operatorElevator.whileTrue(elevatorCommand);
+        Trigger operatorRotate = new Trigger(() -> Math.abs(m_xBoxOperator.getLeftX())>ButtonConstants.RotateDeadBand);
+        operatorRotate.whileTrue(rotateCommand);
     }
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
