@@ -411,12 +411,11 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
 
         Trigger operatorGyroReset = new JoystickButton(m_xBoxOperator,ButtonConstants.OperatorGyroReset);
         operatorGyroReset.whileTrue(gyroResetCommand);
+
  */       
-        
+        Trigger driverautoBalance        
  
-   }
-
-
+   
  
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.

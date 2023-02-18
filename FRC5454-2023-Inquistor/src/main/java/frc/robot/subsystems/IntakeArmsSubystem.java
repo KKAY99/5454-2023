@@ -10,15 +10,20 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeArmsSubystem extends SubsystemBase {
-  CANSparkMax m_Motor;
+  CANSparkMax m_armMotor;
+  CANSparkMax m_armMotor2;
 
   /** Creates a new ExampleSubsystem. */
-  public IntakeArmsSubystem (Integer MotorPort) {
-   /*  m_Motor = new CANSparkMax(IntakeMotorPort, MotorType.kBrushed);   
-    m_Motor.setOpenLoopRampRate(0.25);
-    m_Motor.setSmartCurrentLimit(30);  // likely gets ignored due to brushed motor
-    m_Motor.setSecondaryCurrentLimit(30); //Set as well at 30
-  */}
+  public IntakeArmsSubystem (Integer MotorPort,Integer MotorPort2) {
+    m_armMotor = new CANSparkMax(MotorPort, MotorType.kBrushed);   
+    m_armMotor.setOpenLoopRampRate(0.25);
+    m_armMotor.setSmartCurrentLimit(30);  // likely gets ignored due to brushed motor
+    m_armMotor.setSecondaryCurrentLimit(30); //Set as well at 30
+    m_armMotor2 = new CANSparkMax(MotorPort2, MotorType.kBrushed);   
+    m_armMotor2.setOpenLoopRampRate(0.25);
+    m_armMotor2.setSmartCurrentLimit(30);  // likely gets ignored due to brushed motor
+    m_armMotor2.setSecondaryCurrentLimit(30); //Set as well at 30
+  }
   public void run(double power) {
     //m_Motor.set(power);
     
