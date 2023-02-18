@@ -53,6 +53,7 @@ import frc.robot.common.drivers.NavX;
 import frc.robot.common.drivers.NavX.Axis;
 import frc.robot.subsystems.*;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+import org.littletonrobotics.junction.networktables.LoggedDashboardString;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -103,7 +104,7 @@ public class RobotContainer {
     private static ShuffleboardTab AutoTab = Shuffleboard.getTab("Auto");
     private static ShuffleboardTab TargetingTab = Shuffleboard.getTab("Targeting");
    
-    
+    static LoggedDashboardString dashDriveMode= new LoggedDashboardString("Drive Mode", "Field"); 
     static GenericEntry networkTableEntryVisionDistance = TargetingTab.add("Vision Distance", 0)
             .withWidget(BuiltInWidgets.kNumberBar).withSize(2, 2).getEntry();
 
@@ -540,6 +541,11 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
 
         gryoRoll.setDouble(m_NavX.getAxis(Axis.ROLL));
         m_Limelight.update();
+        if(m_RobotDrive.isFieldCentric()){
+                dashDriveMode.set("Field");
+        }else{
+                dashDriveMode.set("Robot"));
+        }
         //override disabled led mode
         if(m_disabled){
                 m_LEDMode=LEDMode.DISBLED;
