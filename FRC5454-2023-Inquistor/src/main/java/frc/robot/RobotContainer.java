@@ -69,7 +69,6 @@ public class RobotContainer {
     private final DrivetrainSubsystem m_RobotDrive = new DrivetrainSubsystem(m_NavX); 
     private final DriveControlMode m_DriveControlMode = new DriveControlMode();
     private final PnuematicsSubystem m_PnuematicsSubystem = new PnuematicsSubystem(Constants.Pneumatics.nodeID,Constants.Pneumatics.moduleType,Constants.Pneumatics.clawSolenoid);
-    private final ClawSubsystem m_Claw = new ClawSubsystem(Constants.Claw.clawPort); 
     private final IntakeArmsSubsystem m_IntakeArmsSubsystem = new IntakeArmsSubsystem(null, null, null, null);
     private final Limelight m_Limelight = new Limelight(Constants.LimeLightValues.targetHeight, Constants.LimeLightValues.limelightHeight, Constants.LimeLightValues.limelightAngle,Constants.LimeLightValues.kVisionXOffset,80);
     private final ElevatorSubsystem m_Elevator = new ElevatorSubsystem(null);
@@ -261,8 +260,8 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
         final IntakeArmsCommand ExtendArmsCommand = new IntakeArmsCommand(m_IntakeArmsSubsystem, 0.1);
         final IntakeArmsCommand RetractArmsCommand = new IntakeArmsCommand(m_IntakeArmsSubsystem, -0.1);
         final ClawCommand closeClawCommand = new ClawCommand(m_PnuematicsSubystem, m_disabled);
-        final RotateCommand rotateCommand = new RotateCommand(m_Rotate, null, LEDMODE_BAR);
-        final ElevatorCommand elevatorCommand = new ElevatorCommand(m_Elevator, null, LEDMODE_BAR);
+        final RotateCommand rotateCommand = new RotateCommand(m_Rotate,() -> (m_xBoxOperator.getRightX()),Constants.RotateArm.manualLimitSpeed);
+        final ElevatorCommand elevatorCommand = new ElevatorCommand(m_Elevator,() -> (m_xBoxOperator.getLeftY()), Constants.Elevator.elevatorLimitSpeed);
         final ClawCommand openClawCommand = new ClawCommand(m_PnuematicsSubystem, m_disabled);
 // Auto commands
         final zBalanceRobotCommand balanceRobotCommand = new zBalanceRobotCommand(m_NavX,m_RobotDrive);
@@ -412,7 +411,7 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
 
         Trigger operatorElevator = new Trigger(() -> Math.abs(m_xBoxOperator.getLeftY())>ButtonConstants.ElevatorDeadBand);
         operatorElevator.whileTrue(elevatorCommand);
-        Trigger operatorRotate = new Trigger(() -> Math.abs(m_xBoxOperator.getLeftX())>ButtonConstants.RotateDeadBand);
+        Trigger operatorRotate = new Trigger(() -> Math.abs(m_xBoxOperator.getRightX())>ButtonConstants.RotateDeadBand);
         operatorRotate.whileTrue(rotateCommand);
     }
     /**

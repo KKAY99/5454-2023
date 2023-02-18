@@ -1,6 +1,5 @@
 package frc.robot.commands;
 import frc.robot.Constants;
-import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.RotateArmSubsystem;
 import edu.wpi.first.util.concurrent.Event;
