@@ -7,6 +7,7 @@ package frc.robot.commands;
 import frc.robot.subsystems.PaddleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeArmsSubsystem;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 /** An example command that uses an example subsystem. */
 public class IntakeArmsCommand extends CommandBase {
@@ -14,13 +15,14 @@ public class IntakeArmsCommand extends CommandBase {
   //private final PaddleSubsystem m_IntakeSubsystem;
   private final double m_speed;
   private final IntakeArmsSubsystem m_intakeArms;
+  DigitalInput m_limitSwitch;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
   
-  public IntakeArmsCommand(IntakeArmsSubsystem intakeArms,double speed) { 
+  public IntakeArmsCommand(IntakeArmsSubsystem intakeArms, Integer Limitswitch,double speed) { 
     m_speed = speed;
     m_intakeArms = intakeArms;
   }
@@ -33,7 +35,6 @@ public class IntakeArmsCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intakeArms.run(m_speed);
   }
 
   // Called once the command ends or is interrupted.
@@ -46,6 +47,7 @@ public class IntakeArmsCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    m_intakeArms.run(m_speed);
+    return m_limitSwitch.get();
   }
 }

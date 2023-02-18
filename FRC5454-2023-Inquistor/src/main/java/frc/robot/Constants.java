@@ -1,9 +1,12 @@
  
 package frc.robot;
 
+import org.apache.commons.lang3.ObjectUtils.Null;
+
 import edu.wpi.first.networktables.Publisher;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 public final class Constants {
     public static final class ChargedUp {
@@ -59,6 +62,7 @@ public final class Constants {
         public static final int motorPort=95;
         public static final double inSpeed=0.5;
         public static final double outSpeed=-0.5;
+        public static final int limitSwitch = 0;
     }
     public class Spindexer {
         public static final int motorPort =03;

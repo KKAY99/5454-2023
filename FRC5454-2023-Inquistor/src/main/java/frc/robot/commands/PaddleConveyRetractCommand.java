@@ -8,6 +8,7 @@ import frc.robot.subsystems.IntakeConveySubsystem;
 import frc.robot.subsystems.PaddleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeArmsSubsystem;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 /** An example command that uses an example subsystem. */
 public class PaddleConveyRetractCommand extends CommandBase {
@@ -18,13 +19,14 @@ public class PaddleConveyRetractCommand extends CommandBase {
   private final double m_paddleSpeed;
   private final double m_conveySpeed;
   private final double m_armsSpeed;
+  DigitalInput m_limitSwitch;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public PaddleConveyRetractCommand(PaddleSubsystem paddle, IntakeArmsSubsystem intakeArmsSubsystem, IntakeConveySubsystem convey, double paddleSpeed,double ConveySpeed, double armsSpeed) {
+  public PaddleConveyRetractCommand(Integer limitSwitch, PaddleSubsystem paddle, IntakeArmsSubsystem intakeArmsSubsystem, IntakeConveySubsystem convey, double paddleSpeed,double ConveySpeed, double armsSpeed) {
     m_PaddleSubsystem = paddle;
     m_ConveySubsystem = convey;
     m_paddleSpeed=paddleSpeed;
@@ -62,6 +64,9 @@ public class PaddleConveyRetractCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if(m_limitSwitch.get() == true){
+      m_IntakeArmsSubsystem.stop();
+    }
     return false;
   }
 }

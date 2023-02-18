@@ -267,13 +267,13 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
         final GyroResetCommand gyroResetCommand = new GyroResetCommand(m_RobotDrive,m_Limelight);
         final SpindexerCommand spindexerLeftCommand = new SpindexerCommand(m_SpindexerSubsystem, 0.1);
         final SpindexerCommand spindexerRightCommand = new SpindexerCommand(m_SpindexerSubsystem, -0.1);
-        final IntakeArmsCommand ExtendArmsCommand = new IntakeArmsCommand(m_IntakeArms, 0.1);
-        final IntakeArmsCommand RetractArmsCommand = new IntakeArmsCommand(m_IntakeArms, -0.1);
+        final IntakeArmsCommand ExtendArmsCommand = new IntakeArmsCommand(m_IntakeArms, Constants.IntakeArms.limitSwitch,0.1);
+        final IntakeArmsCommand RetractArmsCommand = new IntakeArmsCommand(m_IntakeArms, Constants.IntakeArms.limitSwitch, -0.1);
         final ClawCommand closeClawCommand = new ClawCommand(m_PnuematicsSubystem, m_disabled);
         final RotateCommand rotateCommand = new RotateCommand(m_Rotate,() -> (m_xBoxOperator.getRightX()),Constants.RotateArm.manualLimitSpeed);
         final ElevatorCommand elevatorCommand = new ElevatorCommand(m_Elevator,() -> (m_xBoxOperator.getLeftY()), Constants.Elevator.elevatorLimitSpeed);
         final ClawCommand openClawCommand = new ClawCommand(m_PnuematicsSubystem, m_disabled);
-        final PaddleConveyRetractCommand intakeConveyandRetract = new PaddleConveyRetractCommand(m_paddle, m_IntakeArms,m_Convey,
+        final PaddleConveyRetractCommand intakeConveyandRetract = new PaddleConveyRetractCommand(Constants.IntakeArms.limitSwitch,m_paddle, m_IntakeArms,m_Convey,
         Constants.Paddle.intakeInSpeed, Constants.IntakeArms.inSpeed, Constants.IntakeConvey.inSpeed);
 // Auto commands
         final zBalanceRobotCommand balanceRobotCommand = new zBalanceRobotCommand(m_NavX,m_RobotDrive);
