@@ -5,24 +5,29 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.*;
+
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
 public class ElevatorCommand extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-  private final ElevatorSubystem m_ElevatorSubsystem;
-  private final double m_speed;
+  private final ElevatorSubsystem m_ElevatorSubsystem;
+  private final DoubleSupplier m_speed;
+  private final Double m_maxValue;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public PaddleCommand(PaddleSubsystem intake,double speed) {
-    m_IntakeSubsystem = intake;
-    m_speed=speed;
+  public ElevatorCommand(ElevatorSubsystem elevator,DoubleSupplier speedSupplier,double maxValue) {
+    m_ElevatorSubsystem  = elevator;
+    m_speed=speedSupplier;
+    m_maxValue=maxValue;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_IntakeSubsystem);
+    addRequirements(m_ElevatorSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -33,13 +38,16 @@ public class ElevatorCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_IntakeSubsystem.run(m_speed);
+    double speed=m_speed.getAsDouble();
+    speed=Math.max(speed,m_maxValue);
+    speed=Math.min(speed,-m_maxValue);
+    m_ElevatorSubsystem.run(speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_IntakeSubsystem.stop();
+    m_ElevatorSubsystem.stop();
   }
 
   // Returns true when the command should end.

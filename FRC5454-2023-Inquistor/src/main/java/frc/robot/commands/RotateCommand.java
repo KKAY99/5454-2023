@@ -38,14 +38,16 @@ public class RotateCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speed=m_speed.getAsDouble()
-    m_RotateArm.run(m_speed.getAsDouble());
+    double speed=m_speed.getAsDouble();
+    speed=Math.max(speed,m_maxValue);
+    speed=Math.min(speed,-m_maxValue);
+    m_RotateArm.rotate(speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_ElevatorSubsystem.stop();
+    m_RotateArm.stopRotate();
   }
 
   // Returns true when the command should end.

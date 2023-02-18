@@ -11,15 +11,15 @@ public class PnuematicsSubystem extends SubsystemBase{
     
     //    m_Compressor = new Compressor(nodeID,Constants.Pneumatics.moduleType)  ; 
 }
-   public void run(double power) {
-     //m_Motor.set(power);
-     
-   }
- 
-   public void stop() {
-     //m_Motor.set(0);
-   }
- 
+
+  public void setClaw(boolean value){
+    //TODO
+  }
+  public boolean getClaw(){
+      //TODO
+      return false;
+  }
+
    @Override
    public void periodic() {
      // This method will be called once per scheduler run

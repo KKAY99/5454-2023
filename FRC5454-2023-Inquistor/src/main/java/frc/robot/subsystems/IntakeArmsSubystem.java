@@ -15,22 +15,23 @@ public class IntakeArmsSubystem extends SubsystemBase {
 
   /** Creates a new ExampleSubsystem. */
   public IntakeArmsSubystem (Integer MotorPort,Integer MotorPort2) {
-    m_armMotor = new CANSparkMax(MotorPort, MotorType.kBrushed);   
+    m_armMotor = new CANSparkMax(MotorPort, MotorType.kBrushless);   
     m_armMotor.setOpenLoopRampRate(0.25);
     m_armMotor.setSmartCurrentLimit(30);  // likely gets ignored due to brushed motor
     m_armMotor.setSecondaryCurrentLimit(30); //Set as well at 30
-    m_armMotor2 = new CANSparkMax(MotorPort2, MotorType.kBrushed);   
+    m_armMotor2 = new CANSparkMax(MotorPort2, MotorType.kBrushless);   
     m_armMotor2.setOpenLoopRampRate(0.25);
     m_armMotor2.setSmartCurrentLimit(30);  // likely gets ignored due to brushed motor
     m_armMotor2.setSecondaryCurrentLimit(30); //Set as well at 30
   }
   public void run(double power) {
-    //m_Motor.set(power);
-    
+    m_armMotor.set(power);
+    m_armMotor2.set(power);
   }
 
   public void stop() {
-    //m_Motor.set(0);
+    m_armMotor.set(0);
+    m_armMotor2.set(0);
   }
 
   @Override

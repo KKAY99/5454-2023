@@ -11,8 +11,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 /** An example command that uses an example subsystem. */
 public class PaddleConveyCommand extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-  private final PaddleSubsystem m_IntakeSubsystem;
-  private final double m_speed;
+  private final PaddleSubsystem m_PaddleSubsystem;
+  private final double m_paddleSpeed;
+  private final double m_conveySpeed;
   private final IntakeConveySubsystem m_ConveySubsystem;
 
   /**
@@ -20,12 +21,14 @@ public class PaddleConveyCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public PaddleConveyCommand(IntakeConveySubsystem convey, PaddleSubsystem intake,double speed) {
-    m_IntakeSubsystem = intake;
+  public PaddleConveyCommand(PaddleSubsystem paddle, IntakeConveySubsystem convey, double paddleSpeed,double ConveySpeed) {
+    m_PaddleSubsystem = paddle;
     m_ConveySubsystem = convey;
-    m_speed=speed;
+    m_paddleSpeed=paddleSpeed;
+    m_conveySpeed=ConveySpeed;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_IntakeSubsystem);
+    addRequirements(m_PaddleSubsystem);
+    addRequirements(m_ConveySubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -36,13 +39,15 @@ public class PaddleConveyCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_IntakeSubsystem.run(m_speed);
+    m_PaddleSubsystem.run(m_paddleSpeed);
+    m_ConveySubsystem.run(m_conveySpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_IntakeSubsystem.stop();
+    m_PaddleSubsystem.stop();
+    m_ConveySubsystem.stop();
   }
 
   // Returns true when the command should end.
