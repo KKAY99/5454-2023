@@ -34,7 +34,9 @@ import frc.robot.commands.AutoMoveCommand;
 import frc.robot.commands.ClawCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.GyroResetCommand;
+import frc.robot.commands.IntakeArmsCommand;
 import frc.robot.commands.PaddleCommand;
+import frc.robot.commands.SpindexerCommand;
 import frc.robot.commands.SwitchDriveModeCommand;
 import frc.robot.commands.zAutoDetectandGetCommand;
 import frc.robot.commands.zAutoTargetToColumnCommand;
@@ -67,11 +69,12 @@ public class RobotContainer {
     // Dashboard inputs
     private final LoggedDashboardChooser<Command> autoChooser = new LoggedDashboardChooser<>("Autonomous Program");
     private final LoggedDashboardChooser<Command> autoDelay = new LoggedDashboardChooser<>("Auto Delay");
-  
+    private final SpindexerSubsystem m_SpindexerSubsystem = new SpindexerSubsystem(null);
     private final DrivetrainSubsystem m_RobotDrive = new DrivetrainSubsystem(m_NavX); 
     private final DriveControlMode m_DriveControlMode = new DriveControlMode();
     private final PnuematicsSubystem m_PnuematicsSubystem = new PnuematicsSubystem(Constants.Pneumatics.CompressorID);
     private final ClawSubsystem m_Claw = new ClawSubsystem(Constants.Claw.clawPort); 
+    private final IntakeArmsSubystem m_IntakeArmsSubystem = new IntakeArmsSubystem(null, null, null, null);
     private final Limelight m_Limelight = new Limelight(Constants.LimeLightValues.targetHeight, Constants.LimeLightValues.limelightHeight, Constants.LimeLightValues.limelightAngle,Constants.LimeLightValues.kVisionXOffset,80);
     
      private final LEDStrip m_ledStrip = new LEDStrip(Constants.LEDS.PORT, Constants.LEDS.COUNT);
@@ -288,7 +291,10 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
         final PaddleCommand intakeInCommand = new PaddleCommand(m_paddle, Constants.Paddle.intakeInSpeed);
         final PaddleCommand intakeOutCommand = new PaddleCommand(m_paddle, Constants.Paddle.intakeOutSpeed);
         final GyroResetCommand gyroResetCommand = new GyroResetCommand(m_RobotDrive,m_Limelight);
-
+        final SpindexerCommand spindexerLeftCommand = new SpindexerCommand(m_SpindexerSubsystem);
+        final SpindexerCommand spindexerRightCommand = new SpindexerCommand(m_SpindexerSubsystem);
+        final IntakeArmsCommand ExtendArmsCommand = new IntakeArmsCommand(m_IntakeArmsSubsystem);
+        final IntakeArmsCommand RetractArmsCommand = new IntakeArmsCommand(m_IntakeArmsSubsystem);
 
         final zBalanceRobotCommand balanceRobotCommand = new zBalanceRobotCommand(m_NavX,m_RobotDrive);
         final zBalanceRobotTestCommand balanceRobotTestCommand = new zBalanceRobotTestCommand(m_NavX, m_RobotDrive);
@@ -389,7 +395,17 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
       JoystickButton moveArmLow = new JoystickButton(m_xBoxOperator, ButtonConstants.OperatorAutoLow);
 
       moveArmLow.toggleOnTrue(autoLowMoveArm);
-        final SwitchDriveModeCommand switchDriveCommand=new SwitchDriveModeCommand(m_DriveControlMode);       
+        final SwitchDriveModeCommand switchDriveCommand=new SwitchDriveModeCommand(m_DriveControlMode);  
+        
+        Trigger driverSpindexerRight=new JoystickButton(m_xBoxDriver,ButtonConstants.DriverSpindexerRight);
+        driverSpindexerRight.whileTrue(spindexerCommand);
+
+        Trigger driverSpindexerLeft=new JoystickButton(m_xBoxDriver,ButtonConstants.DriverSpindexerLeft);
+        driverSpindexerLeft.whileTrue(spindexerCommand);
+
+        Trigger driverIntakeExtend=new JoystickButton(m_xBoxDriver,ButtonConstants.DriverIntakeExtend);
+        driverIntakeExtend.whileTrue(Int)
+        
         Trigger driverMode=new JoystickButton(m_xBoxDriver,ButtonConstants.DriverDriveMode);
         driverMode.toggleOnTrue(switchDriveCommand);
         
@@ -413,10 +429,10 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
         operatorGyroReset.whileTrue(gyroResetCommand);
 
  */       
-        Trigger driverautoBalance        
- 
+        Trigger operatorAutoBalance=new JoystickButton(m_xBoxOperator,ButtonConstants.OperatorAutoBalance);
+        operatorAutoBalance.toggleOnTrue(balanceRobotCommand);
    
- 
+    }
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
