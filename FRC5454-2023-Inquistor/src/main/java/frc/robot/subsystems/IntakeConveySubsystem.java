@@ -20,12 +20,12 @@ public class IntakeConveySubsystem extends SubsystemBase {
     m_Motor.setSecondaryCurrentLimit(30); //Set as well at 30
   }
   public void run(double power) {
-    //m_Motor.set(power);
+    m_Motor.set(power);
     
   }
 
   public void stop() {
-    //m_Motor.set(0);
+    m_Motor.set(0);
   }
 
   @Override

@@ -29,6 +29,7 @@ import frc.robot.commands.ElevatorCommand;
 import frc.robot.commands.GyroResetCommand;
 import frc.robot.commands.IntakeArmsCommand;
 import frc.robot.commands.PaddleCommand;
+import frc.robot.commands.PaddleConveyRetractCommand;
 import frc.robot.commands.RotateCommand;
 import frc.robot.commands.SpindexerCommand;
 import frc.robot.commands.SwitchDriveModeCommand;
@@ -69,10 +70,11 @@ public class RobotContainer {
     private final DrivetrainSubsystem m_RobotDrive = new DrivetrainSubsystem(m_NavX); 
     private final DriveControlMode m_DriveControlMode = new DriveControlMode();
     private final PnuematicsSubystem m_PnuematicsSubystem = new PnuematicsSubystem(Constants.Pneumatics.nodeID,Constants.Pneumatics.moduleType,Constants.Pneumatics.clawSolenoid);
-    private final IntakeArmsSubsystem m_IntakeArmsSubsystem = new IntakeArmsSubsystem(null, null, null, null);
+    private final IntakeArmsSubsystem m_IntakeArms = new IntakeArmsSubsystem(null, null, null, null);
     private final Limelight m_Limelight = new Limelight(Constants.LimeLightValues.targetHeight, Constants.LimeLightValues.limelightHeight, Constants.LimeLightValues.limelightAngle,Constants.LimeLightValues.kVisionXOffset,80);
     private final ElevatorSubsystem m_Elevator = new ElevatorSubsystem(null);
     private final RotateArmSubsystem m_Rotate = new RotateArmSubsystem(0);
+    private final IntakeConveySubsystem m_Convey = new IntakeConveySubsystem(null);
 
 
      private final LEDStrip m_ledStrip = new LEDStrip(Constants.LEDS.PORT, Constants.LEDS.COUNT);
@@ -257,15 +259,16 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
         final GyroResetCommand gyroResetCommand = new GyroResetCommand(m_RobotDrive,m_Limelight);
         final SpindexerCommand spindexerLeftCommand = new SpindexerCommand(m_SpindexerSubsystem, 0.1);
         final SpindexerCommand spindexerRightCommand = new SpindexerCommand(m_SpindexerSubsystem, -0.1);
-        final IntakeArmsCommand ExtendArmsCommand = new IntakeArmsCommand(m_IntakeArmsSubsystem, 0.1);
-        final IntakeArmsCommand RetractArmsCommand = new IntakeArmsCommand(m_IntakeArmsSubsystem, -0.1);
+        final IntakeArmsCommand ExtendArmsCommand = new IntakeArmsCommand(m_IntakeArms, 0.1);
+        final IntakeArmsCommand RetractArmsCommand = new IntakeArmsCommand(m_IntakeArms, -0.1);
         final ClawCommand closeClawCommand = new ClawCommand(m_PnuematicsSubystem, m_disabled);
         final RotateCommand rotateCommand = new RotateCommand(m_Rotate,() -> (m_xBoxOperator.getRightX()),Constants.RotateArm.manualLimitSpeed);
         final ElevatorCommand elevatorCommand = new ElevatorCommand(m_Elevator,() -> (m_xBoxOperator.getLeftY()), Constants.Elevator.elevatorLimitSpeed);
         final ClawCommand openClawCommand = new ClawCommand(m_PnuematicsSubystem, m_disabled);
+        final PaddleConveyRetractCommand intakeConveyandRetract = new PaddleConveyRetractCommand(m_paddle, m_IntakeArms,m_Convey,
+        Constants.Paddle.intakeInSpeed, Constants.IntakeArms.inSpeed, Constants.IntakeConvey.inSpeed);
 // Auto commands
         final zBalanceRobotCommand balanceRobotCommand = new zBalanceRobotCommand(m_NavX,m_RobotDrive);
-        final zBalanceRobotTestCommand balanceRobotTestCommand = new zBalanceRobotTestCommand(m_NavX, m_RobotDrive);
         final zAutoTargetToColumnCommand targetColumnCommandUpperLeft = new zAutoTargetToColumnCommand(m_Limelight,m_RobotDrive,Constants.ChargedUp.GridPosUpperLeft);
         final zAutoTargetToColumnCommand targetColumnCommandUpperRight = new zAutoTargetToColumnCommand(m_Limelight,m_RobotDrive,Constants.ChargedUp.GridPosUpperRight);
         final zAutoTargetandMoveCommand tapetargetandMoveCommand = new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive,
@@ -382,9 +385,11 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
         Trigger driverIntakeOut =  new JoystickButton(m_xBoxDriver, ButtonConstants.DriverIntakeOut);
         driverIntakeOut.whileTrue(intakeOutCommand);
 
-     
         Trigger driverGyroReset = new JoystickButton(m_xBoxDriver,ButtonConstants.DriverGyroReset);
         driverGyroReset.whileTrue(gyroResetCommand);
+
+        Trigger driverConveyRetract = new Trigger(() -> Math.abs(m_xBoxDriver.getRawAxis(3))>ButtonConstants.RightTriggerDeadBand);
+        driverConveyRetract.toggleOnTrue(intakeConveyandRetract);
 /*            
         Trigger operatorIntakeIn =  new JoystickButton(m_xBoxDriver, ButtonConstants.OperatorIntakeIn);
         operatorIntakeIn.whileTrue(intakeInCommand);

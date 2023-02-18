@@ -28,12 +28,13 @@ public class IntakeArmsSubsystem extends SubsystemBase {
     
   }
   public void run(double power) {
-    //m_Motor.set(power);
-    
+    m_armMotor.set(power);
+    m_armMotor2.set(power);
   }
 
   public void stop() {
-    //m_Motor.set(0);
+    m_armMotor.set(0);
+    m_armMotor2.set(0);
   }
 
   @Override
