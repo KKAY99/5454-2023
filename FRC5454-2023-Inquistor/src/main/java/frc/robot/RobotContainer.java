@@ -147,6 +147,12 @@ public class RobotContainer {
     static LoggedDashboardBoolean isTargetAvailable = new LoggedDashboardBoolean("Is Target Available", false);
     
     static LoggedDashboardBoolean isAtDistanceFromTarget = new LoggedDashboardBoolean("Is At Right Distance", false);
+    
+    static LoggedDashboardBoolean isAligned = new LoggedDashboardBoolean("Is Aligned With Target", false);
+
+    static LoggedDashboardNumber elevatorEncoder = new LoggedDashboardNumber("Elevator Encoder", 0);
+
+    static LoggedDashboardNumber rotateEncoder = new LoggedDashboardNumber("Rotate Encoder", 0);
  
     private XboxController m_xBoxDriver = new XboxController(InputControllers.kXboxDrive);
     private XboxController m_xBoxOperator = new XboxController(InputControllers.kXboxOperator);
@@ -531,10 +537,12 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
     public void refreshSmartDashboard()
     {  
         frontLeftAngle.set(m_RobotDrive.getFrontLeftAngle());
-        
         frontRightAngle.set(m_RobotDrive.getFrontRightAngle());
         backLeftAngle.set(m_RobotDrive.getBackLeftAngle());
         backRightAngle.set(m_RobotDrive.getbackRightAngle());
+
+        elevatorEncoder.set(m_Elevator.getElevatorPos());
+        rotateEncoder.set(m_Rotate.getRotatePos());
 
         gryoRoll.set(m_NavX.getAxis(Axis.ROLL));
         m_Limelight.update();
@@ -548,6 +556,12 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
                 isTargetAvailable.set(true);
         }else{
                 isTargetAvailable.set(false);
+        }
+
+        if(Math.abs(m_Limelight.getXRaw()) <= 0.8){
+                isAligned.set(true);
+        }else{
+                isAligned.set(false);
         }
 
         //override disabled led mode

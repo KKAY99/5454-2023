@@ -8,9 +8,11 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.revrobotics.RelativeEncoder;
 
 public class ElevatorSubsystem extends SubsystemBase {
   CANSparkMax m_Motor;
+  RelativeEncoder m_elevatorEncoder;
 
   /** Creates a new ExampleSubsystem. */
   public ElevatorSubsystem(Integer MotorPort) {
@@ -18,6 +20,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     m_Motor.setOpenLoopRampRate(0.25);
     m_Motor.setSmartCurrentLimit(30);  // likely gets ignored due to brushed motor
     m_Motor.setSecondaryCurrentLimit(30); //Set as well at 30
+    
+    m_elevatorEncoder=m_Motor.getEncoder();
   }
   public void run(double power) {
     m_Motor.set(power);
@@ -29,7 +33,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public double getElevatorPos(){
-    return 1;
+    return m_elevatorEncoder.getPosition();
   }
 
   @Override
