@@ -256,7 +256,7 @@ public class RobotContainer {
                                                            new ClawOpenCommand(m_ClawSubsystem),
                                                            new zMoveArmRetract(m_LiftSubsystem));
 
-      JoystickButton moveArmMiddle = new JoystickButton(m_xBoxOperator, 7);
+      JoystickButton moveArmMiddle = new JoystickButton(m_xBoxDriver, 7);
       moveArmMiddle.toggleOnTrue(autoMiddleMoveArm);
       final SequentialCommandGroup autoLowMoveArm =new SequentialCommandGroup( new ClawCloseCommand (m_ClawSubsystem),
                                                            new zMoveArmExtend(m_LiftSubsystem,Constants.ChargedUP.TargetLevels.LOW),
@@ -266,9 +266,10 @@ public class RobotContainer {
       JoystickButton moveArmLow = new JoystickButton(m_xBoxOperator, 8);
       moveArmLow.toggleOnTrue(autoLowMoveArm);
 
-      final LiftBrakeCommand brakeCommand = new LiftBrakeCommand(m_LiftSubsystem);
-      JoystickButton brakeButton = new JoystickButton(m_xBoxDriver, 7);
-      brakeButton.onTrue(brakeCommand);
+      //final LiftBrakeCommand brakeCommand = new LiftBrakeCommand(m_LiftSubsystem);
+      
+      //JoystickButton brakeButton = new JoystickButton(m_xBoxDriver, 7);
+      //brakeButton.onTrue(brakeCommand);
    }
 
     /**

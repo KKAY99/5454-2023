@@ -11,6 +11,7 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
@@ -44,6 +45,8 @@ import frc.robot.commands.zEngageonChargingCommand;
 import frc.robot.commands.zPivotArmResetCommand;
 import frc.robot.commands.zPivotandExtendCommand;
 import frc.robot.commands.zEngageonChargingCommand;
+import frc.robot.commands.zMoveArmExtend;
+import frc.robot.commands.zMoveArmRetract;
 import frc.robot.common.drivers.NavX;
 import frc.robot.common.drivers.NavX.Axis;
 import frc.robot.subsystems.*;
@@ -155,15 +158,7 @@ public class RobotContainer {
     static GenericEntry backRightAngle = SwerveEncoders.add("BR Angle", 0).withWidget(BuiltInWidgets.kTextView)
             .withPosition(2, 4).withSize(2, 1).getEntry();
 
-    static GenericEntry frontLeft360Angle = SwerveEncoders.add("FL 360 Angle", 0)
-            .withWidget(BuiltInWidgets.kTextView).withPosition(4, 3).withSize(2, 1).getEntry();
-    static GenericEntry frontRight360Angle = SwerveEncoders.add("FR 360 Angle", 0)
-            .withWidget(BuiltInWidgets.kTextView).withPosition(6, 3).withSize(2, 1).getEntry();
-    static GenericEntry backLeft360Angle = SwerveEncoders.add("BL 360 Angle", 0)
-            .withWidget(BuiltInWidgets.kTextView).withPosition(4, 4).withSize(2, 1).getEntry();
-    static GenericEntry backRight360Angle = SwerveEncoders.add("BR 360 Angle", 0)
-            .withWidget(BuiltInWidgets.kTextView).withPosition(6, 4).withSize(2, 1).getEntry();
-
+  
     static GenericEntry ShuffleboardLog = SwerveEncoders.add("ShuffleboardLog", "")
             .withWidget(BuiltInWidgets.kTextView).withSize(4, 2).withPosition(0, 6).getEntry();
 
@@ -301,7 +296,7 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
         final zAutoTargetToColumnCommand targetColumnCommandUpperRight = new zAutoTargetToColumnCommand(m_Limelight,m_RobotDrive,Constants.ChargedUp.GridPosUpperRight);
         final zAutoTargetandMoveCommand targetandMoveCommand = new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive,
         Constants.ChargedUp.GridPosMiddleLeft);
-        Trigger balanceRobot=new JoystickButton(m_xBoxDriver,ButtonConstants.DriverBalance);
+        Trigger balanceRobot=new JoystickButton(m_xBoxDriver,ButtonConstants.OperatorAutoBalance);
         Trigger targetColumnUpperLeft = new JoystickButton(m_xBoxDriver,ButtonConstants.DriverIntakeOut);
         Trigger targetColumnUpperRight = new JoystickButton(m_xBoxDriver,ButtonConstants.DriverIntakeIn);
         balanceRobot.whileTrue(targetandMoveCommand);
@@ -374,6 +369,26 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
         targetBottomRight.toggleOnTrue(zAutoTargetBR);
 
         //final LatchCommand latchCommand =new LatchCommand(m_Pnuematics);
+
+        final zMoveArmRetract RetractArmCommand = new zMoveArmRetract(m_ElevatorSubsystem);
+        JoystickButton Retract=new JoystickButton(m_xBoxOperator,ButtonConstants.OperatorArmReturn);
+        Retract.onTrue(RetractArmCommand);
+
+        final SequentialCommandGroup autoMiddleMoveArm =new SequentialCommandGroup( new ClawCloseCommand(m_ClawSubsystem),
+                                                           new zMoveArmExtend(m_ElevatorSubsystem,Constants.ChargedUP.TargetLevels.MiDDLE),
+                                                           new ClawOpenCommand(m_ClawSubsystem),
+                                                           new zMoveArmRetract(m_LiftSubsystem));
+
+        JoystickButton moveArmMiddle = new JoystickButton(m_xBoxDriver, ButtonConstants.OperatorAutoMiddle);
+        moveArmMiddle.toggleOnTrue(autoMiddleMoveArm);
+        final SequentialCommandGroup autoLowMoveArm =new SequentialCommandGroup( new ClawCloseCommand (m_ClawSubsystem),
+                                                           new zMoveArmExtend(m_LiftSubsystem,Constants.ChargedUP.TargetLevels.LOW),
+                                                           new ClawOpenCommand(m_ClawSubsystem),
+                                                           new zMoveArmRetract(m_LiftSubsystem));
+
+      JoystickButton moveArmLow = new JoystickButton(m_xBoxOperator, ButtonConstants.OperatorAutoLow);
+
+      moveArmLow.toggleOnTrue(autoLowMoveArm);
         final SwitchDriveModeCommand switchDriveCommand=new SwitchDriveModeCommand(m_DriveControlMode);       
         Trigger driverMode=new JoystickButton(m_xBoxDriver,ButtonConstants.DriverDriveMode);
         driverMode.toggleOnTrue(switchDriveCommand);
@@ -503,9 +518,11 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
     public void refreshSmartDashboard()
     {  
         frontLeftAngle.setDouble(m_RobotDrive.getFrontLeftAngle());
+        
         frontRightAngle.setDouble(m_RobotDrive.getFrontRightAngle());
         backLeftAngle.setDouble(m_RobotDrive.getBackLeftAngle());
         backRightAngle.setDouble(m_RobotDrive.getbackRightAngle());
+
         gryoRoll.setDouble(m_NavX.getAxis(Axis.ROLL));
         m_Limelight.update();
         //override disabled led mode

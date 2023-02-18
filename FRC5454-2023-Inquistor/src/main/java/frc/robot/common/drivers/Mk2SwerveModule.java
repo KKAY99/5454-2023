@@ -149,6 +149,10 @@ public class Mk2SwerveModule extends SwerveModule {
 
         steeringMotor.set(angleController.calculate(getCurrentAngle(), dt));
     }
+    //5454 Addition
+    public double getEncoderActual(){
+        return angleEncoder.getVoltage();
+    }
 
     public void setDriveEncoderRotationsPerUnit(double driveEncoderRotationsPerUnit) {
         synchronized (canLock) {

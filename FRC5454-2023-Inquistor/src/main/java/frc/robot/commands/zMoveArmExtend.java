@@ -1,7 +1,7 @@
 package frc.robot.commands;
 import frc.robot.Constants;
 import frc.robot.subsystems.ClawSubsystem;
-import frc.robot.subsystems.LiftSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class zMoveArmExtend extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   
-  private final LiftSubsystem m_liftSubsystem;
+  private final ElevatorSubsystem m_elevator;
   private double m_posInitLift;
   private double m_posFullLiftStage1;
   private double m_posFullLiftStage2;
@@ -27,7 +27,7 @@ public class zMoveArmExtend extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public zMoveArmExtend(LiftSubsystem lift,Constants.ChargedUP.TargetLevels targetLevel) {
+  public zMoveArmExtend(ElevatorSubsystem elevator,Constants.ChargedUP.TargetLevels targetLevel) {
     m_liftSubsystem=lift;
   // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_liftSubsystem);

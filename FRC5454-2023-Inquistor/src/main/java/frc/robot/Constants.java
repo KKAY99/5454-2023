@@ -102,16 +102,21 @@ public final class Constants {
              
     }
     public static final class ButtonConstants{
-        public static final int DriverDriveMode=1;
-        public static final int DriverIntakeIn=2;
-        public static final int DriverIntakeOut=3;
-        public static final int DriverBalance=4;
-        public static final int DriverGyroReset=7;
+        public static final int DriverSpindexerRight=1;
+        public static final int DriverIntakeOut=2;
+        public static final int DriverIntakeIn=3;
+        public static final int DriverSpindexerLeft=4;
+        public static final int DriverIntakeRetract=5;
+        public static final int DriverIntakeExtend=6;
+        public static final int DriverDriveMode=7;
+        public static final int DriverGyroReset=8;
   
-        public static final int OperatorIntakeIn=6;
-        public static final int OperatorIntakeOut=7;
-     
-        public static final int OperatorGyroReset=7;
+        public static final int OperatorAutoLow=1;
+        public static final int OperatorArmReturn=2;
+        public static final int OperatorAutoBalance=3;
+        public static final int OperatorAutoMiddle=4;
+        public static final int OperatorClawClose=5;
+        public static final int OperatorClawOpen=6;
      
         public static final int TargetTopLeft=4;
         public static final int TargetMiddleLeft=5;
@@ -222,13 +227,13 @@ public final class Constants {
     }
        
     public static class RobotMap {
-        public static final int DRIVETRAIN_FRONT_LEFT_ANGLE_MOTOR = 20; // CAN
-        public static final int DRIVETRAIN_FRONT_LEFT_ANGLE_ENCODER = 2;//2; // Analog
-        public static final int DRIVETRAIN_FRONT_LEFT_DRIVE_MOTOR = 25; // CAN
+        public static final int DRIVETRAIN_FRONT_LEFT_ANGLE_MOTOR = 21; // CAN
+        public static final int DRIVETRAIN_FRONT_LEFT_ANGLE_ENCODER = 1;//1;; // Analog
+        public static final int DRIVETRAIN_FRONT_LEFT_DRIVE_MOTOR = 26; // CAN
     
-        public static final int DRIVETRAIN_FRONT_RIGHT_ANGLE_MOTOR = 21; // CAN
-        public static final int DRIVETRAIN_FRONT_RIGHT_ANGLE_ENCODER =1;//1; // Analog
-        public static final int DRIVETRAIN_FRONT_RIGHT_DRIVE_MOTOR = 26; // CAN
+        public static final int DRIVETRAIN_FRONT_RIGHT_ANGLE_MOTOR = 20; // CAN
+        public static final int DRIVETRAIN_FRONT_RIGHT_ANGLE_ENCODER =2;//2; // Analog
+        public static final int DRIVETRAIN_FRONT_RIGHT_DRIVE_MOTOR = 25; // CAN
     
         public static final int DRIVETRAIN_BACK_RIGHT_ANGLE_MOTOR = 27; // CAN
         public static final int DRIVETRAIN_BACK_RIGHT_ANGLE_ENCODER = 0; // Analog

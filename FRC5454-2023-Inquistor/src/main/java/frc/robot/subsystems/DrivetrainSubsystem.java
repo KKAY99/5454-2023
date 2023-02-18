@@ -28,10 +28,16 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private static final double TRACKWIDTH = 20;
     private static final double WHEELBASE = 25;
 
-    private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(0);//(164.53+180); //30.6 last 6.5 - was 161.8
-    private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(0);
-    private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(0);//+180 22.1
-    private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(0);//+180
+  /*   private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(100);//(164.53+180); //30.6 last 6.5 - was 161.8
+    private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(100);
+    private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(60);//+180 22.1
+    private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(100);//+180
+*/
+//USE RADIANS
+private static final double FRONT_LEFT_ANGLE_OFFSET = 1.51;//(164.53+180); //30.6 last 6.5 - was 161.8
+private static final double FRONT_RIGHT_ANGLE_OFFSET = -3.988;
+private static final double BACK_LEFT_ANGLE_OFFSET = -3.810;//+180 22.1
+private static final double BACK_RIGHT_ANGLE_OFFSET = -2.153;//+180
 
     private boolean m_autoControl = false;
 
@@ -77,7 +83,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             new Translation2d(-TRACKWIDTH / 2.0, WHEELBASE / 2.0),
             new Translation2d(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0)
     );
-    private final SwerveDrivePoseEstimator estimator;
+   // private final SwerveDrivePoseEstimator estimator;
 
         
     public DrivetrainSubsystem(NavX navX) {
@@ -86,7 +92,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         m_gyroscope.setInverted(true); // You might not need to invert the gyro
 
         //FIXME
-        SwerveModulePosition frontLeftPosition=new SwerveModulePosition(frontLeftModule.getCurrentDistance(),new Rotation2d(frontLeftModule.getCurrentAngle()));
+      /*   SwerveModulePosition frontLeftPosition=new SwerveModulePosition(frontLeftModule.getCurrentDistance(),new Rotation2d(frontLeftModule.getCurrentAngle()));
         SwerveModulePosition frontRightPosition=new SwerveModulePosition(frontRightModule.getCurrentDistance(),new Rotation2d(frontRightModule.getCurrentAngle()));
         SwerveModulePosition backleftPosition=new SwerveModulePosition(backLeftModule.getCurrentDistance(),new Rotation2d(backLeftModule.getCurrentAngle()));
         SwerveModulePosition backRightPosition=new SwerveModulePosition(backRightModule.getCurrentDistance(),new Rotation2d(backRightModule.getCurrentAngle()));
@@ -100,7 +106,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         Logger.getInstance().recordOutput("Odometry X", estimator.getEstimatedPosition().getX());
         Logger.getInstance().recordOutput("Odometry Y", estimator.getEstimatedPosition().getY());
  
-       
+       */
         frontLeftModule.setName("Front Left");
         frontRightModule.setName("Front Right");
         backLeftModule.setName("Back Left");
@@ -231,7 +237,7 @@ public void spin (double direction,double speed)
         backLeftModule.updateState(LoggedRobot.defaultPeriodSecs);
         backRightModule.updateState(LoggedRobot.defaultPeriodSecs);
 
-        SwerveModulePosition frontLeftPosition=new SwerveModulePosition(frontLeftModule.getCurrentDistance(),new Rotation2d(frontLeftModule.getCurrentAngle()));
+       /* SwerveModulePosition frontLeftPosition=new SwerveModulePosition(frontLeftModule.getCurrentDistance(),new Rotation2d(frontLeftModule.getCurrentAngle()));
         SwerveModulePosition frontRightPosition=new SwerveModulePosition(frontRightModule.getCurrentDistance(),new Rotation2d(frontRightModule.getCurrentAngle()));
         SwerveModulePosition backleftPosition=new SwerveModulePosition(backLeftModule.getCurrentDistance(),new Rotation2d(backLeftModule.getCurrentAngle()));
         SwerveModulePosition backRightPosition=new SwerveModulePosition(backRightModule.getCurrentDistance(),new Rotation2d(backRightModule.getCurrentAngle()));
@@ -241,7 +247,8 @@ public void spin (double direction,double speed)
                 backleftPosition,
                 backRightPosition
               });
-        //System.out.println("Current Pose: " + estimator.getEstimatedPosition().toString());
+        */
+              //System.out.println("Current Pose: " + estimator.getEstimatedPosition().toString());
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldOriented) {
@@ -254,14 +261,18 @@ public void spin (double direction,double speed)
         } else {
             speeds = new ChassisSpeeds(translation.getX(), translation.getY(), rotation);
         }
-
+ 
         SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
-
+        System.out.println("FL Swerve - " + frontLeftModule.getCurrentAngle() + "Target State " + states[0].angle.getRadians());
+        System.out.println("FR Swerve - " + frontRightModule.getCurrentAngle() + "Target State " + states[1].angle.getRadians());
         frontLeftModule.setTargetVelocity(states[0].speedMetersPerSecond, states[0].angle.getRadians());
         frontRightModule.setTargetVelocity(states[1].speedMetersPerSecond, states[1].angle.getRadians());
         backLeftModule.setTargetVelocity(states[2].speedMetersPerSecond, states[2].angle.getRadians());
         backRightModule.setTargetVelocity(states[3].speedMetersPerSecond, states[3].angle.getRadians());
     }
+
+   
+
     public double getFrontLeftAngle(){
         return frontLeftModule.getCurrentAngle();
     }
