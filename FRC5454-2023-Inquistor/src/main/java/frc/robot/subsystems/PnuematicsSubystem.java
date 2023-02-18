@@ -11,7 +11,9 @@ public class PnuematicsSubystem extends SubsystemBase{
   private edu.wpi.first.wpilibj.Compressor m_Compressor;
   private double m_pressure; 
   private Solenoid m_solenoidClaw;
+ 
   public PnuematicsSubystem(int nodeID,PneumaticsModuleType pModule, int clawSolenoid) {
+    
   m_Compressor = new Compressor(nodeID,pModule);
   m_solenoidClaw =new Solenoid(nodeID,pModule, 0);
   m_pressure=m_Compressor.getPressure();

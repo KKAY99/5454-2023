@@ -1,7 +1,9 @@
  
 package frc.robot;
 
+import edu.wpi.first.networktables.Publisher;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 
 public final class Constants {
     public static final class ChargedUp {
@@ -134,6 +136,8 @@ public final class Constants {
         public static final int CompressorID=0; 
         public static final int HubID=62;
         public static final PneumaticsModuleType moduleType=PneumaticsModuleType.REVPH;
+        public static final int nodeID = 0;
+        public static final int clawSolenoid = 0;
              
     }
     public static final class ButtonConstants{

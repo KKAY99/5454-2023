@@ -3,7 +3,7 @@ import frc.robot.Constants;
 import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import frc.robot.subsystems.RotateArmSubsystem;
 
 
 /** An example command that uses an example subsystem. */
@@ -11,6 +11,7 @@ public class zMoveArmRetract extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   
   private final ElevatorSubsystem m_elevator;
+  private final RotateArmSubsystem m_rotate;
   private static enum STATE
   {
                   RETRACTANDROTATE,RETURNLIFT,ABORT,END
@@ -22,10 +23,11 @@ public class zMoveArmRetract extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public zMoveArmRetract(ElevatorSubsystem elevator) {
+  public zMoveArmRetract(ElevatorSubsystem elevator, RotateArmSubsystem rotate) {
     m_elevator=elevator;
+    m_rotate=rotate;
   // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_liftSubsystem);
+    addRequirements(m_elevator);
   }
 
   // Called when the command is initially scheduled.
@@ -43,8 +45,8 @@ public class zMoveArmRetract extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-      m_liftSubsystem.stopElevator();
-      m_liftSubsystem.stopRotate();
+      m_elevator.stop();
+      m_rotate.stopRotate();
       }
 
   // Returns true when the command should end.
@@ -58,17 +60,17 @@ public class zMoveArmRetract extends CommandBase {
       case RETRACTANDROTATE:
       boolean retracted=false;
       boolean rotated=false;
-     if(m_liftSubsystem.getRotatePos()>Constants.Rotate.angleIntakePos){
-       m_liftSubsystem.rotate(Constants.Rotate.rotateAutoInSpeed);
+     if(m_rotate.getRotatePos()>Constants.Rotate.angleIntakePos){
+       m_rotate.rotate(Constants.Rotate.rotateAutoInSpeed);
       } else{
         
-             m_liftSubsystem.stopRotate();
+             m_rotate.stopRotate();
              rotated=true;
      }
-      if(m_liftSubsystem.getElevatorPos()<Constants.Lift.posInitLift){
-       m_liftSubsystem.runElevator(Constants.Lift.liftAutoRetractSpeed);
+      if(m_elevator.getElevatorPos()<Constants.Lift.posInitLift){
+       m_elevator.run(Constants.Lift.liftAutoRetractSpeed);
      } else{     
-           m_liftSubsystem.stopElevator();
+           m_elevator.stop();
            retracted=true;;
          }
      if(rotated && retracted){
@@ -78,18 +80,18 @@ public class zMoveArmRetract extends CommandBase {
      case RETURNLIFT:
     
           // Encoder is negative as it lifts up
-          if(m_liftSubsystem.getElevatorPos()<Constants.Lift.posHome){
-            m_liftSubsystem.runElevator(Constants.Lift.liftAutoRetractHomeSpeed);
+          if(m_elevator.getElevatorPos()<Constants.Lift.posHome){
+            m_elevator.run(Constants.Lift.liftAutoRetractHomeSpeed);
           } else{
-            m_liftSubsystem.stopElevator();
+            m_elevator.stop();
             m_state=STATE.END;
           }
           returnValue=false;
           break;
           case ABORT:
       case END:
-        m_liftSubsystem.stopElevator();
-        m_liftSubsystem.stopRotate();
+        m_elevator.stop();
+        m_rotate.stopRotate();
         returnValue=true;
 
     }
