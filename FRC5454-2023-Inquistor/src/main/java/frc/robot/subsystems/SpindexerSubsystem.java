@@ -14,18 +14,18 @@ public class SpindexerSubsystem extends SubsystemBase {
 
   /** Creates a new ExampleSubsystem. */
   public SpindexerSubsystem (Integer MotorPort) {
-   /*  m_Motor = new CANSparkMax(IntakeMotorPort, MotorType.kBrushed);   
+    m_Motor = new CANSparkMax(MotorPort, MotorType.kBrushed);   
     m_Motor.setOpenLoopRampRate(0.25);
     m_Motor.setSmartCurrentLimit(30);  // likely gets ignored due to brushed motor
     m_Motor.setSecondaryCurrentLimit(30); //Set as well at 30
-  */}
-  public void runIntake(double power) {
-    //m_Motor.set(power);
+  }
+  public void run(double power) {
+    m_Motor.set(power);
     
   }
 
-  public void stopIntake() {
-    //m_Motor.set(0);
+  public void stop() {
+    m_Motor.set(0);
   }
 
   @Override

@@ -1,13 +1,15 @@
 package frc.robot.commands;
-import frc.robot.subsystems.ClawSubsystem;
+import frc.robot.subsystems.PnuematicsSubystem;
+import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ClawCommand extends CommandBase {
-    private ClawSubsystem m_ClawSubystem;
-    private double m_speed;
-    public ClawCommand(ClawSubsystem ClawSubystem,double speed){
-        m_ClawSubystem=ClawSubystem;
-        m_speed=speed;
+    private PnuematicsSubystem m_Pnuematics;
+    private boolean m_state;
+    public ClawCommand(PnuematicsSubystem pnuematics,boolean state){
+        m_Pnuematics=pnuematics;
+        m_state=state;
+       
     }
 
     @Override
@@ -16,7 +18,7 @@ public class ClawCommand extends CommandBase {
 
     @Override
     public void execute() {
-    
+        m_Pnuematics.setClaw(m_state);
     }
   
     @Override

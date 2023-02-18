@@ -14,8 +14,8 @@ import frc.robot.Constants;
 public class RotateArmSubsystem extends SubsystemBase {
     private CANSparkMax m_RotateMotor;
   
-    public RotateArmSubsystem(){
-        m_RotateMotor = new CANSparkMax(Constants.RotateArm.rotateArmPort , MotorType.kBrushless);   
+    public RotateArmSubsystem(int motorPort){
+        m_RotateMotor = new CANSparkMax(motorPort , MotorType.kBrushless);   
         m_RotateMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
       }

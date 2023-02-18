@@ -20,7 +20,7 @@ public class IntakeArmsCommand extends CommandBase {
    * @param subsystem The subsystem used by this command.
    */
   
-  public IntakeArmsCommand(double speed, IntakeArmsSubystem intakeArms) { 
+  public IntakeArmsCommand( IntakeArmsSubystem intakeArms,double speed) { 
     m_speed = speed;
     m_intakeArms = intakeArms;
   }

@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 /** An example command that uses an example subsystem. */
 public class PaddleCommand extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-  private final PaddleSubsystem m_IntakeSubsystem;
+  private final PaddleSubsystem m_paddleSubsystem;
   private final double m_speed;
 
   /**
@@ -18,11 +18,11 @@ public class PaddleCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public PaddleCommand(PaddleSubsystem intake,double speed) {
-    m_IntakeSubsystem = intake;
+  public PaddleCommand(PaddleSubsystem paddle,double speed) {
+    m_paddleSubsystem = paddle;
     m_speed=speed;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_IntakeSubsystem);
+    addRequirements(m_paddleSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -33,13 +33,13 @@ public class PaddleCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_IntakeSubsystem.run(m_speed);
+    m_paddleSubsystem.run(m_speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_IntakeSubsystem.stop();
+    m_paddleSubsystem.stop();
   }
 
   // Returns true when the command should end.

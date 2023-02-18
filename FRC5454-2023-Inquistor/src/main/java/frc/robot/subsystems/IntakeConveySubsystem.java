@@ -14,11 +14,11 @@ public class IntakeConveySubsystem extends SubsystemBase {
 
   /** Creates a new ExampleSubsystem. */
   public IntakeConveySubsystem(Integer MotorPort) {
-   /*  m_Motor = new CANSparkMax(MotorPort, MotorType.kBrushed);   
+   m_Motor = new CANSparkMax(MotorPort, MotorType.kBrushed);   
     m_Motor.setOpenLoopRampRate(0.25);
     m_Motor.setSmartCurrentLimit(30);  // likely gets ignored due to brushed motor
     m_Motor.setSecondaryCurrentLimit(30); //Set as well at 30
-  */}
+  }
   public void run(double power) {
     //m_Motor.set(power);
     
