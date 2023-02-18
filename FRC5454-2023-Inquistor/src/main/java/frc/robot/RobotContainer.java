@@ -268,14 +268,10 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
         final zBalanceRobotTestCommand balanceRobotTestCommand = new zBalanceRobotTestCommand(m_NavX, m_RobotDrive);
         final zAutoTargetToColumnCommand targetColumnCommandUpperLeft = new zAutoTargetToColumnCommand(m_Limelight,m_RobotDrive,Constants.ChargedUp.GridPosUpperLeft);
         final zAutoTargetToColumnCommand targetColumnCommandUpperRight = new zAutoTargetToColumnCommand(m_Limelight,m_RobotDrive,Constants.ChargedUp.GridPosUpperRight);
-        final zAutoTargetandMoveCommand targetandMoveCommand = new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive,
+        final zAutoTargetandMoveCommand tapetargetandMoveCommand = new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive,
         Constants.ChargedUp.GridPosMiddleLeft);
-        Trigger balanceRobot=new JoystickButton(m_xBoxDriver,ButtonConstants.OperatorAutoBalance);
-        Trigger targetColumnUpperLeft = new JoystickButton(m_xBoxDriver,ButtonConstants.DriverIntakeOut);
-        Trigger targetColumnUpperRight = new JoystickButton(m_xBoxDriver,ButtonConstants.DriverIntakeIn);
-        balanceRobot.whileTrue(targetandMoveCommand);
-        targetColumnUpperLeft.toggleOnTrue(targetColumnCommandUpperLeft);
-        targetColumnUpperRight.toggleOnTrue(targetColumnCommandUpperRight);
+        final zAutoTargetandMoveCommand tagtargetandMoveCommand = new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive,
+        Constants.ChargedUp.GridPosMiddleCenter);
 
         // *** 9 Box targeting
         final SequentialCommandGroup zAutoTargetTL= new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive,
@@ -411,8 +407,16 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
 
         Trigger operatorElevator = new Trigger(() -> Math.abs(m_xBoxOperator.getLeftY())>ButtonConstants.ElevatorDeadBand);
         operatorElevator.whileTrue(elevatorCommand);
+        
         Trigger operatorRotate = new Trigger(() -> Math.abs(m_xBoxOperator.getRightX())>ButtonConstants.RotateDeadBand);
         operatorRotate.whileTrue(rotateCommand);
+
+        Trigger operatorTapeAlign = new Trigger(() -> Math.abs(m_xBoxOperator.getRawAxis(2))>ButtonConstants.LeftTriggerDeadBand);
+        operatorTapeAlign.toggleOnTrue(tapetargetandMoveCommand);
+        
+        Trigger operatorTagAlign = new Trigger(() -> Math.abs(m_xBoxOperator.getRawAxis(3))>ButtonConstants.RightTriggerDeadBand);
+        operatorTagAlign.toggleOnTrue(tagtargetandMoveCommand);
+
     }
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.

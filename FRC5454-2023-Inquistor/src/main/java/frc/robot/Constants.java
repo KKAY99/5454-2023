@@ -168,6 +168,8 @@ public final class Constants {
 
         public static final double ElevatorDeadBand = 0.05;
         public static final double RotateDeadBand = 0.05;
+        public static final double LeftTriggerDeadBand = 0.05;
+        public static final double RightTriggerDeadBand = 0.05;
     }
 
     public static final class LimitSwitches{
