@@ -36,6 +36,10 @@ public class RotateArmSubsystem extends SubsystemBase {
 
     }
 
+    public double getRotatePos(){
+      return 1;
+    }
+
     @Override
     public void simulationPeriodic() {
       // This method will be called once per scheduler run during simulation

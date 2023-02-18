@@ -2,6 +2,8 @@ package frc.robot.commands;
 import frc.robot.Constants;
 import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.RotateArmSubsystem;
+import edu.wpi.first.util.concurrent.Event;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
@@ -11,6 +13,7 @@ public class zMoveArmExtend extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   
   private final ElevatorSubsystem m_elevator;
+  private final RotateArmSubsystem m_rotate;
   private double m_posInitLift;
   private double m_posFullLiftStage1;
   private double m_posFullLiftStage2;
@@ -27,24 +30,25 @@ public class zMoveArmExtend extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public zMoveArmExtend(ElevatorSubsystem elevator,Constants.ChargedUP.TargetLevels targetLevel) {
-    m_liftSubsystem=lift;
+  public zMoveArmExtend(ElevatorSubsystem elevator, RotateArmSubsystem rotate, Constants.TargetHeight targetLevel) {
+    m_elevator = elevator;
+    m_rotate = rotate;
   // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_liftSubsystem);
+    addRequirements(m_elevator);
     switch(targetLevel){
-      case HIGH:
+      case TOP:
       m_posFullLiftStage1=Constants.Lift.posHighFullLiftStage1;
       m_posFullLiftStage2=Constants.Lift.posHighFullLiftStage2;
       m_angleStage1=Constants.Rotate.angleHighConeStage1;
       m_angleStage2=Constants.Rotate.angleHighConeStage2;
       break;
-      case MiDDLE:
+      case MIDDLE:
         m_posFullLiftStage1=Constants.Lift.posMiddleFullLiftStage1;
         m_posFullLiftStage2=Constants.Lift.posMiddleFullLiftStage2;
         m_angleStage1=Constants.Rotate.angleMiddleConeStage1;
         m_angleStage2=Constants.Rotate.angleMiddleConeStage2;
       break;
-      case LOW:
+      case BOTTOM:
         m_posFullLiftStage1=Constants.Lift.posLowFullLiftStage1;
         m_posFullLiftStage2=Constants.Lift.posLowFullLiftStage2;
         m_angleStage1=Constants.Rotate.angleLowConeStage1;
@@ -70,8 +74,8 @@ public class zMoveArmExtend extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-      m_liftSubsystem.stopElevator();
-      m_liftSubsystem.stopRotate();
+      m_elevator.stop();
+      m_rotate.stopRotate();
       }
 
   // Returns true when the command should end.
@@ -84,30 +88,30 @@ public class zMoveArmExtend extends CommandBase {
       case INITLIFT:
           
           // Encoder is negative as it lifts up
-          if(m_liftSubsystem.getElevatorPos()>m_posInitLift){
-            m_liftSubsystem.runElevator(Constants.Lift.liftAutoExtendStage1Speed);
+          if(m_elevator.getElevatorPos()>m_posInitLift){
+            m_elevator.run(Constants.Lift.liftAutoExtendStage1Speed);
           } else{
-            m_liftSubsystem.stopElevator();
+            m_elevator.stop();
             m_state=STATE.EXTENDANDROTATE;
           // m_state=STATE.ABORT;
           }
           returnValue=false;
           break;
       case ROTATE:
-         if(m_liftSubsystem.getRotatePos()<m_angleStage2){
-          m_liftSubsystem.rotate(Constants.Rotate.rotateAutoOutStage2Speed);
+         if(m_rotate.getRotatePos()<m_angleStage2){
+          m_rotate.rotate(Constants.Rotate.rotateAutoOutStage2Speed);
          } else{
-          m_liftSubsystem.stopRotate();
+          m_rotate.stopRotate();
           m_state=STATE.EXTENDLIFT;
          }
          returnValue=false;
           break;
       case EXTENDLIFT:
        // Encoder is negative as it lifts up
-       if(m_liftSubsystem.getElevatorPos()>m_posFullLiftStage2){
-        m_liftSubsystem.runElevator(Constants.Lift.liftAutoExtendStage2Speed);
+       if(m_elevator.getElevatorPos()>m_posFullLiftStage2){
+        m_elevator.run(Constants.Lift.liftAutoExtendStage2Speed);
       } else{
-        m_liftSubsystem.stopElevator();
+        m_elevator.stop();
         m_state=STATE.END;
       }
      
@@ -116,24 +120,24 @@ public class zMoveArmExtend extends CommandBase {
       case EXTENDANDROTATE:
        boolean extended=false;
        boolean rotated=false;
-      if(m_liftSubsystem.getRotatePos()<m_angleStage1){
-        m_liftSubsystem.rotate(Constants.Rotate.rotateAutoOutStage1Speed);
+      if(m_rotate.getRotatePos()<m_angleStage1){
+        m_rotate.rotate(Constants.Rotate.rotateAutoOutStage1Speed);
        } else{
-          if(m_liftSubsystem.getRotatePos()<m_angleStage2){
-            m_liftSubsystem.rotate(Constants.Rotate.rotateAutoOutStage2Speed);  
+          if(m_rotate.getRotatePos()<m_angleStage2){
+            m_rotate.rotate(Constants.Rotate.rotateAutoOutStage2Speed);  
             } else{
-              m_liftSubsystem.stopRotate();
+              m_rotate.stopRotate();
               rotated=true;
              }
       }
-       if(m_liftSubsystem.getElevatorPos()>m_posFullLiftStage1){
-        m_liftSubsystem.runElevator(Constants.Lift.liftAutoExtendStage1Speed);
+       if(m_elevator.getElevatorPos()>m_posFullLiftStage1){
+        m_elevator.run(Constants.Lift.liftAutoExtendStage1Speed);
       } else{
-          if(m_liftSubsystem.getElevatorPos()>m_posFullLiftStage2){
-            m_liftSubsystem.runElevator(Constants.Lift.liftAutoExtendStage2Speed);
+          if(m_elevator.getElevatorPos()>m_posFullLiftStage2){
+            m_elevator.run(Constants.Lift.liftAutoExtendStage2Speed);
           }else{
             
-            m_liftSubsystem.stopElevator();
+            m_elevator.stop();
             extended=true;;
           }
         }
@@ -143,8 +147,8 @@ public class zMoveArmExtend extends CommandBase {
       break;
       case ABORT:
       case END:
-        m_liftSubsystem.stopElevator();
-        m_liftSubsystem.stopRotate();
+        m_elevator.stop();
+        m_rotate.stopRotate();
         returnValue=true;
 
     }

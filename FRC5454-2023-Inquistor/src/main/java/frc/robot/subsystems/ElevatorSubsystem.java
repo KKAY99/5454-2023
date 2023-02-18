@@ -28,6 +28,10 @@ public class ElevatorSubsystem extends SubsystemBase {
     m_Motor.set(0);
   }
 
+  public double getElevatorPos(){
+    return 1;
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
