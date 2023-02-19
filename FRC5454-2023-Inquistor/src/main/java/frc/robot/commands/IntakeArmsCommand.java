@@ -35,6 +35,7 @@ public class IntakeArmsCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_intakeArms.run(m_speed);
   }
 
   // Called once the command ends or is interrupted.
@@ -47,7 +48,7 @@ public class IntakeArmsCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    m_intakeArms.run(m_speed);
-    return m_limitSwitch.get();
+    return false;
+  //  return m_limitSwitch.get();
   }
 }

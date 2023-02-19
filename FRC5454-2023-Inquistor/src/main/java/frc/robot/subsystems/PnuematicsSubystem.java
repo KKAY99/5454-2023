@@ -13,27 +13,33 @@ public class PnuematicsSubystem extends SubsystemBase{
   private Solenoid m_solenoidClaw;
  
   public PnuematicsSubystem(int nodeID,PneumaticsModuleType pModule, int clawSolenoid) {
-    
-  m_Compressor = new Compressor(nodeID,pModule);
-  m_solenoidClaw =new Solenoid(nodeID,pModule, 0);
-  m_pressure=m_Compressor.getPressure();
-  
-    //    m_Compressor = new Compressor(nodeID,Constants.Pneumatics.moduleType)  ; 
+  try{
+    m_Compressor = new Compressor(nodeID,pModule);
+    m_solenoidClaw =new Solenoid(nodeID,pModule, 0);
+    m_pressure=m_Compressor.getPressure();
+  } catch (Exception e){
+    System.out.println("Pneumatics Failure");
+    System.out.println("Exception Message: " + e.getMessage());
+    System.out.println("StackTrace:" + e.getStackTrace().toString());
+  }
 }
+  
 
   public void setClaw(boolean value){
-    m_solenoidClaw.set(value);
+   m_solenoidClaw.set(value);
   }
   public boolean getClaw(){
-      return m_solenoidClaw.get();
+  return true;
+    //    return m_solenoidClaw.get();
   }
   public double getPressure(){
-    return m_pressure;
+    return 2;
+    //  return m_pressure;
   }
    @Override
    public void periodic() {
      // This method will be called once per scheduler run
-     m_pressure=m_Compressor.getPressure();
+   //  m_pressure=m_Compressor.getPressure();
    }
  
    @Override

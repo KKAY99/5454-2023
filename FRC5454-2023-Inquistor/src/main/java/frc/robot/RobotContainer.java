@@ -69,15 +69,18 @@ public class RobotContainer {
     // Dashboard inputs
     private final LoggedDashboardChooser<Command> autoChooser = new LoggedDashboardChooser<>("Autonomous Program");
     private final LoggedDashboardChooser<Command> autoDelay = new LoggedDashboardChooser<>("Auto Delay");
-    private final SpindexerSubsystem m_SpindexerSubsystem = new SpindexerSubsystem(null);
+    private final SpindexerSubsystem m_SpindexerSubsystem = new SpindexerSubsystem(Constants.Spindexer.motorPort);
     private final DrivetrainSubsystem m_RobotDrive = new DrivetrainSubsystem(m_NavX); 
     private final DriveControlMode m_DriveControlMode = new DriveControlMode();
-    private final PnuematicsSubystem m_PnuematicsSubystem = new PnuematicsSubystem(Constants.Pneumatics.nodeID,Constants.Pneumatics.moduleType,Constants.Pneumatics.clawSolenoid);
-    private final IntakeArmsSubsystem m_IntakeArms = new IntakeArmsSubsystem(null, null, null, null);
-    private final Limelight m_Limelight = new Limelight(Constants.LimeLightValues.targetHeight, Constants.LimeLightValues.limelightHeight, Constants.LimeLightValues.limelightAngle,Constants.LimeLightValues.kVisionXOffset,80);
-    private final ElevatorSubsystem m_Elevator = new ElevatorSubsystem(null);
-    private final RotateArmSubsystem m_Rotate = new RotateArmSubsystem(0);
-    private final IntakeConveySubsystem m_Convey = new IntakeConveySubsystem(null);
+    private final PnuematicsSubystem m_PnuematicsSubystem = new PnuematicsSubystem(Constants.Pneumatics.nodeID,Constants.Pneumatics.moduleType,
+                                                        Constants.Pneumatics.clawSolenoid);
+    private final IntakeArmsSubsystem m_IntakeArms = new IntakeArmsSubsystem(Constants.IntakeArms.motorPort1,Constants.IntakeArms.motorPort2,
+                                                 Constants.IntakeArms.limitSwitch1);
+    private final Limelight m_Limelight = new Limelight(Constants.LimeLightValues.targetHeight, Constants.LimeLightValues.limelightHeight,
+                                                 Constants.LimeLightValues.limelightAngle,Constants.LimeLightValues.kVisionXOffset,80);
+    private final ElevatorSubsystem m_Elevator = new ElevatorSubsystem(Constants.Elevator.elevatorPort);
+    private final RotateArmSubsystem m_Rotate = new RotateArmSubsystem(Constants.RotateArm.rotateArmPort);
+    private final IntakeConveySubsystem m_Convey = new IntakeConveySubsystem(Constants.IntakeConvey.motorPort);
 
 
      private final LEDStrip m_ledStrip = new LEDStrip(Constants.LEDS.PORT, Constants.LEDS.COUNT);
@@ -271,15 +274,17 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
         final PaddleCommand intakeInCommand = new PaddleCommand(m_paddle, Constants.Paddle.intakeInSpeed);
         final PaddleCommand intakeOutCommand = new PaddleCommand(m_paddle, Constants.Paddle.intakeOutSpeed);
         final GyroResetCommand gyroResetCommand = new GyroResetCommand(m_RobotDrive,m_Limelight);
-        final SpindexerCommand spindexerLeftCommand = new SpindexerCommand(m_SpindexerSubsystem, 0.1);
-        final SpindexerCommand spindexerRightCommand = new SpindexerCommand(m_SpindexerSubsystem, -0.1);
-        final IntakeArmsCommand ExtendArmsCommand = new IntakeArmsCommand(m_IntakeArms, Constants.IntakeArms.limitSwitch,0.1);
-        final IntakeArmsCommand RetractArmsCommand = new IntakeArmsCommand(m_IntakeArms, Constants.IntakeArms.limitSwitch, -0.1);
+        final SpindexerCommand spindexerLeftCommand = new SpindexerCommand(m_SpindexerSubsystem, Constants.Spindexer.spinBack);
+        final SpindexerCommand spindexerRightCommand = new SpindexerCommand(m_SpindexerSubsystem, Constants.Spindexer.spinForward);
+        //TODO FIX
+
+        final IntakeArmsCommand ExtendArmsCommand = new IntakeArmsCommand(m_IntakeArms, Constants.IntakeArms.limitSwitch1,Constants.IntakeArms.outSpeed);
+        final IntakeArmsCommand RetractArmsCommand = new IntakeArmsCommand(m_IntakeArms, Constants.IntakeArms.limitSwitch1, Constants.IntakeArms.inSpeed);
         final ClawCommand closeClawCommand = new ClawCommand(m_PnuematicsSubystem, m_disabled);
         final RotateCommand rotateCommand = new RotateCommand(m_Rotate,() -> (m_xBoxOperator.getRightX()),Constants.RotateArm.manualLimitSpeed);
         final ElevatorCommand elevatorCommand = new ElevatorCommand(m_Elevator,() -> (m_xBoxOperator.getLeftY()), Constants.Elevator.elevatorLimitSpeed);
         final ClawCommand openClawCommand = new ClawCommand(m_PnuematicsSubystem, m_disabled);
-        final PaddleConveyRetractCommand intakeConveyandRetract = new PaddleConveyRetractCommand(Constants.IntakeArms.limitSwitch,m_paddle, m_IntakeArms,m_Convey,
+        final PaddleConveyRetractCommand intakeConveyandRetract = new PaddleConveyRetractCommand(Constants.IntakeArms.limitSwitch1,m_paddle, m_IntakeArms,m_Convey,
         Constants.Paddle.intakeInSpeed, Constants.IntakeArms.inSpeed, Constants.IntakeConvey.inSpeed);
 // Auto commands
         final zBalanceRobotCommand balanceRobotCommand = new zBalanceRobotCommand(m_NavX,m_RobotDrive);
@@ -366,16 +371,16 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
                                                            new ClawCommand(m_PnuematicsSubystem, false),
                                                            new zMoveArmRetract(m_Elevator,m_Rotate));
 
-        JoystickButton moveArmMiddle = new JoystickButton(m_xBoxDriver, ButtonConstants.OperatorAutoMiddle);
-        moveArmMiddle.toggleOnTrue(autoMiddleMoveArm);
+       // JoystickButton moveArmMiddle = new JoystickButton(m_xBoxOperator, ButtonConstants.OperatorAutoMiddle);
+       // moveArmMiddle.toggleOnTrue(autoMiddleMoveArm);
         final SequentialCommandGroup autoLowMoveArm =new SequentialCommandGroup( new ClawCommand(m_PnuematicsSubystem, true),
                                                            new zMoveArmExtend(m_Elevator, m_Rotate, Constants.TargetHeight.BOTTOM),
                                                            new ClawCommand(m_PnuematicsSubystem, false),
                                                            new zMoveArmRetract(m_Elevator,m_Rotate));
 
-      JoystickButton moveArmLow = new JoystickButton(m_xBoxOperator, ButtonConstants.OperatorAutoLow);
+      //JoystickButton moveArmLow = new JoystickButton(m_xBoxOperator, ButtonConstants.OperatorAutoLow);
 
-      moveArmLow.toggleOnTrue(autoLowMoveArm);
+      //moveArmLow.toggleOnTrue(autoLowMoveArm);
         final SwitchDriveModeCommand switchDriveCommand=new SwitchDriveModeCommand(m_DriveControlMode);  
         
         Trigger driverSpindexerRight=new JoystickButton(m_xBoxDriver,ButtonConstants.DriverSpindexerRight);
@@ -558,7 +563,7 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
                 isTargetAvailable.set(false);
         }
 
-        if(Math.abs(m_Limelight.getXRaw()) <= 0.8){
+        if(Math.abs(m_Limelight.getXRaw()) <= Constants.LimeLightValues.kVisionXTolerance){
                 isAligned.set(true);
         }else{
                 isAligned.set(false);

@@ -1,7 +1,6 @@
  
 package frc.robot;
 
-import org.apache.commons.lang3.ObjectUtils.Null;
 
 import edu.wpi.first.networktables.Publisher;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -54,39 +53,36 @@ public final class Constants {
     }
     
     public class IntakeConvey{
-        public static final int motorPort=92;
+        public static final int motorPort=42;
         public static final double inSpeed=0.5;
         public static final double outSpeed=0.5;
     }
     public class IntakeArms{
-        public static final int motorPort=95;
-        public static final double inSpeed=0.5;
-        public static final double outSpeed=-0.5;
-        public static final int limitSwitch = 0;
+        public static final int motorPort1=13;
+        public static final int motorPort2=16; // FIX
+        public static final double inSpeed=-0.3;
+        public static final double outSpeed=0.3;
+        public static final int limitSwitch1 = 1;
     }
     public class Spindexer {
-        public static final int motorPort =03;
+        public static final int motorPort =17;
         public static final double spinForward=0.5;
         public static final double spinBack=-0.5;
     }
 
     public class Paddle{
-        public static final int intakePort=90;
-        public static final double intakeInSpeed=0.50;
-        public static final double intakeOutSpeed=-0.50;
+        public static final int intakePort=33;
+        public static final double intakeInSpeed=-0.50;
+        public static final double intakeOutSpeed=0.50;
     }    
     public class Elevator{
-        public static final int elevatorPort=91;
+        public static final int elevatorPort=19;
         public static final double elevatorSpeed=.50;
         public static final double elevatorLimitSpeed=.50;
     }
-    public class Claw{
-        public static final int clawPort=92;
-        public static final double GrabSpeed=0.5;
-        public static final double ReleaseSpeed=0.5;
-    }
+    
     public class RotateArm{
-        public static final int rotateArmPort=93;
+        public static final int rotateArmPort=50;
         public static final double manualSpeed=0.4;
         public static final double manualLimitSpeed=0.4;
     }

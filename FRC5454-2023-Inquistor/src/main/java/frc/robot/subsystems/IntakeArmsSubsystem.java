@@ -16,7 +16,7 @@ public class IntakeArmsSubsystem extends SubsystemBase {
   DigitalInput m_LimitSwitch2;
 
   /** Creates a new ExampleSubsystem. */
-  public IntakeArmsSubsystem (Integer MotorPort,Integer MotorPort2, Integer LimitSwitch, Integer LimitSwitch2) {
+  public IntakeArmsSubsystem (Integer MotorPort,Integer MotorPort2, Integer LimitSwitch) {
     m_armMotor = new CANSparkMax(MotorPort, MotorType.kBrushless);   
     m_armMotor.setOpenLoopRampRate(0.25);
     m_armMotor.setSmartCurrentLimit(30);  // likely gets ignored due to brushed motor
@@ -29,7 +29,7 @@ public class IntakeArmsSubsystem extends SubsystemBase {
   }
   public void run(double power) {
     m_armMotor.set(power);
-    m_armMotor2.set(power);
+    m_armMotor2.set(-power);
   }
 
   public void stop() {
