@@ -20,7 +20,7 @@ public class RotateArmSubsystem extends SubsystemBase {
         m_RotateMotor = new CANSparkMax(motorPort , MotorType.kBrushless);   
         m_RotateMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
         m_rotateEncoder = m_RotateMotor.getEncoder();
-
+      
       }
     
     @Override

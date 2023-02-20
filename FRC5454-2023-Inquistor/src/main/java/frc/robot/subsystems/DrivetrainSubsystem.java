@@ -25,8 +25,8 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.geometry.Pose2d;
 
 public class DrivetrainSubsystem extends SubsystemBase {
-    private static final double TRACKWIDTH = 20;
-    private static final double WHEELBASE = 25;
+    private static final double TRACKWIDTH = 25;
+    private static final double WHEELBASE = 31;
 
   /*   private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(100);//(164.53+180); //30.6 last 6.5 - was 161.8
     private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(100);
@@ -34,10 +34,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(100);//+180
 */
 //USE RADIANS
-private static final double FRONT_LEFT_ANGLE_OFFSET = 1.51;//(164.53+180); //30.6 last 6.5 - was 161.8
-private static final double FRONT_RIGHT_ANGLE_OFFSET = -3.988;
-private static final double BACK_LEFT_ANGLE_OFFSET = -3.810;//+180 22.1
-private static final double BACK_RIGHT_ANGLE_OFFSET = -2.153;//+180
+//3.04 radians is half a rotation
+private static final double FRONT_LEFT_ANGLE_OFFSET =-1.70;//(164.53+180); //30.6 last 6.5 - was 161.8
+private static final double FRONT_RIGHT_ANGLE_OFFSET =-3.8+3.04;
+private static final double BACK_LEFT_ANGLE_OFFSET = -4.48;//+180 22.1
+private static final double BACK_RIGHT_ANGLE_OFFSET = -2.12-3.04;//+180
 
     private boolean m_autoControl = false;
 
@@ -263,14 +264,25 @@ public void spin (double direction,double speed)
         }
  
         SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
-        System.out.println("FL Swerve - " + frontLeftModule.getCurrentAngle() + "Target State " + states[0].angle.getRadians());
-        System.out.println("FR Swerve - " + frontRightModule.getCurrentAngle() + "Target State " + states[1].angle.getRadians());
         frontLeftModule.setTargetVelocity(states[0].speedMetersPerSecond, states[0].angle.getRadians());
         frontRightModule.setTargetVelocity(states[1].speedMetersPerSecond, states[1].angle.getRadians());
         backLeftModule.setTargetVelocity(states[2].speedMetersPerSecond, states[2].angle.getRadians());
         backRightModule.setTargetVelocity(states[3].speedMetersPerSecond, states[3].angle.getRadians());
     }
 
+//TOODO:
+    public double getFrontLeftAngleDegrees(){
+        return frontLeftModule.getCurrentAngle();
+    }
+    public double getFrontRightAngleDegrees(){
+        return frontRightModule.getCurrentAngle();
+    }
+    public double getBackLeftAngleDegrees(){
+        return backLeftModule.getCurrentAngle();
+    }
+    public double getbackRightAngleDegrees(){
+        return backRightModule.getCurrentAngle();
+        }
    
 
     public double getFrontLeftAngle(){

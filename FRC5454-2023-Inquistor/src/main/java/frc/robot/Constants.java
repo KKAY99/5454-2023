@@ -54,20 +54,20 @@ public final class Constants {
     
     public class IntakeConvey{
         public static final int motorPort=42;
-        public static final double inSpeed=0.5;
+        public static final double inSpeed=-0.5;
         public static final double outSpeed=0.5;
     }
     public class IntakeArms{
         public static final int motorPort1=13;
         public static final int motorPort2=16; // FIX
-        public static final double inSpeed=-0.3;
-        public static final double outSpeed=0.3;
+        public static final double inSpeed=0.3;
+        public static final double outSpeed=-0.3;
         public static final int limitSwitch1 = 1;
     }
     public class Spindexer {
         public static final int motorPort =17;
-        public static final double spinForward=0.5;
-        public static final double spinBack=-0.5;
+        public static final double spinForward=0.6;
+        public static final double spinBack=-0.6;
     }
 
     public class Paddle{
@@ -135,8 +135,8 @@ public final class Constants {
         public static final int CompressorID=0; 
         public static final int HubID=62;
         public static final PneumaticsModuleType moduleType=PneumaticsModuleType.REVPH;
-        public static final int nodeID = 0;
-        public static final int clawSolenoid = 0;
+    
+        public static final int clawSolenoid = 8;
              
     }
     public static final class ButtonConstants{

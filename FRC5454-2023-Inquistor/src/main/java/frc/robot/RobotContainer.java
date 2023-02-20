@@ -29,6 +29,7 @@ import frc.robot.commands.ElevatorCommand;
 import frc.robot.commands.GyroResetCommand;
 import frc.robot.commands.IntakeArmsCommand;
 import frc.robot.commands.PaddleCommand;
+import frc.robot.commands.PaddleConveyCommand;
 import frc.robot.commands.PaddleConveyRetractCommand;
 import frc.robot.commands.RotateCommand;
 import frc.robot.commands.SpindexerCommand;
@@ -72,7 +73,7 @@ public class RobotContainer {
     private final SpindexerSubsystem m_SpindexerSubsystem = new SpindexerSubsystem(Constants.Spindexer.motorPort);
     private final DrivetrainSubsystem m_RobotDrive = new DrivetrainSubsystem(m_NavX); 
     private final DriveControlMode m_DriveControlMode = new DriveControlMode();
-    private final PnuematicsSubystem m_PnuematicsSubystem = new PnuematicsSubystem(Constants.Pneumatics.nodeID,Constants.Pneumatics.moduleType,
+    private final PnuematicsSubystem m_PnuematicsSubystem = new PnuematicsSubystem(Constants.Pneumatics.HubID,Constants.Pneumatics.moduleType,
                                                         Constants.Pneumatics.clawSolenoid);
     private final IntakeArmsSubsystem m_IntakeArms = new IntakeArmsSubsystem(Constants.IntakeArms.motorPort1,Constants.IntakeArms.motorPort2,
                                                  Constants.IntakeArms.limitSwitch1);
@@ -271,8 +272,10 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-        final PaddleCommand intakeInCommand = new PaddleCommand(m_paddle, Constants.Paddle.intakeInSpeed);
-        final PaddleCommand intakeOutCommand = new PaddleCommand(m_paddle, Constants.Paddle.intakeOutSpeed);
+        //final PaddleCommand intakeInCommand = new PaddleCommand(m_paddle, Constants.Paddle.intakeInSpeed);
+        //final PaddleCommand intakeOutCommand = new PaddleCommand(m_paddle, Constants.Paddle.intakeOutSpeed);
+        final PaddleConveyCommand intakeInCommand = new PaddleConveyCommand(m_paddle,m_Convey,Constants.Paddle.intakeInSpeed,Constants.IntakeConvey.inSpeed);
+        final PaddleConveyCommand intakeOutCommand = new PaddleConveyCommand(m_paddle, m_Convey,Constants.Paddle.intakeOutSpeed,-Constants.IntakeConvey.outSpeed);
         final GyroResetCommand gyroResetCommand = new GyroResetCommand(m_RobotDrive,m_Limelight);
         final SpindexerCommand spindexerLeftCommand = new SpindexerCommand(m_SpindexerSubsystem, Constants.Spindexer.spinBack);
         final SpindexerCommand spindexerRightCommand = new SpindexerCommand(m_SpindexerSubsystem, Constants.Spindexer.spinForward);
@@ -280,10 +283,10 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
 
         final IntakeArmsCommand ExtendArmsCommand = new IntakeArmsCommand(m_IntakeArms, Constants.IntakeArms.limitSwitch1,Constants.IntakeArms.outSpeed);
         final IntakeArmsCommand RetractArmsCommand = new IntakeArmsCommand(m_IntakeArms, Constants.IntakeArms.limitSwitch1, Constants.IntakeArms.inSpeed);
-        final ClawCommand closeClawCommand = new ClawCommand(m_PnuematicsSubystem, m_disabled);
+        final ClawCommand closeClawCommand = new ClawCommand(m_PnuematicsSubystem, false);
         final RotateCommand rotateCommand = new RotateCommand(m_Rotate,() -> (m_xBoxOperator.getRightX()),Constants.RotateArm.manualLimitSpeed);
         final ElevatorCommand elevatorCommand = new ElevatorCommand(m_Elevator,() -> (m_xBoxOperator.getLeftY()), Constants.Elevator.elevatorLimitSpeed);
-        final ClawCommand openClawCommand = new ClawCommand(m_PnuematicsSubystem, m_disabled);
+        final ClawCommand openClawCommand = new ClawCommand(m_PnuematicsSubystem,true);
         final PaddleConveyRetractCommand intakeConveyandRetract = new PaddleConveyRetractCommand(Constants.IntakeArms.limitSwitch1,m_paddle, m_IntakeArms,m_Convey,
         Constants.Paddle.intakeInSpeed, Constants.IntakeArms.inSpeed, Constants.IntakeConvey.inSpeed);
 // Auto commands
@@ -406,7 +409,7 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
 
         Trigger driverGyroReset = new JoystickButton(m_xBoxDriver,ButtonConstants.DriverGyroReset);
         driverGyroReset.whileTrue(gyroResetCommand);
-
+        //TODO: Replace with Constant
         Trigger driverConveyRetract = new Trigger(() -> Math.abs(m_xBoxDriver.getRawAxis(3))>ButtonConstants.RightTriggerDeadBand);
         driverConveyRetract.toggleOnTrue(intakeConveyandRetract);
 /*            
@@ -424,10 +427,10 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
         operatorAutoBalance.toggleOnTrue(balanceRobotCommand);
    
         Trigger operatorClawClose = new JoystickButton(m_xBoxOperator, ButtonConstants.OperatorClawClose);
-        operatorClawClose.toggleOnTrue(closeClawCommand);
+       operatorClawClose.whileTrue(closeClawCommand);
 
         Trigger operatorClawOpen = new JoystickButton(m_xBoxOperator, ButtonConstants.OperatorClawOpen);
-        operatorClawOpen.toggleOnTrue(openClawCommand);
+        operatorClawOpen.whileTrue(openClawCommand);
 
         Trigger operatorElevator = new Trigger(() -> Math.abs(m_xBoxOperator.getLeftY())>ButtonConstants.ElevatorDeadBand);
         operatorElevator.whileTrue(elevatorCommand);
@@ -545,7 +548,6 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
         frontRightAngle.set(m_RobotDrive.getFrontRightAngle());
         backLeftAngle.set(m_RobotDrive.getBackLeftAngle());
         backRightAngle.set(m_RobotDrive.getbackRightAngle());
-
         elevatorEncoder.set(m_Elevator.getElevatorPos());
         rotateEncoder.set(m_Rotate.getRotatePos());
 

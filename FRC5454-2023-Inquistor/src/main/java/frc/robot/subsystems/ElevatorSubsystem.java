@@ -17,10 +17,11 @@ public class ElevatorSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   public ElevatorSubsystem(Integer MotorPort) {
     m_Motor = new CANSparkMax(MotorPort, MotorType.kBrushless);   
+    
     m_Motor.setOpenLoopRampRate(0.25);
     m_Motor.setSmartCurrentLimit(30);  // likely gets ignored due to brushed motor
     m_Motor.setSecondaryCurrentLimit(30); //Set as well at 30
-    
+    m_Motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
     m_elevatorEncoder=m_Motor.getEncoder();
   }
   public void run(double power) {

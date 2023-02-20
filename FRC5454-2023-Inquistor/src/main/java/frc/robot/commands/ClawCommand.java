@@ -14,11 +14,14 @@ public class ClawCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        System.out.println("Setting Claw to state - " + m_state);
+        m_Pnuematics.setClaw(m_state);
+   
     }  
 
     @Override
     public void execute() {
-        m_Pnuematics.setClaw(m_state);
+    
     }
   
     @Override
@@ -28,7 +31,7 @@ public class ClawCommand extends CommandBase {
   
     @Override
     public boolean isFinished() {
-     return true;
+     return false;
     }
 
 }

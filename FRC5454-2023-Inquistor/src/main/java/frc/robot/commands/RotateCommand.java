@@ -39,8 +39,17 @@ public class RotateCommand extends CommandBase {
   @Override
   public void execute() {
     double speed=m_speed.getAsDouble();
-    speed=Math.max(speed,m_maxValue);
-    speed=Math.min(speed,-m_maxValue);
+    if(speed>m_maxValue){
+      speed=m_maxValue;
+    }else{
+      if(speed<0-m_maxValue){
+        speed=0-m_maxValue;
+        }
+    }
+  
+    //speed=Math.max(speed,m_maxValue);
+   // speed=Math.min(speed,-m_maxValue);
+    System.out.println(m_speed.getAsDouble() + " " + speed);
     m_RotateArm.rotate(speed);
   }
 
