@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.hal.ThreadsJNI;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;     
+import edu.wpi.first.math.kinematics.ChassisSpeeds;    
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -35,10 +35,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
 */
 //USE RADIANS
 //3.04 radians is half a rotation
-private static final double FRONT_LEFT_ANGLE_OFFSET =-1.70;//(164.53+180); //30.6 last 6.5 - was 161.8
-private static final double FRONT_RIGHT_ANGLE_OFFSET =-3.8+3.04;
-private static final double BACK_LEFT_ANGLE_OFFSET = -4.48;//+180 22.1
-private static final double BACK_RIGHT_ANGLE_OFFSET = -2.12-3.04;//+180
+private static final double FRONT_LEFT_ANGLE_OFFSET =-0.850;//(164.53+180); //30.6 last 6.5 - was 161.8
+private static final double FRONT_RIGHT_ANGLE_OFFSET =-1.45;
+private static final double BACK_LEFT_ANGLE_OFFSET = -0.78;//+180 22.1
+private static final double BACK_RIGHT_ANGLE_OFFSET = -2.42-3.04;//+180
 
     private boolean m_autoControl = false;
 
@@ -90,7 +90,7 @@ private static final double BACK_RIGHT_ANGLE_OFFSET = -2.12-3.04;//+180
     public DrivetrainSubsystem(NavX navX) {
         m_gyroscope = navX;
         m_gyroscope.calibrate();
-        m_gyroscope.setInverted(true); // You might not need to invert the gyro
+        m_gyroscope.setInverted(false); // You might not need to invert the gyro
 
         //FIXME
       /*   SwerveModulePosition frontLeftPosition=new SwerveModulePosition(frontLeftModule.getCurrentDistance(),new Rotation2d(frontLeftModule.getCurrentAngle()));
@@ -210,7 +210,7 @@ public void spin (double direction,double speed)
         endAngle=direction+startAngle;
         
         do {
-              drive(new Translation2d(0, 0), 30,false);
+              drive(new Translation2d(0, 0), -30,false);
               periodic();
               // System.out.print("(" + forward + ", "+ strafe +") " + distanceTravelled + " / " + distance );
         } while(m_gyroscope.getAngle().toDegrees()<=endAngle);
@@ -234,7 +234,7 @@ public void spin (double direction,double speed)
         SmartDashboard.putNumber("Gyroscope Angle", m_gyroscope.getAngle().toDegrees());
 
         frontLeftModule.updateState(LoggedRobot.defaultPeriodSecs);
-        frontRightModule.updateState(LoggedRobot.defaultPeriodSecs);
+   frontRightModule.updateState(LoggedRobot.defaultPeriodSecs);
         backLeftModule.updateState(LoggedRobot.defaultPeriodSecs);
         backRightModule.updateState(LoggedRobot.defaultPeriodSecs);
 

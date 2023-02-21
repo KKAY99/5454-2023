@@ -16,7 +16,7 @@ import frc.robot.common.control.PidConstants;
 import frc.robot.common.control.PidController;
 import frc.robot.common.drivers.SwerveModule;
 import frc.robot.common.math.Vector2;
-
+import com.revrobotics.SparkMaxPIDController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -143,8 +143,9 @@ public class Mk2SwerveModuleBuilder {
         CANEncoder encoder = motor.getEncoder();
         encoder.setPositionConversionFactor(2.0 * Math.PI / reduction);
 
-        CANPIDController controller = motor.getPIDController();
-
+        // KK 2/20 try
+      //  CANPIDController controller = motor.getPIDController();
+        SparkMaxPIDController controller= motor.getPIDController();
         controller.setP(constants.p);
         controller.setI(constants.i);
         controller.setD(constants.i);
@@ -164,6 +165,7 @@ public class Mk2SwerveModuleBuilder {
             } else if (targetAngle - currentAngleMod < -Math.PI) {
                 newTarget += 2.0 * Math.PI;
             }
+            System.out.println("Setting Reference " + newTarget + " from " + currentAngle);
 
             controller.setReference(newTarget, ControlType.kPosition);
         };
