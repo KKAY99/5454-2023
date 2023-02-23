@@ -90,7 +90,7 @@ private static final double BACK_RIGHT_ANGLE_OFFSET = -2.42-3.04;//+180
     public DrivetrainSubsystem(NavX navX) {
         m_gyroscope = navX;
         m_gyroscope.calibrate();
-        m_gyroscope.setInverted(false); // You might not need to invert the gyro
+        m_gyroscope.setInverted(true); // You might not need to invert the gyro
 
         //FIXME
       /*   SwerveModulePosition frontLeftPosition=new SwerveModulePosition(frontLeftModule.getCurrentDistance(),new Rotation2d(frontLeftModule.getCurrentAngle()));
@@ -225,7 +225,7 @@ public void spin (double direction,double speed)
         frontRightModule.updateSensors();
         backLeftModule.updateSensors();
         backRightModule.updateSensors();
-
+    
         SmartDashboard.putNumber("Front Left Module Angle", Math.toDegrees(frontLeftModule.getCurrentAngle()));
         SmartDashboard.putNumber("Front Right Module Angle", Math.toDegrees(frontRightModule.getCurrentAngle()));
         SmartDashboard.putNumber("Back Left Module Angle", Math.toDegrees(backLeftModule.getCurrentAngle()));
@@ -268,7 +268,9 @@ public void spin (double direction,double speed)
         frontRightModule.setTargetVelocity(states[1].speedMetersPerSecond, states[1].angle.getRadians());
         backLeftModule.setTargetVelocity(states[2].speedMetersPerSecond, states[2].angle.getRadians());
         backRightModule.setTargetVelocity(states[3].speedMetersPerSecond, states[3].angle.getRadians());
-    }
+        System.out.println("Gyro " + m_gyroscope.getAngle().toDegrees() + " " + frontLeftModule.getCurrentAngle() + " " + fieldOriented);
+
+}
 
 //TOODO:
     public double getFrontLeftAngleDegrees(){

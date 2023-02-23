@@ -54,33 +54,71 @@ public final class Constants {
     
     public class IntakeConvey{
         public static final int motorPort=42;
-        public static final double inSpeed=-0.5;
-        public static final double outSpeed=0.5;
+        public static final double inSpeed=-0.8;
+        public static final double outSpeed=0.8;
     }
     public class IntakeArms{
-        public static final int motorPort1=13;
-        public static final int motorPort2=16; // FIX
+        public static final int masterMotorPort=13;
+        public static final int slaveMotorPort=16; // FIX
+        public static final double homeSpeed=0.05;        
+        public static final double homeTimeOut=1.0;
         public static final double inSpeed=0.3;
         public static final double outSpeed=-0.3;
         public static final int limitSwitch1 = 1;
     }
     public class Spindexer {
         public static final int motorPort =17;
-        public static final double spinForward=0.6;
-        public static final double spinBack=-0.6;
+        public static final double spinForward=0.9;
+        public static final double spinBack=-0.9;
     }
 
     public class Paddle{
         public static final int intakePort=33;
         public static final double intakeInSpeed=-0.50;
         public static final double intakeOutSpeed=0.50;
+        public static final double homePaddleSpeed=-0.1;
+        public static final int limitSwitch=2;
     }    
     public class Elevator{
         public static final int elevatorPort=19;
         public static final double elevatorSpeed=.50;
         public static final double elevatorLimitSpeed=.50;
     }
-    
+    public class HungryHippoValues{
+        public static final int armPos1=10;
+        public static final int armPos2=10;
+        public static final int armPos3=10;
+        public static final int armPos4=10;
+        public static final int armPos5=10;
+        public static final int armPos6=10;
+        public static final int armPos7=10;
+        public static final int armPos8=10;
+        public static final double armSpeed1=-0.10;
+        public static final double armSpeed2=-0.10;
+        public static final double armSpeed3=-0.10;
+        public static final double armSpeed4=-0.10;
+        public static final double armSpeed5=-0.10;
+        public static final double armSpeed6=-0.10;
+        public static final double armSpeed7=-0.10;
+        public static final double armSpeed8=-0.10;
+        public static final int paddlePos1=20;
+        public static final int paddlePos2=20;
+        public static final int paddlePos3=20;
+        public static final int paddlePos4=20;
+        public static final int paddlePos5=20;
+        public static final int paddlePos6=20;
+        public static final int paddlePos7=20;
+        public static final int paddlePos8=20;
+        public static final double paddleSpeed1=0.10;
+        public static final double paddleSpeed2=0.10;
+        public static final double paddleSpeed3=0.10;
+        public static final double paddleSpeed4=0.10;
+        public static final double paddleSpeed5=0.10;
+        public static final double paddleSpeed6=0.10;
+        public static final double paddleSpeed7=0.10;
+        public static final double paddleSpeed8=0.10;
+        
+    }
     public class RotateArm{
         public static final int rotateArmPort=50;
         public static final double manualSpeed=0.4;
@@ -149,10 +187,15 @@ public final class Constants {
         public static final int DriverDriveMode=7;
         public static final int DriverGyroReset=8;
   
-        public static final int OperatorAutoLow=1;
-        public static final int OperatorArmReturn=2;
-        public static final int OperatorAutoBalance=3;
-        public static final int OperatorAutoMiddle=4;
+        public static final int OperatorAutoLow=11;
+        public static final int OperatorArmReturn=12;
+        public static final int OperatorAutoBalance=13;
+        public static final int OperatorAutoMiddle=14;
+        
+        public static final int OperatorIntakeIn=1;
+        public static final int OperatorIntakeOut=2;
+        public static final int OperatorClawSwap=3;
+        public static final int OperatorSpindexerLeft=4;
         public static final int OperatorClawClose=5;
         public static final int OperatorClawOpen=6;
      
@@ -166,8 +209,9 @@ public final class Constants {
         public static final int TargetMiddleRight=11;
         public static final int TargetBottomRight=12;
 
-        public static final double ElevatorDeadBand = 0.05;
-        public static final double RotateDeadBand = 0.05;
+        public static final double JoystickDeadBand = 0.10;
+        public static final double ElevatorDeadBand = 0.10;
+        public static final double RotateDeadBand = 0.10;
         public static final double LeftTriggerDeadBand = 0.05;
         public static final double RightTriggerDeadBand = 0.05;
     }
@@ -285,7 +329,7 @@ public final class Constants {
         public static final int DRIVETRAIN_BACK_LEFT_ANGLE_MOTOR = 28; // CAN
         public static final int DRIVETRAIN_BACK_LEFT_ANGLE_ENCODER = 3; // Analog
         public static final int DRIVETRAIN_BACK_LEFT_DRIVE_MOTOR = 23; // CAN
-       }
+           }
     
    public static final class PIDSteering{
     public static final double rightKP=-0.09;

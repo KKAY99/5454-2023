@@ -122,7 +122,7 @@ public abstract class SwerveModule {
     public double getDriveCurrent() {
         return 0;
     }
-
+   
     public Vector2 getTargetVelocity() {
         double targetAngle;
         double targetSpeed;

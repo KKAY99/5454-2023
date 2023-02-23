@@ -24,6 +24,7 @@ import frc.robot.classes.Limelight;
 import frc.robot.commands.AutoDoNothingCommand;
 import frc.robot.commands.AutoMoveCommand;
 import frc.robot.commands.ClawCommand;
+import frc.robot.commands.ClawSwapCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ElevatorCommand;
 import frc.robot.commands.GyroResetCommand;
@@ -75,8 +76,8 @@ public class RobotContainer {
     private final DriveControlMode m_DriveControlMode = new DriveControlMode();
     private final PnuematicsSubystem m_PnuematicsSubystem = new PnuematicsSubystem(Constants.Pneumatics.HubID,Constants.Pneumatics.moduleType,
                                                         Constants.Pneumatics.clawSolenoid);
-    private final IntakeArmsSubsystem m_IntakeArms = new IntakeArmsSubsystem(Constants.IntakeArms.motorPort1,Constants.IntakeArms.motorPort2,
-                                                 Constants.IntakeArms.limitSwitch1);
+    private final IntakeArmsSubsystem m_IntakeArms = new IntakeArmsSubsystem(Constants.IntakeArms.masterMotorPort,Constants.IntakeArms.slaveMotorPort,
+                                                 Constants.IntakeArms.limitSwitch1,Constants.IntakeArms.homeSpeed,Constants.IntakeArms.homeTimeOut);
     private final Limelight m_Limelight = new Limelight(Constants.LimeLightValues.targetHeight, Constants.LimeLightValues.limelightHeight,
                                                  Constants.LimeLightValues.limelightAngle,Constants.LimeLightValues.kVisionXOffset,80);
     private final ElevatorSubsystem m_Elevator = new ElevatorSubsystem(Constants.Elevator.elevatorPort);
@@ -91,6 +92,7 @@ public class RobotContainer {
      }
      private LEDMode m_LEDMode=LEDMode.DISBLED;
      private boolean m_disabled=true;
+     private boolean m_homed=false;
      private boolean m_ledFlash=false;
      private boolean m_ledFlashMode=false;
      private int m_ledFlashDelayCount=0;
@@ -100,7 +102,9 @@ public class RobotContainer {
      private static final int LEDMODE_SOLID = 3;
      private static final int LEDMODE_OFF = 4;
      private LEDMode m_oldLEDmode=LEDMode.NOTSET;  
-     private final PaddleSubsystem m_paddle = new PaddleSubsystem(Constants.Paddle.intakePort);
+     private final PaddleSubsystem m_paddle = new PaddleSubsystem(Constants.Paddle.intakePort,
+                                                                  Constants.Paddle.limitSwitch,
+                                                                  Constants.Paddle.homePaddleSpeed);
    
     private final PowerDistribution m_robotPDH = new PowerDistribution(1, PowerDistribution.ModuleType.kRev);
    
@@ -284,9 +288,10 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
         final IntakeArmsCommand ExtendArmsCommand = new IntakeArmsCommand(m_IntakeArms, Constants.IntakeArms.limitSwitch1,Constants.IntakeArms.outSpeed);
         final IntakeArmsCommand RetractArmsCommand = new IntakeArmsCommand(m_IntakeArms, Constants.IntakeArms.limitSwitch1, Constants.IntakeArms.inSpeed);
         final ClawCommand closeClawCommand = new ClawCommand(m_PnuematicsSubystem, false);
-        final RotateCommand rotateCommand = new RotateCommand(m_Rotate,() -> (m_xBoxOperator.getRightX()),Constants.RotateArm.manualLimitSpeed);
+        final RotateCommand rotateCommand = new RotateCommand(m_Rotate,() -> (m_xBoxOperator.getLeftX()),Constants.RotateArm.manualLimitSpeed);
         final ElevatorCommand elevatorCommand = new ElevatorCommand(m_Elevator,() -> (m_xBoxOperator.getLeftY()), Constants.Elevator.elevatorLimitSpeed);
         final ClawCommand openClawCommand = new ClawCommand(m_PnuematicsSubystem,true);
+        final ClawSwapCommand swapClawCommand = new ClawSwapCommand(m_PnuematicsSubystem);
         final PaddleConveyRetractCommand intakeConveyandRetract = new PaddleConveyRetractCommand(Constants.IntakeArms.limitSwitch1,m_paddle, m_IntakeArms,m_Convey,
         Constants.Paddle.intakeInSpeed, Constants.IntakeArms.inSpeed, Constants.IntakeConvey.inSpeed);
 // Auto commands
@@ -364,6 +369,8 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
         targetBottomRight.toggleOnTrue(zAutoTargetBR);
 
         //final LatchCommand latchCommand =new LatchCommand(m_Pnuematics);
+        Trigger swapClaw = new JoystickButton(m_xBoxOperator,ButtonConstants.OperatorClawSwap);
+        swapClaw.toggleOnTrue(swapClawCommand);
 
         final zMoveArmRetract RetractArmCommand = new zMoveArmRetract(m_Elevator, m_Rotate);
         JoystickButton Retract=new JoystickButton(m_xBoxOperator,ButtonConstants.OperatorArmReturn);
@@ -392,6 +399,9 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
         Trigger driverSpindexerLeft=new JoystickButton(m_xBoxDriver,ButtonConstants.DriverSpindexerLeft);
         driverSpindexerLeft.whileTrue(spindexerLeftCommand);
 
+        Trigger operatorSpindexerLeft=new JoystickButton(m_xBoxOperator,ButtonConstants.OperatorSpindexerLeft);
+        operatorSpindexerLeft.whileTrue(spindexerLeftCommand);
+
         Trigger driverIntakeExtend=new JoystickButton(m_xBoxDriver,ButtonConstants.DriverIntakeExtend);
         driverIntakeExtend.whileTrue(ExtendArmsCommand);
 
@@ -406,6 +416,12 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
 
         Trigger driverIntakeOut =  new JoystickButton(m_xBoxDriver, ButtonConstants.DriverIntakeOut);
         driverIntakeOut.whileTrue(intakeOutCommand);
+
+        Trigger operatorIntakeIn =  new JoystickButton(m_xBoxOperator, ButtonConstants.OperatorIntakeIn);
+        operatorIntakeIn.whileTrue(intakeInCommand);
+
+        Trigger operatorIntakeOut =  new JoystickButton(m_xBoxOperator, ButtonConstants.OperatorIntakeOut);
+        operatorIntakeOut.whileTrue(intakeOutCommand);
 
         Trigger driverGyroReset = new JoystickButton(m_xBoxDriver,ButtonConstants.DriverGyroReset);
         driverGyroReset.whileTrue(gyroResetCommand);
@@ -435,8 +451,14 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
         Trigger operatorElevator = new Trigger(() -> Math.abs(m_xBoxOperator.getLeftY())>ButtonConstants.ElevatorDeadBand);
         operatorElevator.whileTrue(elevatorCommand);
         
-        Trigger operatorRotate = new Trigger(() -> Math.abs(m_xBoxOperator.getRightX())>ButtonConstants.RotateDeadBand);
+        Trigger operatorRotate = new Trigger(() -> Math.abs(m_xBoxOperator.getLeftX())>ButtonConstants.RotateDeadBand);
         operatorRotate.whileTrue(rotateCommand);
+
+        Trigger operatorIntakeExtend = new Trigger(() -> (m_xBoxOperator.getRightX())>ButtonConstants.JoystickDeadBand);
+        operatorIntakeExtend.whileTrue(ExtendArmsCommand);
+        
+        Trigger operatorIntakeRetract = new Trigger(() -> (m_xBoxOperator.getRightX())<0-ButtonConstants.JoystickDeadBand);
+        operatorIntakeRetract.whileTrue(RetractArmsCommand);
 
         Trigger operatorTapeAlign = new Trigger(() -> Math.abs(m_xBoxOperator.getRawAxis(2))>ButtonConstants.LeftTriggerDeadBand);
         operatorTapeAlign.toggleOnTrue(tapetargetandMoveCommand);
@@ -674,17 +696,31 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
             
     }
   
-    public void LEDAutoMode(){
-        m_LEDMode=LEDMode.AUTOMODE;
-        LEDUpdate();
+  
+        public void AutoMode(){
+                m_LEDMode=LEDMode.AUTOMODE;  
+                LEDUpdate();
+                homeRobot();
+                //Set Default Pipeline to AprilTags
+                m_Limelight.setPipeline(Constants.VisionPipelines.AprilTag);
+                
+        }  
+        public void TeleopMode(){
+                m_LEDMode=LEDMode.TELEOP;  
+                LEDUpdate();
+                homeRobot();
+                //Set Default Pipeline to AprilTags
+                m_Limelight.setPipeline(Constants.VisionPipelines.AprilTag);
+                
+        }  
+    private void homeRobot(){
+        if(m_homed==false){
+                m_IntakeArms.homeArms();
+               // m_paddle.homePaddle();
+                //TODO: ROTATE home rotate wheel
+                m_homed=true;
         }
-    public void TeleopMode(){
-        m_LEDMode=LEDMode.TELEOP;  
-        LEDUpdate();
-        //Set Default Pipeline to AprilTags
-        m_Limelight.setPipeline(Constants.VisionPipelines.AprilTag);
-        
-}
+    }
     public void DisableMode(){
             m_disabled=true;
             m_LEDMode=LEDMode.DISBLED;

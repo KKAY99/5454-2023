@@ -144,8 +144,8 @@ public class Mk2SwerveModuleBuilder {
         encoder.setPositionConversionFactor(2.0 * Math.PI / reduction);
 
         // KK 2/20 try
-      //  CANPIDController controller = motor.getPIDController();
-        SparkMaxPIDController controller= motor.getPIDController();
+       CANPIDController controller = motor.getPIDController();
+       // SparkMaxPIDController controller= motor.getPIDController();
         controller.setP(constants.p);
         controller.setI(constants.i);
         controller.setD(constants.i);
@@ -157,7 +157,7 @@ public class Mk2SwerveModuleBuilder {
             if (currentAngleMod < 0.0) {
                 currentAngleMod += 2.0 * Math.PI;
             }
-
+//REVERSING SIGNS
             // Figure out target to send to Spark MAX because the encoder is continuous
             double newTarget = targetAngle + currentAngle - currentAngleMod;
             if (targetAngle - currentAngleMod > Math.PI) {
@@ -165,8 +165,7 @@ public class Mk2SwerveModuleBuilder {
             } else if (targetAngle - currentAngleMod < -Math.PI) {
                 newTarget += 2.0 * Math.PI;
             }
-            System.out.println("Setting Reference " + newTarget + " from " + currentAngle);
-
+           
             controller.setReference(newTarget, ControlType.kPosition);
         };
         initializeAngleCallback = encoder::setPosition;
