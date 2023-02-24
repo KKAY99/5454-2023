@@ -15,6 +15,7 @@ import com.revrobotics.RelativeEncoder;
 public class RotateArmSubsystem extends SubsystemBase {
     private CANSparkMax m_RotateMotor;
     RelativeEncoder m_rotateEncoder;
+    private boolean m_homed=false;
   
     public RotateArmSubsystem(int motorPort){
         m_RotateMotor = new CANSparkMax(motorPort , MotorType.kBrushless);   
@@ -42,7 +43,22 @@ public class RotateArmSubsystem extends SubsystemBase {
     public double getRotatePos(){
       return m_rotateEncoder.getPosition();
     }
+    public void SetZero(){
+      m_rotateEncoder.setPosition(0);
+    }
+    public boolean hitStartAngle(){
+      //TODO: IMPLEMENT
+      return false;
+    }
 
+    public void setHomed(boolean value){
+      m_homed=value;
+    }
+  
+    public boolean hasHomed(){
+      return m_homed;
+    }
+  
     @Override
     public void simulationPeriodic() {
       // This method will be called once per scheduler run during simulation

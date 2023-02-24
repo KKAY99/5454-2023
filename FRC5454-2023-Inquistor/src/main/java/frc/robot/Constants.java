@@ -60,24 +60,29 @@ public final class Constants {
     public class IntakeArms{
         public static final int masterMotorPort=13;
         public static final int slaveMotorPort=16; // FIX
-        public static final double homeSpeed=0.05;        
+        public static final double homeSpeed=0.1;        
         public static final double homeTimeOut=1.0;
         public static final double inSpeed=0.3;
         public static final double outSpeed=-0.3;
         public static final int limitSwitch1 = 1;
+        public static final double posHumanPlayer=100;
+        public static final double posExtendLimit=200;
     }
     public class Spindexer {
         public static final int motorPort =17;
         public static final double spinForward=0.9;
         public static final double spinBack=-0.9;
+        public static final double spinForwardSlow=0.6;
+        public static final double spinBackSlow=-0.6;
     }
 
     public class Paddle{
         public static final int intakePort=33;
         public static final double intakeInSpeed=-0.50;
         public static final double intakeOutSpeed=0.50;
-        public static final double homePaddleSpeed=-0.1;
         public static final int limitSwitch=2;
+        public static final double homePaddleSpeed=-0.1;
+        public static final double homeTimeOut=1;
     }    
     public class Elevator{
         public static final int elevatorPort=19;
@@ -178,10 +183,8 @@ public final class Constants {
              
     }
     public static final class ButtonConstants{
-        public static final int DriverSpindexerRight=1;
         public static final int DriverIntakeOut=2;
         public static final int DriverIntakeIn=3;
-        public static final int DriverSpindexerLeft=4;
         public static final int DriverIntakeRetract=5;
         public static final int DriverIntakeExtend=6;
         public static final int DriverDriveMode=7;
@@ -195,10 +198,16 @@ public final class Constants {
         public static final int OperatorIntakeIn=1;
         public static final int OperatorIntakeOut=2;
         public static final int OperatorClawSwap=3;
-        public static final int OperatorSpindexerLeft=4;
+        public static final int OperatorPlayerStation=4;
         public static final int OperatorClawClose=5;
         public static final int OperatorClawOpen=6;
      
+        public static final int OperatorSpindexPOVSL=0;
+        public static final int OperatorSpindexPOVSR=180;
+        public static final int OperatorSpindexPOVFL=270;
+        public static final int OperatorSpindexPOVFR=90;
+       
+
         public static final int TargetTopLeft=4;
         public static final int TargetMiddleLeft=5;
         public static final int TargetBottomLeft=6;

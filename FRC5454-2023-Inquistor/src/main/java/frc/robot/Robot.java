@@ -131,6 +131,7 @@ public class Robot extends LoggedRobot {
   public void disabledInit() {
     m_robotContainer.resetDriveModes();
     m_robotContainer.DisableMode();
+    m_robotContainer.disableLimelights();
   }
 
   @Override

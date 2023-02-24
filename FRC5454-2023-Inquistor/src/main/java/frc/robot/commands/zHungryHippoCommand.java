@@ -66,7 +66,7 @@ public class zHungryHippoCommand extends CommandBase {
     switch(m_state){
         case EXTENDOUT:
         if(m_IntakeArmsSubsystem.getPos() <HungryHippoValues.armPos1){
-            m_IntakeArmsSubsystem.run(HungryHippoValues.armSpeed1);
+            m_IntakeArmsSubsystem.runwithLimits(HungryHippoValues.armSpeed1);
         } else{
             m_IntakeArmsSubsystem.stop();
             m_state=STATE.END;
@@ -77,7 +77,7 @@ public class zHungryHippoCommand extends CommandBase {
             boolean armExtend=false;
             boolean paddleRotated=false;
             if (m_IntakeArmsSubsystem.getPos() <HungryHippoValues.armPos2){
-                m_IntakeArmsSubsystem.run(HungryHippoValues.armSpeed2);
+                m_IntakeArmsSubsystem.runwithLimits(HungryHippoValues.armSpeed2);
             } else {
                 m_IntakeArmsSubsystem.stop();
             }

@@ -16,38 +16,19 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.AutoModes;
 import frc.robot.Constants.ButtonConstants;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.InputControllers;
 import frc.robot.Constants.LEDS.Colors;
 import frc.robot.classes.DriveControlMode;
 import frc.robot.classes.LEDStrip;
 import frc.robot.classes.Limelight;
-import frc.robot.commands.AutoDoNothingCommand;
-import frc.robot.commands.AutoMoveCommand;
-import frc.robot.commands.ClawCommand;
-import frc.robot.commands.ClawSwapCommand;
-import frc.robot.commands.DefaultDriveCommand;
-import frc.robot.commands.ElevatorCommand;
-import frc.robot.commands.GyroResetCommand;
-import frc.robot.commands.IntakeArmsCommand;
-import frc.robot.commands.PaddleCommand;
-import frc.robot.commands.PaddleConveyCommand;
-import frc.robot.commands.PaddleConveyRetractCommand;
-import frc.robot.commands.RotateCommand;
-import frc.robot.commands.SpindexerCommand;
-import frc.robot.commands.SwitchDriveModeCommand;
-import frc.robot.commands.zAutoDetectandGetCommand;
-import frc.robot.commands.zAutoTargetToColumnCommand;
-import frc.robot.commands.zAutoTargetandMoveCommand;
-import frc.robot.commands.zBalanceRobotCommand;
-import frc.robot.commands.zEngageonChargingCommand;
-import frc.robot.commands.zPivotArmResetCommand;
-import frc.robot.commands.zPivotandExtendCommand;
-import frc.robot.commands.zEngageonChargingCommand;
+import frc.robot.commands.*;
 import frc.robot.commands.zMoveArmExtend;
 import frc.robot.commands.zMoveArmRetract;
 import frc.robot.common.drivers.NavX;
 import frc.robot.common.drivers.NavX.Axis;
 import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 import java.awt.Color;
 
@@ -77,7 +58,7 @@ public class RobotContainer {
     private final PnuematicsSubystem m_PnuematicsSubystem = new PnuematicsSubystem(Constants.Pneumatics.HubID,Constants.Pneumatics.moduleType,
                                                         Constants.Pneumatics.clawSolenoid);
     private final IntakeArmsSubsystem m_IntakeArms = new IntakeArmsSubsystem(Constants.IntakeArms.masterMotorPort,Constants.IntakeArms.slaveMotorPort,
-                                                 Constants.IntakeArms.limitSwitch1,Constants.IntakeArms.homeSpeed,Constants.IntakeArms.homeTimeOut);
+                                                 Constants.IntakeArms.limitSwitch1,Constants.IntakeArms.posExtendLimit);
     private final Limelight m_Limelight = new Limelight(Constants.LimeLightValues.targetHeight, Constants.LimeLightValues.limelightHeight,
                                                  Constants.LimeLightValues.limelightAngle,Constants.LimeLightValues.kVisionXOffset,80);
     private final ElevatorSubsystem m_Elevator = new ElevatorSubsystem(Constants.Elevator.elevatorPort);
@@ -283,10 +264,12 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
         final GyroResetCommand gyroResetCommand = new GyroResetCommand(m_RobotDrive,m_Limelight);
         final SpindexerCommand spindexerLeftCommand = new SpindexerCommand(m_SpindexerSubsystem, Constants.Spindexer.spinBack);
         final SpindexerCommand spindexerRightCommand = new SpindexerCommand(m_SpindexerSubsystem, Constants.Spindexer.spinForward);
+        final SpindexerCommand spindexerLeftSlowCommand = new SpindexerCommand(m_SpindexerSubsystem, Constants.Spindexer.spinBackSlow);
+        final SpindexerCommand spindexerRightSlowCommand = new SpindexerCommand(m_SpindexerSubsystem, Constants.Spindexer.spinForwardSlow);
         //TODO FIX
 
-        final IntakeArmsCommand ExtendArmsCommand = new IntakeArmsCommand(m_IntakeArms, Constants.IntakeArms.limitSwitch1,Constants.IntakeArms.outSpeed);
-        final IntakeArmsCommand RetractArmsCommand = new IntakeArmsCommand(m_IntakeArms, Constants.IntakeArms.limitSwitch1, Constants.IntakeArms.inSpeed);
+        final IntakeArmsCommand ExtendArmsCommand = new IntakeArmsCommand(m_IntakeArms, Constants.IntakeArms.outSpeed);
+        final IntakeArmsCommand RetractArmsCommand = new IntakeArmsCommand(m_IntakeArms, Constants.IntakeArms.inSpeed);
         final ClawCommand closeClawCommand = new ClawCommand(m_PnuematicsSubystem, false);
         final RotateCommand rotateCommand = new RotateCommand(m_Rotate,() -> (m_xBoxOperator.getLeftX()),Constants.RotateArm.manualLimitSpeed);
         final ElevatorCommand elevatorCommand = new ElevatorCommand(m_Elevator,() -> (m_xBoxOperator.getLeftY()), Constants.Elevator.elevatorLimitSpeed);
@@ -393,15 +376,19 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
       //moveArmLow.toggleOnTrue(autoLowMoveArm);
         final SwitchDriveModeCommand switchDriveCommand=new SwitchDriveModeCommand(m_DriveControlMode);  
         
-        Trigger driverSpindexerRight=new JoystickButton(m_xBoxDriver,ButtonConstants.DriverSpindexerRight);
+        Trigger driverSpindexerRight=new POVButton(m_xBoxOperator,ButtonConstants.OperatorSpindexPOVFR);
         driverSpindexerRight.whileTrue(spindexerRightCommand);
 
-        Trigger driverSpindexerLeft=new JoystickButton(m_xBoxDriver,ButtonConstants.DriverSpindexerLeft);
+        Trigger driverSpindexerLeft=new POVButton(m_xBoxOperator,ButtonConstants.OperatorSpindexPOVFL);
         driverSpindexerLeft.whileTrue(spindexerLeftCommand);
+       
+        Trigger driverSpindexerSlowRight=new POVButton(m_xBoxOperator,ButtonConstants.OperatorSpindexPOVSR);
+        driverSpindexerSlowRight.whileTrue(spindexerRightSlowCommand);
 
-        Trigger operatorSpindexerLeft=new JoystickButton(m_xBoxOperator,ButtonConstants.OperatorSpindexerLeft);
-        operatorSpindexerLeft.whileTrue(spindexerLeftCommand);
+        Trigger driverSpindexerSlowLeft=new POVButton(m_xBoxOperator,ButtonConstants.OperatorSpindexPOVSL);
+        driverSpindexerSlowLeft.whileTrue(spindexerLeftSlowCommand);
 
+       
         Trigger driverIntakeExtend=new JoystickButton(m_xBoxDriver,ButtonConstants.DriverIntakeExtend);
         driverIntakeExtend.whileTrue(ExtendArmsCommand);
 
@@ -712,15 +699,29 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
                 //Set Default Pipeline to AprilTags
                 m_Limelight.setPipeline(Constants.VisionPipelines.AprilTag);
                 
-        }  
+        }
+   
     private void homeRobot(){
         if(m_homed==false){
-                m_IntakeArms.homeArms();
+                homeIntakeArms();
                // m_paddle.homePaddle();
                 //TODO: ROTATE home rotate wheel
                 m_homed=true;
         }
     }
+    private void homePaddle(){
+        if(m_paddle.hasHomed()==false){
+                zHomePaddleCommand resetPaddle = new zHomePaddleCommand(m_paddle,Constants.Paddle.homePaddleSpeed,Constants.Paddle.homeTimeOut) ; 
+                CommandScheduler.getInstance().schedule(resetPaddle);
+        }
+    }
+    private void homeIntakeArms(){
+        if(m_IntakeArms.hasHomed()==false){
+                zHomeIntakeArmsCommand resetArms = new zHomeIntakeArmsCommand(m_IntakeArms,Constants.IntakeArms.homeSpeed,Constants.IntakeArms.homeTimeOut); 
+                CommandScheduler.getInstance().schedule(resetArms);
+            }
+        }
+    
     public void DisableMode(){
             m_disabled=true;
             m_LEDMode=LEDMode.DISBLED;

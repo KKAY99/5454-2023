@@ -49,7 +49,7 @@ public class PaddleConveyRetractCommand extends CommandBase {
   public void execute() {
     m_PaddleSubsystem.run(m_paddleSpeed);
     m_ConveySubsystem.run(m_conveySpeed);
-    m_IntakeArmsSubsystem.run(m_armsSpeed);
+    m_IntakeArmsSubsystem.runwithLimits(m_armsSpeed);
   }
 
   // Called once the command ends or is interrupted.
