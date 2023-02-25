@@ -163,8 +163,28 @@ public class IntakeArmsSubsystem extends SubsystemBase {
       m_armMotor.getEncoder().setPosition(0);
     }
   public boolean checkandMoveTowardsPosition(double targetPos, double speed, double tolerance ){
+    boolean returnValue = false;
+    double currentPos=getPos();
+    double distancefromTarget=targetPos-currentPos;
+    double moveSpeed=0;
+    //check if position is within tolerance and then stop command
+    if(Math.abs(distancefromTarget)<=tolerance){
+      stop();
+      returnValue=true;
+    } else{
+        //outside tolerance  / Encoder gets more negative as we extend out
+        // set speed to negative if we need to extend and positive if we need to retact
+        if(distancefromTarget>0){
+          //go negative to extend
+          moveSpeed=0-Math.abs(speed);
+        } else{
+          //go positive to retract
+          moveSpeed=Math.abs(speed);
+        }
+        runwithLimits(moveSpeed);        
+      }  
+    return returnValue;
 
-    return false;
   }
     
   public double getPos(){

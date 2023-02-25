@@ -83,7 +83,9 @@ public class RobotContainer {
      private LEDMode m_oldLEDmode=LEDMode.NOTSET;  
      private final PaddleSubsystem m_paddle = new PaddleSubsystem(Constants.Paddle.intakePort,
                                                                   Constants.Paddle.limitSwitch,
-                                                                  Constants.Paddle.homePaddleSpeed);
+                                                                  Constants.Paddle.homePaddleSpeed,
+                                                                  Constants.Paddle.encoderMoveOutPosStart,
+                                                                  Constants.Paddle.encoderMoveOutPosEnd);
    
     private final PowerDistribution m_robotPDH = new PowerDistribution(1, PowerDistribution.ModuleType.kRev);
    

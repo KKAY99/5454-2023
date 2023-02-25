@@ -85,6 +85,9 @@ public final class Constants {
         public static final int limitSwitch=2;
         public static final double homePaddleSpeed=-0.1;
         public static final double homeTimeOut=1;
+        public static final double encoderMoveOutPosStart=-2;
+        public static final double encoderMoveOutPosEnd=2;
+    
     }    
     public class Elevator{
         public static final int elevatorPort=19;
@@ -131,6 +134,9 @@ public final class Constants {
         public static final int absoluteEncoder=0;
         public static final double manualSpeed=0.4;
         public static final double manualLimitSpeed=0.4;
+        public static final double encodervalueStartPos=.538;
+        public static final double encoderSpindexerHitLimit=.618;
+        
     }
     public class swerveDrive{
         public static final double driveDeadband=0.05;

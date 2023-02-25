@@ -16,16 +16,18 @@ public class PaddleSubsystem extends SubsystemBase {
   private SparkMaxPIDController m_pidController;
   private double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
   private boolean m_homed=false;
-  
+  private double m_encoderMoveOutPosStart; 
+  private double m_encoderMoveOutPosEnd;  
   /** Creates a new ExampleSubsystem. */
-  public PaddleSubsystem(Integer MotorPort, Integer limitswitch,double homeSpeed) {
+  public PaddleSubsystem(Integer MotorPort, Integer limitswitch,double homeSpeed,double encoderMoveOutPosStart,double encoderMoveOutPosEnd) {
     m_Motor = new CANSparkMax(MotorPort, MotorType.kBrushless);  
     m_Encoder=m_Motor.getEncoder(); 
     m_Motor.setOpenLoopRampRate(0.25);
     m_Motor.setSmartCurrentLimit(30);  // likely gets ignored due to brushed motor
     m_Motor.setSecondaryCurrentLimit(30); //Set as well at 30
     m_limit = new DigitalInput(limitswitch);
-
+    m_encoderMoveOutPosStart=encoderMoveOutPosStart;
+    m_encoderMoveOutPosEnd=encoderMoveOutPosEnd;
     //PADDLE PID
     kP = 0.1; 
     kI = 1e-4;
@@ -91,8 +93,27 @@ public class PaddleSubsystem extends SubsystemBase {
     m_homed=value;
   }
   public boolean checkandMoveTowardsPosition(double targetPos, double speed, double tolerance ){
-
-    return false;
+    boolean returnValue = false;
+    double currentPos=getPos();
+    double distancefromTarget=targetPos-currentPos;
+    double moveSpeed=0;
+    //check if position is within tolerance and then stop command
+    if(Math.abs(distancefromTarget)<=tolerance){
+      stop();
+      returnValue=true;
+    } else{
+        //outside tolerance  / Encoder gets more negative as we extend out
+        //Use Angle Limits to determine which way to mvoe paddle and if we pass target 
+        if((currentPos>=m_encoderMoveOutPosStart) && (currentPos<=m_encoderMoveOutPosEnd)) {
+          //go negative to swing down
+          moveSpeed=-Math.abs(speed);
+        } else{
+          //go positive to Swing Up
+          moveSpeed=Math.abs(speed);
+        }
+        run(moveSpeed);        
+      }  
+    return returnValue;
   }
 
   public boolean hasHomed(){
