@@ -53,14 +53,18 @@ public class RobotContainer {
     private final SpindexerSubsystem m_SpindexerSubsystem = new SpindexerSubsystem(Constants.Spindexer.motorPort);
     private final DrivetrainSubsystem m_RobotDrive = new DrivetrainSubsystem(m_NavX); 
     private final DriveControlMode m_DriveControlMode = new DriveControlMode();
-    private final PnuematicsSubystem m_PnuematicsSubystem = new PnuematicsSubystem(Constants.Pneumatics.HubID,Constants.Pneumatics.moduleType,
-                                                        Constants.Pneumatics.clawSolenoid);
+    private final PnuematicsSubystem m_PnuematicsSubystem = new PnuematicsSubystem(Constants.Pneumatics.HubID,
+                                                                   Constants.Pneumatics.moduleType,
+                                                                   Constants.Pneumatics.clawSolenoid,
+                                                                   Constants.Pneumatics.punchSolenoid);
     private final IntakeArmsSubsystem m_IntakeArms = new IntakeArmsSubsystem(Constants.IntakeArms.masterMotorPort,Constants.IntakeArms.slaveMotorPort,
                                                  Constants.IntakeArms.limitSwitch1,Constants.IntakeArms.posExtendLimit);
     private final Limelight m_Limelight = new Limelight(Constants.LimeLightValues.targetHeight, Constants.LimeLightValues.limelightHeight,
                                                  Constants.LimeLightValues.limelightAngle,Constants.LimeLightValues.kVisionXOffset,80);
     private final ElevatorSubsystem m_Elevator = new ElevatorSubsystem(Constants.Elevator.elevatorPort);
-    private final RotateArmSubsystem m_Rotate = new RotateArmSubsystem(Constants.RotateArm.rotateArmPort,Constants.RotateArm.absoluteEncoder);
+    private final RotateArmSubsystem m_Rotate = new RotateArmSubsystem(Constants.RotateArm.rotateArmPort,
+                                                       Constants.RotateArm.absoluteEncoder,
+                                                       Constants.RotateArm.encodervalueHomePos);
     private final IntakeConveySubsystem m_Convey = new IntakeConveySubsystem(Constants.IntakeConvey.motorPort);
 
 
@@ -364,9 +368,13 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
 
         final SequentialCommandGroup paddleHumanPlayer = new SequentialCommandGroup(
                                                          new IntakeArmsMoveToCommand(m_IntakeArms,
-                                                         Constants.IntakeArms.posHumanPlayer,
-                                                         Constants.IntakeArms.autoMoveSpeed,
-                                                         Constants.IntakeArms.autoMoveTolerance));
+                                                              Constants.IntakeArms.posHumanPlayer,
+                                                              Constants.IntakeArms.autoMoveSpeed,
+                                                              Constants.IntakeArms.autoMoveTolerance),
+                                                         new PaddleMoveToCommand(m_paddle,
+                                                              Constants.Paddle.encoderHumanPlayerPos,
+                                                              Constants.Paddle.autoMoveSpeed,
+                                                              Constants.Paddle.autoMoveTolerance));
         Trigger humanPlayer = new JoystickButton(m_xBoxOperator,ButtonConstants.OperatorPlayerStation);
       
         humanPlayer.onTrue(paddleHumanPlayer);

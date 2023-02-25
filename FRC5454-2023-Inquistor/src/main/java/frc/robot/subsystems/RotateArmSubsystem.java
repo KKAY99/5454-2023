@@ -17,15 +17,16 @@ public class RotateArmSubsystem extends SubsystemBase {
     private CANSparkMax m_RotateMotor;
     RelativeEncoder m_rotateEncoder;
     private boolean m_homed=false;
+    private double m_homeAngle;
     private DutyCycleEncoder m_AbsoluteEncoder;
 
   
-    public RotateArmSubsystem(int motorPort,int absoluteEncoderPort){
+    public RotateArmSubsystem(int motorPort,int absoluteEncoderPort,double homeAngle){
         m_RotateMotor = new CANSparkMax(motorPort , MotorType.kBrushless);   
         m_RotateMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
         m_rotateEncoder = m_RotateMotor.getEncoder();
         m_AbsoluteEncoder= new DutyCycleEncoder(absoluteEncoderPort);
-
+        m_homeAngle=homeAngle;
       }
     
     @Override
@@ -44,6 +45,9 @@ public class RotateArmSubsystem extends SubsystemBase {
       m_RotateMotor.set(0);
 
     }
+    public double getAbsolutePos(){
+      return m_AbsoluteEncoder.get();
+    }
 
     public double getRotatePos(){
       return m_rotateEncoder.getPosition();
@@ -51,9 +55,10 @@ public class RotateArmSubsystem extends SubsystemBase {
     public void SetZero(){
       m_rotateEncoder.setPosition(0);
     }
-    public boolean hitStartAngle(){
+    public boolean hitHomeAngle(){
       //TODO: IMPLEMENT
-      return false;
+      return (getAbsolutePos()==m_homeAngle);
+     
     }
 
     public void setHomed(boolean value){
