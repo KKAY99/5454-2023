@@ -162,6 +162,10 @@ public class IntakeArmsSubsystem extends SubsystemBase {
     public void SetZero(){
       m_armMotor.getEncoder().setPosition(0);
     }
+  public boolean checkandMoveTowardsPosition(double targetPos, double speed, double tolerance ){
+
+    return false;
+  }
     
   public double getPos(){
     //USE arm 1 encoder for position of arm

@@ -90,6 +90,10 @@ public class PaddleSubsystem extends SubsystemBase {
   public void setHomed(boolean value){
     m_homed=value;
   }
+  public boolean checkandMoveTowardsPosition(double targetPos, double speed, double tolerance ){
+
+    return false;
+  }
 
   public boolean hasHomed(){
     return m_homed;
