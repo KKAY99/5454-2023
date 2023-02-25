@@ -23,8 +23,6 @@ import frc.robot.classes.DriveControlMode;
 import frc.robot.classes.LEDStrip;
 import frc.robot.classes.Limelight;
 import frc.robot.commands.*;
-import frc.robot.commands.zMoveArmExtend;
-import frc.robot.commands.zMoveArmRetract;
 import frc.robot.common.drivers.NavX;
 import frc.robot.common.drivers.NavX.Axis;
 import frc.robot.subsystems.*;
@@ -62,7 +60,7 @@ public class RobotContainer {
     private final Limelight m_Limelight = new Limelight(Constants.LimeLightValues.targetHeight, Constants.LimeLightValues.limelightHeight,
                                                  Constants.LimeLightValues.limelightAngle,Constants.LimeLightValues.kVisionXOffset,80);
     private final ElevatorSubsystem m_Elevator = new ElevatorSubsystem(Constants.Elevator.elevatorPort);
-    private final RotateArmSubsystem m_Rotate = new RotateArmSubsystem(Constants.RotateArm.rotateArmPort);
+    private final RotateArmSubsystem m_Rotate = new RotateArmSubsystem(Constants.RotateArm.rotateArmPort,Constants.RotateArm.absoluteEncoder);
     private final IntakeConveySubsystem m_Convey = new IntakeConveySubsystem(Constants.IntakeConvey.motorPort);
 
 
@@ -266,8 +264,7 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
         final SpindexerCommand spindexerRightCommand = new SpindexerCommand(m_SpindexerSubsystem, Constants.Spindexer.spinForward);
         final SpindexerCommand spindexerLeftSlowCommand = new SpindexerCommand(m_SpindexerSubsystem, Constants.Spindexer.spinBackSlow);
         final SpindexerCommand spindexerRightSlowCommand = new SpindexerCommand(m_SpindexerSubsystem, Constants.Spindexer.spinForwardSlow);
-        //TODO FIX
-
+        
         final IntakeArmsCommand ExtendArmsCommand = new IntakeArmsCommand(m_IntakeArms, Constants.IntakeArms.outSpeed);
         final IntakeArmsCommand RetractArmsCommand = new IntakeArmsCommand(m_IntakeArms, Constants.IntakeArms.inSpeed);
         final ClawCommand closeClawCommand = new ClawCommand(m_PnuematicsSubystem, false);
@@ -358,6 +355,15 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
         final zMoveArmRetract RetractArmCommand = new zMoveArmRetract(m_Elevator, m_Rotate);
         JoystickButton Retract=new JoystickButton(m_xBoxOperator,ButtonConstants.OperatorArmReturn);
         Retract.onTrue(RetractArmCommand);
+
+        final SequentialCommandGroup paddleHumanPlayer = new SequentialCommandGroup(
+                                                         new IntakeArmsMoveToCommand(m_IntakeArms,
+                                                         Constants.IntakeArms.posHumanPlayer,
+                                                         Constants.IntakeArms.autoMoveSpeed,
+                                                         Constants.IntakeArms.autoMoveTolerance));
+        Trigger humanPlayer = new JoystickButton(m_xBoxOperator,ButtonConstants.OperatorPlayerStation);
+      
+        humanPlayer.onTrue(paddleHumanPlayer);
 
         final SequentialCommandGroup autoMiddleMoveArm =new SequentialCommandGroup( new ClawCommand(m_PnuematicsSubystem, true),
                                                            new zMoveArmExtend(m_Elevator, m_Rotate, Constants.TargetHeight.MIDDLE),

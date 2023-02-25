@@ -36,7 +36,7 @@ public class PaddleSubsystem extends SubsystemBase {
     kMinOutput = -1;
     m_pidController = m_Motor.getPIDController();
     m_pidController.setFeedbackDevice(m_Encoder);
-
+     
     m_pidController.setP(kP);
     m_pidController.setI(kI);
     m_pidController.setD(kD);
@@ -97,7 +97,7 @@ public class PaddleSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-  //  System.out.println(" Limit Switch - " + m_limit.get());
+    System.out.println(" Limit Switch - " + m_limit.get());
   }
 
   @Override

@@ -6,6 +6,7 @@ import com.revrobotics.SparkMaxRelativeEncoder;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax.IdleMode;
 import frc.robot.Constants;
@@ -16,17 +17,21 @@ public class RotateArmSubsystem extends SubsystemBase {
     private CANSparkMax m_RotateMotor;
     RelativeEncoder m_rotateEncoder;
     private boolean m_homed=false;
+    private DutyCycleEncoder m_AbsoluteEncoder;
+
   
-    public RotateArmSubsystem(int motorPort){
+    public RotateArmSubsystem(int motorPort,int absoluteEncoderPort){
         m_RotateMotor = new CANSparkMax(motorPort , MotorType.kBrushless);   
         m_RotateMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
         m_rotateEncoder = m_RotateMotor.getEncoder();
-      
+        m_AbsoluteEncoder= new DutyCycleEncoder(absoluteEncoderPort);
+
       }
     
     @Override
     public void periodic() {
       // This method will be called once per scheduler run
+    //System.out.println("ABS Encoder" + m_AbsoluteEncoder.get()  + " Rel Encoder " + m_rotateEncoder.getPosition());
     }
 
     public void rotate(double power){

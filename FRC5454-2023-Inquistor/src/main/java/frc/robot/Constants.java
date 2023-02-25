@@ -60,13 +60,15 @@ public final class Constants {
     public class IntakeArms{
         public static final int masterMotorPort=13;
         public static final int slaveMotorPort=16; // FIX
-        public static final double homeSpeed=0.1;        
-        public static final double homeTimeOut=1.0;
+        public static final double homeSpeed=0.10;        
+        public static final double homeTimeOut=2.0;
         public static final double inSpeed=0.3;
         public static final double outSpeed=-0.3;
         public static final int limitSwitch1 = 1;
-        public static final double posHumanPlayer=100;
-        public static final double posExtendLimit=200;
+        public static final double posHumanPlayer=6;
+        public static final double posExtendLimit=8;
+        public static final double autoMoveSpeed=.25;
+        public static final double autoMoveTolerance=0.1;
     }
     public class Spindexer {
         public static final int motorPort =17;
@@ -126,6 +128,7 @@ public final class Constants {
     }
     public class RotateArm{
         public static final int rotateArmPort=50;
+        public static final int absoluteEncoder=0;
         public static final double manualSpeed=0.4;
         public static final double manualLimitSpeed=0.4;
     }
