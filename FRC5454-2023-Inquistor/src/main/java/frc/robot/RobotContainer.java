@@ -267,7 +267,9 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
         final SpindexerCommand spindexerLeftSlowCommand = new SpindexerCommand(m_SpindexerSubsystem, Constants.Spindexer.spinBackSlow);
         final SpindexerCommand spindexerRightSlowCommand = new SpindexerCommand(m_SpindexerSubsystem, Constants.Spindexer.spinForwardSlow);
         //TODO FIX
-
+        final PipelineSwapCommand pipelineAprilTagCommand = new PipelineSwapCommand(m_Limelight, 0, Constants.ChargedUp.targetHeightAprilTag);
+        final PipelineSwapCommand pipelineTapeLowCommand = new PipelineSwapCommand(m_Limelight, 1, Constants.ChargedUp.targetHeighMLowTape);
+        final PipelineSwapCommand pipelineTapeHighCommand = new PipelineSwapCommand(m_Limelight, 2, Constants.ChargedUp.targetHeightHighTape);
         final IntakeArmsCommand ExtendArmsCommand = new IntakeArmsCommand(m_IntakeArms, Constants.IntakeArms.outSpeed);
         final IntakeArmsCommand RetractArmsCommand = new IntakeArmsCommand(m_IntakeArms, Constants.IntakeArms.inSpeed);
         final ClawCommand closeClawCommand = new ClawCommand(m_PnuematicsSubystem, false);
@@ -388,12 +390,6 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
         Trigger driverSpindexerSlowLeft=new POVButton(m_xBoxOperator,ButtonConstants.OperatorSpindexPOVSL);
         driverSpindexerSlowLeft.whileTrue(spindexerLeftSlowCommand);
 
-       
-        Trigger driverIntakeExtend=new JoystickButton(m_xBoxDriver,ButtonConstants.DriverIntakeExtend);
-        driverIntakeExtend.whileTrue(ExtendArmsCommand);
-
-        Trigger driverIntakeRetract=new JoystickButton(m_xBoxDriver,ButtonConstants.DriverIntakeRetract);
-        driverIntakeRetract.whileTrue(RetractArmsCommand);
         
         Trigger driverMode=new JoystickButton(m_xBoxDriver,ButtonConstants.DriverDriveMode);
         driverMode.toggleOnTrue(switchDriveCommand);
@@ -412,9 +408,15 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
 
         Trigger driverGyroReset = new JoystickButton(m_xBoxDriver,ButtonConstants.DriverGyroReset);
         driverGyroReset.whileTrue(gyroResetCommand);
-        //TODO: Replace with Constant
-        Trigger driverConveyRetract = new Trigger(() -> Math.abs(m_xBoxDriver.getRawAxis(3))>ButtonConstants.RightTriggerDeadBand);
-        driverConveyRetract.toggleOnTrue(intakeConveyandRetract);
+
+        Trigger driverLowTape = new JoystickButton(m_xBoxDriver, ButtonConstants.DriverPipelineLowTape);
+        driverLowTape.toggleOnTrue(pipelineTapeLowCommand);
+
+        Trigger driverHighTape = new JoystickButton(m_xBoxDriver, ButtonConstants.DriverPipelineHighTape);
+        driverHighTape.toggleOnTrue(pipelineTapeHighCommand);
+        
+        Trigger driverPipelineAprilTag = new Trigger(() -> Math.abs(m_xBoxDriver.getRawAxis(3))>ButtonConstants.RightTriggerDeadBand);
+        driverPipelineAprilTag.toggleOnTrue(pipelineAprilTagCommand);
 /*            
         Trigger operatorIntakeIn =  new JoystickButton(m_xBoxDriver, ButtonConstants.OperatorIntakeIn);
         operatorIntakeIn.whileTrue(intakeInCommand);
