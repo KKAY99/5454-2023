@@ -142,7 +142,8 @@ public final class Constants {
         public static final double manualSpeed=0.4;
         public static final double manualLimitSpeed=0.4;
         public static final double encodervalueHomePos=.538;
-        public static final double encoderSpindexerHitLimit=.618;
+        public static final double encoderFrontLimit=.618;
+        public static final double encoderBackLimit=.500;
         
     }
     public class swerveDrive{

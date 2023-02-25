@@ -64,7 +64,9 @@ public class RobotContainer {
     private final ElevatorSubsystem m_Elevator = new ElevatorSubsystem(Constants.Elevator.elevatorPort, Constants.Elevator.limitSwitch);
     private final RotateArmSubsystem m_Rotate = new RotateArmSubsystem(Constants.RotateArm.rotateArmPort,
                                                        Constants.RotateArm.absoluteEncoder,
-                                                       Constants.RotateArm.encodervalueHomePos);
+                                                       Constants.RotateArm.encodervalueHomePos,
+                                                       Constants.RotateArm.encoderFrontLimit,
+                                                       Constants.RotateArm.encoderBackLimit);
     private final IntakeConveySubsystem m_Convey = new IntakeConveySubsystem(Constants.IntakeConvey.motorPort);
 
 
