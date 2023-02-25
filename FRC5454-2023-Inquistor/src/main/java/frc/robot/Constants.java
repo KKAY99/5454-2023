@@ -188,8 +188,8 @@ public final class Constants {
     public static final class ButtonConstants{
         public static final int DriverIntakeOut=2;
         public static final int DriverIntakeIn=3;
-        public static final int DriverIntakeRetract=5;
-        public static final int DriverIntakeExtend=6;
+        public static final int DriverPipelineLowTape=5;
+        public static final int DriverPipelineHighTape=6;
         public static final int DriverDriveMode=7;
         public static final int DriverGyroReset=8;
   
