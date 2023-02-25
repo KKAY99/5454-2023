@@ -48,28 +48,7 @@ public class IntakeArmsMoveToCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    boolean returnValue = false;
-    double currentPos=m_intakeArmsSubsystem.getPos();
-    double distancefromTarget=m_targetPos-currentPos;
-    double moveSpeed=0;
-    //check if position is within tolerance and then stop command
-    if(Math.abs(distancefromTarget)<=m_tolerance){
-      m_intakeArmsSubsystem.stop();
-      returnValue=true;
-    } else{
-        //outside tolerance  / Encoder gets more negative as we extend out
-        // set speed to negative if we need to extend and positive if we need to retact
-        if(distancefromTarget>0){
-          //go negative to extend
-          moveSpeed=0-Math.abs(m_speed);
-        } else{
-          //go positive to retract
-          moveSpeed=Math.abs(m_speed);
-        }
-
-        m_intakeArmsSubsystem.runwithLimits(moveSpeed);
-
-      }  
-    return returnValue;
+    
+    return m_intakeArmsSubsystem.checkandMoveTowardsPosition(m_targetPos, m_speed, m_tolerance);
   }
 }
