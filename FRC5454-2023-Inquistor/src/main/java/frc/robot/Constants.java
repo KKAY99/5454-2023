@@ -124,7 +124,9 @@ public final class Constants {
         public static final double paddleSpeed6=0.10;
         public static final double paddleSpeed7=0.10;
         public static final double paddleSpeed8=0.10;
-        
+        public static final double paddleTolerance=0.1;
+        public static final double armTolerance=0.1;
+        public static final double conveySpeed=0.1;
     }
     public class RotateArm{
         public static final int rotateArmPort=50;
@@ -204,6 +206,8 @@ public final class Constants {
         public static final int OperatorPlayerStation=4;
         public static final int OperatorClawClose=5;
         public static final int OperatorClawOpen=6;
+        public static final int OperatorHungryHippo=7;
+        public static final int OperatorRetractElevator=8;
      
         public static final int OperatorSpindexPOVSL=0;
         public static final int OperatorSpindexPOVSR=180;

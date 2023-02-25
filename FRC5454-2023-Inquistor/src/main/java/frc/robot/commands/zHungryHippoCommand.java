@@ -28,7 +28,7 @@ public class zHungryHippoCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public zHungryHippoCommand(Integer limitSwitch, PaddleSubsystem paddle, IntakeArmsSubsystem intakeArmsSubsystem, IntakeConveySubsystem convey) {
+  public zHungryHippoCommand(PaddleSubsystem paddle, IntakeArmsSubsystem intakeArmsSubsystem, IntakeConveySubsystem convey) {
     m_PaddleSubsystem = paddle;
     m_ConveySubsystem = convey;
     m_IntakeArmsSubsystem = intakeArmsSubsystem;
@@ -63,47 +63,118 @@ public class zHungryHippoCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     boolean returnValue=false; // default is we are not finished unless we abort or end
+    boolean areArmsAtPos = false;
+    boolean isPaddleAtPos = false;
     switch(m_state){
         case EXTENDOUT:
-        if(m_IntakeArmsSubsystem.getPos() <HungryHippoValues.armPos1){
-            m_IntakeArmsSubsystem.runwithLimits(HungryHippoValues.armSpeed1);
-        } else{
-            m_IntakeArmsSubsystem.stop();
+        if(m_IntakeArmsSubsystem.checkandMoveTowardsPosition(HungryHippoValues.armPos1, HungryHippoValues.armSpeed1, HungryHippoValues.armTolerance)){
             m_state=STATE.END;
+            //m_state=STATE.ROTATEANDEXTEND;
         }
-      
         break;
         case ROTATEANDEXTEND:
-            boolean armExtend=false;
-            boolean paddleRotated=false;
-            if (m_IntakeArmsSubsystem.getPos() <HungryHippoValues.armPos2){
-                m_IntakeArmsSubsystem.runwithLimits(HungryHippoValues.armSpeed2);
-            } else {
-                m_IntakeArmsSubsystem.stop();
-            }
-            if (m_PaddleSubsystem.getPos() <HungryHippoValues.paddlePos2){
-                m_PaddleSubsystem.run(HungryHippoValues.paddleSpeed2);
-            }else {
-                m_PaddleSubsystem.stop();
-            }
-            if(armExtend && paddleRotated){
-                m_state=STATE.END;
-            }
+        areArmsAtPos = false;
+        isPaddleAtPos = false;
+        if(m_IntakeArmsSubsystem.checkandMoveTowardsPosition(HungryHippoValues.armPos2, HungryHippoValues.armSpeed2, HungryHippoValues.armTolerance)){
+            areArmsAtPos=true;
+        }
 
+        if(m_PaddleSubsystem.checkandMoveTowardsPosition(HungryHippoValues.paddlePos2, HungryHippoValues.paddleSpeed2, HungryHippoValues.paddleTolerance)){
+            isPaddleAtPos = true;
+        }
+
+        if(isPaddleAtPos&&areArmsAtPos){
+            m_state=STATE.DROPPADDLE;
+        }
         break;
         case DROPPADDLE:
+        if(m_PaddleSubsystem.checkandMoveTowardsPosition(HungryHippoValues.paddlePos3, HungryHippoValues.paddleSpeed3, HungryHippoValues.paddleTolerance)){
+           m_state=STATE.ROTATEANDRETRACTP1;
+        }
+
         break;
         case ROTATEANDRETRACTP1:
+        areArmsAtPos = false;
+        isPaddleAtPos = false;
+
+        m_ConveySubsystem.run(HungryHippoValues.conveySpeed);
+
+        if(m_IntakeArmsSubsystem.checkandMoveTowardsPosition(HungryHippoValues.armPos4, HungryHippoValues.armSpeed4, HungryHippoValues.armTolerance)){
+            areArmsAtPos=true;
+        }
+
+        if(m_PaddleSubsystem.checkandMoveTowardsPosition(HungryHippoValues.paddlePos4, HungryHippoValues.paddleSpeed4, HungryHippoValues.paddleTolerance)){
+            isPaddleAtPos = true;
+        }
+
+        if(isPaddleAtPos&&areArmsAtPos){
+            m_state=STATE.ROTATEANDRETRACTP2;
+        }
         break;
         case ROTATEANDRETRACTP2:
+        areArmsAtPos = false;
+        isPaddleAtPos = false;
+        if(m_IntakeArmsSubsystem.checkandMoveTowardsPosition(HungryHippoValues.armPos5, HungryHippoValues.armSpeed5, HungryHippoValues.armTolerance)){
+            areArmsAtPos=true;
+        }
+
+        if(m_PaddleSubsystem.checkandMoveTowardsPosition(HungryHippoValues.paddlePos5, HungryHippoValues.paddleSpeed5, HungryHippoValues.paddleTolerance)){
+            isPaddleAtPos = true;
+        }
+
+        if(isPaddleAtPos&&areArmsAtPos){
+            m_state=STATE.ROTATEANDRETRACTP3;
+        }
         break;
         case ROTATEANDRETRACTP3:
+        areArmsAtPos = false;
+        isPaddleAtPos = false;
+        if(m_IntakeArmsSubsystem.checkandMoveTowardsPosition(HungryHippoValues.armPos6, HungryHippoValues.armSpeed6, HungryHippoValues.armTolerance)){
+            areArmsAtPos=true;
+        }
+
+        if(m_PaddleSubsystem.checkandMoveTowardsPosition(HungryHippoValues.paddlePos6, HungryHippoValues.paddleSpeed6, HungryHippoValues.paddleTolerance)){
+            isPaddleAtPos = true;
+        }
+
+        if(isPaddleAtPos&&areArmsAtPos){
+            m_state=STATE.ROTATEANDRETRACTP4;
+        }
         break;
         case ROTATEANDRETRACTP4:
+        areArmsAtPos = false;
+        isPaddleAtPos = false;
+        if(m_IntakeArmsSubsystem.checkandMoveTowardsPosition(HungryHippoValues.armPos7, HungryHippoValues.armSpeed7, HungryHippoValues.armTolerance)){
+            areArmsAtPos=true;
+        }
+
+        if(m_PaddleSubsystem.checkandMoveTowardsPosition(HungryHippoValues.paddlePos7, HungryHippoValues.paddleSpeed7, HungryHippoValues.paddleTolerance)){
+            isPaddleAtPos = true;
+        }
+
+        if(isPaddleAtPos&&areArmsAtPos){
+            m_state=STATE.ROTATEANDRETRACTP5;
+        }
         break;
         case ROTATEANDRETRACTP5:
+        areArmsAtPos = false;
+        isPaddleAtPos = false;
+        if(m_IntakeArmsSubsystem.checkandMoveTowardsPosition(HungryHippoValues.armPos8, HungryHippoValues.armSpeed8, HungryHippoValues.armTolerance)){
+            areArmsAtPos=true;
+        }
+
+        if(m_PaddleSubsystem.checkandMoveTowardsPosition(HungryHippoValues.paddlePos8, HungryHippoValues.paddleSpeed8, HungryHippoValues.paddleTolerance)){
+            isPaddleAtPos = true;
+        }
+
+        if(isPaddleAtPos&&areArmsAtPos){
+            m_state=STATE.FINISHRETRACT;
+        }
         break;
         case FINISHRETRACT:
+        m_IntakeArmsSubsystem.stop();
+        m_PaddleSubsystem.stop();
+        m_ConveySubsystem.stop();
         break;
         case ABORT:
         case END:

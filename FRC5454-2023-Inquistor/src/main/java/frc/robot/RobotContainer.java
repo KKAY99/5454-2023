@@ -285,7 +285,8 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
         Constants.ChargedUp.GridPosMiddleLeft);
         final zAutoTargetandMoveCommand tagtargetandMoveCommand = new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive,
         Constants.ChargedUp.GridPosMiddleCenter);
-
+        final zHungryHippoCommand hungryHippoCommand = new zHungryHippoCommand(m_paddle, m_IntakeArms, m_Convey);
+        final zMoveArmRetract retractElevatorCommand = new zMoveArmRetract(m_Elevator, m_Rotate);
         // *** 9 Box targeting
         final SequentialCommandGroup zAutoTargetTL= new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive,
                                                                                 Constants.ChargedUp.GridPosUpperLeft),
@@ -463,6 +464,12 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
         
         Trigger operatorTagAlign = new Trigger(() -> Math.abs(m_xBoxOperator.getRawAxis(3))>ButtonConstants.RightTriggerDeadBand);
         operatorTagAlign.toggleOnTrue(tagtargetandMoveCommand);
+
+        Trigger operatorHungryHippo = new JoystickButton(m_xBoxOperator, ButtonConstants.OperatorHungryHippo);
+        operatorHungryHippo.toggleOnTrue(hungryHippoCommand);
+
+        Trigger operatorAutoRetractElevator = new JoystickButton(m_xBoxOperator, ButtonConstants.OperatorRetractElevator);
+        operatorAutoRetractElevator.toggleOnTrue(retractElevatorCommand);
 
     }
     /**
