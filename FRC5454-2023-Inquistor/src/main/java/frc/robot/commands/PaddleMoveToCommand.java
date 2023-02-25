@@ -12,18 +12,19 @@ public class PaddleMoveToCommand extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private final PaddleSubsystem m_paddleSubsystem;
   private final double m_speed;
-  private final double m_position;
-  private final boolean m_shortestPath;
+  private final double m_targetPos;
+  private final double m_tolerance;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public PaddleMoveToCommand(PaddleSubsystem paddle,double speed,double position,boolean shortestPath) {
+  public PaddleMoveToCommand(PaddleSubsystem paddle,double position,double tolerance, double speed) {
     m_paddleSubsystem = paddle;
     m_speed=speed;
-    m_position=position;
-    m_shortestPath=shortestPath;
+    m_targetPos=position;
+    m_tolerance=tolerance;
+    
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_paddleSubsystem);
   }
@@ -36,7 +37,7 @@ public class PaddleMoveToCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_paddleSubsystem.moveToPosition(m_position);
+  
   }
 
   // Called once the command ends or is interrupted.
@@ -48,6 +49,7 @@ public class PaddleMoveToCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_paddleSubsystem.checkandMoveTowardsPosition(m_targetPos, m_speed, m_tolerance);
+
   }
 }

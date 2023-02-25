@@ -59,7 +59,7 @@ import edu.wpi.first.wpilibj.Timer;
     if(currentTime>m_StartTime+m_homeTimeOut){
         returnValue=true;  //Time Out period has happened
     }
-    if(m_Rotate.hitStartAngle()) {
+    if(m_Rotate.hitHomeAngle()) {
         returnValue=true;  // end because hit limit switch
     }
     if(returnValue){

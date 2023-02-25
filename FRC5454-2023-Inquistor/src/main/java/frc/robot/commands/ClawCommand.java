@@ -14,7 +14,7 @@ public class ClawCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        System.out.println("Setting Claw to state - " + m_state);
+    //    System.out.println("Setting Claw to state - " + m_state);
         m_Pnuematics.setClaw(m_state);
    
     }  

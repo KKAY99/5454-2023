@@ -87,6 +87,9 @@ public final class Constants {
         public static final double homeTimeOut=1;
         public static final double encoderMoveOutPosStart=-2;
         public static final double encoderMoveOutPosEnd=2;
+        public static final double encoderHumanPlayerPos=1.5;
+        public static final double autoMoveSpeed=.50;
+        public static final double autoMoveTolerance=0.1;
     
     }    
     public class Elevator{
@@ -138,7 +141,7 @@ public final class Constants {
         public static final int absoluteEncoder=0;
         public static final double manualSpeed=0.4;
         public static final double manualLimitSpeed=0.4;
-        public static final double encodervalueStartPos=.538;
+        public static final double encodervalueHomePos=.538;
         public static final double encoderSpindexerHitLimit=.618;
         
     }
@@ -193,6 +196,7 @@ public final class Constants {
         public static final PneumaticsModuleType moduleType=PneumaticsModuleType.REVPH;
     
         public static final int clawSolenoid = 8;
+        public static final int punchSolenoid=7;
              
     }
     public static final class ButtonConstants{
