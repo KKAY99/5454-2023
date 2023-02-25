@@ -49,7 +49,7 @@ public class ElevatorCommand extends CommandBase {
   //  speed=Math.max(speed,m_maxValue);
   //  speed=Math.min(speed,-m_maxValue);
  
-    m_ElevatorSubsystem.run(speed);
+    m_ElevatorSubsystem.runWithOutLimit(speed);
   }
 
   // Called once the command ends or is interrupted.

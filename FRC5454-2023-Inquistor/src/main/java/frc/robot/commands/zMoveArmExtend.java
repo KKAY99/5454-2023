@@ -88,7 +88,7 @@ public class zMoveArmExtend extends CommandBase {
           
           // Encoder is negative as it lifts up
           if(m_elevator.getElevatorPos()>m_posInitLift){
-            m_elevator.run(Constants.Lift.liftAutoExtendStage1Speed);
+            m_elevator.runWithOutLimit(Constants.Lift.liftAutoExtendStage1Speed);
           } else{
             m_elevator.stop();
             m_state=STATE.EXTENDANDROTATE;
@@ -108,7 +108,7 @@ public class zMoveArmExtend extends CommandBase {
       case EXTENDLIFT:
        // Encoder is negative as it lifts up
        if(m_elevator.getElevatorPos()>m_posFullLiftStage2){
-        m_elevator.run(Constants.Lift.liftAutoExtendStage2Speed);
+        m_elevator.runWithOutLimit(Constants.Lift.liftAutoExtendStage2Speed);
       } else{
         m_elevator.stop();
         m_state=STATE.END;
@@ -130,10 +130,10 @@ public class zMoveArmExtend extends CommandBase {
              }
       }
        if(m_elevator.getElevatorPos()>m_posFullLiftStage1){
-        m_elevator.run(Constants.Lift.liftAutoExtendStage1Speed);
+        m_elevator.runWithOutLimit(Constants.Lift.liftAutoExtendStage1Speed);
       } else{
           if(m_elevator.getElevatorPos()>m_posFullLiftStage2){
-            m_elevator.run(Constants.Lift.liftAutoExtendStage2Speed);
+            m_elevator.runWithOutLimit(Constants.Lift.liftAutoExtendStage2Speed);
           }else{
             
             m_elevator.stop();

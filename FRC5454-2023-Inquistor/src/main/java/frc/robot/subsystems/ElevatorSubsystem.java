@@ -8,14 +8,19 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+
 import com.revrobotics.RelativeEncoder;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 public class ElevatorSubsystem extends SubsystemBase {
   CANSparkMax m_Motor;
   RelativeEncoder m_elevatorEncoder;
+  DigitalInput m_limitSwitch;
+  private boolean m_homed = false;
 
   /** Creates a new ExampleSubsystem. */
-  public ElevatorSubsystem(Integer MotorPort) {
+  public ElevatorSubsystem(Integer MotorPort, Integer limitswitchport) {
     m_Motor = new CANSparkMax(MotorPort, MotorType.kBrushless);   
     
     m_Motor.setOpenLoopRampRate(0.25);
@@ -23,14 +28,56 @@ public class ElevatorSubsystem extends SubsystemBase {
     m_Motor.setSecondaryCurrentLimit(30); //Set as well at 30
     m_Motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
     m_elevatorEncoder=m_Motor.getEncoder();
+    m_limitSwitch = new DigitalInput(limitswitchport);
   }
-  public void run(double power) {
-    m_Motor.set(power);
-    
+
+  public void runWithOutLimit(double power){
+    moveElevator(power, false);
+  }
+
+  public void runWithLimit(double power){
+    moveElevator(power, true);
+  }
+
+  public void moveElevator(double power, boolean checklimit) {
+    double speed = power;
+
+    if(checklimit && hasHitLimit() && power < 0){
+      speed = 0;
+    }
+
+    if(checklimit && hasHitMaxLimit() && power > 0){
+      speed = 0;
+    }
+
+    m_Motor.set(speed);
+  }
+
+  public void setHomed(boolean value){
+    m_homed=value;
+  }
+  public boolean hasHomed(){
+    return m_homed;
   }
 
   public void stop() {
     m_Motor.set(0);
+  }
+
+  public boolean hasHitLimit(){
+    return m_limitSwitch.get();
+  }
+
+  public boolean hasHitMaxLimit(){
+    if(getElevatorPos() >= Constants.Elevator.maxLimit){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  public void setZero(){
+    m_elevatorEncoder.setPosition(0);
   }
 
   public double getElevatorPos(){

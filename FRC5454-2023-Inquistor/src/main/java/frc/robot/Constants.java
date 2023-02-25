@@ -93,6 +93,8 @@ public final class Constants {
         public static final int elevatorPort=19;
         public static final double elevatorSpeed=.50;
         public static final double elevatorLimitSpeed=.50;
+        public static final int limitSwitch=3;
+        public static final double maxLimit = 100;
     }
     public class HungryHippoValues{
         public static final int armPos1=10;

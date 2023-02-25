@@ -67,7 +67,7 @@ public class zMoveArmRetract extends CommandBase {
              rotated=true;
      }
       if(m_elevator.getElevatorPos()<Constants.Lift.posInitLift){
-       m_elevator.run(Constants.Lift.liftAutoRetractSpeed);
+       m_elevator.runWithOutLimit(Constants.Lift.liftAutoRetractSpeed);
      } else{     
            m_elevator.stop();
            retracted=true;;
@@ -80,7 +80,7 @@ public class zMoveArmRetract extends CommandBase {
     
           // Encoder is negative as it lifts up
           if(m_elevator.getElevatorPos()<Constants.Lift.posHome){
-            m_elevator.run(Constants.Lift.liftAutoRetractHomeSpeed);
+            m_elevator.runWithOutLimit(Constants.Lift.liftAutoRetractHomeSpeed);
           } else{
             m_elevator.stop();
             m_state=STATE.END;
