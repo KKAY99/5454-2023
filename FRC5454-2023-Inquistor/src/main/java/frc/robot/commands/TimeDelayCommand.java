@@ -46,7 +46,7 @@ public class TimeDelayCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    System.out.println(Timer.getFPGATimestamp() +  " --" + m_timeEnd);
+    //System.out.println(Timer.getFPGATimestamp() +  " --" + m_timeEnd);
     if(Timer.getFPGATimestamp()>=m_timeEnd){
       return true;
     }

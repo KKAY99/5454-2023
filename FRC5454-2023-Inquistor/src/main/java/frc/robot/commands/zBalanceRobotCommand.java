@@ -114,17 +114,17 @@ public class zBalanceRobotCommand extends CommandBase {
                m_hasTipped = false;
 
              }else{
-               System.out.println("Balanced");
+               //System.out.println("Balanced");
                m_drive.stop();
              }
            }
 
            }else{
            if(rollAngleDegrees>0.168 && !m_hasNotTippedOnce){
-             System.out.println("Driving Up");
+             //System.out.println("Driving Up");
              m_drive.movenodistance(180,0,0.13);
            }else{
-             System.out.println("Tipped");
+             //System.out.println("Tipped");
              m_drive.move(0,0,0.55,0.6,true);
              m_waitAfterBalanceShift = true;
              m_startWaitTime = currentTime;

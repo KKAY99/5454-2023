@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.Timer;
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   //private final PaddleSubsystem m_IntakeSubsystem;
   private final double m_speed;
+  private final double m_position;
   private final double m_homeTimeOut;
   private double m_StartTime=0;
   private final RotateArmSubsystem m_Rotate;
@@ -25,8 +26,9 @@ import edu.wpi.first.wpilibj.Timer;
    * @param subsystem The subsystem used by this command.
    */
   
-  public zHomeRotateCommand(RotateArmSubsystem rotate,double speed, double homeTimeOut) { 
+  public zHomeRotateCommand(RotateArmSubsystem rotate,double position, double speed, double homeTimeOut) { 
     m_speed = speed;
+    m_position=position;
     m_Rotate = rotate;
     m_homeTimeOut=homeTimeOut;
   }
@@ -40,7 +42,6 @@ import edu.wpi.first.wpilibj.Timer;
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Rotate.rotate(m_speed); // move arms at home speed until isfinished
   }
 
   // Called once the command ends or is interrupted.
@@ -55,12 +56,19 @@ import edu.wpi.first.wpilibj.Timer;
   public boolean isFinished() {
     boolean returnValue=false;
     double currentTime=Timer.getFPGATimestamp();
-    System.out.print("Looping " + currentTime + " "+ m_StartTime + " " + m_homeTimeOut);
+   // System.out.print("Looping " + currentTime + " "+ m_StartTime + " " + m_homeTimeOut);
     if(currentTime>m_StartTime+m_homeTimeOut){
         returnValue=true;  //Time Out period has happened
     }
     if(m_Rotate.hitHomeAngle()) {
         returnValue=true;  // end because hit limit switch
+    }else { //move to position
+      if(m_Rotate.getAbsolutePos()<m_position){
+        m_Rotate.rotate(m_speed);
+      }else{
+        m_Rotate.rotate(0-m_speed);
+      }
+      
     }
     if(returnValue){
       m_Rotate.stopRotate();

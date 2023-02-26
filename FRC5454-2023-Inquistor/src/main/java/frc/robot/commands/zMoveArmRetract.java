@@ -13,7 +13,7 @@ public class zMoveArmRetract extends CommandBase {
   private final RotateArmSubsystem m_rotate;
   private static enum STATE
   {
-                  RETRACTANDROTATE,RETURNLIFT,ABORT,END
+                  RETRACTANDROTATE,ABORT,END
   }
  private STATE m_state=STATE.RETRACTANDROTATE;
 
@@ -55,40 +55,27 @@ public class zMoveArmRetract extends CommandBase {
     boolean returnValue=false;
     System.out.println(m_state);
     switch(m_state){
-
       case RETRACTANDROTATE:
       boolean retracted=false;
       boolean rotated=false;
-     if(m_rotate.getRotatePos()>Constants.Rotate.angleIntakePos){
+     if(m_rotate.getRelativeRotatePos()<Constants.Rotate.angleIntakePos){
        m_rotate.rotate(Constants.Rotate.rotateAutoInSpeed);
-      } else{
-        
+      }else{
              m_rotate.stopRotate();
              rotated=true;
-     }
+      }
       if(m_elevator.getElevatorPos()<Constants.Lift.posInitLift){
        m_elevator.runWithOutLimit(Constants.Lift.liftAutoRetractSpeed);
-     } else{     
+      }else{     
            m_elevator.stop();
            retracted=true;;
          }
      if(rotated && retracted){
-       m_state=STATE.RETURNLIFT;
+       m_state=STATE.END;
      }
      break;
-     case RETURNLIFT:
-    
-          // Encoder is negative as it lifts up
-          if(m_elevator.getElevatorPos()<Constants.Lift.posHome){
-            m_elevator.runWithOutLimit(Constants.Lift.liftAutoRetractHomeSpeed);
-          } else{
-            m_elevator.stop();
-            m_state=STATE.END;
-          }
-          returnValue=false;
-          break;
-          case ABORT:
-      case END:
+     case ABORT:
+     case END:
         m_elevator.stop();
         m_rotate.stopRotate();
         returnValue=true;

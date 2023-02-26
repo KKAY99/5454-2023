@@ -66,10 +66,9 @@ public class IntakeArmsSubsystem extends SubsystemBase {
   public void runNOEncoders (double power){
     double arm1Power=power;
     double arm2Power=-power; 
-    System.out.println("RunNoEncodes");
-    m_pidController.setReference(arm1Power,CANSparkMax.ControlType.kDutyCycle);
-    //m_armMotor.set(arm1Power);
-   // m_armMotor2.set(arm2Power);
+    //System.out.println("RunNoEncodes");
+    m_armMotor.set(arm1Power);
+    m_armMotor2.set(arm2Power);
      
   }
   public void runNoLimits(double power){
@@ -87,9 +86,9 @@ public class IntakeArmsSubsystem extends SubsystemBase {
    double arm2Pos=Math.abs(arm2Encoder.getPosition());
    double arm1Power=power;
    double arm2Power=-power;
-  System.out.println(power + " " + m_homed + " "+ arm1Pos);
+  //System.out.println(power + " " + m_homed + " "+ arm1Pos);
    if(m_homed){
-      //negative  is intake out
+     /*  //negative  is intake out
       if(power<0){
         if(arm1Pos<arm2Pos){
           arm2Power=arm2Power+kMotorOffsetToAlign;  // speed is negative so add to slow it down
@@ -109,24 +108,27 @@ public class IntakeArmsSubsystem extends SubsystemBase {
           }
         }
         }
+
+    */
       //check soft limit on if homed only if arm is extending which menas power is greater than zero
       //this lets it ignore extend limit if we are retracting      
-    //  if(checkLimits && (arm1Pos>=m_ExtendLimit)  && (arm1Power<0)){
-    //    arm1Power=0;
-    //    arm2Power=0;
-    //  }
+    if(checkLimits && (arm1Pos>=m_ExtendLimit)  && (arm1Power<0)){
+        arm1Power=0;
+        arm2Power=0;
+      }
   }
   //intake limit of limit switch
- // if(checkLimits && checkLimit1() && (arm1Power>0)){
- //   arm1Power=0;
- //   arm2Power=0;
- // }
-
+ if(checkLimits && checkLimit1() && (arm1Power>0)){
+    arm1Power=0;
+    arm2Power=0;
+  }
+  //System.out.println(arm1Power + " --- " + arm2Power);
    m_armMotor.set(arm1Power);
    m_armMotor2.set(arm2Power);
   }
 
   public void stop() {
+    //System.out.println("stopping");
     m_armMotor.set(0);
     m_armMotor2.set(0);
   }
@@ -164,7 +166,9 @@ public class IntakeArmsSubsystem extends SubsystemBase {
     }
   public boolean checkandMoveTowardsPosition(double targetPos, double speed, double tolerance ){
     boolean returnValue = false;
-    double currentPos=getPos();
+    //USE absolution on position because we are really worried about
+    //range of 0 to x number not direction
+    double currentPos=Math.abs(getPos());
     double distancefromTarget=targetPos-currentPos;
     double moveSpeed=0;
     //check if position is within tolerance and then stop command
@@ -175,7 +179,6 @@ public class IntakeArmsSubsystem extends SubsystemBase {
         //outside tolerance  / Encoder gets more negative as we extend out
         // set speed to negative if we need to extend and positive if we need to retact
         if(distancefromTarget>0){
-          //go negative to extend
           moveSpeed=0-Math.abs(speed);
         } else{
           //go positive to retract

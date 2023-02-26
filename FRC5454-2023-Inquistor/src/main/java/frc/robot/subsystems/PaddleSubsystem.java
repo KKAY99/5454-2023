@@ -28,7 +28,7 @@ public class PaddleSubsystem extends SubsystemBase {
     m_limit = new DigitalInput(limitswitch);
     m_encoderMoveOutPosStart=encoderMoveOutPosStart;
     m_encoderMoveOutPosEnd=encoderMoveOutPosEnd;
-    //PADDLE PID
+    /*PADDLE PID
     kP = 0.1; 
     kI = 1e-4;
     kD = 1; 
@@ -45,7 +45,7 @@ public class PaddleSubsystem extends SubsystemBase {
     m_pidController.setIZone(kIz);
     m_pidController.setFF(kFF);
     m_pidController.setOutputRange(kMinOutput, kMaxOutput);
-
+   */
 
 
 
@@ -56,14 +56,7 @@ public class PaddleSubsystem extends SubsystemBase {
     return m_Encoder.getPosition();
   }
 
-    public  void homePaddle(){
-      while(checkLimit()==false){
-        m_Motor.set(m_homeSpeed);
-      }
-      stop();
-      m_Encoder.setPosition(0);
-
-      }
+   
   public void run(double power) {
     m_Motor.set(power);
     
@@ -82,10 +75,11 @@ public class PaddleSubsystem extends SubsystemBase {
     return m_limit.get();
   }
   public boolean hitPhysicalLimitSwitch(){
-    return checkLimit();
+    return m_limit.get();
   }
  
   public void SetZero(){
+    System.out.println("Set Zero on Paddle");
     m_Encoder.setPosition(0);
   }
   
@@ -102,15 +96,6 @@ public class PaddleSubsystem extends SubsystemBase {
       stop();
       returnValue=true;
     } else{
-        //outside tolerance  / Encoder gets more negative as we extend out
-        //Use Angle Limits to determine which way to mvoe paddle and if we pass target 
-        if((currentPos>=m_encoderMoveOutPosStart) && (currentPos<=m_encoderMoveOutPosEnd)) {
-          //go negative to swing down
-          moveSpeed=-Math.abs(speed);
-        } else{
-          //go positive to Swing Up
-          moveSpeed=Math.abs(speed);
-        }
         run(moveSpeed);        
       }  
     return returnValue;
@@ -122,7 +107,7 @@ public class PaddleSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    System.out.println(" Limit Switch - " + m_limit.get());
+   // System.out.println("Paddle limit " + m_limit.get());
   }
 
   @Override

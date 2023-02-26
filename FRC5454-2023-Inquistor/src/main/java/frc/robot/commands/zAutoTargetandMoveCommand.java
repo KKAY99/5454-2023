@@ -61,7 +61,7 @@ public zAutoTargetandMoveCommand(Limelight limelight,DrivetrainSubsystem drive,i
      @Override
     public void execute() {
         if(m_limeLight.getPipeline()!=m_pipeline){
-            System.out.println("Switching Pipeline - " + m_pipeline + " from " + m_limeLight.getPipeline());
+            //System.out.println("Switching Pipeline - " + m_pipeline + " from " + m_limeLight.getPipeline());
               m_limeLight.setPipeline(m_pipeline);
               m_limeLight.setTargetHeight(m_targetHeight);
         }
@@ -80,23 +80,23 @@ public zAutoTargetandMoveCommand(Limelight limelight,DrivetrainSubsystem drive,i
       double measurement = m_limeLight.getXRaw();
       double filteredMeasurement = m_filter.calculate(measurement);
       if(Math.abs(filteredMeasurement)<0.8){
-        System.out.println("stopping");
+        //System.out.println("stopping");
         m_drive.stop();
         returnValue = true;
         return returnValue; 
       }else{
         if(filteredMeasurement>0){
-          System.out.println("move right");
+          //System.out.println("move right");
           double pidOutput = m_pidRight.calculate(filteredMeasurement);
           pidOutput=Math.min(Math.max(pidOutput,-0.10),.10);
-          System.out.println("Aligning - X is " + m_limeLight.getXRaw() + " filtered is " + filteredMeasurement + " pidOutput is " + pidOutput);
+          //System.out.println("Aligning - X is " + m_limeLight.getXRaw() + " filtered is " + filteredMeasurement + " pidOutput is " + pidOutput);
           m_drive.move(270 ,0,pidOutput,1,true);
         }else{
-          System.out.println("move left");
+          //System.out.println("move left");
           double pidOutput = m_pidLeft.calculate(filteredMeasurement);
           pidOutput=Math.min(Math.max(pidOutput,-0.10),.10);
          
-          System.out.println("Aligning - X is " + m_limeLight.getXRaw() + " filtered is " + filteredMeasurement + " pidOutput is " + pidOutput);
+          //System.out.println("Aligning - X is " + m_limeLight.getXRaw() + " filtered is " + filteredMeasurement + " pidOutput is " + pidOutput);
           m_drive.move(90 ,0,pidOutput,1,true);
         }     
       }

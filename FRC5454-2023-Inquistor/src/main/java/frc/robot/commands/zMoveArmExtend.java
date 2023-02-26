@@ -67,12 +67,13 @@ public class zMoveArmExtend extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  System.out.println("Move Arm Extend " + m_state.toString());
+  //System.out.println("Move Arm Extend " + m_state.toString());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+      System.out.println("Ending Auto Score");
       m_elevator.stop();
       m_rotate.stopRotate();
       }
@@ -97,7 +98,7 @@ public class zMoveArmExtend extends CommandBase {
           returnValue=false;
           break;
       case ROTATE:
-         if(m_rotate.getRotatePos()<m_angleStage2){
+         if(m_rotate.getRelativeRotatePos()>m_angleStage2){
           m_rotate.rotate(Constants.Rotate.rotateAutoOutStage2Speed);
          } else{
           m_rotate.stopRotate();
@@ -119,16 +120,19 @@ public class zMoveArmExtend extends CommandBase {
       case EXTENDANDROTATE:
        boolean extended=false;
        boolean rotated=false;
-      if(m_rotate.getRotatePos()<m_angleStage1){
+       double currentRotateEncoder=m_rotate.getRelativeRotatePos();
+       System.out.println("Current Rotate" + currentRotateEncoder);
+      if(currentRotateEncoder>m_angleStage1){
         m_rotate.rotate(Constants.Rotate.rotateAutoOutStage1Speed);
        } else{
-          if(m_rotate.getRotatePos()<m_angleStage2){
+          if(currentRotateEncoder>m_angleStage2){
             m_rotate.rotate(Constants.Rotate.rotateAutoOutStage2Speed);  
             } else{
               m_rotate.stopRotate();
               rotated=true;
              }
       }
+      
        if(m_elevator.getElevatorPos()>m_posFullLiftStage1){
         m_elevator.runWithOutLimit(Constants.Lift.liftAutoExtendStage1Speed);
       } else{
@@ -141,11 +145,13 @@ public class zMoveArmExtend extends CommandBase {
           }
         }
       if(rotated && extended){
+        System.out.println("Ending Auto Score");
         m_state=STATE.END;
       }
       break;
       case ABORT:
       case END:
+      System.out.println("Ending Auto Score");
         m_elevator.stop();
         m_rotate.stopRotate();
         returnValue=true;

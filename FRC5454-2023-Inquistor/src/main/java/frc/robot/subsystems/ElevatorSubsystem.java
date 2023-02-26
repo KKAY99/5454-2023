@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 public class ElevatorSubsystem extends SubsystemBase {
   CANSparkMax m_Motor;
   RelativeEncoder m_elevatorEncoder;
-  DigitalInput m_limitSwitch;
+  DigitalInput m_limit;
   private boolean m_homed = false;
 
   /** Creates a new ExampleSubsystem. */
@@ -28,7 +28,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     m_Motor.setSecondaryCurrentLimit(30); //Set as well at 30
     m_Motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
     m_elevatorEncoder=m_Motor.getEncoder();
-    m_limitSwitch = new DigitalInput(limitswitchport);
+    m_limit = new DigitalInput(limitswitchport);
+   
   }
 
   public void runWithOutLimit(double power){
@@ -42,7 +43,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   public void moveElevator(double power, boolean checklimit) {
     double speed = power;
 
-    if(checklimit && hasHitLimit() && power < 0){
+    if(checklimit && hasHitPhysicalLimitSwitch() && power < 0){
       speed = 0;
     }
 
@@ -64,8 +65,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     m_Motor.set(0);
   }
 
-  public boolean hasHitLimit(){
-    return m_limitSwitch.get();
+  public boolean hasHitPhysicalLimitSwitch(){
+    return m_limit.get();
   }
 
   public boolean hasHitMaxLimit(){
@@ -87,6 +88,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    //System.out.println("ELS" + m_limit.get());
   }
 
   @Override

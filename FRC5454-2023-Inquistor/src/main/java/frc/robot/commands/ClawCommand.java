@@ -6,22 +6,24 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ClawCommand extends CommandBase {
     private PnuematicsSubystem m_Pnuematics;
     private boolean m_state;
-    public ClawCommand(PnuematicsSubystem pnuematics,boolean state){
+    private String m_caller;
+    public ClawCommand(PnuematicsSubystem pnuematics,boolean state,String caller){
         m_Pnuematics=pnuematics;
         m_state=state;
+        m_caller=caller;
        
     }
 
     @Override
     public void initialize() {
-    //    System.out.println("Setting Claw to state - " + m_state);
-        m_Pnuematics.setClaw(m_state);
-   
+     
     }  
 
     @Override
     public void execute() {
-    
+        System.out.println("Setting Claw to state - " + m_state + " from caller " + m_caller);
+        m_Pnuematics.setClaw(m_state);
+   
     }
   
     @Override
@@ -31,7 +33,7 @@ public class ClawCommand extends CommandBase {
   
     @Override
     public boolean isFinished() {
-     return false;
+     return true;
     }
 
 }

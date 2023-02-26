@@ -38,7 +38,7 @@ import edu.wpi.first.wpilibj.Timer;
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Elevator.runWithOutLimit(m_speed); // move arms at home speed until isfinished
+  //  m_Elevator.runWithOutLimit(m_speed); // move arms at home speed until isfinished
   }
 
   // Called once the command ends or is interrupted.
@@ -52,11 +52,11 @@ import edu.wpi.first.wpilibj.Timer;
   public boolean isFinished() {
     boolean returnValue=false;
     double currentTime=Timer.getFPGATimestamp();
-    System.out.print("Looping " + currentTime + " "+ m_StartTime + " " + m_homeTimeOut);
+   // System.out.print("Looping " + currentTime + " "+ m_StartTime + " " + m_homeTimeOut);
     if(currentTime>m_StartTime+m_homeTimeOut){
         returnValue=true;  //Time Out period has happened
     }
-    if(m_Elevator.hasHitLimit()) {
+    if(m_Elevator.hasHitPhysicalLimitSwitch()) {
         returnValue=true;  // end because hit limit switch
     }
     if(returnValue){

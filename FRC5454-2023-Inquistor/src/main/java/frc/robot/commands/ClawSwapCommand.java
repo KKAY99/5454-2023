@@ -18,6 +18,7 @@ public class ClawSwapCommand extends CommandBase {
 
     @Override
     public void execute() {
+    System.out.println("Swapping Claw");
     if(m_Pnuematics.getClaw()){
         m_Pnuematics.setClaw(false);
     } else{

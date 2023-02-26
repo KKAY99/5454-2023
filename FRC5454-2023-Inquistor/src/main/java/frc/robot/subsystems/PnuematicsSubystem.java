@@ -16,13 +16,13 @@ public class PnuematicsSubystem extends SubsystemBase{
   try{
     m_Compressor = new Compressor(nodeID,pModule);
     m_solenoidClaw =new Solenoid(nodeID,pModule,clawSolenoid);
-    m_solenoidClaw.setPulseDuration(1 ); // KK was 2
-   // m_solenoidPunch =new Solenoid(nodeID,pModule,conveyorPunch);
+   // m_solenoidClaw.setPulseDuration(1 ); // KK was 2
+    m_solenoidPunch =new Solenoid(nodeID,pModule,conveyorPunch);
     m_pressure=m_Compressor.getPressure();
   } catch (Exception e){
-    System.out.println("Pneumatics Failure");
-    System.out.println("Exception Message: " + e.getMessage());
-    System.out.println("StackTrace:" + e.getStackTrace().toString());
+    //System.out.println("Pneumatics Failure");
+    //System.out.println("Exception Message: " + e.getMessage());
+    //System.out.println("StackTrace:" + e.getStackTrace().toString());
   }
 }
   public void setConveyorPunch(boolean value){
@@ -33,7 +33,8 @@ public class PnuematicsSubystem extends SubsystemBase{
   }
 
   public void setClaw(boolean value){
-   m_solenoidClaw.set(value);
+ System.out.println("CLAW SET " + value  );
+    m_solenoidClaw.set(value);
   
   }
   public boolean getClaw(){

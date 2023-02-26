@@ -9,6 +9,7 @@ import frc.robot.subsystems.*;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 /** An example command that uses an example subsystem. */
 public class ElevatorCommand extends CommandBase {
@@ -16,7 +17,6 @@ public class ElevatorCommand extends CommandBase {
   private final ElevatorSubsystem m_ElevatorSubsystem;
   private final DoubleSupplier m_speed;
   private final Double m_maxValue;
-
   /**
    * Creates a new ExampleCommand.
    *
@@ -26,6 +26,7 @@ public class ElevatorCommand extends CommandBase {
     m_ElevatorSubsystem  = elevator;
     m_speed=speedSupplier;
     m_maxValue=maxValue;
+   
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_ElevatorSubsystem);
   }

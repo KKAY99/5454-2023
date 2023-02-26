@@ -67,7 +67,7 @@ public final class Constants {
         public static final int limitSwitch1 = 1;
         public static final double posHumanPlayer=6;
         public static final double posExtendLimit=8;
-        public static final double autoMoveSpeed=.25;
+        public static final double autoMoveSpeed=0.25;
         public static final double autoMoveTolerance=0.1;
     }
     public class Spindexer {
@@ -83,21 +83,22 @@ public final class Constants {
         public static final double intakeInSpeed=-0.50;
         public static final double intakeOutSpeed=0.50;
         public static final int limitSwitch=2;
-        public static final double homePaddleSpeed=-0.1;
+        public static final double homePaddleSpeed=0.25;
         public static final double homeTimeOut=1;
-        public static final double encoderMoveOutPosStart=-2;
-        public static final double encoderMoveOutPosEnd=2;
-        public static final double encoderHumanPlayerPos=1.5;
-        public static final double autoMoveSpeed=.50;
-        public static final double autoMoveTolerance=0.1;
+        public static final double encoderMovePosStart=-140;
+        public static final double encoderMovePosEnd=20;
+        public static final double encoderHumanPlayerPos=-33;
+        public static final double autoMoveOutSpeed=-0.40;
+        public static final double autoMoveTolerance=5;
     
     }    
     public class Elevator{
         public static final int elevatorPort=19;
         public static final double elevatorSpeed=.50;
         public static final double elevatorLimitSpeed=.50;
-        public static final int limitSwitch=3;
-        public static final double maxLimit = 100;
+        public static final double homeTimeOut=0.5;
+        public static final int limitSwitch=4;
+        public static final double maxLimit = -153;
     }
     public class HungryHippoValues{
         public static final int armPos1=10;
@@ -141,9 +142,9 @@ public final class Constants {
         public static final int absoluteEncoder=0;
         public static final double manualSpeed=0.4;
         public static final double manualLimitSpeed=0.4;
-        public static final double encodervalueHomePos=.538;
-        public static final double encoderFrontLimit=.618;
-        public static final double encoderBackLimit=.500;
+        public static final double encodervalueHomePos=.536;
+        public static final double encoderFrontLimit=.613;
+        public static final double encoderBackLimit=.415;
         
     }
     public class swerveDrive{
@@ -159,34 +160,34 @@ public final class Constants {
     }
 
     public static final class Lift{
-        public static final double liftAutoExtendStage1Speed=-0.80;
+        public static final double liftAutoExtendStage1Speed=-0.60;
         public static final double liftAutoExtendStage2Speed=-0.4;
         public static final double liftAutoRetractSpeed=0.3;
         public static final double liftAutoRetractHomeSpeed=0.1;
-        public static final double posInitLift=-20;
+        public static final double posInitLift=-40;
         public static final double posLowFullLiftStage1=-100.00;
         public static final double posLowFullLiftStage2=-111.50;    
-        public static final double posMiddleFullLiftStage1=-99.00;
-        public static final double posMiddleFullLiftStage2=-110.00;    
+        public static final double posMiddleFullLiftStage1=-85.00;
+        public static final double posMiddleFullLiftStage2=-116.00;    
         public static final double posHighFullLiftStage1=-99.00;
         public static final double posHighFullLiftStage2=-111.50;    
         public static final double posHome=10;
     }
 
     public static final class Rotate{
-        public static final double rotateAutoOutStage1Speed=-0.75;
+        public static final double rotateAutoOutStage1Speed=-0.60;
         public static final double rotateAutoOutStage2Speed=-0.4; 
         public static final double rotateAutoInSpeed=0.5; 
         public static final double angleLowConeStage1=.28;    
         public static final double angleLowConeStage2=.30;  
-        public static final double angleMiddleConeStage1=.15;    
-        public static final double angleMiddleConeStage2=.18;  
+        public static final double angleMiddleConeStage1=-20;    
+        public static final double angleMiddleConeStage2=-21;  
         public static final double angleHighConeStage1=.15;    
         public static final double angleHighConeStage2=.18;  
-        public static final double angleIntakePos=0.07;
-        public static final double homePos = 0.075;
+        public static final double angleIntakePos=0.02;
+        public static final double homePos = 0.613;
         public static final double homeTimeFailsafe=5;
-        public static final double homeSpeedForward=0.03;
+        public static final double homeSpeedForward=0.08;
         public static final double homeSpeedBackward=-0.03;
 
     }
@@ -197,28 +198,25 @@ public final class Constants {
         public static final PneumaticsModuleType moduleType=PneumaticsModuleType.REVPH;
     
         public static final int clawSolenoid = 8;
-        public static final int punchSolenoid=7;
-             
+        public static final int punchSolenoid=9;
     }
     public static final class ButtonConstants{
-        public static final int DriverIntakeOut=2;
+        public static final int DriverSolenoidPunch=2;
         public static final int DriverIntakeIn=3;
         public static final int DriverPipelineLowTape=5;
         public static final int DriverPipelineHighTape=6;
         public static final int DriverDriveMode=7;
         public static final int DriverGyroReset=8;
   
-        public static final int OperatorAutoLow=11;
         public static final int OperatorArmReturn=12;
         public static final int OperatorAutoBalance=13;
-        public static final int OperatorAutoMiddle=14;
         
         public static final int OperatorIntakeIn=1;
         public static final int OperatorIntakeOut=2;
         public static final int OperatorClawSwap=3;
         public static final int OperatorPlayerStation=4;
-        public static final int OperatorClawClose=5;
-        public static final int OperatorClawOpen=6;
+        public static final int OperatorAutoLow=5;
+        public static final int OperatorAutoMiddle=6;
         public static final int OperatorHungryHippo=7;
         public static final int OperatorRetractElevator=8;
      
@@ -295,7 +293,7 @@ public final class Constants {
     public static final class InputControllers {
         public static final int kXboxDrive = 0;
         public static final int kXboxOperator = 1;
-        public static final int kCustomController = 1;
+        public static final int kCustomController = 2;
     }
     public static final class PhotonVision{
         public static String camera="";

@@ -138,11 +138,11 @@ public class zAutoTargetToColumnCommand extends CommandBase{
                         }
         
                     }
-                    System.out.println("xPos " + filteredMeasurement+ " direction " + direction + " -- speed " +speed);
+                    //System.out.println("xPos " + filteredMeasurement+ " direction " + direction + " -- speed " +speed);
                     m_drive.movenodistance(direction, rotation, speed);
                     returnValue = false;
                 }else{
-                    System.out.println("Is Not moving");
+                    //System.out.println("Is Not moving");
                     m_drive.stop();
                     returnValue = true; 
                     

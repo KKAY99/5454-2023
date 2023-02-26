@@ -40,7 +40,7 @@ import edu.wpi.first.wpilibj.Timer;
   @Override
   public void execute() {
     m_intakeArms.runNoLimits(m_speed); // move arms at home speed until isfinished
-    System.out.println("Home Arms");
+    //System.out.println("Home Arms");
   }
 
   // Called once the command ends or is interrupted.

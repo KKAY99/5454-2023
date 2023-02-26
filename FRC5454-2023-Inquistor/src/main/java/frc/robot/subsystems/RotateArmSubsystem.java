@@ -40,9 +40,33 @@ public class RotateArmSubsystem extends SubsystemBase {
     }
 
     public void rotate(double power){
-      System.out.println("Setting Power on Rotate - " + power);
-      m_RotateMotor.set(power);
+      //System.out.println("Setting Power on Rotate - " + power);
+      if(checkForwardSoftLimit(power) || checkBackwardSoftLimit(power)){
+        power=0;
+      }
+        m_RotateMotor.set(power);
       
+    }
+ 
+ 
+    public boolean checkBackwardSoftLimit(double speed)
+    {
+     // System.out.println("Hit Backward Limit");
+     return (getAbsolutePos()<=m_backLimit && (speed<0));
+    }
+
+    public boolean checkForwardSoftLimit(double speed)
+    {
+    //  System.out.println("Hit Forward Limit");
+     return (getAbsolutePos()>=m_frontLimit && (speed>0));
+    }
+
+    public boolean hasHitBackSoftLimit(){
+      return getAbsolutePos()>=m_homeAngle;
+    }
+
+    public boolean hasHitForwardSoftLimit(){
+      return getAbsolutePos()<=m_homeAngle;
     }
 
     public void stopRotate(){
@@ -53,7 +77,7 @@ public class RotateArmSubsystem extends SubsystemBase {
       return m_AbsoluteEncoder.get();
     }
 
-    public double getRotatePos(){
+    public double getRelativeRotatePos(){
       return m_rotateEncoder.getPosition();
     }
     public void SetZero(){
