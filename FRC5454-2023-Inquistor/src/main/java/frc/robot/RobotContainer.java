@@ -100,29 +100,29 @@ public class RobotContainer {
     
     static LoggedDashboardNumber networkTableEntryVisionDistance = new LoggedDashboardNumber("Vision Distance", 0);
 
-    static LoggedDashboardNumber networkTableEntryFrontLeftSpeed = new LoggedDashboardNumber("FL Speed", 0);
+  //  static LoggedDashboardNumber networkTableEntryFrontLeftSpeed = new LoggedDashboardNumber("FL Speed", 0);
 
-    static LoggedDashboardNumber networkTableEntryFrontRightSpeed = new LoggedDashboardNumber("FR Speed", 0);
+  //  static LoggedDashboardNumber networkTableEntryFrontRightSpeed = new LoggedDashboardNumber("FR Speed", 0);
 
-    static LoggedDashboardNumber networkTableEntryBackLeftSpeed = new LoggedDashboardNumber("BL Speed", 0);
+  //  static LoggedDashboardNumber networkTableEntryBackLeftSpeed = new LoggedDashboardNumber("BL Speed", 0);
 
-    static LoggedDashboardNumber networkTableEntryBackRightSpeed = new LoggedDashboardNumber("BR Speed", 0);
+  //  static LoggedDashboardNumber networkTableEntryBackRightSpeed = new LoggedDashboardNumber("BR Speed", 0);
 
-    static LoggedDashboardNumber networkTableEntryFrontLeftEncoderActual = new LoggedDashboardNumber("FL Encoder Actual", 0);
+ //   static LoggedDashboardNumber networkTableEntryFrontLeftEncoderActual = new LoggedDashboardNumber("FL Encoder Actual", 0);
  
-    static LoggedDashboardNumber networkTableEntryFrontRightEncoderActual = new LoggedDashboardNumber("FR Encoder Actual", 0);
+ //   static LoggedDashboardNumber networkTableEntryFrontRightEncoderActual = new LoggedDashboardNumber("FR Encoder Actual", 0);
 
-    static LoggedDashboardNumber networkTableEntryBackLeftEncoderActual = new LoggedDashboardNumber("BL Encoder Actual", 0);
+ //   static LoggedDashboardNumber networkTableEntryBackLeftEncoderActual = new LoggedDashboardNumber("BL Encoder Actual", 0);
 
-    static LoggedDashboardNumber networkTableEntryBackRightEncoderActual = new LoggedDashboardNumber("BR Encoder Actual", 0);
+ //   static LoggedDashboardNumber networkTableEntryBackRightEncoderActual = new LoggedDashboardNumber("BR Encoder Actual", 0);
 
-    static LoggedDashboardNumber networkTableEntryFrontLeftEncoderTarget = new LoggedDashboardNumber("FL Encoder Target", 0);
+//    static LoggedDashboardNumber networkTableEntryFrontLeftEncoderTarget = new LoggedDashboardNumber("FL Encoder Target", 0);
 
-    static LoggedDashboardNumber networkTableEntryFrontRightEncoderTarget = new LoggedDashboardNumber("FR Encoder Target", 0);
+ //   static LoggedDashboardNumber networkTableEntryFrontRightEncoderTarget = new LoggedDashboardNumber("FR Encoder Target", 0);
 
-    static LoggedDashboardNumber networkTableEntryBackLeftEncoderTarget = new LoggedDashboardNumber("BL Encoder Target", 0);
+  //  static LoggedDashboardNumber networkTableEntryBackLeftEncoderTarget = new LoggedDashboardNumber("BL Encoder Target", 0);
 
-    static LoggedDashboardNumber networkTableEntryBackRightEncoderTarget = new LoggedDashboardNumber("BR Encoder Target", 0);
+   // static LoggedDashboardNumber networkTableEntryBackRightEncoderTarget = new LoggedDashboardNumber("BR Encoder Target", 0);
 
     static LoggedDashboardNumber frontLeftAngle = new LoggedDashboardNumber("FL Angle", 0);
 
@@ -168,6 +168,8 @@ public class RobotContainer {
 
     static LoggedDashboardBoolean rotateHardLimit = new LoggedDashboardBoolean("Rotate Soft Limit", false);
 
+    static LoggedDashboardNumber compressorPressure = new LoggedDashboardNumber("Compressor Pressure", 0);
+
     private XboxController m_xBoxDriver = new XboxController(InputControllers.kXboxDrive);
     private XboxController m_xBoxOperator = new XboxController(InputControllers.kXboxOperator);
     private Joystick m_CustomController = new Joystick(InputControllers.kCustomController);
@@ -191,12 +193,12 @@ public class RobotContainer {
     Command commandAutoMoveBack= new SequentialCommandGroup(new AutoMoveCommand(m_RobotDrive,0,AutoModes.pushDistance),
                                             new AutoMoveCommand(m_RobotDrive,180, AutoModes.LeaveCommunityDistance));
     autoChooser.addOption(AutoModes.autoMode1,  commandAutoMoveBack);
-    Command commandAutoConeLeave = new SequentialCommandGroup(/*new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
-                                                 Constants.ChargedUp.GridPosBottomConeAny),
-                                             new zPivotandExtendCommand(Constants.TargetHeight.TOP),
-                                             new ClawCommand(m_Claw,Constants.Claw.ReleaseSpeed),
-                                             new zPivotArmResetCommand(),*/
-                                             new AutoMoveCommand(m_RobotDrive,180,AutoModes.LeaveCommunityDistance));
+    
+    Command commandAutoConeLeave = new SequentialCommandGroup(new ClawCommand(m_PnuematicsSubystem, true, "auto"),
+                                                              new zMoveArmExtend(m_Elevator, m_Rotate, Constants.TargetHeight.TOP),
+                                                              new ClawCommand(m_PnuematicsSubystem, false, "auto"),
+                                                              new zMoveArmRetract(m_Elevator,m_Rotate),
+                                                              new AutoMoveCommand(m_RobotDrive,180,AutoModes.LeaveCommunityDistance));
     autoChooser.addOption(AutoModes.autoMode2,  commandAutoConeLeave);
   
     
@@ -417,9 +419,10 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
         moveArmMiddle.toggleOnTrue(autoMiddleMoveArm);
 
         final SequentialCommandGroup autoHighMoveArm =new SequentialCommandGroup(//new ClawCommand(m_PnuematicsSubystem, true),
-                                                           new zMoveArmExtend(m_Elevator, m_Rotate, Constants.TargetHeight.TOP),
-                                                           new ClawCommand(m_PnuematicsSubystem, false,"zAuto"),
-                                                           new zMoveArmRetract(m_Elevator,m_Rotate));
+                                                           new zMoveArmExtend(m_Elevator, m_Rotate, Constants.TargetHeight.TOP)
+                                                           //new ClawCommand(m_PnuematicsSubystem, false,"zAuto"),
+                                                           //new zMoveArmRetract(m_Elevator,m_Rotate)
+                                                           );
 
         Trigger moveArmHigh = new Trigger(() -> Math.abs(m_xBoxOperator.getRawAxis(3))>ButtonConstants.RightTriggerDeadBand);
         moveArmHigh.toggleOnTrue(autoHighMoveArm);
@@ -617,6 +620,7 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
         rotateForwardSoftLimit.set(m_Rotate.hasHitForwardSoftLimit());
         elevatorMaxLimit.set(m_Elevator.hasHitMaxLimit());
         gryoRoll.set(m_NavX.getAxis(Axis.ROLL));
+        compressorPressure.set(m_PnuematicsSubystem.getPressure());
 
         SmartDashboard.putNumber("Rotate ABS", m_Rotate.getAbsolutePos());
 
@@ -747,7 +751,6 @@ autoChooser.addOption(AutoModes.autoMode9, commandAutoCubeScore2);
                 m_LEDMode=LEDMode.AUTOMODE;  
                 LEDUpdate();
                 homeRobot();
-                homePaddle();
                 //Set Default Pipeline to AprilTags
                 m_Limelight.setPipeline(Constants.VisionPipelines.AprilTag);
                 

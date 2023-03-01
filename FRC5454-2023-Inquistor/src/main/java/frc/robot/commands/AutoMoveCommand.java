@@ -21,7 +21,8 @@ public class AutoMoveCommand extends CommandBase {
   }
   public AutoMoveCommand(DrivetrainSubsystem subsystem,double direction,double rcw,double distance) {
     m_drive=subsystem;
-    m_direction=direction;m_distance=distance;
+    m_direction=direction;
+    m_distance=distance;
     m_rcw=rcw;
     m_useNavX=false;
     addRequirements(subsystem);
@@ -46,11 +47,12 @@ public class AutoMoveCommand extends CommandBase {
   @Override
   public void execute() {
     m_isFinished=false;
-    if(m_useNavX){
-      m_drive.spin(m_direction,Constants.AutoModes.MoveSpeed);
-    }else {
+    //if(m_useNavX){
+    //  m_drive.spin(m_direction,Constants.AutoModes.MoveSpeed);
+    //}else {
+      System.out.println(m_direction + " " + m_rcw);
        m_drive.move(m_direction ,m_rcw,Constants.AutoModes.MoveSpeed,m_distance,true);
-    }
+    //}
        m_isFinished=true;
   }
 

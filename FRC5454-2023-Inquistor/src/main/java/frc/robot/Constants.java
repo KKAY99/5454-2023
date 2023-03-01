@@ -71,9 +71,9 @@ public final class Constants {
         public static final double autoMoveTolerance=0.1;
     }
     public class Spindexer {
-        public static final int motorPort =17;
-        public static final double spinForward=0.9;
-        public static final double spinBack=-0.9;
+        public static final int motorPort=17;
+        public static final double spinForward=1;
+        public static final double spinBack=-1;
         public static final double spinForwardSlow=0.6;
         public static final double spinBackSlow=-0.6;
     }
@@ -87,7 +87,7 @@ public final class Constants {
         public static final double homeTimeOut=1;
         public static final double encoderMovePosStart=-140;
         public static final double encoderMovePosEnd=20;
-        public static final double encoderHumanPlayerPos=-33;
+        public static final double encoderHumanPlayerPos=-27;
         public static final double autoMoveOutSpeed=-0.40;
         public static final double autoMoveTolerance=5;
     
@@ -97,18 +97,17 @@ public final class Constants {
         public static final double elevatorSpeed=.50;
         public static final double elevatorLimitSpeed=.50;
         public static final double homeTimeOut=0.5;
-        public static final int limitSwitch=4;
+        public static final int limitSwitch=3;
         public static final double maxLimit = -153;
     }
     public class HungryHippoValues{
-        public static final int armPos1=10;
-        public static final int armPos2=10;
-        public static final int armPos3=10;
-        public static final int armPos4=10;
-        public static final int armPos5=10;
-        public static final int armPos6=10;
-        public static final int armPos7=10;
-        public static final int armPos8=10;
+        public static final double armPos1=-3.64;
+        public static final double armPos2=10;
+        public static final double armPos4=10;
+        public static final double armPos5=10;
+        public static final double armPos6=10;
+        public static final double armPos7=10;
+        public static final double armPos8=10;
         public static final double armSpeed1=-0.10;
         public static final double armSpeed2=-0.10;
         public static final double armSpeed3=-0.10;
@@ -117,14 +116,13 @@ public final class Constants {
         public static final double armSpeed6=-0.10;
         public static final double armSpeed7=-0.10;
         public static final double armSpeed8=-0.10;
-        public static final int paddlePos1=20;
-        public static final int paddlePos2=20;
-        public static final int paddlePos3=20;
-        public static final int paddlePos4=20;
-        public static final int paddlePos5=20;
-        public static final int paddlePos6=20;
-        public static final int paddlePos7=20;
-        public static final int paddlePos8=20;
+        public static final double paddlePos2=20;
+        public static final double paddlePos3=20;
+        public static final double paddlePos4=20;
+        public static final double paddlePos5=20;
+        public static final double paddlePos6=20;
+        public static final double paddlePos7=20;
+        public static final double paddlePos8=20;
         public static final double paddleSpeed1=0.10;
         public static final double paddleSpeed2=0.10;
         public static final double paddleSpeed3=0.10;
@@ -164,13 +162,14 @@ public final class Constants {
         public static final double liftAutoExtendStage2Speed=-0.4;
         public static final double liftAutoRetractSpeed=0.3;
         public static final double liftAutoRetractHomeSpeed=0.1;
-        public static final double posInitLift=-40;
-        public static final double posLowFullLiftStage1=-100.00;
-        public static final double posLowFullLiftStage2=-111.50;    
+        public static final double posInitLift=-70;
+        public static final double posInitLiftRetract=-12;
+        public static final double posLowFullLiftStage1=-72;
+        public static final double posLowFullLiftStage2=-82;    
         public static final double posMiddleFullLiftStage1=-85.00;
         public static final double posMiddleFullLiftStage2=-116.00;    
-        public static final double posHighFullLiftStage1=-99.00;
-        public static final double posHighFullLiftStage2=-111.50;    
+        public static final double posHighFullLiftStage1=-140;
+        public static final double posHighFullLiftStage2=-152;    
         public static final double posHome=10;
     }
 
@@ -178,12 +177,12 @@ public final class Constants {
         public static final double rotateAutoOutStage1Speed=-0.60;
         public static final double rotateAutoOutStage2Speed=-0.4; 
         public static final double rotateAutoInSpeed=0.5; 
-        public static final double angleLowConeStage1=.28;    
-        public static final double angleLowConeStage2=.30;  
+        public static final double angleLowConeStage1=-17;    
+        public static final double angleLowConeStage2=-27;  
         public static final double angleMiddleConeStage1=-20;    
         public static final double angleMiddleConeStage2=-21;  
-        public static final double angleHighConeStage1=.15;    
-        public static final double angleHighConeStage2=.18;  
+        public static final double angleHighConeStage1=-11;    
+        public static final double angleHighConeStage2=-22;  
         public static final double angleIntakePos=0.02;
         public static final double homePos = 0.613;
         public static final double homeTimeFailsafe=5;
@@ -203,8 +202,8 @@ public final class Constants {
     public static final class ButtonConstants{
         public static final int DriverSolenoidPunch=2;
         public static final int DriverIntakeIn=3;
-        public static final int DriverPipelineLowTape=5;
-        public static final int DriverPipelineHighTape=6;
+        public static final int DriverPipelineHighTape=5;
+        public static final int DriverPipelineLowTape=6;
         public static final int DriverDriveMode=7;
         public static final int DriverGyroReset=8;
   

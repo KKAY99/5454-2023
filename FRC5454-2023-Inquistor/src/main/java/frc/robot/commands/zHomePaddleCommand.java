@@ -40,7 +40,7 @@ import edu.wpi.first.wpilibj.Timer;
   @Override
   public void execute() {
   //disabled until we have limit switch  
-  //  m_Paddle.run(m_speed); // move arms at home speed until isfinished
+    m_Paddle.run(m_speed); // move arms at home speed until isfinished
   }
 
   // Called once the command ends or is interrupted.
@@ -55,7 +55,7 @@ import edu.wpi.first.wpilibj.Timer;
   public boolean isFinished() {
     boolean returnValue=false;
     double currentTime=Timer.getFPGATimestamp();
-    //System.out.print("Looping " + currentTime + " "+ m_StartTime + " " + m_homeTimeOut);
+    System.out.print("paddke Looping " + currentTime + " "+ m_StartTime + " " + m_homeTimeOut);
     if(currentTime>m_StartTime+m_homeTimeOut){
         returnValue=true;  //Time Out period has happened
     }

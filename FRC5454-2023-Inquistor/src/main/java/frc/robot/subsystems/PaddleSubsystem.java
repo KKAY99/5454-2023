@@ -90,13 +90,51 @@ public class PaddleSubsystem extends SubsystemBase {
     boolean returnValue = false;
     double currentPos=getPos();
     double distancefromTarget=targetPos-currentPos;
-    double moveSpeed=0;
+    //FIX Using Hard Coded Values 
+    //ZERO is init place
+    //+20 is facing inward
+    //-45 Human Player station
+    //-140 Soft Limit going down
+    //-65 is considered rotate even 
+    double lowestleft=-20;
+    double farthestright=-140;
+    double midpoint=-65;
+    double movespeed=0.4;
+    double turnspeed=0;
+    if(currentPos>midpoint && (targetPos<currentPos)){
+        System.out.println("PS1");
+        turnspeed =-movespeed;
+    }else{
+        if((currentPos>midpoint) && (targetPos>currentPos)){
+          System.out.println("PS2");
+          turnspeed=movespeed;
+        }else{
+          if((currentPos<midpoint) && (targetPos<currentPos)){
+            System.out.println("PS3");
+             turnspeed=-movespeed;
+          }else{
+            System.out.println("PS4");
+            turnspeed=movespeed;
+          }
+          }
+        }
+    
+    //left limit is towards robot
+    if((currentPos>lowestleft) && turnspeed>0){
+      System.out.println("Left limit on paddle");
+      turnspeed=0;
+    }
+    if((currentPos<farthestright) && turnspeed<0){
+      System.out.println("right limit on paddle");
+      turnspeed=0;
+    }
+    System.out.println("Paddle Speed " + turnspeed);
     //check if position is within tolerance and then stop command
     if(Math.abs(distancefromTarget)<=tolerance){
       stop();
       returnValue=true;
     } else{
-        run(moveSpeed);        
+        run(turnspeed);        
       }  
     return returnValue;
   }
@@ -107,7 +145,7 @@ public class PaddleSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-   // System.out.println("Paddle limit " + m_limit.get());
+   //System.out.println("Paddle limit " + m_limit.get());
   }
 
   @Override

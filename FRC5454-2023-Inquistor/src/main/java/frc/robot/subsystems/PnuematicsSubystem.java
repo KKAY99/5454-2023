@@ -18,7 +18,9 @@ public class PnuematicsSubystem extends SubsystemBase{
     m_solenoidClaw =new Solenoid(nodeID,pModule,clawSolenoid);
    // m_solenoidClaw.setPulseDuration(1 ); // KK was 2
     m_solenoidPunch =new Solenoid(nodeID,pModule,conveyorPunch);
+    m_Compressor.enableDigital();
     m_pressure=m_Compressor.getPressure();
+
   } catch (Exception e){
     //System.out.println("Pneumatics Failure");
     //System.out.println("Exception Message: " + e.getMessage());
@@ -43,12 +45,14 @@ public class PnuematicsSubystem extends SubsystemBase{
   }
   public double getPressure(){
   
-      return m_pressure;
+      return m_Compressor.getPressure();
   }
    @Override
    public void periodic() {
      // This method will be called once per scheduler run
-   //  m_pressure=m_Compressor.getPressure();
+    //m_pressure=m_Compressor.getPressure();
+    
+   //System.out.println("Pressure" + m_pressure);
    
   }
  

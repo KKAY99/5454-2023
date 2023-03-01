@@ -64,7 +64,7 @@ public class zMoveArmRetract extends CommandBase {
              m_rotate.stopRotate();
              rotated=true;
       }
-      if(m_elevator.getElevatorPos()<Constants.Lift.posInitLift){
+      if(m_elevator.getElevatorPos()<Constants.Lift.posInitLiftRetract){
        m_elevator.runWithOutLimit(Constants.Lift.liftAutoRetractSpeed);
       }else{     
            m_elevator.stop();

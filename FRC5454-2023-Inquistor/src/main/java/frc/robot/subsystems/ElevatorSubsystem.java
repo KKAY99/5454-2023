@@ -66,7 +66,16 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public boolean hasHitPhysicalLimitSwitch(){
-    return m_limit.get();
+    boolean hasLimitBeenHit = m_limit.get();
+    boolean returnValue = false;
+
+    if(hasLimitBeenHit){
+      returnValue = false;
+    }else{
+      returnValue = true;
+    }
+
+    return returnValue;
   }
 
   public boolean hasHitMaxLimit(){

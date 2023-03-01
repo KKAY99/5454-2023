@@ -144,11 +144,11 @@ private static final double BACK_RIGHT_ANGLE_OFFSET = -2.42-3.04;//+180
         startDistance=backLeftModule.getCurrentDistance();
         switch ((int) direction){
                 case 0:
-                        forward=1*speed;
+                        forward=-1*speed;
                         strafe=0;
                         break;
                 case 45:
-                        forward=1*speed;
+                        forward=-1*speed;
                         strafe=1*speed;
                         break;
                
@@ -157,15 +157,15 @@ private static final double BACK_RIGHT_ANGLE_OFFSET = -2.42-3.04;//+180
                         strafe=1*speed;
                         break;
                 case 135:
-                        forward=-1*speed;
+                        forward=1*speed;
                         strafe=1*speed;
                         break;
                 case 180:
-                        forward=-1*speed;
+                        forward=1*speed;
                         strafe=0;
                         break;
                 case 225:
-                        forward=-1*speed;
+                        forward=1*speed;
                         strafe=-1*speed;
                         break;
                 case 270:
@@ -173,7 +173,7 @@ private static final double BACK_RIGHT_ANGLE_OFFSET = -2.42-3.04;//+180
                         strafe=-1*speed;
                         break;
                 case 315:
-                        forward=1*speed;
+                        forward=-1*speed;
                         strafe=-1*speed;
                         break;
                 
