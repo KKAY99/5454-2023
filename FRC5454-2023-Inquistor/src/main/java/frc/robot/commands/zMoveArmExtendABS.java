@@ -1,5 +1,6 @@
 package frc.robot.commands;
 import frc.robot.Constants;
+import frc.robot.Constants.Lift;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.RotateArmSubsystem;
 import edu.wpi.first.util.concurrent.Event;
@@ -8,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
 /** An example command that uses an example subsystem. */
-public class zMoveArmExtend extends CommandBase {
+public class zMoveArmExtendABS extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   
   private final ElevatorSubsystem m_elevator;
@@ -16,8 +17,9 @@ public class zMoveArmExtend extends CommandBase {
   private double m_posInitLift;
   private double m_posFullLiftStage1;
   private double m_posFullLiftStage2;
-  private double m_angleStage1;
-  private double m_angleStage2;
+  private double m_angleStage1ABS;
+  private double m_angleStage2ABS;
+  private static int kTolerance= 5;
   private static enum STATE
   {
                   INITLIFT,ROTATE,EXTENDANDROTATE,EXTENDLIFT,ABORT,END
@@ -29,7 +31,7 @@ public class zMoveArmExtend extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public zMoveArmExtend(ElevatorSubsystem elevator, RotateArmSubsystem rotate, Constants.TargetHeight targetLevel) {
+  public zMoveArmExtendABS(ElevatorSubsystem elevator, RotateArmSubsystem rotate, Constants.TargetHeight targetLevel) {
     m_elevator = elevator;
     m_rotate = rotate;
   // Use addRequirements() here to declare subsystem dependencies.
@@ -38,25 +40,25 @@ public class zMoveArmExtend extends CommandBase {
       case TOP:
       m_posFullLiftStage1=Constants.Lift.posHighFullLiftStage1;
       m_posFullLiftStage2=Constants.Lift.posHighFullLiftStage2;
-      m_angleStage1=Constants.Rotate.angleHighConeStage1;
-      m_angleStage2=Constants.Rotate.angleHighConeStage2;
+      m_angleStage1ABS=Constants.Rotate.angleHighConeStage1ABS;
+      m_angleStage2ABS=Constants.Rotate.angleHighConeStage2ABS;
       break;
       case MIDDLE:
         m_posFullLiftStage1=Constants.Lift.posMiddleFullLiftStage1;
         m_posFullLiftStage2=Constants.Lift.posMiddleFullLiftStage2;
-        m_angleStage1=Constants.Rotate.angleMiddleConeStage1;
-        m_angleStage2=Constants.Rotate.angleMiddleConeStage2;
+        m_angleStage1ABS=Constants.Rotate.angleMiddleConeStage1ABS;
+        m_angleStage2ABS=Constants.Rotate.angleMiddleConeStage2ABS;
       break;
       case BOTTOM:
         m_posFullLiftStage1=Constants.Lift.posLowFullLiftStage1;
         m_posFullLiftStage2=Constants.Lift.posLowFullLiftStage2;
-        m_angleStage1=Constants.Rotate.angleLowConeStage1;
-        m_angleStage2=Constants.Rotate.angleLowConeStage2;
+        m_angleStage1ABS=Constants.Rotate.angleLowConeStage1ABS;
+        m_angleStage2ABS=Constants.Rotate.angleLowConeStage2ABS;
       case PLAYERSTATION:
        m_posFullLiftStage1 = Constants.Lift.posPlayerLiftStage1;
        m_posFullLiftStage2 = Constants.Lift.posPlayerLiftStage2;
-       m_angleStage1 = Constants.Rotate.anglePlayerStage1;
-       m_angleStage2 = Constants.Rotate.anglePlayerStage2;
+       m_angleStage1ABS = Constants.Rotate.anglePlayerStage1ABS;
+       m_angleStage2ABS = Constants.Rotate.anglePlayerStage2ABS;
       break;
     }
     m_posInitLift=Constants.Lift.posInitLift;
@@ -95,7 +97,7 @@ public class zMoveArmExtend extends CommandBase {
           // Encoder is negative as it lifts up
           if(m_elevator.getElevatorPos()>m_posInitLift){
             m_elevator.runWithOutLimit(Constants.Lift.liftAutoExtendStage1Speed);
-          } else{
+          }else{
             m_elevator.stop();
             m_state=STATE.EXTENDANDROTATE;
           // m_state=STATE.ABORT;
@@ -103,9 +105,10 @@ public class zMoveArmExtend extends CommandBase {
           returnValue=false;
           break;
       case ROTATE:
-         if(m_rotate.getRelativeRotatePos()>m_angleStage2){
+         if(m_rotate.getAbsolutePos()<m_angleStage2ABS){
           m_rotate.rotate(Constants.Rotate.rotateAutoOutStage2Speed);
          } else{
+          System.out.println("Rotate ABS on Stop - " + m_rotate.getAbsolutePos());
           m_rotate.stopRotate();
           m_state=STATE.EXTENDLIFT;
          }
@@ -116,8 +119,12 @@ public class zMoveArmExtend extends CommandBase {
        if(m_elevator.getElevatorPos()>m_posFullLiftStage2){
         m_elevator.runWithOutLimit(Constants.Lift.liftAutoExtendStage2Speed);
       } else{
-        m_elevator.stop();
-        m_state=STATE.END;
+        if(m_elevator.getElevatorPos()<m_posFullLiftStage2){
+          m_elevator.runWithOutLimit(-Constants.Lift.liftAutoExtendStage2Speed);
+        }else{
+          m_elevator.stop();
+          m_state=STATE.END;
+        }
       }
      
         returnValue=false;
@@ -125,12 +132,12 @@ public class zMoveArmExtend extends CommandBase {
       case EXTENDANDROTATE:
        boolean extended=false;
        boolean rotated=false;
-       double currentRotateEncoder=m_rotate.getRelativeRotatePos();
+       double currentRotateEncoder=m_rotate.getAbsolutePos();
        System.out.println("Current Rotate" + currentRotateEncoder);
-      if(currentRotateEncoder>m_angleStage1){
+      if(currentRotateEncoder>m_angleStage1ABS){
         m_rotate.rotate(Constants.Rotate.rotateAutoOutStage1Speed);
        } else{
-          if(currentRotateEncoder>m_angleStage2){
+          if(currentRotateEncoder>m_angleStage2ABS){
             m_rotate.rotate(Constants.Rotate.rotateAutoOutStage2Speed);  
             } else{
               m_rotate.stopRotate();
@@ -144,9 +151,20 @@ public class zMoveArmExtend extends CommandBase {
           if(m_elevator.getElevatorPos()>m_posFullLiftStage2){
             m_elevator.runWithOutLimit(Constants.Lift.liftAutoExtendStage2Speed);
           }else{
-            
-            m_elevator.stop();
-            extended=true;;
+            if(m_elevator.getElevatorPos()<m_posFullLiftStage2){
+              System.out.println("Past Target");
+              if(Math.abs(m_elevator.getElevatorPos()-m_posFullLiftStage2) > kTolerance){
+                System.out.println("Running Back");
+                m_elevator.runWithOutLimit(-Constants.Lift.liftAutoExtendStage2Speed);
+              } else{
+                  System.out.println("Past Target but within Tolerance" + m_elevator.getElevatorPos());
+                  m_elevator.stop();
+                  extended=true;
+              }
+            }else{
+              System.out.println("Stopping 1");
+              m_elevator.stop();
+            }    
           }
         }
       if(rotated && extended){
@@ -154,6 +172,7 @@ public class zMoveArmExtend extends CommandBase {
         m_state=STATE.END;
       }
       break;
+
       case ABORT:
       case END:
       System.out.println("Ending Auto Score");

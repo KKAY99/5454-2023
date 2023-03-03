@@ -49,7 +49,7 @@ public final class Constants {
 
     public static enum TargetHeight
     {
-                    TOP,MIDDLE,BOTTOM;	
+                    TOP,MIDDLE,BOTTOM,PLAYERSTATION;	
     }
     
     public class IntakeConvey{
@@ -69,6 +69,7 @@ public final class Constants {
         public static final double posExtendLimit=8;
         public static final double autoMoveSpeed=0.25;
         public static final double autoMoveTolerance=0.1;
+        public static final double homePos=0;
     }
     public class Spindexer {
         public static final int motorPort=17;
@@ -80,8 +81,8 @@ public final class Constants {
 
     public class Paddle{
         public static final int intakePort=33;
-        public static final double intakeInSpeed=-0.50;
-        public static final double intakeOutSpeed=0.50;
+        public static final double intakeInSpeed=-0.25;
+        public static final double intakeOutSpeed=0.25;
         public static final int limitSwitch=2;
         public static final double homePaddleSpeed=0.25;
         public static final double homeTimeOut=1;
@@ -90,6 +91,8 @@ public final class Constants {
         public static final double encoderHumanPlayerPos=-27;
         public static final double autoMoveOutSpeed=-0.40;
         public static final double autoMoveTolerance=5;
+        public static final double posHome=0;
+        public static final double encoderMovePosLowShot=-80;
     
     }    
     public class Elevator{
@@ -141,8 +144,8 @@ public final class Constants {
         public static final double manualSpeed=0.4;
         public static final double manualLimitSpeed=0.4;
         public static final double encodervalueHomePos=.536;
-        public static final double encoderFrontLimit=.613;
-        public static final double encoderBackLimit=.415;
+        public static final double encoderFrontLimit=.415;
+        public static final double encoderBackLimit=.613;
         
     }
     public class swerveDrive{
@@ -158,36 +161,59 @@ public final class Constants {
     }
 
     public static final class Lift{
-        public static final double liftAutoExtendStage1Speed=-0.60;
-        public static final double liftAutoExtendStage2Speed=-0.4;
-        public static final double liftAutoRetractSpeed=0.3;
+        public static final double liftAutoExtendStage1Speed=-0.5;
+        public static final double liftAutoExtendStage2Speed=-0.3;
+        public static final double liftAutoRetractSpeed=0.6;
         public static final double liftAutoRetractHomeSpeed=0.1;
         public static final double posInitLift=-70;
-        public static final double posInitLiftRetract=-12;
+        public static final double posInitLiftRetract=-35;
         public static final double posLowFullLiftStage1=-72;
-        public static final double posLowFullLiftStage2=-82;    
+        public static final double posLowFullLiftStage2=-82;
         public static final double posMiddleFullLiftStage1=-85.00;
-        public static final double posMiddleFullLiftStage2=-116.00;    
-        public static final double posHighFullLiftStage1=-140;
-        public static final double posHighFullLiftStage2=-152;    
+        public static final double posMiddleFullLiftStage2=-118.00; 
+        public static final double posHighFullLiftStage1=-100;
+        public static final double posHighFullLiftStage2=-152;
+        public static final double posPlayerLiftStage1=-88;   
+        public static final double posPlayerLiftStage2=-92; 
+        public static final double posShelf=-100;
         public static final double posHome=10;
     }
 
+    //-2 = 0.532
+//-17 = 0.497//
+//-18 = 0.495
+//-21 = 0.494
+//-22 = 0.490
+//-27 = 0.484
+
+
     public static final class Rotate{
-        public static final double rotateAutoOutStage1Speed=-0.60;
-        public static final double rotateAutoOutStage2Speed=-0.4; 
-        public static final double rotateAutoInSpeed=0.5; 
+        public static final double rotateAutoOutStage1Speed=-0.50;
+        public static final double rotateAutoOutStage2Speed=-0.13; 
+        public static final double rotateAutoInSpeed=0.4; 
         public static final double angleLowConeStage1=-17;    
-        public static final double angleLowConeStage2=-27;  
-        public static final double angleMiddleConeStage1=-20;    
-        public static final double angleMiddleConeStage2=-21;  
-        public static final double angleHighConeStage1=-11;    
-        public static final double angleHighConeStage2=-22;  
+        public static final double angleLowConeStage2=-27;
+        public static final double angleLowConeStage1ABS=0.497;    
+        public static final double angleLowConeStage2ABS=0.484;    
+        public static final double angleMiddleConeStage1=-18;    
+        public static final double angleMiddleConeStage2=-21;
+        public static final double angleMiddleConeStage1ABS=0.510;    
+        public static final double angleMiddleConeStage2ABS=0.499; 
+        public static final double angleHighConeStage1=-18;    
+        public static final double angleHighConeStage2=-22;
+        public static final double angleHighConeStage1ABS=0.510;    
+        public static final double angleHighConeStage2ABS=0.495;
+        public static final double anglePlayerStage1=0;
+        public static final double anglePlayerStage2=-2;
+        public static final double anglePlayerStage1ABS=0.590;
+        public static final double anglePlayerStage2ABS=0.549;
         public static final double angleIntakePos=0.02;
-        public static final double homePos = 0.613;
+        public static final double ABSHomePos = 0.536;
         public static final double homeTimeFailsafe=5;
-        public static final double homeSpeedForward=0.08;
-        public static final double homeSpeedBackward=-0.03;
+        public static final double homeSpeedForward=0.06;
+        public static final double homeSpeedBackward=-0.06;
+        public static final double encoderLowScorePos=0;
+
 
     }
 
@@ -200,24 +226,21 @@ public final class Constants {
         public static final int punchSolenoid=9;
     }
     public static final class ButtonConstants{
-        public static final int DriverSolenoidPunch=2;
+        public static final int DriverSolenoidPunch=1;
+        public static final int DriverAutoBalance=2;
         public static final int DriverIntakeIn=3;
         public static final int DriverPipelineHighTape=5;
         public static final int DriverPipelineLowTape=6;
         public static final int DriverDriveMode=7;
         public static final int DriverGyroReset=8;
-  
-        public static final int OperatorArmReturn=12;
-        public static final int OperatorAutoBalance=13;
         
-        public static final int OperatorIntakeIn=1;
-        public static final int OperatorIntakeOut=2;
+        public static final int OperatorPaddleRetract=1;
+        public static final int OperatorRetractElevator=2;
         public static final int OperatorClawSwap=3;
         public static final int OperatorPlayerStation=4;
         public static final int OperatorAutoLow=5;
         public static final int OperatorAutoMiddle=6;
         public static final int OperatorHungryHippo=7;
-        public static final int OperatorRetractElevator=8;
      
         public static final int OperatorSpindexPOVSL=0;
         public static final int OperatorSpindexPOVSR=180;
@@ -249,14 +272,15 @@ public final class Constants {
     public static final class AutoModes {
         public static final String autoMode0="0-Do Nothing";
         public static final String autoMode1="1-Push Forward/Move Back Out of Zone";
-        public static final String autoMode2="1=Score Cube / Move out of Zone";
-        public static final String autoMode3="1=Score Cone / Move out of Zone";
+        public static final String autoMode2="1=Score Cone / Move out of Zone";
+        public static final String autoMode3="1=Score Cube / Move out of Zone";
         public static final String autoMode4="1-Score Cube / Dock Charging Station";
         public static final String autoMode5="1-Score Cone / Dock Charging Station";
         public static final String autoMode6="1-Score Cube / Engage Charging Station";
         public static final String autoMode7="1-Score Cone / Engage Charging Station";
         public static final String autoMode8="2-Score Cone / Leave / Get Cone / Score";
         public static final String autoMode9="2-Score Cube / Leave / Get Cone / Score";
+        public static final String automode10="1=Score Any";
 
        
         public static final int autoNothing = 0;
@@ -282,7 +306,7 @@ public final class Constants {
         public static final int delayValMode3=8;
         public static final int defaultDelayMode=0;
         public static final double MoveSpeed=0.5;
-        public static final double LeaveCommunityDistance=174; // 15 feet = 174-30
+        public static final double LeaveCommunityDistance=150; // 15 feet = 174-30
         public static final double pushDistance = 5;
         public static final double DistanceToCharging=20;// x feet
         public static final double DistanceToDock=30;

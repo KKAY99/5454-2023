@@ -52,13 +52,13 @@ public class RotateArmSubsystem extends SubsystemBase {
     public boolean checkBackwardSoftLimit(double speed)
     {
      // System.out.println("Hit Backward Limit");
-     return (getAbsolutePos()<=m_backLimit && (speed<0));
+     return (getAbsolutePos()>=m_backLimit && (speed<0));
     }
 
     public boolean checkForwardSoftLimit(double speed)
     {
     //  System.out.println("Hit Forward Limit");
-     return (getAbsolutePos()>=m_frontLimit && (speed>0));
+     return (getAbsolutePos()<=m_frontLimit && (speed>0));
     }
 
     public boolean hasHitBackSoftLimit(){

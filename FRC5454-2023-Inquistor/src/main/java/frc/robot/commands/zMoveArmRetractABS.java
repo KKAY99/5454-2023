@@ -6,7 +6,7 @@ import frc.robot.subsystems.RotateArmSubsystem;
 
 
 /** An example command that uses an example subsystem. */
-public class zMoveArmRetract extends CommandBase {
+public class zMoveArmRetractABS extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   
   private final ElevatorSubsystem m_elevator;
@@ -22,7 +22,7 @@ public class zMoveArmRetract extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public zMoveArmRetract(ElevatorSubsystem elevator, RotateArmSubsystem rotate) {
+  public zMoveArmRetractABS(ElevatorSubsystem elevator, RotateArmSubsystem rotate) {
     m_elevator=elevator;
     m_rotate=rotate;
   // Use addRequirements() here to declare subsystem dependencies.
@@ -70,7 +70,7 @@ public class zMoveArmRetract extends CommandBase {
       case RETRACTANDROTATE:
       retracted=false;
       boolean rotated=false;
-     if(m_rotate.getRelativeRotatePos()<Constants.Rotate.angleIntakePos){
+     if(m_rotate.getAbsolutePos()<Constants.Rotate.ABSHomePos){
        m_rotate.rotate(Constants.Rotate.rotateAutoInSpeed);
       }else{
              m_rotate.stopRotate();

@@ -4,6 +4,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.Paddle;
 import edu.wpi.first.wpilibj.DigitalInput;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.RelativeEncoder;
@@ -17,7 +18,9 @@ public class PaddleSubsystem extends SubsystemBase {
   private double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
   private boolean m_homed=false;
   private double m_encoderMoveOutPosStart; 
-  private double m_encoderMoveOutPosEnd;  
+  private double m_encoderMoveOutPosEnd; 
+  private double startInBlockPos=-20;
+  private double startOutBlockPos=20; 
   /** Creates a new ExampleSubsystem. */
   public PaddleSubsystem(Integer MotorPort, Integer limitswitch,double homeSpeed,double encoderMoveOutPosStart,double encoderMoveOutPosEnd) {
     m_Motor = new CANSparkMax(MotorPort, MotorType.kBrushless);  
@@ -151,5 +154,21 @@ public class PaddleSubsystem extends SubsystemBase {
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
+  }
+
+  public boolean isPaddleInWay(){
+    if(getPos() >= startInBlockPos && getPos() <= startOutBlockPos){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  public void clearPaddle(){
+    if(isPaddleInWay()){
+
+    }else{
+
+    }
   }
 }

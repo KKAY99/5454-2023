@@ -35,12 +35,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
 */
 //USE RADIANS
 //3.04 radians is half a rotation
-private static final double FRONT_LEFT_ANGLE_OFFSET =-0.850;//(164.53+180); //30.6 last 6.5 - was 161.8
-private static final double FRONT_RIGHT_ANGLE_OFFSET =-1.45;
-private static final double BACK_LEFT_ANGLE_OFFSET = -0.78;//+180 22.1
-private static final double BACK_RIGHT_ANGLE_OFFSET = -2.42-3.04;//+180
+private static final double FRONT_LEFT_ANGLE_OFFSET = -0.75; ///-0.850
+private static final double FRONT_RIGHT_ANGLE_OFFSET = -4.72+3.04;//-1.45
+private static final double BACK_LEFT_ANGLE_OFFSET = -3.77+3.04;//-0.78
+private static final double BACK_RIGHT_ANGLE_OFFSET = -2.17-3.04; //-2.42-3.04
 
-    private boolean m_autoControl = false;
+private boolean m_autoControl = false;
 
     private static DrivetrainSubsystem instance;
 

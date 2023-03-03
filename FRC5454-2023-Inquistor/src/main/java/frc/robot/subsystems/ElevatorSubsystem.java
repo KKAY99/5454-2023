@@ -42,13 +42,15 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   public void moveElevator(double power, boolean checklimit) {
     double speed = power;
-
-    if(checklimit && hasHitPhysicalLimitSwitch() && power < 0){
+    System.out.println("Power" + power);
+    if(checklimit && hasHitPhysicalLimitSwitch() && power > 0){
       speed = 0;
+      System.out.println("Lower Limit Switch");
     }
 
-    if(checklimit && hasHitMaxLimit() && power > 0){
+    if(checklimit && hasHitMaxLimit() && power < 0){
       speed = 0;
+      System.out.println("Higher Limit Switch");
     }
 
     m_Motor.set(speed);
@@ -79,7 +81,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public boolean hasHitMaxLimit(){
-    if(getElevatorPos() >= Constants.Elevator.maxLimit){
+    if(getElevatorPos() <= Constants.Elevator.maxLimit){
       return true;
     }else{
       return false;
