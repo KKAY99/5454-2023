@@ -20,7 +20,7 @@ public class zBalanceRobotCommand extends CommandBase {
   private NavX m_gyro;
   private double zerolevel =-.77;
   private boolean m_hasTipped = false;
-  private double m_waitDelay = 5;
+  private double m_waitDelay = 2;
   private double m_startWaitTime = 0;
   private boolean m_waitAfterBalanceShift = false;
   private boolean m_hasNotTippedOnce = true;
@@ -60,7 +60,7 @@ public class zBalanceRobotCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-
+  
     double kLowBalanceAngleThresholdDegrees  = -0.1;
     double kHighBalanceAngleThresholdDegrees  = 0.1;
 
@@ -69,36 +69,14 @@ public class zBalanceRobotCommand extends CommandBase {
      double yAxisRate            = 0;
      double pitchAngleDegrees    = m_gyro.getAxis(Axis.PITCH);
      double rollAngleDegrees     = m_gyro.getAxis(Axis.ROLL);
-     boolean autoBalanceXMode=true;
-     boolean autoBalanceYMode=true;
      boolean m_balanced=false;
 
-     if ( !autoBalanceXMode && 
-          (Math.abs(pitchAngleDegrees) >= 
-           Math.abs(kHighBalanceAngleThresholdDegrees))) {
-         autoBalanceXMode = true;
-     }
-     else if ( autoBalanceXMode && 
-               (Math.abs(pitchAngleDegrees) <= 
-                Math.abs(kHighBalanceAngleThresholdDegrees))) {
-         autoBalanceXMode = false;
-     }
-     if ( !autoBalanceYMode && 
-          (Math.abs(rollAngleDegrees) >= 
-           Math.abs(kHighBalanceAngleThresholdDegrees))) {
-         autoBalanceYMode = true;
-     }
-     else if ( autoBalanceYMode && 
-               (Math.abs(rollAngleDegrees) <= 
-                Math.abs(kHighBalanceAngleThresholdDegrees))) {
-         autoBalanceYMode = false;
-     }
+     System.out.println("Checking Balance IsFinished - Pitch " + pitchAngleDegrees + " ROLL " + rollAngleDegrees);
      
      // Control drive system automatically, 
      // driving in reverse direction of pitch/roll angle,
      // with a magnitude based upon the angle
      
-     if(autoBalanceYMode) {
          if(m_hasTipped){
            if(m_waitAfterBalanceShift){
              double currentTime = Timer.getFPGATimestamp();
@@ -108,12 +86,12 @@ public class zBalanceRobotCommand extends CommandBase {
              }
            }else{
              if(rollAngleDegrees<kLowBalanceAngleThresholdDegrees){
-               m_drive.movenodistance(0,0,0.1);
-               System.out.println("Backward" + "RollAngle" + rollAngleDegrees + "Yaw" + m_gyro.getYaw());
+               m_drive.movenodistance(180,0,0.07);
+               System.out.println("Forward " + "RollAngle" + rollAngleDegrees + "Yaw" + m_gyro.getYaw());
 
              }else if(rollAngleDegrees>kHighBalanceAngleThresholdDegrees){
-               m_drive.movenodistance(180,0,0.1);
-               System.out.println("Forward" + "RollAngle" + rollAngleDegrees + "Yaw" + m_gyro.getYaw());
+               m_drive.movenodistance(0,0,0.07);
+               System.out.println("Backward " + "RollAngle" + rollAngleDegrees + "Yaw" + m_gyro.getYaw());
                m_hasTipped = false;
 
              }else{
@@ -124,21 +102,18 @@ public class zBalanceRobotCommand extends CommandBase {
            }
 
            }else{
-           if(rollAngleDegrees>0.168 && !m_hasNotTippedOnce){
-             System.out.println("Driving Up");
-             m_drive.movenodistance(180,0,0.7);
-             System.out.println("RollAngle" + rollAngleDegrees + "Yaw" + m_gyro.getYaw());
+           if(rollAngleDegrees<0.21 && m_hasNotTippedOnce){
+             m_drive.movenodistance(180,0,0.5);
+             System.out.println("Driving Up -  " + "RollAngle" + rollAngleDegrees + "Yaw" + m_gyro.getYaw());
            }else{
-             System.out.println("Tipped");
-             m_drive.move(0,0,0.55,0.3,true);
-             System.out.println("RollAngle" + rollAngleDegrees + "Yaw" + m_gyro.getYaw());
+             //m_drive.move(0,0,0.55,0.3,true);
+             System.out.println("Tipped " + "RollAngle" + rollAngleDegrees + "Yaw" + m_gyro.getYaw());
              m_waitAfterBalanceShift = true;
              m_startWaitTime = currentTime;
-             m_hasNotTippedOnce = true;
+             m_hasNotTippedOnce = false;
              m_hasTipped = true; 
            }
          }
-     }
      //return autoBalanceYMode == false;
      // System.out.println(autoBalanceXMode);
      // System.out.println("Execute Command - " + zerolevel + " * CurRoll " + m_gyro.getAxis(Axis.ROLL) + " * CurPitch "+ m_gyro.getAxis(Axis.PITCH));

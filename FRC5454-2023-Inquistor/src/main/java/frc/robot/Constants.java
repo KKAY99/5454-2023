@@ -160,22 +160,26 @@ public final class Constants {
         public static final int kBackRightDrive = 6;
     }
 
+
     public static final class Lift{
         public static final double liftAutoExtendStage1Speed=-0.5;
         public static final double liftAutoExtendStage2Speed=-0.3;
         public static final double liftAutoRetractSpeed=0.6;
         public static final double liftAutoRetractHomeSpeed=0.1;
-        public static final double posInitLift=-70;
-        public static final double posInitLiftRetract=-35;
-        public static final double posLowFullLiftStage1=-72;
-        public static final double posLowFullLiftStage2=-82;
-        public static final double posMiddleFullLiftStage1=-85.00;
-        public static final double posMiddleFullLiftStage2=-118.00; 
-        public static final double posHighFullLiftStage1=-100;
-        public static final double posHighFullLiftStage2=-152;
-        public static final double posPlayerLiftStage1=-88;   
-        public static final double posPlayerLiftStage2=-92; 
-        public static final double posShelf=-100;
+        public static final double kClawFlipOffset=6; // add a positive to decrease the stroke since it is negative values;
+        //low pos meeds to be higher so cones are near spindexer
+        public static final double posInitLift=-70-kClawFlipOffset;
+        //all other positions go lower
+        public static final double posInitLiftRetract=-26+kClawFlipOffset;
+         public static final double posLowFullLiftStage1=-72+kClawFlipOffset;
+        public static final double posLowFullLiftStage2=-82+kClawFlipOffset;
+        public static final double posMiddleFullLiftStage1=-85.00+kClawFlipOffset;
+        public static final double posMiddleFullLiftStage2=-112.00+kClawFlipOffset; 
+        public static final double posHighFullLiftStage1=-100+kClawFlipOffset;
+        public static final double posHighFullLiftStage2=-147+kClawFlipOffset;
+        public static final double posPlayerLiftStage1=-70;   
+        public static final double posPlayerLiftStage2=-79; 
+        public static final double posShelf=-103+kClawFlipOffset;
         public static final double posHome=10;
     }
 
@@ -306,7 +310,8 @@ public final class Constants {
         public static final int delayValMode3=8;
         public static final int defaultDelayMode=0;
         public static final double MoveSpeed=0.5;
-        public static final double LeaveCommunityDistance=150; // 15 feet = 174-30
+        //128 was last match
+        public static final double LeaveCommunityDistance=135;//115; // 120  // 15 feet = 174-30
         public static final double pushDistance = 5;
         public static final double DistanceToCharging=20;// x feet
         public static final double DistanceToDock=30;

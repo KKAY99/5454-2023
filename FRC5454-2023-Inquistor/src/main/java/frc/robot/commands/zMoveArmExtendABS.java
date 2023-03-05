@@ -1,6 +1,7 @@
 package frc.robot.commands;
 import frc.robot.Constants;
 import frc.robot.Constants.Lift;
+import frc.robot.Constants.TargetHeight;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.RotateArmSubsystem;
 import edu.wpi.first.util.concurrent.Event;
@@ -18,11 +19,12 @@ public class zMoveArmExtendABS extends CommandBase {
   private double m_posFullLiftStage1;
   private double m_posFullLiftStage2;
   private double m_angleStage1ABS;
+  private Constants.TargetHeight m_targetLevel;
   private double m_angleStage2ABS;
   private static int kTolerance= 5;
   private static enum STATE
   {
-                  INITLIFT,ROTATE,EXTENDANDROTATE,EXTENDLIFT,ABORT,END
+                  INITLIFT,ROTATE,EXTENDANDROTATE,EXTENDLIFT,FINALROTATE,ABORT,END
   }
  private STATE m_state=STATE.INITLIFT;
 
@@ -34,6 +36,7 @@ public class zMoveArmExtendABS extends CommandBase {
   public zMoveArmExtendABS(ElevatorSubsystem elevator, RotateArmSubsystem rotate, Constants.TargetHeight targetLevel) {
     m_elevator = elevator;
     m_rotate = rotate;
+    m_targetLevel=targetLevel;
   // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_elevator);
     switch(targetLevel){
@@ -172,7 +175,20 @@ public class zMoveArmExtendABS extends CommandBase {
         m_state=STATE.END;
       }
       break;
-
+      case FINALROTATE:
+      //kk 3/4 commented out for playoffs
+      m_state=STATE.END;
+      /*  if(m_targetLevel==Constants.TargetHeight.PLAYERSTATION){
+        m_state=STATE.END;
+       }else{
+        if(m_rotate.getAbsolutePos() > m_angleStage2ABS-0.05){
+          m_rotate.rotate(Constants.Rotate.rotateAutoOutStage2Speed);
+        }else {
+          m_rotate.stopRotate();
+          m_state=STATE.END;
+        }
+       }*/
+      break;
       case ABORT:
       case END:
       System.out.println("Ending Auto Score");
