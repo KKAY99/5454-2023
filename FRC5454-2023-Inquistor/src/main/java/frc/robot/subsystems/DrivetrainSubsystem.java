@@ -200,6 +200,19 @@ public void stop(){
         drive(new Translation2d(0,0), 0, true);
         periodic();       
 }
+public double getGyroAngle()
+{
+        return m_gyroscope.getAngle().toDegrees();
+}
+public void spinLeft(double speed){
+        drive(new Translation2d(0, 0), -speed,true);
+
+}
+public void spinRight(double speed){
+        drive(new Translation2d(0, 0), speed,true);
+              
+}
+
 public void spin (double direction,double speed)
 {       double startAngle;
         double endAngle;

@@ -8,6 +8,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.common.control.PidController;
+import edu.wpi.first.math.controller.ArmFeedforward;
 import com.revrobotics.CANSparkMax.IdleMode;
 import frc.robot.Constants;
 import com.revrobotics.RelativeEncoder;
@@ -21,7 +23,9 @@ public class RotateArmSubsystem extends SubsystemBase {
     private double m_frontLimit;
     private double m_backLimit;
     private DutyCycleEncoder m_AbsoluteEncoder;
-
+    private double kS, kG, kV, kA,kVelocity;
+    private double kP,kI,kD;
+    //private final ArmFeedforward m_RotateFeedforward = new ArmFeedforward(kS,kG,kV,kA);))
   
     public RotateArmSubsystem(int motorPort,int absoluteEncoderPort,double homeAngle,double frontLimit,double backLimit){
         m_RotateMotor = new CANSparkMax(motorPort , MotorType.kBrushless);   
@@ -33,6 +37,7 @@ public class RotateArmSubsystem extends SubsystemBase {
         m_backLimit=backLimit;
       }
     
+
     @Override
     public void periodic() {
       // This method will be called once per scheduler run

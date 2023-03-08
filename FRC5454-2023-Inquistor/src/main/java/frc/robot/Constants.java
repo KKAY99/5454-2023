@@ -41,8 +41,8 @@ public final class Constants {
 
     public static final class VisionPipelines{
         public static final int AprilTag=0;
-        public static final int TopTape=1;
-        public static final int BottomTape=2;
+        public static final int TopTape=2;
+        public static final int BottomTape=1;
         public static final int AprilTagID1=3;
         public static final int AprilTagID6=4;
     }
@@ -194,7 +194,7 @@ public final class Constants {
     public static final class Rotate{
         public static final double rotateAutoOutStage1Speed=-0.50;
         public static final double rotateAutoOutStage2Speed=-0.13; 
-        public static final double rotateAutoInSpeed=0.4; 
+        public static final double rotateAutoInSpeed=0.5; 
         public static final double angleLowConeStage1=-17;    
         public static final double angleLowConeStage2=-27;
         public static final double angleLowConeStage1ABS=0.497;    
@@ -344,7 +344,7 @@ public final class Constants {
         public static final double limelightHeight = 19; //37
         public static final double limelightAngle = 0; //40
         public static final double kVisionDistanceTolerance = 5;
-        public static final double kVisionXTolerance = 1;
+        public static final double kVisionXTolerance = .05;
         public static final double kVisionXOffset=4;
         public static final double kVisionXMaxDistanceOffset=4.31; // was 1.7
         public static final double kVisionXMinDistanceOffset=0.91; // was 1.7
@@ -387,12 +387,12 @@ public final class Constants {
            }
     
    public static final class PIDSteering{
-    public static final double rightKP=-0.09;
-    public static final double leftKP=0.09;
+    public static final double rightKP=-0.06;
+    public static final double leftKP=0.06;
     public static final double rightKI=-0;  
     public static final double leftKI=0;
-    public static final double rightKD=-0;
-    public static final double leftKD=0;
+    public static final double rightKD=0.0001;
+    public static final double leftKD=0.0001;
     public static final double forwardKP= -0.45;
     public static final double backwardKP = 0.45;
     public static final double forwardKI = -0;

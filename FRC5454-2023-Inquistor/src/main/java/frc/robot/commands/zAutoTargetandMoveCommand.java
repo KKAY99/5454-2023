@@ -6,6 +6,7 @@ import frc.robot.Constants.PIDSteering;
 import frc.robot.classes.Limelight;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.math.filter.MedianFilter;
+import edu.wpi.first.wpilibj.Timer;
 
 
 
@@ -15,9 +16,19 @@ private Limelight m_limeLight;
 private int m_pipeline=0;
 private double m_targetHeight;
 private DrivetrainSubsystem m_drive;
-private final MedianFilter m_filter = new MedianFilter(5);
+private final MedianFilter m_filter = new MedianFilter(3);
 private PIDController m_pidRight = new PIDController(Constants.PIDSteering.rightKP,PIDSteering.rightKI,PIDSteering.rightKD);
 private PIDController m_pidLeft = new PIDController(Constants.PIDSteering.leftKP,PIDSteering.leftKI,PIDSteering.leftKD);
+private double kVisionXTolerance=Constants.LimeLightValues.kVisionXTolerance;
+private double kGyroTolerance=5;
+private double kTimeToMoveForward=1; // how long do we move forward
+private double kMoveSpeed=0.1;
+private double m_startMoveTime;
+private STATE m_state;
+
+private enum STATE{
+  MAKESTRAIGHT,MOVEFORWARD,LINEUP,END,ABORT;
+}
 
 
 
@@ -55,53 +66,111 @@ public zAutoTargetandMoveCommand(Limelight limelight,DrivetrainSubsystem drive,i
     }
     @Override
     public void initialize() {
-
+      if(m_limeLight.getPipeline()!=m_pipeline){
+        //System.out.println("Switching Pipeline - " + m_pipeline + " from " + m_limeLight.getPipeline());
+          m_limeLight.setPipeline(m_pipeline);
+          m_limeLight.setTargetHeight(m_targetHeight);
+    }
+      m_state = STATE.MOVEFORWARD;
+      m_startMoveTime=0;
+         //if the command doesnt have the target abort
+         if(!m_limeLight.isTargetAvailible()){
+          System.out.println("Lost Target - TargetAvailable=" + m_limeLight.isTargetAvailible());
+          m_state=STATE.ABORT;
+        }
+      
     }
   
      @Override
     public void execute() {
-        if(m_limeLight.getPipeline()!=m_pipeline){
-            //System.out.println("Switching Pipeline - " + m_pipeline + " from " + m_limeLight.getPipeline());
-              m_limeLight.setPipeline(m_pipeline);
-              m_limeLight.setTargetHeight(m_targetHeight);
-        }
+     
     }
     
     
   
     @Override
     public void end(boolean interrupted) {
-    
+
+      m_state = STATE.ABORT;
     }
   
     @Override
     public boolean isFinished() {
+   
       boolean returnValue = false;
-      double measurement = m_limeLight.getXRaw();
-      double filteredMeasurement = m_filter.calculate(measurement);
-      if(Math.abs(filteredMeasurement)<0.8){
-        //System.out.println("stopping");
+      double measurement;
+      double filteredMeasurement; 
+      
+      m_limeLight.update();
+      measurement = m_limeLight.getXRaw();
+   
+      filteredMeasurement = m_filter.calculate(measurement);
+   
+      switch(m_state){
+        case MAKESTRAIGHT:
+          m_state=STATE.MOVEFORWARD;
+         //TODO: Validate works before reneabling 
+         /*
+          double currentAngle=m_drive.getGyroAngle();
+          if(currentAngle<kGyroTolerance){
+            m_drive.stop();
+            m_state=STATE.MOVEFORWARD;
+          }else{
+            if(currentAngle<0){
+                m_drive.spinLeft(0.10);
+            }else{
+                m_drive.spinRight(0.10);
+              }
+          }
+           */
+
+        
+
+          break;
+          case MOVEFORWARD:
+             if(m_startMoveTime==0){
+                 System.out.println("AutoMove Forward Started");
+                 m_startMoveTime=Timer.getFPGATimestamp();
+                 m_drive.movenodistance(0,0,kMoveSpeed);               
+              } else {
+                if(Timer.getFPGATimestamp()>(m_startMoveTime+kTimeToMoveForward)){
+                  System.out.println("AutoMove Forward Stopping " + Timer.getFPGATimestamp() + " " + m_startMoveTime);  
+                  m_drive.stop();
+                    m_state=STATE.LINEUP;
+                }
+              }
+              break;
+              case LINEUP:
+                if(Math.abs(filteredMeasurement)<kVisionXTolerance){
+                  System.out.println("stopping -filterednumber:" + filteredMeasurement + " lastvalue:" + measurement);
+                  m_drive.stop();
+                  m_state = STATE.END; 
+                }else{
+                  if(filteredMeasurement>0){
+                  double pidOutput = m_pidRight.calculate(filteredMeasurement);
+                  pidOutput=Math.min(Math.max(pidOutput,-0.10),0.10);
+                  //System.out.println("Aligning - X is " + m_limeLight.getXRaw() + " filtered is " + filteredMeasurement + " pidOutput is " + pidOutput);
+                  System.out.println("move right " + pidOutput);
+                
+                  m_drive.movenodistance(90,0,pidOutput);
+                }else{
+                  double pidOutput = m_pidLeft.calculate(filteredMeasurement);
+                  pidOutput=Math.min(Math.max(pidOutput,-0.10),0.10);
+                
+                  //System.out.println("Aligning - X is " + m_limeLight.getXRaw() + " filtered is " + filteredMeasurement + " pidOutput is " + pidOutput);
+                  System.out.println("move left " + pidOutput);
+              
+                  m_drive.movenodistance(270,0,pidOutput);
+                }     
+          }
+        break;
+        case ABORT:
+          System.out.println("Aborting zAutoTargetMoveCommand");
+        case END:
         m_drive.stop();
-        returnValue = true;
-        return returnValue; 
-      }else{
-        if(filteredMeasurement>0){
-          //System.out.println("move right");
-          double pidOutput = m_pidRight.calculate(filteredMeasurement);
-          pidOutput=Math.min(Math.max(pidOutput,-0.10),.10);
-          //System.out.println("Aligning - X is " + m_limeLight.getXRaw() + " filtered is " + filteredMeasurement + " pidOutput is " + pidOutput);
-          m_drive.move(270 ,0,pidOutput,1,true);
-        }else{
-          //System.out.println("move left");
-          double pidOutput = m_pidLeft.calculate(filteredMeasurement);
-          pidOutput=Math.min(Math.max(pidOutput,-0.10),.10);
-         
-          //System.out.println("Aligning - X is " + m_limeLight.getXRaw() + " filtered is " + filteredMeasurement + " pidOutput is " + pidOutput);
-          m_drive.move(90 ,0,pidOutput,1,true);
-        }     
+        returnValue=true;
       }
-        return returnValue;
-    
+      return returnValue; 
   }
     
 }

@@ -310,13 +310,6 @@ public class RobotContainer {
         final SolenoidPunchCommand punchSolenoidCommand = new SolenoidPunchCommand(m_PnuematicsSubystem);
 // Auto commands
         final zBalanceRobotCommand balanceRobotCommand = new zBalanceRobotCommand(m_NavX,m_RobotDrive);
-        final zAutoTargetToColumnCommand targetColumnCommandUpperLeft = new zAutoTargetToColumnCommand(m_Limelight,m_RobotDrive,Constants.ChargedUp.GridPosUpperLeft);
-        final zAutoTargetToColumnCommand targetColumnCommandUpperRight = new zAutoTargetToColumnCommand(m_Limelight,m_RobotDrive,Constants.ChargedUp.GridPosUpperRight);
-   //     final zAutoTargetandMoveCommand tapetargetandMoveCommand = new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive,
-   //     Constants.ChargedUp.GridPosMiddleLeft);
-    //    final zAutoTargetandMoveCommand tagtargetandMoveCommand = new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive,
-    //    Constants.ChargedUp.GridPosMiddleCenter);
-    //    final zHungryHippoCommand hungryHippoCommand = new zHungryHippoCommand(m_paddle, m_IntakeArms, m_Convey);
         final zMoveArmRetractABS retractElevatorCommand = new zMoveArmRetractABS(m_Elevator, m_Rotate);
         // *** 9 Box targeting
         final SequentialCommandGroup zAutoTargetTL= new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive,
@@ -475,13 +468,13 @@ public class RobotContainer {
         //driverConveyRetract.toggleOnTrue(intakeConveyandRetract);
 
         Trigger driverLowTape = new JoystickButton(m_xBoxDriver, ButtonConstants.DriverPipelineLowTape);
-        //driverLowTape.whileTrue(pipelineTapeLowCommand);
+        driverLowTape.toggleOnTrue(pipelineTapeLowCommand);
 
         Trigger driverHighTape = new JoystickButton(m_xBoxDriver, ButtonConstants.DriverPipelineHighTape);
-        //driverHighTape.whileTrue(pipelineTapeHighCommand);
+        driverHighTape.toggleOnTrue(pipelineTapeHighCommand);
         
         Trigger driverPipelineAprilTag = new Trigger(() -> Math.abs(m_xBoxDriver.getRawAxis(3))>ButtonConstants.RightTriggerDeadBand);
-        //driverPipelineAprilTag.whileTrue(pipelineAprilTagCommand);
+        driverPipelineAprilTag.toggleOnTrue(pipelineAprilTagCommand);
 /*            
         Trigger operatorIntakeIn =  new JoystickButton(m_xBoxDriver, ButtonConstants.OperatorIntakeIn);
         operatorIntakeIn.whileTrue(intakeInCommand);
@@ -797,7 +790,7 @@ public class RobotContainer {
                 //TODO: ROTATE home rotate wheel
                 //zHomeRotateCommand resetRotate = new zHomeRotateCommand(m_Rotate,Constants.RotateArm.encodervalueHomePos, Constants.Rotate.homeSpeedForward,Constants.Rotate.homeTimeFailsafe) ; 
                 zHomeElevatorCommand resetElevator = new zHomeElevatorCommand(m_Elevator,Constants.Elevator.elevatorLimitSpeed,Constants.Elevator.homeTimeOut) ; 
-                ClawCommand homeCloseClawCommand = new ClawCommand(m_PnuematicsSubystem, true,"rotateHome");
+                ClawCommand homeCloseClawCommand = new ClawCommand(m_PnuematicsSubystem, true,"homeRobot");
               //  zHomePaddleCommand resetPaddle = new zHomePaddleCommand(m_paddle,Constants.Paddle.homePaddleSpeed,Constants.Paddle.homeTimeOut) ; 
               //  zHomeIntakeArmsCommand resetArms = new zHomeIntakeArmsCommand(m_IntakeArms,Constants.IntakeArms.homeSpeed,Constants.IntakeArms.homeTimeOut); 
                 ParallelCommandGroup resetRobot = new ParallelCommandGroup(resetElevator,homeCloseClawCommand);                                                               
