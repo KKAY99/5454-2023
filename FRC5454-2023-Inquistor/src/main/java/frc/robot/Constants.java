@@ -276,28 +276,19 @@ public final class Constants {
 
     public static final class AutoModes {
         public static final String autoMode0="0-Do Nothing";
-        public static final String autoMode1="1-Push Forward/Move Back Out of Zone";
-        public static final String autoMode2="1=Score Cone / Move out of Zone";
-        public static final String autoMode3="1=Score Cube / Move out of Zone";
-        public static final String autoMode4="1-Score Cube / Dock Charging Station";
-        public static final String autoMode5="1-Score Cone / Dock Charging Station";
-        public static final String autoMode6="1-Score Cube / Engage Charging Station";
-        public static final String autoMode7="1-Score Cone / Engage Charging Station";
-        public static final String autoMode8="2-Score Cone / Leave / Get Cone / Score";
-        public static final String autoMode9="2-Score Cube / Leave / Get Cone / Score";
-        public static final String automode10="1=Score Any";
+        public static final String autoMode1="1=Score";
+        public static final String autoMode2="1=Score / Move out of Zone";
+        public static final String autoMode3="1-Score / Dock Charging Station";
+        public static final String autoMode4="1-Score / Engage Charging Station";
+        public static final String autoMode5="2-Score / Leave / Get Cone / Score";
 
        
         public static final int autoNothing = 0;
         public static final int autoMoveBack = 1;
-        public static final int autoCubeLeave = 2;
-        public static final int autoConeLeave = 3;
-        public static final int autoCubeDock = 4;
-        public static final int autoConeDock = 5;
-        public static final int autoCubeEngage = 6;
-        public static final int autoConeEngage = 7;
-        public static final int autoConeScore2=8;
-        public static final int autoCubeScore2=9;
+        public static final int autoScoreLeave = 2;
+        public static final int autoScoreDock = 3;
+        public static final int autoScoreEngage = 4;
+        public static final int autoScore2=5;
         
         
         
