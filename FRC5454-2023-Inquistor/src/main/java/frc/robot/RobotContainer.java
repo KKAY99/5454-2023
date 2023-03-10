@@ -187,28 +187,28 @@ public class RobotContainer {
     private void createAutoCommands(){
     autoChooser.addDefaultOption(AutoModes.autoMode0, new AutoDoNothingCommand());
     Command commandAutoMoveBack= new SequentialCommandGroup(new AutoMoveCommand(m_RobotDrive,0,AutoModes.pushDistance),
-                                            new AutoMoveCommand(m_RobotDrive,180, AutoModes.LeaveCommunityDistance));
+                                            new AutoMoveCommand(m_RobotDrive,0, AutoModes.LeaveCommunityDistance));
     autoChooser.addOption(AutoModes.autoMode1,commandAutoMoveBack);
     
     Command commandAutoConeLeave = new SequentialCommandGroup(new ClawCommand(m_PnuematicsSubystem, true, "auto"),
                                                               new zMoveArmExtendABS(m_Elevator, m_Rotate, Constants.TargetHeight.TOP),
                                                               new ClawCommand(m_PnuematicsSubystem, false, "auto"),
-                                                              new zMoveArmRetract(m_Elevator,m_Rotate),
-                                                              new AutoMoveCommand(m_RobotDrive,180,AutoModes.LeaveCommunityDistance));
+                                                              new zMoveArmRetractABS(m_Elevator,m_Rotate),
+                                                              new AutoMoveCommand(m_RobotDrive,0,AutoModes.LeaveCommunityDistance));
     autoChooser.addOption(AutoModes.autoMode2,commandAutoConeLeave);
   
     
     Command commandAutoCubeLeave=  new SequentialCommandGroup(new ClawCommand(m_PnuematicsSubystem, true, "auto"),
                                             new zMoveArmExtendABS(m_Elevator, m_Rotate, Constants.TargetHeight.TOP),
                                             new ClawCommand(m_PnuematicsSubystem, false,"autoCube"),
-                                            new zMoveArmRetract(m_Elevator,m_Rotate),
-                                            new AutoMoveCommand(m_RobotDrive,180,AutoModes.LeaveCommunityDistance));
+                                            new zMoveArmRetractABS(m_Elevator,m_Rotate),
+                                            new AutoMoveCommand(m_RobotDrive,0,AutoModes.LeaveCommunityDistance));
     autoChooser.addOption(AutoModes.autoMode3,commandAutoCubeLeave);
 
     Command commandScoreAny = new SequentialCommandGroup(new ClawCommand(m_PnuematicsSubystem, true, "auto"),
                                                           new zMoveArmExtendABS(m_Elevator, m_Rotate, Constants.TargetHeight.TOP),
                                                           new ClawCommand(m_PnuematicsSubystem, false,"autoCube"),
-                                                          new zMoveArmRetract(m_Elevator,m_Rotate));
+                                                          new zMoveArmRetractABS(m_Elevator,m_Rotate));
     autoChooser.addOption(AutoModes.automode10, commandScoreAny);
  
     Command commandAutoConeDock = new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
@@ -216,7 +216,7 @@ public class RobotContainer {
                                        new zPivotandExtendCommand(Constants.TargetHeight.TOP),
                                        new ClawCommand(m_PnuematicsSubystem, false,"autoCone"),
                                        new zPivotArmResetCommand(),
-                                       new AutoMoveCommand(m_RobotDrive,180,AutoModes.DistanceToDock));
+                                       new AutoMoveCommand(m_RobotDrive,0,AutoModes.DistanceToDock));
     autoChooser.addOption(AutoModes.autoMode4,commandAutoConeDock);
  
     Command commandAutoCubeDock = new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
@@ -224,7 +224,7 @@ public class RobotContainer {
                                                new zPivotandExtendCommand(Constants.TargetHeight.TOP),
                                                new ClawCommand(m_PnuematicsSubystem, false,"auto"),
                                                new zPivotArmResetCommand(),
-                                               new AutoMoveCommand(m_RobotDrive,180,AutoModes.DistanceToDock));
+                                               new AutoMoveCommand(m_RobotDrive,0,AutoModes.DistanceToDock));
     autoChooser.addOption(AutoModes.autoMode5, commandAutoCubeDock);
  
     Command commandAutoConeEngage  = new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
@@ -232,7 +232,7 @@ public class RobotContainer {
                                                new zPivotandExtendCommand(Constants.TargetHeight.TOP),
                                                new ClawCommand(m_PnuematicsSubystem, false,"auto"),
                                                new zPivotArmResetCommand(),
-                                               new AutoMoveCommand(m_RobotDrive,180,AutoModes.DistanceToCharging),
+                                               new AutoMoveCommand(m_RobotDrive,0,AutoModes.DistanceToCharging),
                                                new zEngageonChargingCommand());
 
    autoChooser.addOption(AutoModes.autoMode6,commandAutoConeEngage);
@@ -242,7 +242,7 @@ public class RobotContainer {
                                                new zPivotandExtendCommand(Constants.TargetHeight.TOP),
                                                new ClawCommand(m_PnuematicsSubystem, false,"auto"),
                                                new zPivotArmResetCommand(),
-                                               new AutoMoveCommand(m_RobotDrive,180,AutoModes.DistanceToCharging),
+                                               new AutoMoveCommand(m_RobotDrive,0,AutoModes.DistanceToCharging),
                                                new zEngageonChargingCommand());
 
    autoChooser.addOption(AutoModes.autoMode7,commandAutoCubeEngage);
@@ -520,103 +520,7 @@ public class RobotContainer {
         operatorAutoRetractElevator.toggleOnTrue(retractElevatorCommand);
 
     }
-    /**
-     * Use this to pass the autonomous command to the main {@link Robot} class.
-     *
-     * @return the command to run in autonomous
-     */
-    public Command getAutonomousCommand(Integer selectedMode) {
-        Command autoCommand = new AutoDoNothingCommand(); // Default Command is DoNothing
-        //
-         switch (selectedMode){
-          case AutoModes.autoMoveBack:
-             autoCommand= new SequentialCommandGroup(new AutoMoveCommand(m_RobotDrive,0,AutoModes.pushDistance),
-                                                     new AutoMoveCommand(m_RobotDrive,180, AutoModes.LeaveCommunityDistance));
-            break;
-          case AutoModes.autoConeLeave:
-             autoCommand = new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
-                                                          Constants.ChargedUp.GridPosBottomConeAny),
-                                                      new zPivotandExtendCommand(Constants.TargetHeight.TOP),
-                                                      new ClawCommand(m_PnuematicsSubystem, false,"auto"),
-                                                      new zPivotArmResetCommand(),
-                                                      new AutoMoveCommand(m_RobotDrive,180,AutoModes.LeaveCommunityDistance));
-            break;
-          case AutoModes.autoCubeLeave:
-            autoCommand = new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
-                                                         Constants.ChargedUp.GridPosBottomCubeAny),
-                                                     new zPivotandExtendCommand(Constants.TargetHeight.TOP),
-                                                     new ClawCommand(m_PnuematicsSubystem, false,"auto"),
-                                                     new zPivotArmResetCommand(),
-                                                     new AutoMoveCommand(m_RobotDrive,180,AutoModes.LeaveCommunityDistance));
-           break;
-          case AutoModes.autoConeDock:
-          autoCommand = new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
-                                                        Constants.ChargedUp.GridPosBottomConeAny),
-                                                new zPivotandExtendCommand(Constants.TargetHeight.TOP),
-                                                new ClawCommand(m_PnuematicsSubystem, false,"auto"),
-                                                new zPivotArmResetCommand(),
-                                                new AutoMoveCommand(m_RobotDrive,180,AutoModes.DistanceToDock));
-          break;
-          case AutoModes.autoCubeDock:
-            autoCommand = new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
-                                                                Constants.ChargedUp.GridPosBottomCubeAny),
-                                                        new zPivotandExtendCommand(Constants.TargetHeight.TOP),
-                                                        new ClawCommand(m_PnuematicsSubystem, false,"auto"),
-                                                        new zPivotArmResetCommand(),
-                                                        new AutoMoveCommand(m_RobotDrive,180,AutoModes.DistanceToDock));
-          break;
-          case AutoModes.autoConeEngage:
-          autoCommand = new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
-                                                                Constants.ChargedUp.GridPosBottomConeAny),
-                                                        new zPivotandExtendCommand(Constants.TargetHeight.TOP),
-                                                        new ClawCommand(m_PnuematicsSubystem, false,"auto"),
-                                                        new zPivotArmResetCommand(),
-                                                        new AutoMoveCommand(m_RobotDrive,180,AutoModes.DistanceToCharging),
-                                                        new zEngageonChargingCommand());
-         
-          break;            
-          case AutoModes.autoCubeEngage:
-          autoCommand = new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
-                                                                Constants.ChargedUp.GridPosBottomCubeAny),
-                                                        new zPivotandExtendCommand(Constants.TargetHeight.TOP),
-                                                        new ClawCommand(m_PnuematicsSubystem, false,"auto"),
-                                                        new zPivotArmResetCommand(),
-                                                        new AutoMoveCommand(m_RobotDrive,180,AutoModes.DistanceToCharging),
-                                                        new zEngageonChargingCommand());
-
-          break;
-          case AutoModes.autoConeScore2:
-             autoCommand = new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
-                                                        Constants.ChargedUp.GridPosBottomCubeAny),
-                                                new zPivotandExtendCommand(Constants.TargetHeight.TOP),
-                                                new ClawCommand(m_PnuematicsSubystem, false,"auto"),
-                                                new zPivotArmResetCommand(),
- //                                               new zAutoDetectandGetCommand(m_Limelight,m_RobotDrive,m_paddle,Constants.ChargedUp.Cone),
-                                                new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
-                                                        Constants.ChargedUp.GridPosBottomCubeAny),
-                                                new zPivotandExtendCommand(Constants.TargetHeight.TOP),
-                                                new ClawCommand(m_PnuematicsSubystem, false,"auto"),
-                                                new zPivotArmResetCommand());
-         break;
-          case AutoModes.autoCubeScore2:
-             autoCommand = new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
-                                                        Constants.ChargedUp.GridPosBottomCubeAny),
-                                                new zPivotandExtendCommand(Constants.TargetHeight.TOP),
-                                                new ClawCommand(m_PnuematicsSubystem, false,"auto"),
-                                                new zPivotArmResetCommand(),
-   //                                             new zAutoDetectandGetCommand(m_Limelight,m_RobotDrive,m_paddle,Constants.ChargedUp.Cube),
-                                                new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
-                                                        Constants.ChargedUp.GridPosBottomCubeAny),
-                                                new zPivotandExtendCommand(Constants.TargetHeight.TOP),
-                                                new ClawCommand(m_PnuematicsSubystem, false,"auto"),
-                                                new zPivotArmResetCommand());
-                                                
-          default:
-            autoCommand = new AutoDoNothingCommand();
-        }
-        return autoCommand;
-        // return m_autoCommand;
-    }   
+       
     public void refreshSmartDashboard()
     {  
         frontLeftAngle.set(m_RobotDrive.getFrontLeftAngle());
@@ -785,6 +689,7 @@ public class RobotContainer {
                 //Moved to parallel command group
                 //  homeIntakeArms();
                 //  homePaddle();
+
                 //  homeRotate();
                 //  homeElevator();
                 //TODO: ROTATE home rotate wheel

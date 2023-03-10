@@ -164,7 +164,8 @@ public final class Constants {
     public static final class Lift{
         public static final double liftAutoExtendStage1Speed=-0.5;
         public static final double liftAutoExtendStage2Speed=-0.3;
-        public static final double liftAutoRetractSpeed=0.6;
+        public static final double liftAutoRetract1Speed=0.9;
+        public static final double liftAutoRetract2Speed=0.6;
         public static final double liftAutoRetractHomeSpeed=0.1;
         public static final double kClawFlipOffset=6; // add a positive to decrease the stroke since it is negative values;
         //low pos meeds to be higher so cones are near spindexer
@@ -194,7 +195,7 @@ public final class Constants {
     public static final class Rotate{
         public static final double rotateAutoOutStage1Speed=-0.50;
         public static final double rotateAutoOutStage2Speed=-0.13; 
-        public static final double rotateAutoInSpeed=0.5; 
+        public static final double rotateAutoInSpeed=0.6; 
         public static final double angleLowConeStage1=-17;    
         public static final double angleLowConeStage2=-27;
         public static final double angleLowConeStage1ABS=0.497;    
@@ -387,8 +388,8 @@ public final class Constants {
            }
     
    public static final class PIDSteering{
-    public static final double rightKP=-0.06;
-    public static final double leftKP=0.06;
+    public static final double rightKP=-0.03;
+    public static final double leftKP=0.03;
     public static final double rightKI=-0;  
     public static final double leftKI=0;
     public static final double rightKD=0.0001;

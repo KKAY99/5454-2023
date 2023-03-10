@@ -23,15 +23,16 @@ public class RotateArmSubsystem extends SubsystemBase {
     private double m_frontLimit;
     private double m_backLimit;
     private DutyCycleEncoder m_AbsoluteEncoder;
-    private double kS, kG, kV, kA,kVelocity;
+    private double kS, kG, kV, kA=0,kVelocity;
     private double kP,kI,kD;
-    //private final ArmFeedforward m_RotateFeedforward = new ArmFeedforward(kS,kG,kV,kA);))
+   // private final ArmFeedforward m_RotateFeedforward = new ArmFeedforward(kS,kG,kV,kA);))
   
     public RotateArmSubsystem(int motorPort,int absoluteEncoderPort,double homeAngle,double frontLimit,double backLimit){
         m_RotateMotor = new CANSparkMax(motorPort , MotorType.kBrushless);   
         m_RotateMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
         m_rotateEncoder = m_RotateMotor.getEncoder();
         m_AbsoluteEncoder= new DutyCycleEncoder(absoluteEncoderPort);
+        
         m_homeAngle=homeAngle;
         m_frontLimit=frontLimit;
         m_backLimit=backLimit;

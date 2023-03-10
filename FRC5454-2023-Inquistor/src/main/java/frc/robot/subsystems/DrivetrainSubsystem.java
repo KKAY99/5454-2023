@@ -135,7 +135,13 @@ private boolean m_autoControl = false;
     public void movenodistance(double direction, double rotation, double speed){
         move(direction,rotation,speed,0,false);
     }
-    public void move(double direction, double rotation,double speed, double distance, boolean stopAtEnd)
+    public void move(double direction, double rotation,double speed, double distance, boolean stopAtEnd){
+        automove(direction,rotation,speed,distance,stopAtEnd,false);
+    }
+    public void moveGyro(double direction, double rotation,double speed, double distance, boolean stopAtEnd){
+        automove(direction,rotation,speed,distance,stopAtEnd,true);
+    }
+    private void automove(double direction, double rotation,double speed, double distance, boolean stopAtEnd,boolean fieldCentric)
 {       double startDistance;
         double forward=0;
         double strafe=0;
@@ -180,19 +186,19 @@ private boolean m_autoControl = false;
         }
         //if not travelling distance then just turn movement on 
         if(distance==0){
-                drive(new Translation2d(forward, strafe), rotation, false);
+                drive(new Translation2d(forward, strafe), rotation, fieldCentric);
                 periodic();
         }else {
                 double distanceTravelled=backLeftModule.getCurrentDistance()-startDistance;
                 while(distanceTravelled<=distance && m_autoControl){
-                drive(new Translation2d(forward, strafe), rotation, false);
+                drive(new Translation2d(forward, strafe), rotation, fieldCentric);
                 periodic();
                 distanceTravelled=Math.abs(backLeftModule.getCurrentDistance()-startDistance);
                 //      System.out.print("(" + forward + ", "+ strafe +") " + distanceTravelled + " / " + distance );
                 } 
         }
         if (stopAtEnd) {
-                drive(new Translation2d(0,0), 0, true);
+                drive(new Translation2d(0,0), 0, fieldCentric);
                 periodic();                
         }
 }

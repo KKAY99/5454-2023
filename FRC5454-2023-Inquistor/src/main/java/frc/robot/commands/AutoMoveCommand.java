@@ -51,7 +51,7 @@ public class AutoMoveCommand extends CommandBase {
     //  m_drive.spin(m_direction,Constants.AutoModes.MoveSpeed);
     //}else {
       System.out.println(m_direction + " " + m_rcw);
-       m_drive.move(m_direction ,m_rcw,Constants.AutoModes.MoveSpeed,m_distance,true);
+       m_drive.moveGyro(m_direction ,m_rcw,Constants.AutoModes.MoveSpeed,m_distance,true);
     //}
        m_isFinished=true;
   }

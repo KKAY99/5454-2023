@@ -58,7 +58,7 @@ public class zMoveArmRetractABS extends CommandBase {
       case RETRACT:
       retracted = false;
       if(m_elevator.getElevatorPos()<Constants.Lift.posInitLift){
-        m_elevator.runWithOutLimit(Constants.Lift.liftAutoRetractSpeed);
+        m_elevator.runWithOutLimit(Constants.Lift.liftAutoRetract1Speed);
        }else{     
           retracted = true;
        }
@@ -77,7 +77,7 @@ public class zMoveArmRetractABS extends CommandBase {
              rotated=true;
       }
       if(m_elevator.getElevatorPos()<Constants.Lift.posInitLiftRetract){
-       m_elevator.runWithOutLimit(Constants.Lift.liftAutoRetractSpeed);
+       m_elevator.runWithOutLimit(Constants.Lift.liftAutoRetract2Speed);
       }else{     
            m_elevator.stop();
            retracted=true;;

@@ -156,7 +156,9 @@ public class Robot extends LoggedRobot {
     m_robotContainer.resetDriveModes();
     m_robotContainer.AutoMode();
     //m_robotContainer.resetTurret(); move to command groups
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    
+    //USE AutoChooser / Rather than lookup
+     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
