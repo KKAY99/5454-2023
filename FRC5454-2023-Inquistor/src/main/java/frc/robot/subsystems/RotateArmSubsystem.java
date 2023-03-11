@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.common.control.PidController;
 import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.PIDController;
+
 import com.revrobotics.CANSparkMax.IdleMode;
 import frc.robot.Constants;
 import com.revrobotics.RelativeEncoder;
@@ -23,10 +25,11 @@ public class RotateArmSubsystem extends SubsystemBase {
     private double m_frontLimit;
     private double m_backLimit;
     private DutyCycleEncoder m_AbsoluteEncoder;
-    private double kS, kG, kV, kA=0,kVelocity;
-    private double kP,kI,kD;
-   // private final ArmFeedforward m_RotateFeedforward = new ArmFeedforward(kS,kG,kV,kA);))
-  
+    private double kp=0.5;
+    private double ki=0.0;
+    private double kd=0.0;
+   private PIDController m_rotorPID=new PIDController(kp,ki,kd);
+
     public RotateArmSubsystem(int motorPort,int absoluteEncoderPort,double homeAngle,double frontLimit,double backLimit){
         m_RotateMotor = new CANSparkMax(motorPort , MotorType.kBrushless);   
         m_RotateMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
@@ -52,6 +55,19 @@ public class RotateArmSubsystem extends SubsystemBase {
       }
         m_RotateMotor.set(power);
       
+    }
+    public void doPIDTest(){
+      PIDTest(0);
+      PIDTest(0.4);
+      PIDTest(0.5);
+      PIDTest(0.6);
+    }
+ 
+    private void PIDTest(double setpoint)
+    { 
+      System.out.println("Current Pos :" + getAbsolutePos() + " SetPoint:" + setpoint + "  PID Calculated Output:" + 
+                     m_rotorPID.calculate(getAbsolutePos(),setpoint));
+    
     }
  
  

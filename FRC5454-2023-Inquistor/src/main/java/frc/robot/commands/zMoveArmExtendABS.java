@@ -6,6 +6,7 @@ import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.RotateArmSubsystem;
 import edu.wpi.first.util.concurrent.Event;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.classes.Limelight;
 
 
 
@@ -22,9 +23,11 @@ public class zMoveArmExtendABS extends CommandBase {
   private Constants.TargetHeight m_targetLevel;
   private double m_angleStage2ABS;
   private static int kTolerance= 5;
+  private Limelight m_limelight;
+  private boolean m_checkForTarget;
   private static enum STATE
   {
-                  INITLIFT,ROTATE,EXTENDANDROTATE,EXTENDLIFT,FINALROTATE,ABORT,END
+                  CANSEETARGET,INITLIFT,ROTATE,EXTENDANDROTATE,EXTENDLIFT,FINALROTATE,ABORT,END
   }
  private STATE m_state=STATE.INITLIFT;
 
@@ -33,9 +36,11 @@ public class zMoveArmExtendABS extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public zMoveArmExtendABS(ElevatorSubsystem elevator, RotateArmSubsystem rotate, Constants.TargetHeight targetLevel) {
+  public zMoveArmExtendABS(ElevatorSubsystem elevator, RotateArmSubsystem rotate, Constants.TargetHeight targetLevel, Limelight limelight, boolean checkForTarget) {
     m_elevator = elevator;
     m_rotate = rotate;
+    m_limelight = limelight;
+    m_checkForTarget = checkForTarget;
     m_targetLevel=targetLevel;
   // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_elevator);
@@ -57,12 +62,13 @@ public class zMoveArmExtendABS extends CommandBase {
         m_posFullLiftStage2=Constants.Lift.posLowFullLiftStage2;
         m_angleStage1ABS=Constants.Rotate.angleLowConeStage1ABS;
         m_angleStage2ABS=Constants.Rotate.angleLowConeStage2ABS;
+        break;
       case PLAYERSTATION:
-       m_posFullLiftStage1 = Constants.Lift.posPlayerLiftStage1;
-       m_posFullLiftStage2 = Constants.Lift.posPlayerLiftStage2;
-       m_angleStage1ABS = Constants.Rotate.anglePlayerStage1ABS;
-       m_angleStage2ABS = Constants.Rotate.anglePlayerStage2ABS;
-      break;
+        m_posFullLiftStage1 = Constants.Lift.posPlayerLiftStage1;
+        m_posFullLiftStage2 = Constants.Lift.posPlayerLiftStage2;
+        m_angleStage1ABS = Constants.Rotate.anglePlayerStage1ABS;
+        m_angleStage2ABS = Constants.Rotate.anglePlayerStage2ABS;
+          break;
     }
     m_posInitLift=Constants.Lift.posInitLift;
      
@@ -71,7 +77,7 @@ public class zMoveArmExtendABS extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_state=STATE.INITLIFT;
+    m_state=STATE.CANSEETARGET;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -95,6 +101,18 @@ public class zMoveArmExtendABS extends CommandBase {
     boolean returnValue=false;
     System.out.println(m_state);
     switch(m_state){
+      case CANSEETARGET:
+      //if checking for target use Limelight to check otherwise move to INITLIFT
+      if(m_checkForTarget){
+        if(m_limelight.isTargetAvailible()){
+          m_state = STATE.INITLIFT;
+        }else{
+          m_state = STATE.ABORT;
+        }
+      }else{
+        m_state = STATE.INITLIFT;
+      }
+      break;
       case INITLIFT:
           
           // Encoder is negative as it lifts up
@@ -190,9 +208,10 @@ public class zMoveArmExtendABS extends CommandBase {
        }*/
       break;
       case ABORT:
+         System.out.println("Aborting Auto Score");
       case END:
       System.out.println("Ending Auto Score");
-        m_elevator.stop();
+        m_elevator.SetPosAndMove(m_posFullLiftStage2);
         m_rotate.stopRotate();
         returnValue=true;
 

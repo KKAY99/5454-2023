@@ -11,12 +11,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class ElevatorSubsystem extends SubsystemBase {
   CANSparkMax m_Motor;
   RelativeEncoder m_elevatorEncoder;
+  SparkMaxPIDController m_pidController;
   DigitalInput m_limit;
+  private double m_targetPos;
   private boolean m_homed = false;
 
   /** Creates a new ExampleSubsystem. */
@@ -29,6 +33,14 @@ public class ElevatorSubsystem extends SubsystemBase {
     m_Motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
     m_elevatorEncoder=m_Motor.getEncoder();
     m_limit = new DigitalInput(limitswitchport);
+    
+    m_pidController.setFeedbackDevice(m_elevatorEncoder);   
+    m_pidController.setP(Constants.Lift.liftKP);
+    m_pidController.setI(Constants.Lift.liftKI);
+    m_pidController.setD(Constants.Lift.liftKD);
+    m_pidController.setIZone(Constants.Lift.liftKIZ);
+    m_pidController.setFF(Constants.Lift.liftKFF);
+    m_pidController.setOutputRange(Constants.Lift.minOutPut, Constants.Lift.maxOutput);
    
   }
 
@@ -91,6 +103,11 @@ public class ElevatorSubsystem extends SubsystemBase {
   public void setZero(){
     m_elevatorEncoder.setPosition(0);
   }
+
+  public void SetPosAndMove(double targetPos){
+    m_pidController.setReference(targetPos, CANSparkMax.ControlType.kPosition);
+    m_targetPos = targetPos;
+   }
 
   public double getElevatorPos(){
     return m_elevatorEncoder.getPosition();

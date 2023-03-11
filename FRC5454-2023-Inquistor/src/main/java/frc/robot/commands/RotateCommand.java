@@ -57,6 +57,8 @@ public class RotateCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_RotateArm.stopRotate();
+    //FIX: REMOVE
+    m_RotateArm.doPIDTest();
   }
 
   // Returns true when the command should end.

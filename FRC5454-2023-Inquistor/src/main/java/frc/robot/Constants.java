@@ -1,7 +1,5 @@
  
 package frc.robot;
-
-
 import edu.wpi.first.networktables.Publisher;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -52,48 +50,12 @@ public final class Constants {
                     TOP,MIDDLE,BOTTOM,PLAYERSTATION;	
     }
     
-    public class IntakeConvey{
-        public static final int motorPort=42;
-        public static final double inSpeed=-0.8;
-        public static final double outSpeed=0.8;
-    }
-    public class IntakeArms{
-        public static final int masterMotorPort=13;
-        public static final int slaveMotorPort=16; // FIX
-        public static final double homeSpeed=0.10;        
-        public static final double homeTimeOut=2.0;
-        public static final double inSpeed=0.3;
-        public static final double outSpeed=-0.3;
-        public static final int limitSwitch1 = 1;
-        public static final double posHumanPlayer=6;
-        public static final double posExtendLimit=8;
-        public static final double autoMoveSpeed=0.25;
-        public static final double autoMoveTolerance=0.1;
-        public static final double homePos=0;
-    }
     public class Spindexer {
         public static final int motorPort=17;
         public static final double spinForward=1;
         public static final double spinBack=-1;
         public static final double spinForwardSlow=0.6;
         public static final double spinBackSlow=-0.6;
-    }
-
-    public class Paddle{
-        public static final int intakePort=33;
-        public static final double intakeInSpeed=-0.25;
-        public static final double intakeOutSpeed=0.25;
-        public static final int limitSwitch=2;
-        public static final double homePaddleSpeed=0.25;
-        public static final double homeTimeOut=1;
-        public static final double encoderMovePosStart=-140;
-        public static final double encoderMovePosEnd=20;
-        public static final double encoderHumanPlayerPos=-27;
-        public static final double autoMoveOutSpeed=-0.40;
-        public static final double autoMoveTolerance=5;
-        public static final double posHome=0;
-        public static final double encoderMovePosLowShot=-80;
-    
     }    
     public class Elevator{
         public static final int elevatorPort=19;
@@ -102,41 +64,6 @@ public final class Constants {
         public static final double homeTimeOut=0.5;
         public static final int limitSwitch=3;
         public static final double maxLimit = -153;
-    }
-    public class HungryHippoValues{
-        public static final double armPos1=-3.64;
-        public static final double armPos2=10;
-        public static final double armPos4=10;
-        public static final double armPos5=10;
-        public static final double armPos6=10;
-        public static final double armPos7=10;
-        public static final double armPos8=10;
-        public static final double armSpeed1=-0.10;
-        public static final double armSpeed2=-0.10;
-        public static final double armSpeed3=-0.10;
-        public static final double armSpeed4=-0.10;
-        public static final double armSpeed5=-0.10;
-        public static final double armSpeed6=-0.10;
-        public static final double armSpeed7=-0.10;
-        public static final double armSpeed8=-0.10;
-        public static final double paddlePos2=20;
-        public static final double paddlePos3=20;
-        public static final double paddlePos4=20;
-        public static final double paddlePos5=20;
-        public static final double paddlePos6=20;
-        public static final double paddlePos7=20;
-        public static final double paddlePos8=20;
-        public static final double paddleSpeed1=0.10;
-        public static final double paddleSpeed2=0.10;
-        public static final double paddleSpeed3=0.10;
-        public static final double paddleSpeed4=0.10;
-        public static final double paddleSpeed5=0.10;
-        public static final double paddleSpeed6=0.10;
-        public static final double paddleSpeed7=0.10;
-        public static final double paddleSpeed8=0.10;
-        public static final double paddleTolerance=0.1;
-        public static final double armTolerance=0.1;
-        public static final double conveySpeed=0.1;
     }
     public class RotateArm{
         public static final int rotateArmPort=50;
@@ -182,20 +109,20 @@ public final class Constants {
         public static final double posPlayerLiftStage2=-79; 
         public static final double posShelf=-103+kClawFlipOffset;
         public static final double posHome=10;
+        
+        public static final double liftKP = 0.1;
+        public static final double liftKI = 1e-4;
+        public static final double liftKD = 1;
+        public static final double liftKIZ = 0;
+        public static final double liftKFF = 0;
+        public static final double maxOutput = 1;
+        public static final double minOutPut = -1;
     }
-
-    //-2 = 0.532
-//-17 = 0.497//
-//-18 = 0.495
-//-21 = 0.494
-//-22 = 0.490
-//-27 = 0.484
-
 
     public static final class Rotate{
         public static final double rotateAutoOutStage1Speed=-0.50;
         public static final double rotateAutoOutStage2Speed=-0.13; 
-        public static final double rotateAutoInSpeed=0.6; 
+        public static final double rotateAutoInSpeed=0.8; 
         public static final double angleLowConeStage1=-17;    
         public static final double angleLowConeStage2=-27;
         public static final double angleLowConeStage1ABS=0.497;    
@@ -252,15 +179,15 @@ public final class Constants {
         public static final int OperatorSpindexPOVFL=270;
         public static final int OperatorSpindexPOVFR=90;
        
-
+        public static final int CustomCtlRetract=3;
         public static final int TargetTopLeft=4;
-        public static final int TargetMiddleLeft=5;
-        public static final int TargetBottomLeft=6;
-        public static final int TargetTopCenter=7;
+        public static final int TargetMiddleLeft=7;
+        public static final int TargetBottomLeft=10;
+        public static final int TargetTopCenter=5;
         public static final int TargetMiddleCenter=8;
-        public static final int TargetBottomCenter=9;
-        public static final int TargetTopRight=10;
-        public static final int TargetMiddleRight=11;
+        public static final int TargetBottomCenter=11;
+        public static final int TargetTopRight=6;
+        public static final int TargetMiddleRight=9;
         public static final int TargetBottomRight=12;
 
         public static final double JoystickDeadBand = 0.10;
@@ -282,15 +209,12 @@ public final class Constants {
         public static final String autoMode4="1-Score / Engage Charging Station";
         public static final String autoMode5="2-Score / Leave / Get Cone / Score";
 
-       
         public static final int autoNothing = 0;
         public static final int autoMoveBack = 1;
         public static final int autoScoreLeave = 2;
         public static final int autoScoreDock = 3;
         public static final int autoScoreEngage = 4;
         public static final int autoScore2=5;
-        
-        
         
         public static final String delayMode0="0 Seconds";
         public static final String delayMode1="3 Seconds";
@@ -323,7 +247,6 @@ public final class Constants {
      * Constant Values for Limelight based on target and mounting
      */
     public static final class LimeLightValues {
-    
         public static final double steeringP = 0.035;
         public static final double steeringI = 0;
         public static final double steeringD = 0.0055;
