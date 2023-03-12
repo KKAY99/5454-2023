@@ -30,7 +30,9 @@ public class zMoveArmRetractABS extends CommandBase {
     m_pnuematics=pnuematics;
   // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_elevator);
-  }
+    addRequirements(m_rotate);
+
+}
 
   // Called when the command is initially scheduled.
   @Override
@@ -47,6 +49,7 @@ public class zMoveArmRetractABS extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+      m_state=STATE.END;
       m_elevator.stop();
       m_rotate.stopRotate();
       }

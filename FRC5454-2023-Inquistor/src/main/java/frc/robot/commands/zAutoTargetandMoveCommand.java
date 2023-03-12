@@ -7,6 +7,7 @@ import frc.robot.classes.Limelight;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
 
 
 
@@ -27,6 +28,7 @@ private double kTimeToMoveForward=.3; // how long do we move forward
 private double kTimeToMoveBackward=.05;
 private double kMoveSpeed=0.10;
 private double m_startMoveTime;
+private XboxController m_driver;
 private STATE m_state;
 
 private enum STATE{
@@ -35,10 +37,11 @@ private enum STATE{
 
 
 
-public zAutoTargetandMoveCommand(Limelight limelight,DrivetrainSubsystem drive,int gridChoice){
+public zAutoTargetandMoveCommand(Limelight limelight,DrivetrainSubsystem drive,int gridChoice,XboxController driver){
         m_gridChoice=gridChoice;
         m_limeLight=limelight;
         m_drive=drive;
+        m_driver=driver;
         addRequirements(m_drive);
         //GRID Choice are 1 to 9 for the three rows in a grid 
         //GRID 10 (top cone any column) 11 (middle cone any column) 12 (botton cone any column)
@@ -114,6 +117,13 @@ public zAutoTargetandMoveCommand(Limelight limelight,DrivetrainSubsystem drive,i
       double measurement;
       double filteredMeasurement; 
       
+      //allow driver overiride by moving joystick
+      if((Math.abs(m_driver.getLeftX())>Constants.swerveDrive.driveDeadband) || (Math.abs(m_driver.getLeftY())>Constants.swerveDrive.driveDeadband)) {
+        System.out.println("Driver Control Aboring Targeting");
+        m_state=STATE.ABORT;
+      }
+
+
       m_limeLight.update();
       measurement = m_limeLight.getXRaw();
    

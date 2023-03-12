@@ -49,8 +49,8 @@ public class zMoveArmExtendABS extends CommandBase {
     m_targetLevel=targetLevel;
     m_shouldRotateClaw = shouldRotateClaw;
   // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_elevator);
-    switch(targetLevel){
+      addRequirements(m_elevator);
+      addRequirements(m_rotate);  switch(targetLevel){
       case TOP:
       m_posFullLiftStage1=Constants.Lift.posHighFullLiftStage1;
       m_posFullLiftStage2=Constants.Lift.posHighFullLiftStage2;
@@ -102,6 +102,7 @@ public class zMoveArmExtendABS extends CommandBase {
   @Override
   public void end(boolean interrupted) {
       System.out.println("Ending Auto Score");
+      m_state=STATE.END;
       m_elevator.stop();
       m_rotate.stopRotate();
       }
