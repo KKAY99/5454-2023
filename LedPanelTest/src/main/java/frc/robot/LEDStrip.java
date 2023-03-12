@@ -114,6 +114,31 @@ public class LEDStrip {
         m_animateLoop=loopCount;
         m_animateDelay=delayTime;
     }
+    public void animatethis(String animateCommand,int hue){
+        double currentTime = Timer.getFPGATimestamp();
+        // only update if delay time has occured
+        if(currentTime-m_animateDelay>m_animateLastTime){
+            int ledPos=m_animateCurPos-m_animateLoop;
+            if(ledPos<m_animateEndPos){
+                ledPos=m_animateStartPos;
+            }
+            switch(animateCommand){
+                case "5454":
+                    show5454(ledPos,hue);
+                    break;
+                case "cone":
+                    showCone(ledPos,hue);
+                    break;
+                case "cube":
+                    showCube(ledPos, hue);
+                    break;
+            }
+     
+            m_animateCurPos=ledPos;   
+            m_animateLastTime=currentTime;
+        }    
+    }
+
     public void animate5454(){
         double currentTime = Timer.getFPGATimestamp();
         // only update if delay time has occured
@@ -122,7 +147,7 @@ public class LEDStrip {
             if(ledPos<m_animateEndPos){
                 ledPos=m_animateStartPos;
             }
-            show5454(ledPos);
+            show5454(ledPos,150);
             m_animateCurPos=ledPos;   
             m_animateLastTime=currentTime;
         }    
@@ -238,9 +263,9 @@ public class LEDStrip {
         m_led.setData(m_ledBuffer);
  
     }
-    public void show5454(int startingLED){
+    public void show5454(int startingLED,int hue){
         clearStrip();
-        int hue=150;
+        
         m_ledBuffer.setHSV(startingLED+12, hue, 255, 255);
         m_ledBuffer.setHSV(startingLED+13, hue, 255, 255);
         m_ledBuffer.setHSV(startingLED+14, hue, 255, 255);

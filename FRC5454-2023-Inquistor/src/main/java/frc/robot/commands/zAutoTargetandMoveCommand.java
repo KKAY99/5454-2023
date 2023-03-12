@@ -63,6 +63,12 @@ public zAutoTargetandMoveCommand(Limelight limelight,DrivetrainSubsystem drive,i
                 m_targetHeight=Constants.ChargedUp.targetHeighMLowTape;
                 m_visionXTolerance=kVisionConeTolerance;
                 break;
+            case Constants.ChargedUp.playerStation:
+            // will need to be 15 inches to the left of AprilTag
+            m_pipeline=Constants.VisionPipelines.PlayerStationTag;
+            m_targetHeight=Constants.ChargedUp.targetHeightPlayerStationTag;
+            m_visionXTolerance=kVisionCubeTolerance;
+            break;
             default:
                 // Assume AprilTag if not a Cone Position
                 m_pipeline=Constants.VisionPipelines.AprilTag;
@@ -130,8 +136,6 @@ public zAutoTargetandMoveCommand(Limelight limelight,DrivetrainSubsystem drive,i
               }
           }
            */
-
-        
 
           break;
           case MOVEFORWARD:

@@ -22,9 +22,9 @@ public class PnuematicsSubystem extends SubsystemBase{
     m_pressure=m_Compressor.getPressure();
 
   } catch (Exception e){
-    //System.out.println("Pneumatics Failure");
-    //System.out.println("Exception Message: " + e.getMessage());
-    //System.out.println("StackTrace:" + e.getStackTrace().toString());
+    System.out.println("Pneumatics Failure");
+    System.out.println("Exception Message: " + e.getMessage());
+    System.out.println("StackTrace:" + e.getStackTrace().toString());
   }
 }
   public void setConveyorPunch(boolean value){

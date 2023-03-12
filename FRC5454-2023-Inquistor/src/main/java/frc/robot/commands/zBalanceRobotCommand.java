@@ -102,7 +102,7 @@ public class zBalanceRobotCommand extends CommandBase {
 
            }else{
            if(rollAngleDegrees<0.21 && m_hasNotTippedOnce){
-             m_drive.movenodistance(180,0,0.5);
+             m_drive.movenodistance(180,0,0.2);
              System.out.println("Driving Up -  " + "RollAngle" + rollAngleDegrees + "Yaw" + m_gyro.getYaw());
            }else{
              //m_drive.move(0,0,0.55,0.3,true);

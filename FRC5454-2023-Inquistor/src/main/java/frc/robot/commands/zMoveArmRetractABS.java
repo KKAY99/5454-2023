@@ -1,6 +1,7 @@
 package frc.robot.commands;
 import frc.robot.Constants;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.PnuematicsSubystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.RotateArmSubsystem;
 
@@ -11,6 +12,7 @@ public class zMoveArmRetractABS extends CommandBase {
   
   private final ElevatorSubsystem m_elevator;
   private final RotateArmSubsystem m_rotate;
+  private final PnuematicsSubystem m_pnuematics;
   private static enum STATE
   {
                   RETRACT,RETRACTANDROTATE,ABORT,END
@@ -22,9 +24,10 @@ public class zMoveArmRetractABS extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public zMoveArmRetractABS(ElevatorSubsystem elevator, RotateArmSubsystem rotate) {
+  public zMoveArmRetractABS(ElevatorSubsystem elevator, RotateArmSubsystem rotate,PnuematicsSubystem pnuematics) {
     m_elevator=elevator;
     m_rotate=rotate;
+    m_pnuematics=pnuematics;
   // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_elevator);
   }
@@ -64,6 +67,7 @@ public class zMoveArmRetractABS extends CommandBase {
        }
 
        if(retracted){
+        m_pnuematics.setConveyorPunch(false);
         m_state = STATE.RETRACTANDROTATE;
        }
       break;

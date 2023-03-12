@@ -190,48 +190,48 @@ public class RobotContainer {
     autoChooser.addOption(AutoModes.autoMode0,commandAutoMoveBack);
 
     Command commandScore = new SequentialCommandGroup(new ClawCommand(m_PnuematicsSubystem, true, "auto"),
-                                                          new zMoveArmExtendABS(m_Elevator, m_Rotate, Constants.TargetHeight.TOP,m_Limelight, false),
+                                                          new zMoveArmExtendABS(m_Elevator, m_Rotate, m_PnuematicsSubystem,m_Limelight,Constants.TargetHeight.TOP, false,true),
                                                           new ClawCommand(m_PnuematicsSubystem, false,"autoCube"),
-                                                          new zMoveArmRetractABS(m_Elevator,m_Rotate));
+                                                          new zMoveArmRetractABS(m_Elevator,m_Rotate,m_PnuematicsSubystem));
     autoChooser.addOption(AutoModes.autoMode1, commandScore);
     
     Command commandAutoScoreLeave = new SequentialCommandGroup(new ClawCommand(m_PnuematicsSubystem, true, "auto"),
-                                                              new zMoveArmExtendABS(m_Elevator, m_Rotate, Constants.TargetHeight.TOP,m_Limelight, false),
+    new zMoveArmExtendABS(m_Elevator, m_Rotate, m_PnuematicsSubystem,m_Limelight,Constants.TargetHeight.TOP, false,true),
                                                               new ClawCommand(m_PnuematicsSubystem, false, "auto"),
-                                                              new zMoveArmRetractABS(m_Elevator,m_Rotate),
+                                                              new zMoveArmRetractABS(m_Elevator,m_Rotate,m_PnuematicsSubystem),
                                                               new AutoMoveCommand(m_RobotDrive,0,AutoModes.LeaveCommunityDistance));
     autoChooser.addOption(AutoModes.autoMode2,commandAutoScoreLeave);
  
     Command commandAutoScoreDock = new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
                                                Constants.ChargedUp.GridPosBottomConeAny),
-                                               new zMoveArmExtendABS(m_Elevator, m_Rotate, Constants.TargetHeight.TOP,m_Limelight, false),
-                                       new ClawCommand(m_PnuematicsSubystem, false,"autoCone"),
-                                       new zMoveArmRetractABS(m_Elevator,m_Rotate),
-                                       new AutoMoveCommand(m_RobotDrive,0,AutoModes.DistanceToDock));
+                                               new zMoveArmExtendABS(m_Elevator, m_Rotate, m_PnuematicsSubystem,m_Limelight,Constants.TargetHeight.TOP, false,true),
+                                               new ClawCommand(m_PnuematicsSubystem, false,"autoCone"),
+                                               new zMoveArmRetractABS(m_Elevator,m_Rotate,m_PnuematicsSubystem),
+                                               new AutoMoveCommand(m_RobotDrive,0,AutoModes.DistanceToDock));
     autoChooser.addOption(AutoModes.autoMode3,commandAutoScoreDock);
  
  
     Command commandAutoScoreEngage  = new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
                                                        Constants.ChargedUp.GridPosBottomConeAny),
-                                               new zMoveArmExtendABS(m_Elevator, m_Rotate, Constants.TargetHeight.TOP, m_Limelight, false),
-                                               new ClawCommand(m_PnuematicsSubystem, false,"auto"),
-                                               new zMoveArmRetractABS(m_Elevator,m_Rotate),
-                                               new AutoMoveCommand(m_RobotDrive,0,AutoModes.DistanceToCharging),
-                                               new zEngageonChargingCommand());
+                                                       new zMoveArmExtendABS(m_Elevator, m_Rotate, m_PnuematicsSubystem,m_Limelight,Constants.TargetHeight.TOP, false,true),
+                                                       new ClawCommand(m_PnuematicsSubystem, false,"auto"),
+                                                       new zMoveArmRetractABS(m_Elevator,m_Rotate,m_PnuematicsSubystem),
+                                                       new AutoMoveCommand(m_RobotDrive,0,AutoModes.DistanceToCharging),
+                                                       new zEngageonChargingCommand());
    autoChooser.addOption(AutoModes.autoMode4,commandAutoScoreEngage);
 
  
    Command commandAutoScore2= new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
                                                Constants.ChargedUp.GridPosBottomCubeAny),
-                                       new zMoveArmExtendABS(m_Elevator, m_Rotate, Constants.TargetHeight.TOP,m_Limelight, false),
-                                       new ClawCommand(m_PnuematicsSubystem, true,"auto"),
-                                       new zMoveArmRetractABS(m_Elevator,m_Rotate),
+                                               new zMoveArmExtendABS(m_Elevator, m_Rotate, m_PnuematicsSubystem,m_Limelight,Constants.TargetHeight.TOP, false,true),
+                                               new ClawCommand(m_PnuematicsSubystem, true,"auto"),
+                                               new zMoveArmRetractABS(m_Elevator,m_Rotate,m_PnuematicsSubystem),
  //                                      new zAutoDetectandGetCommand(m_Limelight,m_RobotDrive,Constants.ChargedUp.Cone),
-                                       new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
+                                        new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
                                                Constants.ChargedUp.GridPosBottomCubeAny),
-                                               new zMoveArmExtendABS(m_Elevator, m_Rotate, Constants.TargetHeight.TOP, m_Limelight, false),
+                                               new zMoveArmExtendABS(m_Elevator, m_Rotate, m_PnuematicsSubystem,m_Limelight,Constants.TargetHeight.TOP, false,true),
                                        new ClawCommand(m_PnuematicsSubystem, false,"auto"),
-                                       new zMoveArmRetractABS(m_Elevator,m_Rotate));
+                                       new zMoveArmRetractABS(m_Elevator,m_Rotate,m_PnuematicsSubystem));
    autoChooser.addOption(AutoModes.autoMode5, commandAutoScore2);
 }
 
@@ -246,11 +246,9 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         final GyroResetCommand gyroResetCommand = new GyroResetCommand(m_RobotDrive,m_Limelight);
-        final SpindexerCommand spindexerLeftCommand = new SpindexerCommand(m_SpindexerSubsystem, Constants.Spindexer.spinBack);
-        final SpindexerCommand spindexerRightCommand = new SpindexerCommand(m_SpindexerSubsystem, Constants.Spindexer.spinForward);
-        final SpindexerCommand spindexerLeftSlowCommand = new SpindexerCommand(m_SpindexerSubsystem, Constants.Spindexer.spinBackSlow);
-        final SpindexerCommand spindexerRightSlowCommand = new SpindexerCommand(m_SpindexerSubsystem, Constants.Spindexer.spinForwardSlow);
-        
+        final FloorIntakeCommand floorIntakeCommandPos = new FloorIntakeCommand(m_FloorIntake,1);
+        final FloorIntakeCommand floorIntakeCommandNeg = new FloorIntakeCommand(m_FloorIntake,-1);
+
         final zAutoTargetandMoveCommand pipelineAprilTagCommand = new zAutoTargetandMoveCommand(m_Limelight,m_RobotDrive,Constants.ChargedUp.GridPosMiddleCenter);
         final zAutoTargetandMoveCommand pipelineTapeLowCommand = new zAutoTargetandMoveCommand(m_Limelight,m_RobotDrive,Constants.ChargedUp.GridPosMiddleConeAny);
         final zAutoTargetandMoveCommand pipelineTapeHighCommand = new zAutoTargetandMoveCommand(m_Limelight,m_RobotDrive,Constants.ChargedUp.GridPosUpperConeAny);
@@ -261,64 +259,66 @@ public class RobotContainer {
         final SolenoidPunchCommand punchSolenoidCommand = new SolenoidPunchCommand(m_PnuematicsSubystem);
         // Auto commands
         final zBalanceRobotCommand balanceRobotCommand = new zBalanceRobotCommand(m_NavX,m_RobotDrive);
-        final zMoveArmRetractABS retractElevatorCommand = new zMoveArmRetractABS(m_Elevator, m_Rotate);
+        final zMoveArmRetractABS retractElevatorCommand = new zMoveArmRetractABS(m_Elevator, m_Rotate,m_PnuematicsSubystem);
 
+        Trigger wristArm = new JoystickButton(m_xBoxOperator,ButtonConstants.OperatorWrist);
+        wristArm.toggleOnTrue(punchSolenoidCommand);
         Trigger customRetract = new JoystickButton(m_CustomController,ButtonConstants.CustomCtlRetract);
-        customRetract.toggleOnTrue(new SequentialCommandGroup( new ClawCommand(m_PnuematicsSubystem,false,"Custom Retract"),retractElevatorCommand));
+        customRetract.toggleOnTrue(new SequentialCommandGroup( new ClawCommand(m_PnuematicsSubystem,false,"Custom Retract"),new zMoveArmRetractABS(m_Elevator, m_Rotate,m_PnuematicsSubystem)));
 
         // Custom Controller Parallel Scoring Commands 
         final ParallelCommandGroup zAutoTargetTL= new ParallelCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive,
                                                                                 Constants.ChargedUp.GridPosUpperLeft),
-                                                                             new zMoveArmExtendABS(m_Elevator, m_Rotate, TargetHeight.TOP,m_Limelight, true));
+                                                                                new zMoveArmExtendABS(m_Elevator, m_Rotate, m_PnuematicsSubystem,m_Limelight,Constants.TargetHeight.TOP, true,true));
         Trigger targetTopLeft= new JoystickButton(m_CustomController,ButtonConstants.TargetTopLeft);
         targetTopLeft.toggleOnTrue(zAutoTargetTL);
 
         final ParallelCommandGroup zAutoTargetML= new ParallelCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
                                                                                 Constants.ChargedUp.GridPosMiddleLeft),
-                                                                              new zMoveArmExtendABS(m_Elevator, m_Rotate, TargetHeight.MIDDLE,m_Limelight, true));
+                                                                                new zMoveArmExtendABS(m_Elevator, m_Rotate, m_PnuematicsSubystem,m_Limelight,Constants.TargetHeight.MIDDLE, true,true));
         Trigger targetMiddleLeft= new JoystickButton(m_CustomController,ButtonConstants.TargetMiddleLeft);
         targetMiddleLeft.toggleOnTrue(zAutoTargetML);
 
         final ParallelCommandGroup zAutoTargetBL= new ParallelCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive,
                                                                                 Constants.ChargedUp.GridPosBottomLeft),
-                                                                              new zMoveArmExtendABS(m_Elevator, m_Rotate, TargetHeight.BOTTOM,m_Limelight, true));
+                                                                                new zMoveArmExtendABS(m_Elevator, m_Rotate, m_PnuematicsSubystem,m_Limelight,Constants.TargetHeight.BOTTOM, true,false));
         Trigger targetBottomLeft= new JoystickButton(m_CustomController,ButtonConstants.TargetBottomLeft);
         targetBottomLeft.toggleOnTrue(zAutoTargetBL);
 
         final ParallelCommandGroup zAutoTargetTC= new ParallelCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive,
                                                                                 Constants.ChargedUp.GridPosUpperCenter),
-                                                                                new zMoveArmExtendABS(m_Elevator, m_Rotate, TargetHeight.TOP,m_Limelight, true));
+                                                                                new zMoveArmExtendABS(m_Elevator, m_Rotate, m_PnuematicsSubystem,m_Limelight,Constants.TargetHeight.TOP, true,true));
         Trigger targetTopCenter= new JoystickButton(m_CustomController,ButtonConstants.TargetTopCenter);
         targetTopCenter.toggleOnTrue(zAutoTargetTC);
 
         final ParallelCommandGroup zAutoTargetMC= new ParallelCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
                                                                                 Constants.ChargedUp.GridPosMiddleCenter),
-                                                                                new zMoveArmExtendABS(m_Elevator, m_Rotate, TargetHeight.MIDDLE,m_Limelight, true));
+                                                                                new zMoveArmExtendABS(m_Elevator, m_Rotate, m_PnuematicsSubystem,m_Limelight,Constants.TargetHeight.MIDDLE, true,true));
         Trigger targetMiddleCenter= new JoystickButton(m_CustomController,ButtonConstants.TargetMiddleCenter);
         targetMiddleCenter.toggleOnTrue(zAutoTargetMC);
 
         final ParallelCommandGroup zAutoTargetBC= new ParallelCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
                                                                                 Constants.ChargedUp.GridPosBottomCenter),
-                                                                              new zMoveArmExtendABS(m_Elevator, m_Rotate, TargetHeight.BOTTOM,m_Limelight, true));
+                                                                                new zMoveArmExtendABS(m_Elevator, m_Rotate, m_PnuematicsSubystem,m_Limelight,Constants.TargetHeight.BOTTOM, true,false));
         Trigger targetBottomCenter= new JoystickButton(m_CustomController,ButtonConstants.TargetBottomCenter);
         targetBottomCenter.toggleOnTrue(zAutoTargetBC);
 
         final ParallelCommandGroup zAutoTargetTR= new ParallelCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
                                                                                 Constants.ChargedUp.GridPosUpperRight),
-                                                                                new zMoveArmExtendABS(m_Elevator, m_Rotate, TargetHeight.TOP,m_Limelight, true));
+                                                                                new zMoveArmExtendABS(m_Elevator, m_Rotate, m_PnuematicsSubystem,m_Limelight,Constants.TargetHeight.TOP, true,true));
 
         Trigger targetTopRight =new JoystickButton(m_CustomController,ButtonConstants.TargetTopRight);
         targetTopRight.toggleOnTrue(zAutoTargetTR);
 
         final ParallelCommandGroup zAutoTargetMR= new ParallelCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
                                                                                 Constants.ChargedUp.GridPosMiddleRight),
-                                                                                new zMoveArmExtendABS(m_Elevator, m_Rotate, TargetHeight.MIDDLE,m_Limelight, true));
+                                                                                new zMoveArmExtendABS(m_Elevator, m_Rotate, m_PnuematicsSubystem,m_Limelight,Constants.TargetHeight.MIDDLE, true,true));
         Trigger targetMiddleRight= new JoystickButton(m_CustomController,ButtonConstants.TargetMiddleRight);
         targetMiddleRight.toggleOnTrue(zAutoTargetMR);
 
         final ParallelCommandGroup zAutoTargetBR= new ParallelCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
                                                                                 Constants.ChargedUp.GridPosBottomRight),
-                                                                                new zMoveArmExtendABS(m_Elevator, m_Rotate, TargetHeight.BOTTOM,m_Limelight, true));
+                                                                                new zMoveArmExtendABS(m_Elevator, m_Rotate, m_PnuematicsSubystem,m_Limelight,Constants.TargetHeight.BOTTOM, true,false));
         Trigger targetBottomRight= new JoystickButton(m_CustomController,ButtonConstants.TargetBottomRight);
         targetBottomRight.toggleOnTrue(zAutoTargetBR);
 
@@ -328,16 +328,16 @@ public class RobotContainer {
 
         final SequentialCommandGroup autoLowMoveArm =new SequentialCommandGroup(//new ClawCommand(m_PnuematicsSubystem, true),
         //                                                   new PaddleMoveToCommand(m_paddle,Constants.Paddle.encoderMovePosLowShot,Constants.Paddle.autoMoveTolerance,Constants.Paddle.autoMoveOutSpeed),
-                                                           new zMoveArmExtendABS(m_Elevator, m_Rotate, Constants.TargetHeight.BOTTOM,m_Limelight, false),
+                                                           new zMoveArmExtendABS(m_Elevator, m_Rotate, m_PnuematicsSubystem,m_Limelight,Constants.TargetHeight.BOTTOM, false,false),
                                                            new ClawCommand(m_PnuematicsSubystem, false,"zAuto"),
-                                                           new zMoveArmRetractABS(m_Elevator,m_Rotate));
+                                                           new zMoveArmRetractABS(m_Elevator,m_Rotate,m_PnuematicsSubystem));
 
         JoystickButton moveArmLow = new JoystickButton(m_xBoxOperator, ButtonConstants.OperatorAutoLow);
         moveArmLow.toggleOnTrue(autoLowMoveArm);
 
         final SequentialCommandGroup autoMiddleMoveArm =new SequentialCommandGroup(//new ClawCommand(m_PnuematicsSubystem, true),
          //                                                  new PaddleMoveToCommand(m_paddle,Constants.Paddle.encoderHumanPlayerPos,Constants.Paddle.autoMoveTolerance,Constants.Paddle.autoMoveOutSpeed),
-                                                           new zMoveArmExtendABS(m_Elevator, m_Rotate, Constants.TargetHeight.MIDDLE,m_Limelight, false));
+                                                            new zMoveArmExtendABS(m_Elevator, m_Rotate, m_PnuematicsSubystem,m_Limelight,Constants.TargetHeight.MIDDLE, false,true));
                                                            // ClawCommand(m_PnuematicsSubystem, false),
                                                            //new zMoveArmRetractABS(m_Elevator,m_Rotate)
 
@@ -346,32 +346,26 @@ public class RobotContainer {
 
         final SequentialCommandGroup autoHighMoveArm =new SequentialCommandGroup(//new ClawCommand(m_PnuematicsSubystem, true),
          //                                                  new PaddleMoveToCommand(m_paddle,Constants.Paddle.encoderHumanPlayerPos,Constants.Paddle.autoMoveTolerance,Constants.Paddle.autoMoveOutSpeed),
-                                                           new zMoveArmExtendABS(m_Elevator, m_Rotate, Constants.TargetHeight.TOP,m_Limelight, false));
+         new zMoveArmExtendABS(m_Elevator, m_Rotate, m_PnuematicsSubystem,m_Limelight,Constants.TargetHeight.TOP, false,true));
                                                            //new ClawCommand(m_PnuematicsSubystem, false,"zAuto"),
                                                            //new zMoveArmRetractABS(m_Elevator,m_Rotate)
         
         Trigger moveArmHigh = new Trigger(() -> Math.abs(m_xBoxOperator.getRawAxis(3))>ButtonConstants.RightTriggerDeadBand);
         moveArmHigh.toggleOnTrue(autoHighMoveArm);
                                                            
-        final SequentialCommandGroup playerStationGrab = new SequentialCommandGroup(new zMoveArmExtendABS(m_Elevator, m_Rotate, Constants.TargetHeight.PLAYERSTATION,m_Limelight, false),
+        final SequentialCommandGroup playerStationGrab = new SequentialCommandGroup(new zMoveArmExtendABS(m_Elevator, m_Rotate, m_PnuematicsSubystem,m_Limelight,Constants.TargetHeight.PLAYERSTATION,false,false),
                                                                                     new ClawCommand(m_PnuematicsSubystem, false,"zAuto"));
 
         Trigger playerGrab = new Trigger(() -> Math.abs(m_xBoxOperator.getRawAxis(2))>Constants.ButtonConstants.LeftTriggerDeadBand);
         playerGrab.toggleOnTrue(playerStationGrab);
 
         final SwitchDriveModeCommand switchDriveCommand=new SwitchDriveModeCommand(m_DriveControlMode);  
-        
-        Trigger driverSpindexerRight=new POVButton(m_xBoxOperator,ButtonConstants.OperatorSpindexPOVFR);
-        driverSpindexerRight.whileTrue(spindexerRightCommand);
-
-        Trigger driverSpindexerLeft=new POVButton(m_xBoxOperator,ButtonConstants.OperatorSpindexPOVFL);
-        driverSpindexerLeft.whileTrue(spindexerLeftCommand);
        
-        Trigger driverSpindexerSlowRight=new POVButton(m_xBoxOperator,ButtonConstants.OperatorSpindexPOVSR);
-        driverSpindexerSlowRight.whileTrue(spindexerRightSlowCommand);
+        Trigger operatorIntakeIn=new JoystickButton(m_xBoxOperator,ButtonConstants.OperatorIntakeIn);
+        operatorIntakeIn.whileTrue(floorIntakeCommandPos);
 
-        Trigger driverSpindexerSlowLeft=new POVButton(m_xBoxOperator,ButtonConstants.OperatorSpindexPOVSL);
-        driverSpindexerSlowLeft.whileTrue(spindexerLeftSlowCommand);
+        Trigger operatorIntakeOut=new JoystickButton(m_xBoxOperator,ButtonConstants.OperatorIntakeOut);
+        operatorIntakeOut.whileTrue(floorIntakeCommandNeg);
         
         Trigger driverMode=new JoystickButton(m_xBoxDriver,ButtonConstants.DriverDriveMode);
         driverMode.toggleOnTrue(switchDriveCommand);

@@ -52,10 +52,11 @@ public class LEDPanel {
     private static final int [] letterR={8,9,10,11,12,13,14,15,16,18,19,24,25,26,27,30,31};
     private static final int [] letterS={8,12,13,14,15,16,19,20,23,24,25,26,27,31};
     private static final int [] letterT={14,15,16,17,18,19,20,21,22,23,30,31};
-    private static final int [] shapeCube = {8,9,10,11,12,13,14,15,16,23,24,31,32,39,40,47,48,49,50,51,52,53,54,55};
-    private static final int [] shapeCone = {8,9,20,21,23,24,28,29,32,33,39,40,44,45,52,53,55,56,57};
-   
-    public LEDPanel(int port, int leds) {
+    private static final int [] shapeHCube = {8,9,10,11,12,13,14,15,16,23,24,31,32,39,40,47,48,49,50,51,52,53,54,55};
+    private static final int [] shapeHCone = {8,9,20,21,23,24,28,29,32,33,39,40,44,45,52,53,55,56,57};
+    private static final int [] shapeVCube = {3,4,18,21,29,33,38,41,46,48,49,50,51,52,53,54,55};
+    private static final int [] shapeVCone = {3,4,18,21,29,33,38,41,46,48,49,50,51,52,53,54,55};
+            public LEDPanel(int port, int leds) {
         // initialize all relevant objects
         m_led = new AddressableLED(port);
         m_ledBuffer = new AddressableLEDBuffer(leds);
@@ -167,7 +168,7 @@ public class LEDPanel {
         showArray(iCurrentPos,hue, letterE);
         
         iCurrentPos=iCurrentPos+LEDLETTERSIZE+LEDLETTERSIZE;
-        showArray(iCurrentPos,hue, shapeCone);
+        showArray(iCurrentPos,hue, shapeHCone);
       
         //Update Display
         m_led.setData(m_ledBuffer);
@@ -200,7 +201,9 @@ public class LEDPanel {
  
     }
    
-    public void showCube(int startingLED,int hue){
+    
+
+    public void showCubeHorizontal(int startingLED,int hue){
         clearStrip();
        
         int iCurrentPos=startingLED;
@@ -212,7 +215,7 @@ public class LEDPanel {
         iCurrentPos=iCurrentPos+LEDLETTERSIZE;
         showArray(iCurrentPos,hue, letterE);
         iCurrentPos=iCurrentPos+LEDLETTERSIZE+LEDLETTERSIZE;
-        showArray(iCurrentPos,hue, shapeCube);
+        showArray(iCurrentPos,hue, shapeHCube);
       
  
      //Update Display

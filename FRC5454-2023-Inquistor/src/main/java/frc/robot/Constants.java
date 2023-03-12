@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 public final class Constants {
     public static final class ChargedUp {
         public static final double targetHeightAprilTag=18;     // middle of April Tag in Distance
+        public static final double targetHeightPlayerStationTag=26.55;  
         public static final double targetHeighMLowTape=24.125;  // middle of low tape in inches
         public static final double targetHeightHighTape=43.875; // middle of high tape in inches 
         public static final int GridPosUpperLeft=1;
@@ -25,6 +26,7 @@ public final class Constants {
         public static final int GridPosUpperCubeAny=13;
         public static final int GridPosMiddleCubeAny=14;
         public static final int GridPosBottomCubeAny=15;
+        public static final int playerStation=16;
 
         public static final int Cone=0;
         public static final int Cube=1;
@@ -39,15 +41,14 @@ public final class Constants {
 
     public static final class VisionPipelines{
         public static final int AprilTag=0;
-        public static final int TopTape=2;
-        public static final int BottomTape=1;
-        public static final int AprilTagID1=3;
-        public static final int AprilTagID6=4;
+        public static final int TopTape=1;
+        public static final int BottomTape=2;
+        public static final int PlayerStationTag=3;
     }
 
     public static enum TargetHeight
     {
-                    TOP,MIDDLE,BOTTOM,PLAYERSTATION;	
+                    TOP,MIDDLE,BOTTOM,PLAYERSTATION,SLIDE;	
     }
     
     public class Spindexer {
@@ -98,15 +99,17 @@ public final class Constants {
         //low pos meeds to be higher so cones are near spindexer
         public static final double posInitLift=-70-kClawFlipOffset;
         //all other positions go lower
-        public static final double posInitLiftRetract=-26+kClawFlipOffset;
+        public static final double posInitLiftRetract=-46+kClawFlipOffset; // was -26+kClawFip
          public static final double posLowFullLiftStage1=-72+kClawFlipOffset;
         public static final double posLowFullLiftStage2=-82+kClawFlipOffset;
         public static final double posMiddleFullLiftStage1=-85.00+kClawFlipOffset;
-        public static final double posMiddleFullLiftStage2=-112.00+kClawFlipOffset; 
+        public static final double posMiddleFullLiftStage2=-108.00+kClawFlipOffset; 
         public static final double posHighFullLiftStage1=-100+kClawFlipOffset;
         public static final double posHighFullLiftStage2=-147+kClawFlipOffset;
-        public static final double posPlayerLiftStage1=-70;   
-        public static final double posPlayerLiftStage2=-79; 
+        public static final double posPlayerLiftStage1=-76;   
+        public static final double posPlayerLiftStage2=-86;
+        public static final double posSlideStage1=-70;   
+        public static final double posSlideStage2=-79; 
         public static final double posShelf=-103+kClawFlipOffset;
         public static final double posHome=10;
         
@@ -123,22 +126,16 @@ public final class Constants {
         public static final double rotateAutoOutStage1Speed=-0.50;
         public static final double rotateAutoOutStage2Speed=-0.13; 
         public static final double rotateAutoInSpeed=0.8; 
-        public static final double angleLowConeStage1=-17;    
-        public static final double angleLowConeStage2=-27;
         public static final double angleLowConeStage1ABS=0.497;    
         public static final double angleLowConeStage2ABS=0.484;    
-        public static final double angleMiddleConeStage1=-18;    
-        public static final double angleMiddleConeStage2=-21;
         public static final double angleMiddleConeStage1ABS=0.510;    
         public static final double angleMiddleConeStage2ABS=0.499; 
-        public static final double angleHighConeStage1=-18;    
-        public static final double angleHighConeStage2=-22;
         public static final double angleHighConeStage1ABS=0.510;    
         public static final double angleHighConeStage2ABS=0.495;
-        public static final double anglePlayerStage1=0;
-        public static final double anglePlayerStage2=-2;
-        public static final double anglePlayerStage1ABS=0.590;
-        public static final double anglePlayerStage2ABS=0.549;
+        public static final double anglePlayerStage1ABS=0.515;
+        public static final double anglePlayerStage2ABS=0.508;
+        public static final double angleSlideStage1ABS=0;
+        public static final double angleSlideStage2ABS=0;
         public static final double angleIntakePos=0.02;
         public static final double ABSHomePos = 0.536;
         public static final double homeTimeFailsafe=5;
@@ -166,13 +163,14 @@ public final class Constants {
         public static final int DriverDriveMode=7;
         public static final int DriverGyroReset=8;
         
-        public static final int OperatorPaddleRetract=1;
+        public static final int OperatorWrist=1;
         public static final int OperatorRetractElevator=2;
         public static final int OperatorClawSwap=3;
         public static final int OperatorPlayerStation=4;
         public static final int OperatorAutoLow=5;
         public static final int OperatorAutoMiddle=6;
-        public static final int OperatorHungryHippo=7;
+        public static final int OperatorIntakeIn=7;
+        public static final int OperatorIntakeOut=8;
      
         public static final int OperatorSpindexPOVSL=0;
         public static final int OperatorSpindexPOVSR=180;

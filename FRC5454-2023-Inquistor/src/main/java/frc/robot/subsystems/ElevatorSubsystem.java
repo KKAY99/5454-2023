@@ -34,6 +34,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     m_elevatorEncoder=m_Motor.getEncoder();
     m_limit = new DigitalInput(limitswitchport);
     
+    m_pidController = m_Motor.getPIDController();
     m_pidController.setFeedbackDevice(m_elevatorEncoder);   
     m_pidController.setP(Constants.Lift.liftKP);
     m_pidController.setI(Constants.Lift.liftKI);
@@ -110,7 +111,15 @@ public class ElevatorSubsystem extends SubsystemBase {
    }
 
   public double getElevatorPos(){
-    return m_elevatorEncoder.getPosition();
+    try {
+      return m_elevatorEncoder.getPosition();
+    }
+    catch (Exception e){
+      System.out.println("Pneumatics Failure");
+      System.out.println("Exception Message: " + e.getMessage());
+      System.out.println("StackTrace:" + e.getStackTrace().toString());
+      return 0;  
+    }
   }
 
   @Override
