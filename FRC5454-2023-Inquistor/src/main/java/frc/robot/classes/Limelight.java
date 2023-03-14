@@ -99,6 +99,7 @@ public class Limelight {
     public void setPipeline(int pipeline){
         llTable.getEntry("pipeline").setNumber(pipeline);
         
+        
     }
     public int getPipeline(){
         

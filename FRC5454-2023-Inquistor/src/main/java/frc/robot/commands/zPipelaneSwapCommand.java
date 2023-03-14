@@ -15,6 +15,9 @@ public class zPipelaneSwapCommand extends CommandBase{
 private Limelight m_limeLight;
 private int m_pipeline=0;
 private double m_targetHeight;
+private boolean m_waitforpipelinereset=false;
+private double m_pipelineResetTime=0;
+private final double kPipelineResetDelay=0.6;
 
 
 public zPipelaneSwapCommand(Limelight limelight,int gridChoice){
@@ -53,20 +56,20 @@ public zPipelaneSwapCommand(Limelight limelight,int gridChoice){
     }
     @Override
     public void initialize() {
-        if(m_limeLight.getPipeline()!=m_pipeline){
-          //System.out.println("Switching Pipeline - " + m_pipeline + " from " + m_limeLight.getPipeline());
-            m_limeLight.setPipeline(m_pipeline);
-            m_limeLight.setTargetHeight(m_targetHeight);
-      }      
+      if(m_limeLight.getPipeline()!=m_pipeline){
+        //System.out.println("Switching Pipeline - " + m_pipeline + " from " + m_limeLight.getPipeline());
+          m_limeLight.setPipeline(m_pipeline);
+          m_limeLight.setTargetHeight(m_targetHeight);
+          m_limeLight.update();
+          m_waitforpipelinereset=true;
+          m_pipelineResetTime=Timer.getFPGATimestamp();
+        
+    }       
     }
   
      @Override
     public void execute() {
-        if(m_limeLight.getPipeline()!=m_pipeline){
-          //System.out.println("Switching Pipeline - " + m_pipeline + " from " + m_limeLight.getPipeline());
-            m_limeLight.setPipeline(m_pipeline);
-            m_limeLight.setTargetHeight(m_targetHeight);
-      }     
+           
     }
     
   
@@ -77,7 +80,17 @@ public zPipelaneSwapCommand(Limelight limelight,int gridChoice){
   
     @Override
     public boolean isFinished() {
+        if(m_waitforpipelinereset){
+            if(Timer.getFPGATimestamp()>m_pipelineResetTime+kPipelineResetDelay){
+              return true;  // delay is over and pieline should be available
+            }
+            else {
+              m_limeLight.update();
+              return false;
+            }
+        }else { 
         return true; 
+        }
   }
     
 }

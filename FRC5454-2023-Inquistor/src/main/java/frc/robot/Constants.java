@@ -142,8 +142,13 @@ public final class Constants {
         public static final double homeSpeedForward=0.06;
         public static final double homeSpeedBackward=-0.06;
         public static final double encoderLowScorePos=0;
+    }
 
-
+    public static final class FloorIntake{
+        public static final double intakeSpeed=1;
+        public static final double intakeRotateSpeed=0.6;
+        public static final int intakeMotorPort=48;
+        public static final int rotateMotorPort=42;
     }
 
     public static final class Pneumatics {
@@ -191,6 +196,8 @@ public final class Constants {
         public static final double JoystickDeadBand = 0.10;
         public static final double ElevatorDeadBand = 0.10;
         public static final double RotateDeadBand = 0.10;
+        public static final double IntakeDeadBand = 0.10;
+        public static final double IntakeRotateDeadBand = 0.10;
         public static final double LeftTriggerDeadBand = 0.05;
         public static final double RightTriggerDeadBand = 0.05;
     }

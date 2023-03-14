@@ -25,8 +25,8 @@ public class RotateArmSubsystem extends SubsystemBase {
     private double m_frontLimit;
     private double m_backLimit;
     private DutyCycleEncoder m_AbsoluteEncoder;
-    private double kp=0.5;
-    private double ki=0.0;
+    private double kp=0.6;
+    private double ki=0.01;
     private double kd=0.0;
    private PIDController m_rotorPID=new PIDController(kp,ki,kd);
 
