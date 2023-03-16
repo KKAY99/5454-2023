@@ -23,7 +23,9 @@ import frc.robot.Constants.TargetHeight;
 import frc.robot.Constants.LEDS.Colors;
 import frc.robot.classes.DriveControlMode;
 import frc.robot.classes.LEDStrip;
+import frc.robot.classes.LEDStripChargedup;
 import frc.robot.classes.Limelight;
+import frc.robot.classes.LEDStripChargedup.LEDMode;
 import frc.robot.commands.*;
 import frc.robot.common.drivers.NavX;
 import frc.robot.common.drivers.NavX.Axis;
@@ -74,11 +76,12 @@ public class RobotContainer {
                                                        Constants.RotateArm.encoderBackLimit);
 
 
-     private final LEDStrip m_ledStrip = new LEDStrip(Constants.LEDS.PORT, Constants.LEDS.COUNT);
+     private final LEDStripChargedup m_ledStrip = new LEDStripChargedup(Constants.LEDS.PORT, Constants.LEDS.COUNT);
      private static enum LEDMode
      {
                      NOTSET,DISBLED, AUTOMODE, OFFTARGET, OFFTARGETSWEET, ONTARGETSWEET,ONTARGET,SHOOTING,CLIMBING,TELEOP;	
      }
+   
      private LEDMode m_LEDMode=LEDMode.DISBLED;
      private boolean m_disabled=true;
      private boolean m_homed=false;
@@ -301,7 +304,7 @@ public class RobotContainer {
         Trigger targetBottomLeft= new JoystickButton(m_CustomController,ButtonConstants.TargetBottomLeft);
         targetBottomLeft.toggleOnTrue(zAutoTargetBLMaster);
 
-        final ParallelCommandGroup zAutoTargetTC= new ParallelCommandGroup(  new zMoveElevatorPIDCommand(m_Elevator,Constants.lift.posConeOutofLimelight),
+        final ParallelCommandGroup zAutoTargetTC= new ParallelCommandGroup(  new zMoveElevatorPIDCommand(m_Elevator,Constants.Lift.posConeOutofLimelight),
                                                                                 new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive,
                                                                                 Constants.ChargedUp.GridPosUpperCenter,m_xBoxDriver),
                                                                                 new zMoveArmExtendABS(m_Elevator, m_Rotate, m_PnuematicsSubystem,m_Limelight,Constants.TargetHeight.TOP, true,true));
@@ -310,7 +313,7 @@ public class RobotContainer {
         Trigger targetTopCenter= new JoystickButton(m_CustomController,ButtonConstants.TargetTopCenter);
         targetTopCenter.toggleOnTrue(zAutoTargetTCMaster);
 
-        final ParallelCommandGroup zAutoTargetMC= new ParallelCommandGroup( new zMoveElevatorPIDCommand(m_Elevator,Constants.lift.posConeOutofLimelight),
+        final ParallelCommandGroup zAutoTargetMC= new ParallelCommandGroup( new zMoveElevatorPIDCommand(m_Elevator,Constants.Lift.posConeOutofLimelight),
                                                                                 new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
                                                                                 Constants.ChargedUp.GridPosMiddleCenter,m_xBoxDriver),
                                                                                 new zMoveArmExtendABS(m_Elevator, m_Rotate, m_PnuematicsSubystem,m_Limelight,Constants.TargetHeight.MIDDLE, true,true));
@@ -319,7 +322,7 @@ public class RobotContainer {
         Trigger targetMiddleCenter= new JoystickButton(m_CustomController,ButtonConstants.TargetMiddleCenter);
         targetMiddleCenter.toggleOnTrue(zAutoTargetMCMaster);
 
-        final ParallelCommandGroup zAutoTargetBC= new ParallelCommandGroup( new zMoveElevatorPIDCommand(m_Elevator,Constants.lift.posConeOutofLimelight),
+        final ParallelCommandGroup zAutoTargetBC= new ParallelCommandGroup( new zMoveElevatorPIDCommand(m_Elevator,Constants.Lift.posConeOutofLimelight),
                                                                                 new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
                                                                                 Constants.ChargedUp.GridPosBottomCenter,m_xBoxDriver),
                                                                                 new zMoveArmExtendABS(m_Elevator, m_Rotate, m_PnuematicsSubystem,m_Limelight,Constants.TargetHeight.BOTTOM, true,false));
@@ -491,8 +494,10 @@ public class RobotContainer {
 
         //override disabled led mode
         if(m_disabled){
+                m_ledStrip.setRobotMode(LEDStripChargedup.LEDMode.DISABLED);
                 m_LEDMode=LEDMode.DISBLED;
         }
+        
         LEDUpdate();
      
 }

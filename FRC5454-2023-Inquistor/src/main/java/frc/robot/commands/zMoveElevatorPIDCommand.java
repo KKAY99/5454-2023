@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.Timer;
  public class zMoveElevatorPIDCommand extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   //private final PaddleSubsystem m_IntakeSubsystem;
-  private final double m_speed;
+
   private final double m_targetPos;
   private double ktargetTolerance;
   private final ElevatorSubsystem m_Elevator;
@@ -49,4 +49,5 @@ import edu.wpi.first.wpilibj.Timer;
   public boolean isFinished() {
     //is not finished until elevator is within tolerance of target
     return (Math.abs(m_Elevator.getElevatorPos()-m_targetPos)<ktargetTolerance);
+ }
  }

@@ -80,5 +80,6 @@ public class FloorIntakeSubsystem extends SubsystemBase{
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
+     System.out.println(" * Pos * " +  m_intakeEncoder.getPosition() + " ** " + m_intakeEncoder.getVelocity());
     }
 }
