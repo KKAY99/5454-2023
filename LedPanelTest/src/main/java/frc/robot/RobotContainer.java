@@ -67,11 +67,12 @@ public class RobotContainer {
   //  m_ledStrip.showObsidian(0);
     //   m_ledStrip.showGoBlue(16);
  // m_ledStrip.showCube(0,120);
-m_ledStrip.showCone(0,11);
+//m_ledStrip.showCone(0,11);
  // m_ledStrip.animate5454();
-    //m_ledStrip.setColor(Constants.LEDS.Colors.PURPLE);
-    //m_ledStrip.setMode(LEDMODE_WAVE);
-    //`m_ledStrip.update();
+    m_ledStrip.setColor(Constants.LEDS.Colors.PURPLE);
+    m_ledStrip.setMode(LEDMODE_WAVE);
+    //m_ledStrip.setMode(LEDMODE_SOLID);
+    m_ledStrip.update();
 
   }
   public void testRevHub(int nodeID){

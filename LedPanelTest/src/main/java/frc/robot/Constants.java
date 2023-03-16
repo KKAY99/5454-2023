@@ -17,8 +17,8 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
   public class LEDS {
-    public static final int PORT = 9;
-    public static final int COUNT = 256;
+    public static final int PORT = 0;
+    public static final int COUNT = 250;
     public static final int FLASH_DELAY=5;
     ;
 

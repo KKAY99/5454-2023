@@ -90,8 +90,8 @@ public final class Constants {
 
 
     public static final class Lift{
-        public static final double liftAutoExtendStage1Speed=-0.5;
-        public static final double liftAutoExtendStage2Speed=-0.3;
+        public static final double liftAutoExtendStage1Speed=-0.9; //-0.5
+        public static final double liftAutoExtendStage2Speed=-0.4; //-0.3
         public static final double liftAutoRetract1Speed=0.9;
         public static final double liftAutoRetract2Speed=0.6;
         public static final double liftAutoRetractHomeSpeed=0.1;
@@ -99,11 +99,14 @@ public final class Constants {
         //low pos meeds to be higher so cones are near spindexer
         public static final double posInitLift=-70-kClawFlipOffset;
         //all other positions go lower
+        public static final double posConeOutofLimelight=-40; 
+        public static final double posLiftOutfIntake=-30; 
+        public static final double posLiftCubeTransfer=-25;
         public static final double posInitLiftRetract=-46+kClawFlipOffset; // was -26+kClawFip
          public static final double posLowFullLiftStage1=-72+kClawFlipOffset;
         public static final double posLowFullLiftStage2=-82+kClawFlipOffset;
         public static final double posMiddleFullLiftStage1=-85.00+kClawFlipOffset;
-        public static final double posMiddleFullLiftStage2=-108.00+kClawFlipOffset; 
+        public static final double posMiddleFullLiftStage2=-104; 
         public static final double posHighFullLiftStage1=-100+kClawFlipOffset;
         public static final double posHighFullLiftStage2=-147+kClawFlipOffset;
         public static final double posPlayerLiftStage1=-76;   
@@ -145,10 +148,13 @@ public final class Constants {
     }
 
     public static final class FloorIntake{
-        public static final double intakeSpeed=1;
+        public static final double intakeSpeed=.9;
         public static final double intakeRotateSpeed=0.6;
-        public static final int intakeMotorPort=48;
+        public static final int intakeMotorPort=44;
         public static final int rotateMotorPort=42;
+        public static final double rotateHighLimit=0.45;
+        public static final double rotateLowLimit=0.20;
+        public static final double rotateHandOff=0.35;
     }
 
     public static final class Pneumatics {
@@ -177,10 +183,10 @@ public final class Constants {
         public static final int OperatorIntakeIn=7;
         public static final int OperatorIntakeOut=8;
      
-        public static final int OperatorSpindexPOVSL=0;
-        public static final int OperatorSpindexPOVSR=180;
-        public static final int OperatorSpindexPOVFL=270;
-        public static final int OperatorSpindexPOVFR=90;
+        public static final int OperatorPOVRotateUp=0;
+        public static final int OperatorPOVRotatedown=180;
+        public static final int OperatorPOVIntakeIn=270;
+        public static final int OperatorPOVIntakeOut=90;
        
         public static final int CustomCtlRetract=3;
         public static final int TargetTopLeft=4;
@@ -196,8 +202,8 @@ public final class Constants {
         public static final double JoystickDeadBand = 0.10;
         public static final double ElevatorDeadBand = 0.10;
         public static final double RotateDeadBand = 0.10;
-        public static final double IntakeDeadBand = 0.10;
-        public static final double IntakeRotateDeadBand = 0.10;
+        public static final double IntakeDeadBand = 0.30;
+        public static final double IntakeRotateDeadBand = 0.30;
         public static final double LeftTriggerDeadBand = 0.05;
         public static final double RightTriggerDeadBand = 0.05;
     }
@@ -264,7 +270,7 @@ public final class Constants {
         public static final double limelightHeight = 19; //37
         public static final double limelightAngle = 0; //40
         public static final double kVisionDistanceTolerance = 5;
-        public static final double kVisionXTolerance = .05;
+        public static final double kVisionXTolerance = .03;
         public static final double kVisionXOffset=4;
         public static final double kVisionXMaxDistanceOffset=4.31; // was 1.7
         public static final double kVisionXMinDistanceOffset=0.91; // was 1.7

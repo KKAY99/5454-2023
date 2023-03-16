@@ -11,19 +11,32 @@ import frc.robot.subsystems.ElevatorSubsystem;
 public class FloorIntakeRotateCommand extends CommandBase{
     private ElevatorSubsystem m_elevator;
     private FloorIntakeSubsystem m_intake;
-    private double m_speed;
+    private Double m_speed;
+    private double m_liftHeight;
 
-    public FloorIntakeRotateCommand(FloorIntakeSubsystem intake,ElevatorSubsystem elevator,double speed){
+    public FloorIntakeRotateCommand(FloorIntakeSubsystem intake,ElevatorSubsystem elevator,double  speed,double liftHeight){
         m_intake = intake;
         m_elevator = elevator;
         m_speed = speed;
+        m_liftHeight=liftHeight;
 
-        addRequirements(m_intake);
+     //Allow both flor commands to use intake since thy are using different motors
+        //addRequirements(m_intake);
+    
     }
 
     @Override
     public void execute(){
-    }
+            System.out.println("FlrRotate " + m_speed);
+             if(m_elevator.getElevatorPos() < m_liftHeight){
+                    m_intake.rotate(m_speed);                
+            }else{
+                //have to travel past height to allow for drift down that still occurs
+                m_elevator.SetPosAndMove(m_liftHeight-10);
+                m_intake.stopRotate();
+            }
+            
+        }
 
     @Override
     public void end(boolean interrupted){
@@ -33,13 +46,7 @@ public class FloorIntakeRotateCommand extends CommandBase{
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-
-        if(m_elevator.getElevatorPos() < Constants.Lift.posInitLiftRetract){
-            m_intake.rotate(m_speed);
-        }else{
-            m_elevator.SetPosAndMove(Constants.Lift.posInitLiftRetract);
-            m_intake.stopRotate();
-        }
+   
         return false;
     }
 }
