@@ -77,24 +77,9 @@ public class RobotContainer {
 
 
      private final LEDStripChargedup m_ledStrip = new LEDStripChargedup(Constants.LEDS.PORT, Constants.LEDS.COUNT);
-     private static enum LEDMode
-     {
-                     NOTSET,DISBLED, AUTOMODE, OFFTARGET, OFFTARGETSWEET, ONTARGETSWEET,ONTARGET,SHOOTING,CLIMBING,TELEOP;	
-     }
-   
-     private LEDMode m_LEDMode=LEDMode.DISBLED;
      private boolean m_disabled=true;
      private boolean m_homed=false;
-     private boolean m_ledFlash=false;
-     private boolean m_ledFlashMode=false;
-     private int m_ledFlashDelayCount=0;
-     private static final int LEDMODE_WAVE = 0;
-     private static final int LEDMODE_BAR = 1;
-     private static final int LEDMODE_RAINBOW = 2;
-     private static final int LEDMODE_SOLID = 3;
-     private static final int LEDMODE_OFF = 4;
-     private LEDMode m_oldLEDmode=LEDMode.NOTSET;  
-   
+     
     private final PowerDistribution m_robotPDH = new PowerDistribution(1, PowerDistribution.ModuleType.kRev);
    
     static LoggedDashboardString dashDriveMode= new LoggedDashboardString("Drive Mode", "Field"); 
@@ -495,18 +480,17 @@ public class RobotContainer {
         //override disabled led mode
         if(m_disabled){
                 m_ledStrip.setRobotMode(LEDStripChargedup.LEDMode.DISABLED);
-                m_LEDMode=LEDMode.DISBLED;
         }
+        m_ledStrip.updateLED();
         
-        LEDUpdate();
      
 }
     
      
 
      public void disabledPerioidicUpdates(){
-        LEDUpdate();
-     
+        m_ledStrip.updateLED();
+       
 
     }
 
@@ -522,93 +506,17 @@ public class RobotContainer {
        m_RobotDrive.resetDriveMode();
     }
    
-    private void LEDUpdate(){            
-        if(m_LEDMode!=m_oldLEDmode){            
-                if(m_LEDMode==LEDMode.ONTARGET){
-                        m_ledStrip.setColor(Colors.YELLOW);
-                        m_ledStrip.setMode(LEDMODE_SOLID);
-                        m_ledFlash=false;
-                }
-                if(m_LEDMode==LEDMode.ONTARGETSWEET){
-                        m_ledStrip.setColor(Colors.PURPLE);
-                        m_ledStrip.setMode(LEDMODE_SOLID);
-                        m_ledFlash=true;
-                }
-                if(m_LEDMode==LEDMode.OFFTARGETSWEET){
-                        m_ledStrip.setColor(Colors.PURPLE);
-                        m_ledStrip.setMode(LEDMODE_SOLID);
-                        m_ledFlash=false;
-                }
-                if(m_LEDMode==LEDMode.OFFTARGET){
-                        m_ledStrip.setColor(Colors.RED);
-                        m_ledStrip.setMode(LEDMODE_SOLID);
-                        m_ledFlash=false;
-                }
-                if(m_LEDMode==LEDMode.SHOOTING){
-                        m_ledStrip.setColor(Colors.BLUE);
-                        m_ledStrip.setMode(LEDMODE_SOLID);
-                        m_ledFlash=false;
-                }
-                if(m_LEDMode==LEDMode.CLIMBING){
-                        m_ledStrip.setColor(Colors.ORANGE);
-                        m_ledStrip.setMode(LEDMODE_SOLID);
-                        m_ledFlash=false;
-                }
-                if(m_LEDMode==LEDMode.AUTOMODE){
-                        m_ledStrip.setColor(Colors.PURPLE);
-                        m_ledStrip.setMode(LEDMODE_RAINBOW);
-                        m_ledFlash=false;
-                }
-                if(m_LEDMode==LEDMode.DISBLED){
-                        m_ledStrip.setMode(LEDMODE_WAVE);
-                        m_ledStrip.setColor(Colors.PURPLE);
-                        m_ledFlash=false;
-                }
-                if(m_LEDMode==LEDMode.TELEOP){
-                        m_ledStrip.setMode(LEDMODE_WAVE);
-                        m_ledStrip.setColor(Colors.PINK);
-                        m_ledFlash=false;
-                }
-        }
-        if(m_ledFlash){
-                m_ledFlashDelayCount++;
-                if(m_ledFlashMode==false){
-                        //(m_ledFlashDelayCouunt>10)
-                        if(m_ledFlashDelayCount>Constants.LEDS.FLASH_DELAY) {
-                                m_ledStrip.setMode(LEDMODE_OFF);
-                                m_ledFlashMode=true;
-                                m_ledStrip.update();
-                                m_ledFlashDelayCount=0;
-                        }
-                } else{
-                        if(m_ledFlashDelayCount>Constants.LEDS.FLASH_DELAY) {                       
-                                m_ledStrip.setMode(LEDMODE_SOLID);                        
-                                m_ledFlashMode=false;
-                                m_ledStrip.update();
-                                m_ledFlashDelayCount=0;
-                        }
-                }
-
-        } else {
-                m_ledStrip.update();
-       
-        }
-        m_oldLEDmode=m_LEDMode;
-            
-    }
-  
+    
   
         public void AutoMode(){
-                m_LEDMode=LEDMode.AUTOMODE;  
-                LEDUpdate();
+                m_ledStrip.setRobotMode(LEDStripChargedup.LEDMode.AUTOMODE);
                 homeRobot();
                 //Set Default Pipeline to AprilTags
                 m_Limelight.setPipeline(Constants.VisionPipelines.AprilTag);
                 
         }  
         public void TeleopMode(){
-                m_LEDMode=LEDMode.TELEOP;  
-                LEDUpdate();
+                m_ledStrip.setRobotMode(LEDStripChargedup.LEDMode.TELEOP);
                 homeRobot();
                 //Set Default Pipeline to AprilTags
                 m_Limelight.setPipeline(Constants.VisionPipelines.AprilTag);
@@ -630,8 +538,8 @@ public class RobotContainer {
     
     public void DisableMode(){
             m_disabled=true;
-            m_LEDMode=LEDMode.DISBLED;
-            LEDUpdate();
+            m_ledStrip.setRobotMode(LEDStripChargedup.LEDMode.DISABLED);
+       
     }
     public void EnableMode(){
       m_disabled=false;

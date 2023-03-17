@@ -8,6 +8,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.Rotate;
 import frc.robot.subsystems.RotateArmSubsystem;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 
 /** An example command that uses an example subsystem. */
@@ -19,7 +20,7 @@ import edu.wpi.first.wpilibj.Timer;
   private final double m_homeTimeOut;
   private double m_StartTime=0;
   private final RotateArmSubsystem m_Rotate;
- 
+  private PIDController m_PidController;
   /**
    * Creates a new ExampleCommand.
    *
@@ -31,6 +32,7 @@ import edu.wpi.first.wpilibj.Timer;
     m_position=position;
     m_Rotate = rotate;
     m_homeTimeOut=homeTimeOut;
+    
   }
 
   // Called when the command is initially scheduled.
