@@ -263,7 +263,7 @@ public class RobotContainer {
         Trigger wristArm = new JoystickButton(m_xBoxOperator,ButtonConstants.OperatorWrist);
         wristArm.toggleOnTrue(punchSolenoidCommand);
         Trigger customRetract = new JoystickButton(m_CustomController,ButtonConstants.CustomCtlRetract);
-        customRetract.toggleOnTrue(new SequentialCommandGroup(new ClawCommand(m_PnuematicsSubystem,false,"Custom Retract"),new zMoveArmRetractABS(m_Elevator, m_Rotate,m_PnuematicsSubystem)));
+        customRetract.toggleOnTrue(new zMoveArmRetractABS(m_Elevator, m_Rotate,m_PnuematicsSubystem)));
 
         // Custom Controller Parallel Scoring Commands 
         final ParallelCommandGroup zAutoTargetTL= new ParallelCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive,
