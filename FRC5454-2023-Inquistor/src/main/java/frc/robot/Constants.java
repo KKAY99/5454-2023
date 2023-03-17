@@ -159,6 +159,7 @@ public final class Constants {
         public static final double rotateHighLimit=0.45;
         public static final double rotateLowLimit=0.20;
         public static final double rotateHandOff=0.35;
+        public static final int intakeRotateEncoderPort=4;
     }
 
     public static final class Pneumatics {
