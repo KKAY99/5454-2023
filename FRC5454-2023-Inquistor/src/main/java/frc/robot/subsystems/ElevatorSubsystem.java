@@ -12,6 +12,7 @@ import frc.robot.Constants;
 
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 
@@ -65,8 +66,9 @@ public class ElevatorSubsystem extends SubsystemBase {
       speed = 0;
       System.out.println("Higher Limit Switch");
     }
-
-    m_Motor.set(speed);
+    
+    m_pidController.setReference(speed, ControlType.kDutyCycle);
+    //m_Motor.set(speed);
   }
 
   public void setHomed(boolean value){

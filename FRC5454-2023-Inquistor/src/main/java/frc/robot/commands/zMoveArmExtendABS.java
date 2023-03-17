@@ -205,6 +205,7 @@ public class zMoveArmExtendABS extends CommandBase {
         System.out.println("Ending Auto Score");
         m_state=STATE.END;
       }
+      System.out.println("Rotate " + rotated + "Elevator " + extended);
       break;
       case FINALROTATE:
       //kk 3/4 commented out for playoffs

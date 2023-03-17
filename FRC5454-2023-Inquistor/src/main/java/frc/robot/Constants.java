@@ -99,7 +99,7 @@ public final class Constants {
         //low pos meeds to be higher so cones are near spindexer
         public static final double posInitLift=-70-kClawFlipOffset;
         //all other positions go lower
-        public static final double posConeOutofLimelight=-40; 
+        public static final double posCubeOutofLimelight=-60; 
         public static final double posLiftOutfIntake=-30; 
         public static final double posLiftCubeTransfer=-25;
         public static final double posInitLiftRetract=-46+kClawFlipOffset; // was -26+kClawFip
@@ -108,7 +108,7 @@ public final class Constants {
         public static final double posMiddleFullLiftStage1=-85.00+kClawFlipOffset;
         public static final double posMiddleFullLiftStage2=-104; 
         public static final double posHighFullLiftStage1=-100+kClawFlipOffset;
-        public static final double posHighFullLiftStage2=-147+kClawFlipOffset;
+        public static final double posHighFullLiftStage2=-140;
         public static final double posPlayerLiftStage1=-76;   
         public static final double posPlayerLiftStage2=-86;
         public static final double posSlideStage1=-70;   
@@ -123,6 +123,10 @@ public final class Constants {
         public static final double liftKFF = 0;
         public static final double maxOutput = 1;
         public static final double minOutPut = -1;
+
+        public static final int topTape = 0;
+        public static final int middleTape = 1;
+        public static final int apriltag = 2;
     }
 
     public static final class Rotate{
@@ -270,7 +274,7 @@ public final class Constants {
         public static final double limelightHeight = 19; //37
         public static final double limelightAngle = 0; //40
         public static final double kVisionDistanceTolerance = 5;
-        public static final double kVisionXTolerance = .03;
+        public static final double kVisionXTolerance = .04;
         public static final double kVisionXOffset=4;
         public static final double kVisionXMaxDistanceOffset=4.31; // was 1.7
         public static final double kVisionXMinDistanceOffset=0.91; // was 1.7

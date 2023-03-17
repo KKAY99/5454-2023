@@ -26,6 +26,7 @@ private double kGyroTolerance=5;
 private double m_visionXTolerance=0;
 private double kTimeToMoveForward=.3; // how long do we move forward
 private double kTimeToMoveBackward=.05;
+private double kMinPIDOutput = 0.02;
 private double kMoveSpeed=0.10;
 private double m_startMoveTime;
 private XboxController m_driver;
@@ -191,19 +192,26 @@ public zAutoTargetandMoveCommand(Limelight limelight,DrivetrainSubsystem drive,i
                   m_drive.stop();
                   m_state = STATE.MOVEFORWARD; 
                 }else{
+                  double pidOutput;
                   if(m_limeLight.getXRaw()>0){
-                  double pidOutput = m_pidRight.calculate(m_limeLight.getXRaw());
+                  pidOutput = m_pidRight.calculate(m_limeLight.getXRaw());
                   pidOutput=Math.min(Math.max(pidOutput,-0.10),0.10);
                   System.out.println("AligningR - X is " + m_limeLight.getXRaw() + " filtered is " + filteredMeasurement + " pidOutput is " + pidOutput);
                 
                   m_drive.movenodistance(90,0,pidOutput);
                 }else{
-                  double pidOutput = m_pidLeft.calculate(m_limeLight.getXRaw());
+                  pidOutput = m_pidLeft.calculate(m_limeLight.getXRaw());
                   pidOutput=Math.min(Math.max(pidOutput,-0.10),0.10);
                   System.out.println("AligningL - X is " + m_limeLight.getXRaw() + " filtered is " + filteredMeasurement + " pidOutput is " + pidOutput);
               
                   m_drive.movenodistance(270,0,pidOutput);
-                }     
+                }
+
+                //Check to see if PidOutput is to low to move
+                if(Math.abs(pidOutput)< kMinPIDOutput){
+                  m_drive.stop();
+                  m_state = STATE.MOVEFORWARD;
+                }
           }
         break;
         case ABORT:

@@ -6,6 +6,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.Constants;
+import edu.wpi.first.hal.simulation.ConstBufferCallback;
 import edu.wpi.first.wpilibj.Timer;
 
 /** An example command that uses an example subsystem. */
@@ -13,8 +15,9 @@ import edu.wpi.first.wpilibj.Timer;
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   //private final PaddleSubsystem m_IntakeSubsystem;
 
-  private final double m_targetPos;
-  private double ktargetTolerance;
+  private double m_targetHeight = 0.0;
+  private final int m_targetPos;
+  private double ktargetTolerance=10;
   private final ElevatorSubsystem m_Elevator;
  
   /**
@@ -23,9 +26,24 @@ import edu.wpi.first.wpilibj.Timer;
    * @param subsystem The subsystem used by this command.
    */
   
-  public zMoveElevatorPIDCommand(ElevatorSubsystem elevator,double targetPos) { 
+  public zMoveElevatorPIDCommand(ElevatorSubsystem elevator,int targetPos) {
+    m_Elevator = elevator;  
     m_targetPos = targetPos;
-    m_Elevator = elevator;  }
+    switch(targetPos){
+      case Constants.Lift.topTape:
+      m_targetHeight = Constants.Lift.posHighFullLiftStage1;
+      break;
+
+      case Constants.Lift.middleTape:
+      m_targetHeight = Constants.Lift.posMiddleFullLiftStage1;
+      break;
+
+      case Constants.Lift.apriltag:
+      m_targetHeight = Constants.Lift.posCubeOutofLimelight;
+      break;
+    }
+  
+  }
 
   // Called when the command is initially scheduled.
   @Override
@@ -35,7 +53,7 @@ import edu.wpi.first.wpilibj.Timer;
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Elevator.SetPosAndMove(m_targetPos);;
+    m_Elevator.SetPosAndMove(m_targetHeight);
   }
 
   // Called once the command ends or is interrupted.
@@ -48,6 +66,8 @@ import edu.wpi.first.wpilibj.Timer;
   @Override
   public boolean isFinished() {
     //is not finished until elevator is within tolerance of target
-    return (Math.abs(m_Elevator.getElevatorPos()-m_targetPos)<ktargetTolerance);
+    System.out.println("****************"+ Math.abs(m_Elevator.getElevatorPos()-m_targetHeight));
+    System.out.println(m_targetHeight + "" + m_Elevator.getElevatorPos());
+    return (Math.abs(m_Elevator.getElevatorPos()-m_targetHeight)<ktargetTolerance);
  }
  }

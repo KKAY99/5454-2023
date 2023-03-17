@@ -27,7 +27,7 @@ public class FloorIntakeSubsystem extends SubsystemBase{
 
         //Using Alternate Encoder off of Intake Motor Controller
         m_intakeEncoder = m_intakeMotor.getAlternateEncoder(Type.kQuadrature, 8192);
-
+    
         m_rotateMotor = new CANSparkMax(rotateMotorPort, MotorType.kBrushless);
         m_rotateMotor.setOpenLoopRampRate(0.25);
         m_rotateMotor.setSmartCurrentLimit(30);  // likely gets ignored due to brushed motor
@@ -80,6 +80,6 @@ public class FloorIntakeSubsystem extends SubsystemBase{
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-     System.out.println(" * Pos * " +  m_intakeEncoder.getPosition() + " ** " + m_intakeEncoder.getVelocity());
+     //System.out.println(" * Pos * " +  m_intakeEncoder.getPosition() + " ** " + m_intakeEncoder.getVelocity());
     }
 }
