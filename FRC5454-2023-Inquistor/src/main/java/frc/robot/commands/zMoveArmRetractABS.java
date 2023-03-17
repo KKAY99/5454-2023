@@ -38,6 +38,7 @@ public class zMoveArmRetractABS extends CommandBase {
   @Override
   public void initialize() {
     m_state=STATE.RETRACT;
+    System.out.println("Starting Retract");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -59,7 +60,7 @@ public class zMoveArmRetractABS extends CommandBase {
   public boolean isFinished() {
     boolean retracted=false;
     boolean returnValue=false;
-    System.out.println(m_state);
+    //System.out.println(m_state);
     switch(m_state){
       case RETRACT:
       retracted = false;
@@ -95,6 +96,7 @@ public class zMoveArmRetractABS extends CommandBase {
      break;
      case ABORT:
      case END:
+        System.out.println("Ending Retract Command");
         m_elevator.stop();
         m_rotate.stopRotate();
         returnValue=true;

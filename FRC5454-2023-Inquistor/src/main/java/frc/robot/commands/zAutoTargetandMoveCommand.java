@@ -84,9 +84,10 @@ public zAutoTargetandMoveCommand(Limelight limelight,DrivetrainSubsystem drive,i
     @Override
     public void initialize() {
       if(m_limeLight.getPipeline()!=m_pipeline){
-        //System.out.println("Switching Pipeline - " + m_pipeline + " from " + m_limeLight.getPipeline());
+          System.out.println("Switching Pipeline - " + m_pipeline + " from " + m_limeLight.getPipeline());
           m_limeLight.setPipeline(m_pipeline);
           m_limeLight.setTargetHeight(m_targetHeight);
+          m_limeLight.update();
     }
       m_state = STATE.LINEUP;
       m_startMoveTime=0;

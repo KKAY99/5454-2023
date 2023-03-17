@@ -156,9 +156,9 @@ public final class Constants {
         public static final double intakeRotateSpeed=0.6;
         public static final int intakeMotorPort=44;
         public static final int rotateMotorPort=42;
-        public static final double rotateHighLimit=0.45;
-        public static final double rotateLowLimit=0.20;
-        public static final double rotateHandOff=0.35;
+        public static final double rotateHighLimit=1.523;
+        public static final double rotateLowLimit=0.0972;
+        public static final double rotateHandOff=1.315;
         public static final int intakeRotateEncoderPort=4;
     }
 

@@ -66,8 +66,6 @@ import edu.wpi.first.wpilibj.Timer;
   @Override
   public boolean isFinished() {
     //is not finished until elevator is within tolerance of target
-    System.out.println("****************"+ Math.abs(m_Elevator.getElevatorPos()-m_targetHeight));
-    System.out.println(m_targetHeight + "" + m_Elevator.getElevatorPos());
     return (Math.abs(m_Elevator.getElevatorPos()-m_targetHeight)<ktargetTolerance);
  }
  }
