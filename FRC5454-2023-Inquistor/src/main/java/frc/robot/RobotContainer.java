@@ -64,6 +64,7 @@ public class RobotContainer {
                                                                    Constants.Pneumatics.punchSolenoid);
     private final FloorIntakeSubsystem m_FloorIntake = new FloorIntakeSubsystem(Constants.FloorIntake.intakeMotorPort,
                                                             Constants.FloorIntake.rotateMotorPort,
+                                                            Constants.FloorIntake.intakeRotateEncoderPort,
                                                             Constants.FloorIntake.rotateLowLimit,
                                                             Constants.FloorIntake.rotateHighLimit);
     private final Limelight m_Limelight = new Limelight(Constants.LimeLightValues.targetHeight, Constants.LimeLightValues.limelightHeight,
