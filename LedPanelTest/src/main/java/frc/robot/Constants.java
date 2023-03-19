@@ -18,7 +18,7 @@ public final class Constants {
   }
   public class LEDS {
     public static final int PORT = 0;
-    public static final int COUNT = 250;
+    public static final int COUNT = 100;
     public static final int FLASH_DELAY=5;
     ;
 

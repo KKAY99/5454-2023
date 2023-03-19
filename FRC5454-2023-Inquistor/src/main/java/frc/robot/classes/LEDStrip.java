@@ -48,7 +48,7 @@ public class LEDStrip {
     }
 
     public void update() {
-       // System.out.println("mode - " + this.mode);
+     //   System.out.println("mode - " + this.mode);
         if (this.mode == 0 || this.mode == 3) {
             this.wave();
         } else if (this.mode == 1) {

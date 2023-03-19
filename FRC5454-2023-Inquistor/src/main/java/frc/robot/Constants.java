@@ -52,7 +52,7 @@ public final class Constants {
     }
     
     public class Spindexer {
-        public static final int motorPort=17;
+     //   public static final int motorPort=17;
         public static final double spinForward=1;
         public static final double spinBack=-1;
         public static final double spinForwardSlow=0.6;
@@ -67,7 +67,8 @@ public final class Constants {
         public static final double maxLimit = -153;
     }
     public class RotateArm{
-        public static final int rotateArmPort=50;
+        public static final int rotateArmPort1=50;
+        public static final int rotateArmPort2=51;
         public static final int absoluteEncoder=0;
         public static final double manualSpeed=0.4;
         public static final double manualLimitSpeed=0.4;
@@ -156,10 +157,13 @@ public final class Constants {
         public static final double intakeRotateSpeed=0.6;
         public static final int intakeMotorPort=44;
         public static final int rotateMotorPort=42;
-        public static final double rotateHighLimit=1.523;
-        public static final double rotateLowLimit=0.0972;
-        public static final double rotateHandOff=1.315;
+        public static final double rotateHighLimit=5;
+        public static final double rotateLowLimit=64.5;
+        public static final double rotateOuttakePos=60.5;
+        public static final double rotateHandOff=30;
         public static final int intakeRotateEncoderPort=4;
+        public static final double homeTimeOut=2;
+        public static final double autoTimeOut=5;
     }
 
     public static final class Pneumatics {
@@ -282,10 +286,11 @@ public final class Constants {
     }
 
     public class LEDS {
-        public static final int PORT = 0;
-        public static final int COUNT = 256;
+        public static final int UPPERPORT = 0;
+        public static final int BOTTOMPORT = 8;
+        public static final int UPPERCOUNT = 175;
+        public static final int BOTTOMCOUNT = 175;
         public static final int FLASH_DELAY=5;
-        
 
         public class Colors {
             public static final int RED = 0;

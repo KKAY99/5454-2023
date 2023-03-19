@@ -102,7 +102,6 @@ public class Limelight {
         
     }
     public int getPipeline(){
-        
         return (int) llTable.getEntry("pipeline").getInteger(99);
     }
 

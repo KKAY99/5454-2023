@@ -148,7 +148,7 @@ public class LEDPanel {
         int ledPos=0;
         while(iLedLoop<ledCount){
             ledPos=ledMap[iLedLoop]+startingLED;
-            if(ledPos<Constants.LEDS.COUNT){
+            if(ledPos<Constants.LEDS.UPPERCOUNT){
               m_ledBuffer.setHSV(ledPos,hue,255,255);
             }
               iLedLoop++;

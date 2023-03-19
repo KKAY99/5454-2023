@@ -18,8 +18,10 @@ import com.revrobotics.RelativeEncoder;
 
 
 public class RotateArmSubsystem extends SubsystemBase {
+    private CANSparkMax m_RotateMotorLeader;
     private CANSparkMax m_RotateMotor;
-    RelativeEncoder m_rotateEncoder;
+    RelativeEncoder m_rotateLeaderEncoder;
+    RelativeEncoder m_rotateFollowerEncoder;
     private boolean m_homed=false;
     private double m_homeAngle;
     private double m_frontLimit;
@@ -30,11 +32,18 @@ public class RotateArmSubsystem extends SubsystemBase {
     private double kd=0.0;
    private PIDController m_rotorPID=new PIDController(kp,ki,kd);
 
-    public RotateArmSubsystem(int motorPort,int absoluteEncoderPort,double homeAngle,double frontLimit,double backLimit){
-        m_RotateMotor = new CANSparkMax(motorPort , MotorType.kBrushless);   
-        m_RotateMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        m_rotateEncoder = m_RotateMotor.getEncoder();
+    public RotateArmSubsystem(int motorPort1,int motorPort2,int absoluteEncoderPort,double homeAngle,double frontLimit,double backLimit){
+        m_RotateMotorLeader = new CANSparkMax(motorPort1 , MotorType.kBrushless);   
+        m_RotateMotorLeader.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        m_RotateMotorLeader.setSmartCurrentLimit(30);
+        m_rotateLeaderEncoder = m_RotateMotorLeader.getEncoder();
         m_AbsoluteEncoder= new DutyCycleEncoder(absoluteEncoderPort);
+
+        m_RotateMotor = new CANSparkMax(motorPort2 , MotorType.kBrushless);  
+        m_RotateMotor.setSmartCurrentLimit(30); 
+        m_RotateMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        m_rotateFollowerEncoder = m_RotateMotor.getEncoder();
+        m_RotateMotor.follow(m_RotateMotorLeader, true);
         
         m_homeAngle=homeAngle;
         m_frontLimit=frontLimit;
@@ -53,8 +62,7 @@ public class RotateArmSubsystem extends SubsystemBase {
       if(checkForwardSoftLimit(power) || checkBackwardSoftLimit(power)){
         power=0;
       }
-        m_RotateMotor.set(power);
-      
+        m_RotateMotorLeader.set(power);
     }
     public void doPIDTest(){
       PIDTest(0);
@@ -92,18 +100,18 @@ public class RotateArmSubsystem extends SubsystemBase {
     }
 
     public void stopRotate(){
-      m_RotateMotor.set(0);
-
+      m_RotateMotorLeader.set(0);
     }
     public double getAbsolutePos(){
       return m_AbsoluteEncoder.get();
     }
 
     public double getRelativeRotatePos(){
-      return m_rotateEncoder.getPosition();
+      return m_rotateLeaderEncoder.getPosition();
     }
     public void SetZero(){
-      m_rotateEncoder.setPosition(0);
+      m_rotateLeaderEncoder.setPosition(0);
+      m_rotateFollowerEncoder.setPosition(0);
     }
     public boolean hitHomeAngle(){
       //TODO: IMPLEMENT

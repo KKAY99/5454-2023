@@ -46,7 +46,13 @@ public class FloorIntakeRotateCommand extends CommandBase{
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-   
-        return false;
+        //STOP if we hit a limit
+        if(m_intake.checkRotateLimits(m_speed)){
+            m_intake.stopRotate();
+            return true;
+        }else {
+            return false;
+        }
+        
     }
 }
