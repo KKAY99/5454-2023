@@ -35,7 +35,7 @@ public class FloorShootCommand extends CommandBase{
     public void execute(){
         m_startTime = Timer.getFPGATimestamp();
         if(m_hasAngle){
-            m_intake.setRotatePos(m_angle);
+           // m_intake.setRotatePos(m_angle);
         }
     }
 

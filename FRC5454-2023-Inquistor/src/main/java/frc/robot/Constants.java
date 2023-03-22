@@ -48,7 +48,7 @@ public final class Constants {
 
     public static enum TargetHeight
     {
-                    TOP,MIDDLE,BOTTOM,PLAYERSTATION,SLIDE;	
+                    TOPCONE,MIDDLECONE,BOTTOMCONE,TOPCUBE,MIDDLECUBE,BOTTOMCUBE,PLAYERSTATION,SLIDE;	
     }
     
     public class Spindexer {
@@ -62,7 +62,7 @@ public final class Constants {
         public static final int elevatorPort=19;
         public static final double elevatorSpeed=.50;
         public static final double elevatorLimitSpeed=.50;
-        public static final double homeTimeOut=0.5;
+        public static final double homeTimeOut=.6;
         public static final int limitSwitch=3;
         public static final double maxLimit = -153;
     }
@@ -101,15 +101,21 @@ public final class Constants {
         public static final double posInitLift=-70-kClawFlipOffset;
         //all other positions go lower
         public static final double posCubeOutofLimelight=-60; 
-        public static final double posLiftOutfIntake=-30; 
+        public static final double posLiftOutfIntake=-25; 
         public static final double posLiftCubeTransfer=-25;
         public static final double posInitLiftRetract=-46+kClawFlipOffset; // was -26+kClawFip
-         public static final double posLowFullLiftStage1=-72+kClawFlipOffset;
-        public static final double posLowFullLiftStage2=-82+kClawFlipOffset;
-        public static final double posMiddleFullLiftStage1=-85.00+kClawFlipOffset;
-        public static final double posMiddleFullLiftStage2=-104; 
-        public static final double posHighFullLiftStage1=-100+kClawFlipOffset;
-        public static final double posHighFullLiftStage2=-140;
+         public static final double posLowConeFullLiftStage1=-62+kClawFlipOffset;
+        public static final double posLowConeFullLiftStage2=-72+kClawFlipOffset;
+        public static final double posMiddleConeFullLiftStage1=-80.00+kClawFlipOffset;
+        public static final double posMiddleConeFullLiftStage2=-98; 
+        public static final double posHighConeFullLiftStage1=-100+kClawFlipOffset;
+        public static final double posHighConeFullLiftStage2=-140;
+        public static final double posLowCubeFullLiftStage1=-62+kClawFlipOffset;
+        public static final double posLowCubeFullLiftStage2=-72+kClawFlipOffset;
+        public static final double posMiddleCubeFullLiftStage1=-70.00+kClawFlipOffset;
+        public static final double posMiddleCubeFullLiftStage2=-80; 
+        public static final double posHighCubeFullLiftStage1=-90+kClawFlipOffset;
+        public static final double posHighCubeFullLiftStage2=-120;
         public static final double posPlayerLiftStage1=-76;   
         public static final double posPlayerLiftStage2=-86;
         public static final double posSlideStage1=-70;   
@@ -140,6 +146,12 @@ public final class Constants {
         public static final double angleMiddleConeStage2ABS=0.499; 
         public static final double angleHighConeStage1ABS=0.510;    
         public static final double angleHighConeStage2ABS=0.495;
+        public static final double angleLowCubeStage1ABS=0.497;    
+        public static final double angleLowCubeStage2ABS=0.484; 
+        public static final double angleMiddleCubeStage1ABS=0.510;    
+        public static final double angleMiddleCubeStage2ABS=0.497; 
+        public static final double angleHighCubeStage1ABS=0.510;    
+        public static final double angleHighCubeStage2ABS=0.485;
         public static final double anglePlayerStage1ABS=0.515;
         public static final double anglePlayerStage2ABS=0.508;
         public static final double angleSlideStage1ABS=0;
@@ -154,12 +166,16 @@ public final class Constants {
 
     public static final class FloorIntake{
         public static final double intakeSpeed=.9;
-        public static final double intakeRotateSpeed=0.6;
+        public static final double intakeRotateSpeed=0.5;
+     
+        public static final double intakehomeRotateSpeed=-0.15;
         public static final int intakeMotorPort=44;
         public static final int rotateMotorPort=42;
         public static final double rotateHighLimit=5;
-        public static final double rotateLowLimit=64.5;
+        public static final double rotateLowLimit=74;
+     
         public static final double rotateOuttakePos=60.5;
+        
         public static final double rotateHandOff=30;
         public static final int intakeRotateEncoderPort=4;
         public static final double homeTimeOut=2;
@@ -288,7 +304,7 @@ public final class Constants {
     public class LEDS {
         public static final int UPPERPORT = 0;
         public static final int BOTTOMPORT = 8;
-        public static final int UPPERCOUNT = 175;
+        public static final int UPPERCOUNT = 200;
         public static final int BOTTOMCOUNT = 175;
         public static final int FLASH_DELAY=5;
 
@@ -323,8 +339,8 @@ public final class Constants {
            }
     
    public static final class PIDSteering{
-    public static final double rightKP=-0.03;
-    public static final double leftKP=0.03;
+    public static final double rightKP=-0.05;
+    public static final double leftKP=0.05;
     public static final double rightKI=-0;  
     public static final double leftKI=0;
     public static final double rightKD=0.0001;

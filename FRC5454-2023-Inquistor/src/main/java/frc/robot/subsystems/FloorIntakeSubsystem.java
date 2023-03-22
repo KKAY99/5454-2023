@@ -36,6 +36,7 @@ public class FloorIntakeSubsystem extends SubsystemBase{
         m_rotateMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
         m_rotateMotor.setInverted(true);
         m_rotateEncoder=m_rotateMotor.getEncoder();
+    
         m_limitSwitch=new DigitalInput(limitSwitchport);
         m_highLimit=rotateHighLimit;
         m_lowLimit=rotateLowLimit;
@@ -55,10 +56,10 @@ public class FloorIntakeSubsystem extends SubsystemBase{
         }
     
     }
-    public boolean xcheckRotateLimits(double power){
+    public boolean checkRotateLimits(double power){
         return false;
     }
-    public boolean checkRotateLimits(double power){
+    public boolean xcheckRotateLimits(double power){
         double rotatePosition= m_rotateEncoder.getPosition();
        boolean returnValue=false;
         if(power>0){
@@ -66,9 +67,11 @@ public class FloorIntakeSubsystem extends SubsystemBase{
                 returnValue=true; //Hit high limit
             } 
         }else {
-            if(rotatePosition>=m_lowLimit){
-                returnValue=true;
-            }
+        //don't check bottom limit as there is a physical hard stop
+        //this will allow the robot to still intake if it doesn't reset right
+      //      if(rotatePosition>=m_lowLimit){
+      //          returnValue=true;
+      //      }
         }
         return returnValue;
          
@@ -88,8 +91,7 @@ public class FloorIntakeSubsystem extends SubsystemBase{
         m_rotateMotor.stopMotor();
     }
 
-    public void setRotatePos(double angle){
-    }
+    
 
     public double getRotatePos(){
         return m_rotateEncoder.getPosition();
@@ -98,6 +100,6 @@ public class FloorIntakeSubsystem extends SubsystemBase{
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-     System.out.println(" * Pos * " + m_rotateEncoder.getPosition() + " " + getLimitSwitch());
+//     System.out.println(" * Pos  " + getRotatePos() + " " + getLimitSwitch());
     }
 }

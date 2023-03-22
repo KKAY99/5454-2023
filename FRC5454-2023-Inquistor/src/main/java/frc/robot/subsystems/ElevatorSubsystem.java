@@ -56,15 +56,15 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   public void moveElevator(double power, boolean checklimit) {
     double speed = power;
-    System.out.println("Power" + power);
+   // System.out.println("Power" + power);
     if(checklimit && hasHitPhysicalLimitSwitch() && power > 0){
       speed = 0;
-      System.out.println("Lower Limit Switch");
+      System.out.println("Lower Limit Switch-Elevator");
     }
 
     if(checklimit && hasHitMaxLimit() && power < 0){
       speed = 0;
-      System.out.println("Higher Limit Switch");
+      System.out.println("Higher Limit Switch-Elevator");
     }
     
     m_pidController.setReference(speed, ControlType.kDutyCycle);

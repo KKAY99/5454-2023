@@ -132,12 +132,14 @@ public class Robot extends LoggedRobot {
     m_robotContainer.resetDriveModes();
     m_robotContainer.DisableMode();
     m_robotContainer.disableLimelights();
+    
   }
 
   @Override
   public void disabledPeriodic() {
     m_robotContainer.disableLimelights();
-    m_robotContainer.disabledPerioidicUpdates();
+    m_robotContainer.disabledPerioidicUpdates();  //update leds
+
     m_robotContainer.refreshSmartDashboard();
     
   }

@@ -37,7 +37,8 @@ public class ClawCommand extends CommandBase {
             if(m_limelight.isTargetAvailible()){
                 m_Pnuematics.setClaw(m_state);
             }else{
-
+                System.out.println("CLAW DROP LOST TARGET - DROPPING ANYWAYS");
+                m_Pnuematics.setClaw(m_state);
             }
         }else{
             m_Pnuematics.setClaw(m_state);

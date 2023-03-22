@@ -42,6 +42,9 @@ public class PnuematicsSubystem extends SubsystemBase{
     m_solenoidClaw.set(value);
   
   }
+  public void openClaw(){
+    setClaw(true);   
+     }
   public boolean getClaw(){
   //return true;
      return m_solenoidClaw.get();

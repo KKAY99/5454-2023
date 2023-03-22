@@ -29,9 +29,12 @@ public class zMoveArmExtendABS extends CommandBase {
   private Limelight m_limelight;
   private boolean m_checkForTarget;
   private boolean m_shouldRotateClaw;
+  private boolean m_openClaw;
+  private int targetChecks=0;
+  private final int kCheckTargetTimes=10;
   private static enum STATE
   {
-                  CANSEETARGET,INITLIFT,ROTATE,EXTENDANDROTATE,EXTENDLIFT,FINALROTATE,ABORT,END
+                  CANSEETARGET,INITLIFT,ROTATE,EXTENDANDROTATE,EXTENDLIFT,FINALROTATE,OPENCLAW,ABORT,END
   }
  private STATE m_state=STATE.INITLIFT;
 
@@ -40,7 +43,7 @@ public class zMoveArmExtendABS extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public zMoveArmExtendABS(ElevatorSubsystem elevator, RotateArmSubsystem rotate,PnuematicsSubystem pnuematics, Limelight limelight, Constants.TargetHeight targetLevel, boolean checkForTarget, boolean shouldRotateClaw) {
+  public zMoveArmExtendABS(ElevatorSubsystem elevator, RotateArmSubsystem rotate,PnuematicsSubystem pnuematics, Limelight limelight, Constants.TargetHeight targetLevel, boolean checkForTarget, boolean shouldRotateClaw,boolean openClaw) {
     m_elevator = elevator;
     m_rotate = rotate;
     m_pnuematics = pnuematics;
@@ -48,26 +51,46 @@ public class zMoveArmExtendABS extends CommandBase {
     m_checkForTarget = checkForTarget;
     m_targetLevel=targetLevel;
     m_shouldRotateClaw = shouldRotateClaw;
+    m_openClaw=openClaw;
   // Use addRequirements() here to declare subsystem dependencies.
       addRequirements(m_elevator);
-      addRequirements(m_rotate);  switch(targetLevel){
-      case TOP:
-      m_posFullLiftStage1=Constants.Lift.posHighFullLiftStage1;
-      m_posFullLiftStage2=Constants.Lift.posHighFullLiftStage2;
+      addRequirements(m_rotate);  
+      switch(targetLevel){
+      case TOPCONE:
+      m_posFullLiftStage1=Constants.Lift.posHighConeFullLiftStage1;
+      m_posFullLiftStage2=Constants.Lift.posHighConeFullLiftStage2;
       m_angleStage1ABS=Constants.Rotate.angleHighConeStage1ABS;
       m_angleStage2ABS=Constants.Rotate.angleHighConeStage2ABS;
       break;
-      case MIDDLE:
-        m_posFullLiftStage1=Constants.Lift.posMiddleFullLiftStage1;
-        m_posFullLiftStage2=Constants.Lift.posMiddleFullLiftStage2;
+      case MIDDLECONE:
+        m_posFullLiftStage1=Constants.Lift.posMiddleConeFullLiftStage1;
+        m_posFullLiftStage2=Constants.Lift.posMiddleConeFullLiftStage2;
         m_angleStage1ABS=Constants.Rotate.angleMiddleConeStage1ABS;
         m_angleStage2ABS=Constants.Rotate.angleMiddleConeStage2ABS;
       break;
-      case BOTTOM:
-        m_posFullLiftStage1=Constants.Lift.posLowFullLiftStage1;
-        m_posFullLiftStage2=Constants.Lift.posLowFullLiftStage2;
-        m_angleStage1ABS=Constants.Rotate.angleLowConeStage1ABS;
-        m_angleStage2ABS=Constants.Rotate.angleLowConeStage2ABS;
+      case BOTTOMCONE:
+        m_posFullLiftStage1=Constants.Lift.posLowConeFullLiftStage1;
+        m_posFullLiftStage2=Constants.Lift.posLowConeFullLiftStage2;
+        m_angleStage1ABS=m_rotate.getAbsolutePos();
+        m_angleStage2ABS=m_rotate.getAbsolutePos();
+        break;
+      case TOPCUBE:
+      m_posFullLiftStage1=Constants.Lift.posHighCubeFullLiftStage1;
+      m_posFullLiftStage2=Constants.Lift.posHighCubeFullLiftStage2;
+      m_angleStage1ABS=Constants.Rotate.angleHighCubeStage1ABS;
+      m_angleStage2ABS=Constants.Rotate.angleHighCubeStage2ABS;
+      break;
+      case MIDDLECUBE:
+        m_posFullLiftStage1=Constants.Lift.posMiddleCubeFullLiftStage1;
+        m_posFullLiftStage2=Constants.Lift.posMiddleCubeFullLiftStage2;
+        m_angleStage1ABS=Constants.Rotate.angleMiddleCubeStage1ABS;
+        m_angleStage2ABS=Constants.Rotate.angleMiddleCubeStage2ABS;
+      break;
+      case BOTTOMCUBE:
+        m_posFullLiftStage1=Constants.Lift.posLowCubeFullLiftStage1;
+        m_posFullLiftStage2=Constants.Lift.posLowCubeFullLiftStage2;
+        m_angleStage1ABS=m_rotate.getAbsolutePos();
+        m_angleStage2ABS=m_rotate.getAbsolutePos();
         break;
       case PLAYERSTATION:
         m_posFullLiftStage1 = Constants.Lift.posPlayerLiftStage1;
@@ -90,6 +113,7 @@ public class zMoveArmExtendABS extends CommandBase {
   @Override
   public void initialize() {
     m_state=STATE.CANSEETARGET;
+    targetChecks=0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -117,10 +141,20 @@ public class zMoveArmExtendABS extends CommandBase {
       case CANSEETARGET:
       //if checking for target use Limelight to check otherwise move to INITLIFT
       if(m_checkForTarget){
+        m_limelight.update(); /// force limelight to update
         if(m_limelight.isTargetAvailible()){
           m_state = STATE.INITLIFT;
         }else{
-          m_state = STATE.ABORT;
+          
+          if(targetChecks<kCheckTargetTimes){
+              targetChecks++;
+              System.out.println("Target Not Visibile Check #" + targetChecks );
+              m_state=STATE.CANSEETARGET;
+            
+          }
+          else{
+             m_state = STATE.ABORT;
+          }
         }
       }else{
         m_state = STATE.INITLIFT;
@@ -202,10 +236,15 @@ public class zMoveArmExtendABS extends CommandBase {
           }
         }
       if(rotated && extended){
-        System.out.println("Ending Auto Score");
-        m_state=STATE.END;
+        if(m_openClaw){
+          System.out.println("Ending Auto Score - Open Claw");
+          m_state=STATE.OPENCLAW;
+        }else {
+          System.out.println("Ending Auto Score - Not Opening Claw");
+          m_state=STATE.END;
+        }
       }
-      System.out.println("Rotate " + rotated + "Elevator " + extended);
+      //System.out.println("Rotate " + rotated + "Elevator " + extended);
       break;
       case FINALROTATE:
       //kk 3/4 commented out for playoffs
@@ -221,6 +260,10 @@ public class zMoveArmExtendABS extends CommandBase {
         }
        }*/
       break;
+      case OPENCLAW:
+         m_pnuematics.openClaw();
+         m_state=STATE.END;
+         break;
       case ABORT:
          System.out.println("Aborting Auto Score");
       case END:

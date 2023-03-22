@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.Timer;
 
   private double m_targetHeight = 0.0;
   private final int m_targetPos;
-  private double ktargetTolerance=10;
+  private double ktargetTolerance=5;
   private final ElevatorSubsystem m_Elevator;
  
   /**
@@ -31,11 +31,11 @@ import edu.wpi.first.wpilibj.Timer;
     m_targetPos = targetPos;
     switch(targetPos){
       case Constants.Lift.topTape:
-      m_targetHeight = Constants.Lift.posHighFullLiftStage1;
+      m_targetHeight = Constants.Lift.posHighConeFullLiftStage1;
       break;
 
       case Constants.Lift.middleTape:
-      m_targetHeight = Constants.Lift.posMiddleFullLiftStage1;
+      m_targetHeight = Constants.Lift.posMiddleConeFullLiftStage1;
       break;
 
       case Constants.Lift.apriltag:
@@ -59,6 +59,7 @@ import edu.wpi.first.wpilibj.Timer;
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("MoveElevatorPID Ending Pos is " + m_Elevator.getElevatorPos());
     m_Elevator.stop();
   }
 

@@ -27,7 +27,7 @@ public class FloorIntakeRotateCommand extends CommandBase{
 
     @Override
     public void execute(){
-            System.out.println("FlrRotate " + m_speed);
+       //     System.out.println("FlrRotate " + m_speed);
              if(m_elevator.getElevatorPos() < m_liftHeight){
                     m_intake.rotate(m_speed);                
             }else{

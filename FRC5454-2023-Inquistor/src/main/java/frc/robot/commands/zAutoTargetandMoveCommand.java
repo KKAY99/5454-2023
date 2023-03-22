@@ -84,7 +84,7 @@ public zAutoTargetandMoveCommand(Limelight limelight,DrivetrainSubsystem drive,i
     @Override
     public void initialize() {
       if(m_limeLight.getPipeline()!=m_pipeline){
-          System.out.println("Switching Pipeline - " + m_pipeline + " from " + m_limeLight.getPipeline());
+          System.out.println("AutoMove Switching Pipeline - " + m_pipeline + " from " + m_limeLight.getPipeline());
           m_limeLight.setPipeline(m_pipeline);
           m_limeLight.setTargetHeight(m_targetHeight);
           m_limeLight.update();
@@ -120,7 +120,7 @@ public zAutoTargetandMoveCommand(Limelight limelight,DrivetrainSubsystem drive,i
       double filteredMeasurement; 
       
       //allow driver overiride by moving joystick
-      System.out.println(m_driver.getLeftX() + " " + m_driver.getLeftY());
+      //System.out.println(m_driver.getLeftX() + " " + m_driver.getLeftY());
       
       if((Math.abs(m_driver.getLeftX())>Constants.swerveDrive.driveDeadband) || (Math.abs(m_driver.getLeftY())>Constants.swerveDrive.driveDeadband)) {
         System.out.println("Driver Control Aboring Targeting");

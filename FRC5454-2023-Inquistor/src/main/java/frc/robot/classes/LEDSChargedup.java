@@ -1,7 +1,6 @@
 package frc.robot.classes;
-import frc.robot.Constants.LEDS.Colors;
-import frc.robot.common.control.PidConstants;
 import frc.robot.Constants;
+import frc.robot.Constants.LEDS.Colors;
 public class LEDSChargedup {
     private static final int LEDMODE_WAVE = 0;
     private static final int LEDMODE_BAR = 1;
@@ -39,13 +38,15 @@ public class LEDSChargedup {
           
         if(m_oldLEDMode!=m_LEDMode){
             m_oldLEDMode=m_LEDMode;
-            m_upperLEDStrip.update();
-            m_bottomLEDStrip.update();
+            System.out.println("update LED");
          } else {
             //TODO: Fix Flash LED Lights
             if (m_ledFlash){
                 flashmode();               
         }
+        m_upperLEDStrip.update();
+    //    m_bottomLEDStrip.update();
+        
     }
  
 } catch (Exception e){
