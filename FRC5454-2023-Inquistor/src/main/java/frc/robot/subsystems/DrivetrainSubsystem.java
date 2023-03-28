@@ -141,6 +141,10 @@ private boolean m_autoControl = false;
     public void moveGyro(double direction, double rotation,double speed, double distance, boolean stopAtEnd){
         automove(direction,rotation,speed,distance,stopAtEnd,true);
     }
+    public void moveGyroNodistance(double direction, double rotation, double speed){
+        automove(direction,rotation,speed,0,false,true);
+    }
+   
     private void automove(double direction, double rotation,double speed, double distance, boolean stopAtEnd,boolean fieldCentric)
 {       double startDistance;
         double forward=0;

@@ -28,7 +28,7 @@ public class FloorIntakeCommand extends CommandBase{
         m_intake = intake;
         m_intakeSpeed = intakeSpeed;
         m_rotateSpeed=rotateSpeed;
-        System.out.println("ROTATE SPEED IS " + m_rotateSpeed);
+        //System.out.println("ROTATE SPEED IS " + m_rotateSpeed);
         m_state=state;
         m_origstate=state;
         m_elevator=elevator;
@@ -115,11 +115,11 @@ public class FloorIntakeCommand extends CommandBase{
             System.out.println(rotatePos + " **** " + m_intake.getRotatePos());
             if(isClawMoved()==true){
                 if(rotatePos>=Constants.FloorIntake.rotateOuttakePos){
-                m_intake.rotate((-m_rotateSpeed/2));
+                m_intake.rotate((-m_rotateSpeed));
                 System.out.println("rotate up " + m_rotateSpeed);
                 }else{
                     if(rotatePos<=Constants.FloorIntake.rotateOuttakePos){
-                        m_intake.rotate((m_rotateSpeed/2));
+                        m_intake.rotate((m_rotateSpeed));
                     System.out.println("rotate down" + m_rotateSpeed);
                     }
                 } 

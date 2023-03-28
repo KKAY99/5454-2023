@@ -115,12 +115,12 @@ public final class Constants {
         public static final double posMiddleCubeFullLiftStage1=-70.00+kClawFlipOffset;
         public static final double posMiddleCubeFullLiftStage2=-80; 
         public static final double posHighCubeFullLiftStage1=-90+kClawFlipOffset;
-        public static final double posHighCubeFullLiftStage2=-120;
-        public static final double posPlayerLiftStage1=-76;   
-        public static final double posPlayerLiftStage2=-86;
+        public static final double posHighCubeFullLiftStage2=-110;
+        public static final double posPlayerLiftStage1=-60;  
+        public static final double posPlayerLiftStage2=-76;
         public static final double posSlideStage1=-70;   
         public static final double posSlideStage2=-79; 
-        public static final double posShelf=-103+kClawFlipOffset;
+        public static final double posShelf=-98+kClawFlipOffset;
         public static final double posHome=10;
         
         public static final double liftKP = 0.1;
@@ -151,9 +151,9 @@ public final class Constants {
         public static final double angleMiddleCubeStage1ABS=0.510;    
         public static final double angleMiddleCubeStage2ABS=0.497; 
         public static final double angleHighCubeStage1ABS=0.510;    
-        public static final double angleHighCubeStage2ABS=0.485;
-        public static final double anglePlayerStage1ABS=0.515;
-        public static final double anglePlayerStage2ABS=0.508;
+        public static final double angleHighCubeStage2ABS=0.482;
+        public static final double anglePlayerStage1ABS=0.536;
+        public static final double anglePlayerStage2ABS=0.536;
         public static final double angleSlideStage1ABS=0;
         public static final double angleSlideStage2ABS=0;
         public static final double angleIntakePos=0.02;
@@ -237,12 +237,13 @@ public final class Constants {
         public static final int ExampleSwitch=0;
     }
 
-    public static final class AutoModes {
+    public static final class 
+    AutoModes {
         public static final String autoMode0="0-Do Nothing";
         public static final String autoMode1="1=Score";
         public static final String autoMode2="1=Score / Move out of Zone";
-        public static final String autoMode3="1-Score / Dock Charging Station";
-        public static final String autoMode4="1-Score / Engage Charging Station";
+        public static final String autoMode3="1-Score / Engage Charging Station";
+        public static final String autoMode4="1-Score / Move Out Of Zone / Engage Charging Station";
         public static final String autoMode5="2-Score / Leave / Get Cone / Score";
 
         public static final int autoNothing = 0;
@@ -263,7 +264,7 @@ public final class Constants {
         public static final int defaultDelayMode=0;
         public static final double MoveSpeed=0.5;
         //128 was last match
-        public static final double LeaveCommunityDistance=135;//115; // 120  // 15 feet = 174-30
+        public static final double LeaveCommunityDistance=155;//115; // 120  // 15 feet = 174-30
         public static final double pushDistance = 5;
         public static final double DistanceToCharging=20;// x feet
         public static final double DistanceToDock=30;
@@ -303,9 +304,9 @@ public final class Constants {
 
     public class LEDS {
         public static final int UPPERPORT = 0;
-        public static final int BOTTOMPORT = 8;
-        public static final int UPPERCOUNT = 200;
-        public static final int BOTTOMCOUNT = 175;
+        public static final int BOTTOMPORT = 9;
+        public static final int UPPERCOUNT = 178;
+        public static final int BOTTOMCOUNT = 20;
         public static final int FLASH_DELAY=5;
 
         public class Colors {

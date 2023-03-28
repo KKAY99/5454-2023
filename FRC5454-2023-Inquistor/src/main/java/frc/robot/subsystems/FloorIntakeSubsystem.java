@@ -43,7 +43,7 @@ public class FloorIntakeSubsystem extends SubsystemBase{
     }
 
     public void runIntake(double power) {
-        System.out.println("intake motor set" + power);
+        //System.out.println("intake motor set" + power);
       m_intakeMotor.set(power);
     }
 
@@ -77,7 +77,7 @@ public class FloorIntakeSubsystem extends SubsystemBase{
          
     }
      public void stopIntake() {
-        System.out.println("intake motor stopping");
+        //System.out.println("intake motor stopping");
         m_intakeMotor.stopMotor();
    
   }

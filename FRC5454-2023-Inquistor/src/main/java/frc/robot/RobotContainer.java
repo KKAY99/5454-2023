@@ -189,38 +189,40 @@ public class RobotContainer {
 
     Command commandScore = new SequentialCommandGroup(new ClawCommand(m_PnuematicsSubystem,bClawClose , "auto"),
                                                           new zMoveArmExtendABS(m_Elevator, m_Rotate, m_PnuematicsSubystem,
-                                                          m_Limelight,Constants.TargetHeight.TOPCONE, false,true,bOpenClawatEnd),
+                                                          m_Limelight,Constants.TargetHeight.TOPCUBE, false,true,bOpenClawatEnd),
                                                         //  new ClawCommand(m_PnuematicsSubystem, bClawOpen,"autoCube"),
                                                           new zMoveArmRetractABS(m_Elevator,m_Rotate,m_PnuematicsSubystem));
     autoChooser.addOption(AutoModes.autoMode1, commandScore);
     
     Command commandAutoScoreLeave = new SequentialCommandGroup(new ClawCommand(m_PnuematicsSubystem, bClawClose, "auto"),
                                                               new zMoveArmExtendABS(m_Elevator, m_Rotate, m_PnuematicsSubystem,
-                                                                m_Limelight,Constants.TargetHeight.TOPCONE, false,true,bOpenClawatEnd),
+                                                                m_Limelight,Constants.TargetHeight.TOPCUBE, false,true,bOpenClawatEnd),
                                                           //    new ClawCommand(m_PnuematicsSubystem, bClawOpen, "auto"),
                                                               new zMoveArmRetractABS(m_Elevator,m_Rotate,m_PnuematicsSubystem),
                                                               new AutoMoveCommand(m_RobotDrive,0,AutoModes.LeaveCommunityDistance));
     autoChooser.addOption(AutoModes.autoMode2,commandAutoScoreLeave);
  
-    Command commandAutoScoreDock = new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
-                                               Constants.ChargedUp.GridPosBottomConeAny,m_xBoxDriver),
+    Command commandAutoScoreEngage = new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
+                                               Constants.ChargedUp.GridPosBottomCubeAny,m_xBoxDriver),
                                                new zMoveArmExtendABS(m_Elevator, m_Rotate, m_PnuematicsSubystem,m_Limelight,
-                                               Constants.TargetHeight.TOPCONE, false,true,bOpenClawatEnd),
+                                               Constants.TargetHeight.TOPCUBE, false,true,bOpenClawatEnd),
                                               // new ClawCommand(m_PnuematicsSubystem,bClawOpen,"autoCone"),
                                                new zMoveArmRetractABS(m_Elevator,m_Rotate,m_PnuematicsSubystem),
-                                               new AutoMoveCommand(m_RobotDrive,0,AutoModes.DistanceToDock));
-    autoChooser.addOption(AutoModes.autoMode3,commandAutoScoreDock);
+                                               new 
+                                               zBalanceRobotCommand(m_NavX,m_RobotDrive));
+                                               //new AutoMoveCommand(m_RobotDrive,0,AutoModes.DistanceToDock));
+    autoChooser.addOption(AutoModes.autoMode3,commandAutoScoreEngage);
  
  
-    Command commandAutoScoreEngage  = new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
-                                                       Constants.ChargedUp.GridPosBottomConeAny,m_xBoxDriver),
+    Command commandAutoScoreEngageMobility  = new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
+                                                       Constants.ChargedUp.GridPosBottomCubeAny,m_xBoxDriver),
                                                        new zMoveArmExtendABS(m_Elevator, m_Rotate, m_PnuematicsSubystem,m_Limelight,
-                                                       Constants.TargetHeight.TOPCONE, false,true,bOpenClawatEnd),
-                                                //       new ClawCommand(m_PnuematicsSubystem,bClawOpen,"auto"),
+                                                       Constants.TargetHeight.TOPCUBE, false,true,bOpenClawatEnd),
+                                                       //new ClawCommand(m_PnuematicsSubystem,bClawOpen,"auto"),
                                                        new zMoveArmRetractABS(m_Elevator,m_Rotate,m_PnuematicsSubystem),
-                                                       new AutoMoveCommand(m_RobotDrive,0,AutoModes.DistanceToCharging),
-                                                       new zEngageonChargingCommand());
-   autoChooser.addOption(AutoModes.autoMode4,commandAutoScoreEngage);
+                                                       //new AutoMoveCommand(m_RobotDrive,0,AutoModes.DistanceToCharging),
+                                                       new zBalanceRobotMobilityCommand(m_NavX,m_RobotDrive));
+   autoChooser.addOption(AutoModes.autoMode4,commandAutoScoreEngageMobility);
 
  
    Command commandAutoScore2= new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
@@ -295,7 +297,7 @@ public class RobotContainer {
         final ClawSwapCommand swapClawCommand = new ClawSwapCommand(m_PnuematicsSubystem);
         final SolenoidPunchCommand punchSolenoidCommand = new SolenoidPunchCommand(m_PnuematicsSubystem);
         // Auto commands
-        final zBalanceRobotCommand balanceRobotCommand = new zBalanceRobotCommand(m_NavX,m_RobotDrive);
+        final zBalanceRobotMobilityCommand balanceRobotCommand = new zBalanceRobotMobilityCommand(m_NavX,m_RobotDrive);
         final zMoveArmRetractABS retractCommand = new zMoveArmRetractABS(m_Elevator, m_Rotate,m_PnuematicsSubystem);
         final SequentialCommandGroup retractElevatorCommand = new SequentialCommandGroup(new ColorSwapCommand(m_ledStrip, LEDMode.RETRACTING),
                                                                                 retractCommand,new ColorSwapCommand(m_ledStrip, LEDMode.TELEOP));

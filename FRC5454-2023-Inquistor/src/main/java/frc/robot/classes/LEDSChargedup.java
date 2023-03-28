@@ -14,17 +14,23 @@ public class LEDSChargedup {
                     NOTSET, DISABLED, AUTOMODE,TELEOP,BALANCED,CANSEETARGET,CANTSEETARGET,AUTOSCORING,RETRACTING;	
     }
     private LEDStrip m_upperLEDStrip;
-    private LEDStrip m_bottomLEDStrip;
+    //private LEDStrip m_bottomLEDStrip;
     private LEDMode m_oldLEDMode;
     private LEDMode m_LEDMode;
     private int m_ledFlashDelayCount=0;
     public int m_pipeline;
     public boolean m_canSeeTarget;
+
     public LEDSChargedup(int upperPort,int bottomPort, int ledCountUpper,int ledCountBottom){
     try{ 
         m_upperLEDStrip=new LEDStrip (upperPort,ledCountUpper);
-    //    m_bottomLEDStrip=new LEDStrip(bottomPort,ledCountBottom);
-        m_oldLEDMode=LEDMode.NOTSET;
+      // m_bottomLEDStrip=new LEDStrip(bottomPort,ledCountBottom);
+       m_upperLEDStrip.setMode(LEDMODE_WAVE);
+       m_upperLEDStrip.setColor(Colors.PURPLE);
+       //m_bottomLEDStrip.setMode(LEDMODE_SOLID);
+       //m_bottomLEDStrip.setColor(Colors.PURPLE);
+           
+       m_oldLEDMode=LEDMode.NOTSET;
     } catch (Exception e){
             System.out.println("LED Failure");
             System.out.println("Exception Message: " + e.getMessage());
@@ -38,21 +44,21 @@ public class LEDSChargedup {
           
         if(m_oldLEDMode!=m_LEDMode){
             m_oldLEDMode=m_LEDMode;
-            System.out.println("update LED");
+        //    System.out.println("update LED");
          } else {
             //TODO: Fix Flash LED Lights
             if (m_ledFlash){
                 flashmode();               
         }
         m_upperLEDStrip.update();
-    //    m_bottomLEDStrip.update();
+        //m_bottomLEDStrip.update();
         
     }
  
 } catch (Exception e){
-    System.out.println("LED Failure");
-    System.out.println("Exception Message: " + e.getMessage());
-    System.out.println("StackTrace:" + e.getStackTrace().toString());
+ //   System.out.println("LED Failure");
+ //   System.out.println("Exception Message: " + e.getMessage());
+ //   System.out.println("StackTrace:" + e.getStackTrace().toString());
   }
 
 
@@ -68,7 +74,7 @@ try{
             m_upperLEDStrip.setMode(LEDMODE_WAVE);
             m_upperLEDStrip.setColor(Colors.PURPLE);
             //m_bottomLEDStrip.setMode(LEDMODE_WAVE);
-            ////m_bottomLEDStrip.setColor(Colors.PURPLE);
+            //m_bottomLEDStrip.setColor(Colors.PURPLE);
             m_ledFlash=false;
         break;
         case AUTOMODE:
@@ -79,8 +85,11 @@ try{
             m_ledFlash=false;
         break;
         case TELEOP:
+            m_upperLEDStrip.setMode(LEDMODE_WAVE);
+            m_upperLEDStrip.setColor(Colors.GREEN);
             //m_bottomLEDStrip.setMode(LEDMODE_SOLID);
             //m_bottomLEDStrip.setColor(Colors.GREEN);
+            
             m_ledFlash=false;
             if(m_canSeeTarget==false){
                 //m_bottomLEDStrip.setMode(LEDMODE_SOLID);
@@ -121,9 +130,9 @@ try{
     
    updateLED();
 } catch (Exception e){
-    System.out.println("LED Failure");
-    System.out.println("Exception Message: " + e.getMessage());
-    System.out.println("StackTrace:" + e.getStackTrace().toString());
+//    System.out.println("LED Failure");
+//    System.out.println("Exception Message: " + e.getMessage());
+//    System.out.println("StackTrace:" + e.getStackTrace().toString());
   }
 
 
@@ -150,9 +159,9 @@ try{
         }
 
     } catch (Exception e){
-        System.out.println("LED Failure");
-        System.out.println("Exception Message: " + e.getMessage());
-        System.out.println("StackTrace:" + e.getStackTrace().toString());
+  //      System.out.println("LED Failure");
+  //      System.out.println("Exception Message: " + e.getMessage());
+  //      System.out.println("StackTrace:" + e.getStackTrace().toString());
       }
 
 }
@@ -178,9 +187,9 @@ try{
     } 
     updateLED();
 } catch (Exception e){
-    System.out.println("LED Failure");
-    System.out.println("Exception Message: " + e.getMessage());
-    System.out.println("StackTrace:" + e.getStackTrace().toString());
+//    System.out.println("LED Failure");
+//    System.out.println("Exception Message: " + e.getMessage());
+//    System.out.println("StackTrace:" + e.getStackTrace().toString());
   }
 
 }
