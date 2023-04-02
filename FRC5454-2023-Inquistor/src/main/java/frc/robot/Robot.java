@@ -115,6 +115,7 @@ public class Robot extends LoggedRobot {
    */
   @Override
   public void robotPeriodic() {
+    m_robotContainer.checkBrakeButton();
     // Runs the Scheduler. This is responsible for polling buttons, adding
     // newly-scheduled
     // commands, running already-scheduled commands, removing finished or
@@ -150,12 +151,10 @@ public class Robot extends LoggedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_robotContainer.EnableMode();
+    
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
   }
-    m_robotContainer.enableLimelights();
-    m_robotContainer.resetDriveModes();
     m_robotContainer.AutoMode();
     //m_robotContainer.resetTurret(); move to command groups
     

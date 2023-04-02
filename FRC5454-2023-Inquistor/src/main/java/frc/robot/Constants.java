@@ -234,7 +234,7 @@ public final class Constants {
     }
 
     public static final class LimitSwitches{
-        public static final int ExampleSwitch=0;
+        public static final int brakeButtonPort=2;
     }
 
     public static final class 

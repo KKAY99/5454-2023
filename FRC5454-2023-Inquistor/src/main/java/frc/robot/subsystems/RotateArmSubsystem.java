@@ -126,6 +126,16 @@ public class RotateArmSubsystem extends SubsystemBase {
     public boolean hasHomed(){
       return m_homed;
     }
+
+    public void disableRotateBrakeMode(){
+      m_RotateMotorLeader.setIdleMode(IdleMode.kCoast);
+      m_RotateMotor.setIdleMode(IdleMode.kCoast);
+    }
+
+    public void resetRotateBrakeModeToNormal(){
+      m_RotateMotorLeader.setIdleMode(IdleMode.kBrake);
+      m_RotateMotor.setIdleMode(IdleMode.kBrake);
+    }
   
     @Override
     public void simulationPeriodic() {

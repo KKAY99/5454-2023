@@ -5,6 +5,7 @@
 package frc.robot;
 
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -81,7 +82,11 @@ public class RobotContainer {
      private final LEDSChargedup m_ledStrip = new LEDSChargedup(Constants.LEDS.UPPERPORT,Constants.LEDS.BOTTOMPORT, Constants.LEDS.UPPERCOUNT,Constants.LEDS.BOTTOMPORT);
      private boolean m_disabled=true;
      private boolean m_homed=false;
+     private boolean m_isButtonToggled=false;
+     private boolean m_buttonPressed=false;
      
+     private DigitalInput m_brakeButton = new DigitalInput(Constants.LimitSwitches.brakeButtonPort);
+
     private final PowerDistribution m_robotPDH = new PowerDistribution(1, PowerDistribution.ModuleType.kRev);
    
     static LoggedDashboardString dashDriveMode= new LoggedDashboardString("Drive Mode", "Field"); 
@@ -594,7 +599,11 @@ public class RobotContainer {
     
   
         public void AutoMode(){
+                EnableMode();
                 m_ledStrip.setRobotMode(LEDSChargedup.LEDMode.AUTOMODE);
+                enableLimelights();
+                resetDriveModes();
+                resetBrakeModetoNormal();
                 homeRobot();
                 //Set Default Pipeline to AprilTags
                 m_Limelight.setPipeline(Constants.VisionPipelines.AprilTag);
@@ -602,12 +611,41 @@ public class RobotContainer {
         }  
         public void TeleopMode(){
                 m_ledStrip.setRobotMode(LEDSChargedup.LEDMode.TELEOP);
+                resetBrakeModetoNormal();
                 homeRobot();
                 //Set Default Pipeline to AprilTags
                 m_Limelight.setPipeline(Constants.VisionPipelines.AprilTag);
                 
         }
-   
+    private void resetBrakeModetoNormal(){
+        m_Elevator.resetElevatorBrakeModeToNormal();
+        m_Rotate.resetRotateBrakeModeToNormal();
+        m_FloorIntake.resetFloorIntakeBrakeModeToNormal();
+    }
+
+    private void disableBrakeMode(){
+        m_Elevator.disableElevatorBrakeMode();
+        m_Rotate.disableRotateBrakeMode();
+        m_FloorIntake.disableFloorIntakeBrakeMode();
+    }
+
+    public void checkBrakeButton(){
+        if(m_brakeButton.get() && m_buttonPressed==false){ 
+           m_buttonPressed=true;
+           if(m_isButtonToggled==false){
+                        disableBrakeMode();
+                        m_isButtonToggled=true;
+                }else{
+                        resetBrakeModetoNormal();
+                        m_isButtonToggled=false;
+                }
+    }else{
+
+         if (m_brakeButton.get()==false){
+                m_buttonPressed=false;
+         }
+    }
+}   
     private void homeRobot(){
         
         if(m_homed==false){

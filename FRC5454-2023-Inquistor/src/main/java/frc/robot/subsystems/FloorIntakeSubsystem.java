@@ -13,6 +13,7 @@ import frc.robot.Constants.LimitSwitches;
 import edu.wpi.first.wpilibj.DigitalInput;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxAlternateEncoder.Type;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 public class FloorIntakeSubsystem extends SubsystemBase{
     CANSparkMax m_intakeMotor;
@@ -87,9 +88,19 @@ public class FloorIntakeSubsystem extends SubsystemBase{
   public void resetEncodertoZero(){
     m_rotateEncoder.setPosition(0);
   }
-    public void stopRotate() {
-        m_rotateMotor.stopMotor();
-    }
+  public void stopRotate() {
+    m_rotateMotor.stopMotor();
+  }
+
+  public void disableFloorIntakeBrakeMode(){
+    m_rotateMotor.setIdleMode(IdleMode.kCoast);
+    m_intakeMotor.setIdleMode(IdleMode.kCoast);
+  }
+
+  public void resetFloorIntakeBrakeModeToNormal(){
+    m_rotateMotor.setIdleMode(IdleMode.kBrake);
+    m_intakeMotor.setIdleMode(IdleMode.kBrake);
+  }
 
     
 

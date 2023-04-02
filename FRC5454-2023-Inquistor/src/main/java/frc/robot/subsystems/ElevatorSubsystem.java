@@ -13,6 +13,7 @@ import frc.robot.Constants;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 
@@ -122,6 +123,14 @@ public class ElevatorSubsystem extends SubsystemBase {
       System.out.println("StackTrace:" + e.getStackTrace().toString());
       return 0;  
     }
+  }
+
+  public void disableElevatorBrakeMode(){
+    m_Motor.setIdleMode(IdleMode.kCoast);
+  }
+
+  public void resetElevatorBrakeModeToNormal(){
+    m_Motor.setIdleMode(IdleMode.kBrake);
   }
 
   @Override
