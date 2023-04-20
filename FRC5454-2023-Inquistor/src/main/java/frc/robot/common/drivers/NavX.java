@@ -1,6 +1,8 @@
 package frc.robot.common.drivers;
 
 import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.SPI;
 
 import frc.robot.common.math.Rotation2;
@@ -24,6 +26,13 @@ public final class NavX extends Gyroscope {
     @Override
     public Rotation2 getUnadjustedAngle() {
         return Rotation2.fromRadians(getAxis(Axis.YAW));
+    }
+
+    public Rotation2d getAngleInRotation2D(){
+        double angle = getAngle().toRadians();
+        Rotation2d rotation2D=new Rotation2d(angle);
+        
+        return rotation2D;
     }
 
     //KK Added 1/26/23
