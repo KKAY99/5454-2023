@@ -37,7 +37,6 @@ public class FloorIntakeSubsystem extends SubsystemBase{
         m_rotateMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
         m_rotateMotor.setInverted(true);
         m_rotateEncoder=m_rotateMotor.getEncoder();
-    
         m_limitSwitch=new DigitalInput(limitSwitchport);
         m_highLimit=rotateHighLimit;
         m_lowLimit=rotateLowLimit;

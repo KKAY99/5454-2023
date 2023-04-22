@@ -96,7 +96,7 @@ public class RobotContainer {
     new JoystickButton(m_xBox,1).whileTrue(m_intakeInCommand);
     new JoystickButton(m_xBox,4).whileTrue(m_intakeOutCommand);
     new JoystickButton(m_xBox,2).whileTrue(m_SpindexCommand);
-    new PIDCommand(null, null, null, null, null)
+    new PIDCommand(null, null, null, null, null);
   }
 
   /**

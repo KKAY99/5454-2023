@@ -58,6 +58,7 @@ public class RobotContainer {
     private final LoggedDashboardChooser<Command> autoDelay = new LoggedDashboardChooser<>("Auto Delay");
    // private final SpindexerSubsystem m_SpindexerSubsystem = new SpindexerSubsystem(Constants.Spindexer.motorPort);
     private final DrivetrainSubsystem m_RobotDrive = new DrivetrainSubsystem(m_NavX); 
+    private final WPIDriveTrainSubsystem m_WPIDrive=new WPIDriveTrainSubsystem(m_NavX);
     private final DriveControlMode m_DriveControlMode = new DriveControlMode();
     private final PnuematicsSubystem m_PnuematicsSubystem = new PnuematicsSubystem(Constants.Pneumatics.HubID,
                                                                    Constants.Pneumatics.moduleType,
@@ -176,13 +177,18 @@ public class RobotContainer {
         // Configure the button bindings
         createAutoCommands();
         configureButtonBindings();
-
         m_RobotDrive.setDefaultCommand(
                 new DefaultDriveCommand(m_RobotDrive,
                         () -> m_xBoxDriver.getRightX(),
                         () -> m_xBoxDriver.getLeftY(),
                         () -> m_xBoxDriver.getLeftX(),
                         () -> m_DriveControlMode.isFieldOrientated()));
+        /*m_WPIDrive.setDefaultCommand(
+                new WPIDriveCommand(m_WPIDrive,
+                        () -> m_xBoxDriver.getRightX(),
+                        () -> m_xBoxDriver.getLeftY(),
+                        () -> m_xBoxDriver.getLeftX(),
+                        () -> m_DriveControlMode.isFieldOrientated()));*/
 
     }
 
