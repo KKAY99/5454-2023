@@ -79,6 +79,8 @@ public class RobotContainer {
      
     Compressor Compressor = new Compressor(nodeID,pModule)  ; 
     Solenoid m_solenoidIntakeArm = new Solenoid(pModule, 0); 
+
+    m_solenoidIntakeArm.set(true);
   
   }
   /**

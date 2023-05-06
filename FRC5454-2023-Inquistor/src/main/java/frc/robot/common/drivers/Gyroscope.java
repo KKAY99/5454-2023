@@ -37,6 +37,10 @@ public abstract class Gyroscope {
 		return angle;
 	}
 
+	public final double getAngleAsDouble(){
+		return getAngle().toDegrees();
+	}
+
 	public final double getRate() {
 		double rate = getUnadjustedRate();
 
