@@ -55,10 +55,10 @@ public class WPIDriveCommand extends CommandBase {
     rotation = Math.copySign(Math.pow(rotation, 2.0), rotation);
     //System.out.println(forward + " -- " + strafe + " -- " + rotation);
     if(m_fieldMode.getAsBoolean()){
-      m_WPIdrive.drive(forward, strafe, rotation, true);
+      //m_WPIdrive.setModuleStates(null);
     
     } else{
-      m_WPIdrive.drive(forward, strafe, rotation, false);
+      //m_WPIdrive.setModuleStates(null);
     }
     
    

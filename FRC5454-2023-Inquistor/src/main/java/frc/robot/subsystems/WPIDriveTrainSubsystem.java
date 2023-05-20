@@ -1,10 +1,8 @@
 package frc.robot.subsystems;
+
 import frc.robot.common.drivers.WPISwerveModule;
-
 import edu.wpi.first.wpilibj.AnalogInput;
-
 import java.util.function.ToDoubleFunction;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -19,18 +17,17 @@ import frc.robot.common.drivers.NavX;
 public class WPIDriveTrainSubsystem extends SubsystemBase{
     private static final double TRACKWIDTH = 25;
     private static final double WHEELBASE = 31;
-    private double kPhysicalMaxSpeedMetersPerSecond=1.0;
 
     private NavX m_gyro;
 
-    private final WPISwerveModule m_frontLeftModule=new WPISwerveModule(0, 
-                                    0, 0);
-    private final WPISwerveModule m_frontRightModule=new WPISwerveModule(0, 
-                                    0, 0);
-    private final WPISwerveModule m_backLeftModule=new WPISwerveModule(0, 
-                                    0, 0);
-    private final WPISwerveModule m_backRightModule=new WPISwerveModule(0, 
-                                    0, 0);
+    private final WPISwerveModule m_frontLeftModule=new WPISwerveModule(25, 
+                                    20, 0);
+    private final WPISwerveModule m_frontRightModule=new WPISwerveModule(26, 
+                                    21, 0);
+    private final WPISwerveModule m_backLeftModule=new WPISwerveModule(23, 
+                                    28, 0);
+    private final WPISwerveModule m_backRightModule=new WPISwerveModule(22, 
+                                    27, 0);
 
     public WPIDriveTrainSubsystem(NavX gyro){
         m_gyro=gyro;
@@ -71,7 +68,7 @@ public class WPIDriveTrainSubsystem extends SubsystemBase{
     }
 
     public void setModuleStates(SwerveModuleState[] desiredStates){
-        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates,kPhysicalMaxSpeedMetersPerSecond);
+        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates,Constants.WPISwerve.physicalMaxSpeedMetersPerSecond);
 
         m_frontLeftModule.setState(desiredStates[0]);
         m_frontLeftModule.setState(desiredStates[1]);

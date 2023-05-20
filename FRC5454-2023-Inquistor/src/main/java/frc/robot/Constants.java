@@ -190,6 +190,7 @@ public final class Constants {
         public static final int clawSolenoid = 8;
         public static final int punchSolenoid=9;
     }
+
     public static final class ButtonConstants{
         public static final int DriverSolenoidPunch=1;
         public static final int DriverAutoBalance=2;
@@ -237,8 +238,7 @@ public final class Constants {
         public static final int brakeButtonPort=2;
     }
 
-    public static final class 
-    AutoModes {
+    public static final class AutoModes {
         public static final String autoMode0="0-Do Nothing";
         public static final String autoMode1="1=Score";
         public static final String autoMode2="1=Score / Move out of Zone";
@@ -337,7 +337,7 @@ public final class Constants {
         public static final int DRIVETRAIN_BACK_LEFT_ANGLE_MOTOR = 28; // CAN
         public static final int DRIVETRAIN_BACK_LEFT_ANGLE_ENCODER = 3; // Analog
         public static final int DRIVETRAIN_BACK_LEFT_DRIVE_MOTOR = 23; // CAN
-        }
+    }
     
    public static final class PIDSteering{
     public static final double rightKP=-0.05;
@@ -352,8 +352,20 @@ public final class Constants {
     public static final double backwardKI = 0;
     public static final double forwardKD = -0;
     public static final double backwardKD = 0;
+   }
 
-}
+   public static final class WPISwerve{
+    public static final double wheelDiameter=1;
+    public static final double driveGearRatio=1;
+    public static final double turningGearRatio=1;
+
+    public static final double absoluteEncoderOffsetRad=1.0;
+    public static final double physicalMaxSpeedMetersPerSecond=5;
+    public static final double driveEncoderRot2Meter=driveGearRatio*Math.PI*wheelDiameter;
+    public static final double driveEncoderRPM2MPS=driveEncoderRot2Meter/60;
+    public static final double turningEncoderRot2Meter=turningGearRatio*2*Math.PI;
+    public static final double KTurningEncoderRPM2MPS=turningEncoderRot2Meter/60;
+   }
 // AdvantageKit Constants
 public static final Mode currentMode = Mode.REAL;
 

@@ -10,8 +10,12 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.AnalogEncoder;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
+import frc.robot.Constants;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+
+import java.io.Console;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -23,13 +27,6 @@ public class WPISwerveModule {
     private double m_maxAngularAcceleration=2 * Math.PI;
     private int m_encoderResolution=4096;
     
-    //TODO:Implement These into Constants
-    private double absoluteEncoderOffsetRad=1.0;
-    private double kPhysicalMaxSpeedMetersPerSecond=1.0;
-    //private KDriveEncoderRot2Meter
-    //private KDriveEncoderRPM2MPS
-    //private KTurningEncoderRot2Meter
-    //private KTurningEncoderRPM2MPS
 
     private CANSparkMax m_driveMotor;
     private CANSparkMax m_turningMotor; 
@@ -93,7 +90,7 @@ public class WPISwerveModule {
 
         angle*=2.0*Math.PI;
 
-        angle-=absoluteEncoderOffsetRad;
+        angle-=Constants.WPISwerve.absoluteEncoderOffsetRad;
 
         return angle;
     }
@@ -120,7 +117,7 @@ public class WPISwerveModule {
 
         state=SwerveModuleState.optimize(state, getState().angle);
 
-        m_driveMotor.set(state.speedMetersPerSecond/kPhysicalMaxSpeedMetersPerSecond);
+        m_driveMotor.set(state.speedMetersPerSecond/Constants.WPISwerve.physicalMaxSpeedMetersPerSecond);
 
         m_turningMotor.set(m_turningPIDController.calculate(getTurnPosition(),state.angle.getRadians()));
     }
