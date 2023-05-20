@@ -60,7 +60,7 @@ public class AutoMoveCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     if(interrupted){
-      m_drive.resetDriveMode();
+      //m_drive.resetDriveMode();
     }
   }
 

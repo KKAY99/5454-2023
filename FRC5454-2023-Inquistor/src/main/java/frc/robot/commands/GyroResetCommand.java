@@ -23,7 +23,7 @@ public class GyroResetCommand extends CommandBase {
 
     System.out.println("Resetting Gyro");
     m_limelight.turnLEDOff();
-     m_drive.resetGyroscope();
+     //m_drive.resetGyroscope();
      m_limelight.turnLEDOn();
      m_limelight.turnLEDOff();
      m_limelight.turnLEDOn();

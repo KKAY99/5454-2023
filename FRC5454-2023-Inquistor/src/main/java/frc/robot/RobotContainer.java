@@ -177,18 +177,18 @@ public class RobotContainer {
         // Configure the button bindings
         createAutoCommands();
         configureButtonBindings();
-        m_RobotDrive.setDefaultCommand(
+       /* m_RobotDrive.setDefaultCommand(
                 new DefaultDriveCommand(m_RobotDrive,
                         () -> m_xBoxDriver.getRightX(),
                         () -> m_xBoxDriver.getLeftY(),
                         () -> m_xBoxDriver.getLeftX(),
-                        () -> m_DriveControlMode.isFieldOrientated()));
-        /*m_WPIDrive.setDefaultCommand(
+                        () -> m_DriveControlMode.isFieldOrientated()));*/
+        m_WPIDrive.setDefaultCommand(
                 new WPIDriveCommand(m_WPIDrive,
                         () -> m_xBoxDriver.getRightX(),
                         () -> m_xBoxDriver.getLeftY(),
                         () -> m_xBoxDriver.getLeftX(),
-                        () -> m_DriveControlMode.isFieldOrientated()));*/
+                        () -> m_DriveControlMode.isFieldOrientated()));
 
     }
 
@@ -527,10 +527,10 @@ public class RobotContainer {
        
     public void refreshSmartDashboard()
     {  
-        frontLeftAngle.set(m_RobotDrive.getFrontLeftAngle());
+        /*frontLeftAngle.set(m_RobotDrive.getFrontLeftAngle());
         frontRightAngle.set(m_RobotDrive.getFrontRightAngle());
         backLeftAngle.set(m_RobotDrive.getBackLeftAngle());
-        backRightAngle.set(m_RobotDrive.getbackRightAngle());
+        backRightAngle.set(m_RobotDrive.getbackRightAngle());*/
         elevatorEncoder.set(m_Elevator.getElevatorPos());
         rotateEncoder.set(m_Rotate.getRelativeRotatePos());
         floorIntakeEncoder.set(m_FloorIntake.getRotatePos());
@@ -547,7 +547,7 @@ public class RobotContainer {
         SmartDashboard.putNumber("Rotate ABS", m_Rotate.getAbsolutePos());
 
         m_Limelight.update();
-        if(m_RobotDrive.isFieldCentric()){
+        if(true){
                 dashDriveMode.set("Field");
         }else{
                 dashDriveMode.set("Robot");
@@ -599,7 +599,7 @@ public class RobotContainer {
     }
    
     public void resetDriveModes(){
-       m_RobotDrive.resetDriveMode();
+       //m_RobotDrive.resetDriveMode();
     }
    
     

@@ -8,6 +8,8 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.AnalogEncoder;
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import frc.robot.Constants;
@@ -34,7 +36,7 @@ public class WPISwerveModule {
     private RelativeEncoder m_driveEncoder;
     private RelativeEncoder m_turningEncoder;
 
-    private DutyCycleEncoder m_absEncoder;
+    private AnalogEncoder m_absEncoder;
 
     private PIDController m_turningPIDController;
 
@@ -50,7 +52,7 @@ public class WPISwerveModule {
 
         m_driveEncoder=m_driveMotor.getEncoder();
         m_turningEncoder=m_turningMotor.getEncoder();
-        m_absEncoder=new DutyCycleEncoder(absoluteEncoderPort);
+        m_absEncoder=new AnalogEncoder(absoluteEncoderPort);
 
         m_driveEncoder.getPositionConversionFactor();
         m_driveEncoder.getVelocityConversionFactor();
@@ -58,9 +60,17 @@ public class WPISwerveModule {
         m_turningEncoder.getPositionConversionFactor();
         m_turningEncoder.getVelocityConversionFactor();
 
+        m_turningPIDController=new PIDController(0.5,0,0);
         m_turningPIDController.enableContinuousInput(-Math.PI,Math.PI);
 
-        m_absEncoder.setDutyCycleRange(1.0/4096.0, 4095.0/4096.0);
+        m_turningMotor.burnFlash();
+
+        m_absEncoder.setDistancePerRotation(m_absEncoder.getDistancePerRotation());
+
+        m_driveMotor.setSmartCurrentLimit(40);
+        m_turningMotor.setSmartCurrentLimit(20);
+
+        resetDriveEncoder();
     }
 
     public double getDrivePosition(){

@@ -361,10 +361,14 @@ public final class Constants {
 
     public static final double absoluteEncoderOffsetRad=1.0;
     public static final double physicalMaxSpeedMetersPerSecond=5;
+    public static final double physicalMaxAngularSpeedRadiansPerSecond=2*2*Math.PI;
     public static final double driveEncoderRot2Meter=driveGearRatio*Math.PI*wheelDiameter;
     public static final double driveEncoderRPM2MPS=driveEncoderRot2Meter/60;
     public static final double turningEncoderRot2Meter=turningGearRatio*2*Math.PI;
     public static final double KTurningEncoderRPM2MPS=turningEncoderRot2Meter/60;
+
+    public static final double maxSwerveSpeedMetersSecond=physicalMaxSpeedMetersPerSecond/8;
+    public static final double maxSwerveAngularSpeedRadianPerSecond=physicalMaxSpeedMetersPerSecond/15;
    }
 // AdvantageKit Constants
 public static final Mode currentMode = Mode.REAL;

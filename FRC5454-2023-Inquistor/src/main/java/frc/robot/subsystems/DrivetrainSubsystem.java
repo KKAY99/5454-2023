@@ -45,7 +45,7 @@ private boolean m_autoControl = false;
     private static DrivetrainSubsystem instance;
 
     private NavX m_gyroscope;
-    private final SwerveModule frontLeftModule = new Mk2SwerveModuleBuilder(
+    /*private final SwerveModule frontLeftModule = new Mk2SwerveModuleBuilder(
             new Vector2(TRACKWIDTH / 2.0, WHEELBASE / 2.0))
             .angleEncoder(new AnalogInput(RobotMap.DRIVETRAIN_FRONT_LEFT_ANGLE_ENCODER), FRONT_LEFT_ANGLE_OFFSET)
             .angleMotor(new CANSparkMax(RobotMap.DRIVETRAIN_FRONT_LEFT_ANGLE_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless),
@@ -83,7 +83,7 @@ private boolean m_autoControl = false;
             new Translation2d(TRACKWIDTH / 2.0, -WHEELBASE / 2.0),
             new Translation2d(-TRACKWIDTH / 2.0, WHEELBASE / 2.0),
             new Translation2d(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0)
-    );
+    );*/
    // private final SwerveDrivePoseEstimator estimator;
 
         
@@ -108,10 +108,10 @@ private boolean m_autoControl = false;
         Logger.getInstance().recordOutput("Odometry Y", estimator.getEstimatedPosition().getY());
  
        */
-        frontLeftModule.setName("Front Left");
+        /*frontLeftModule.setName("Front Left");
         frontRightModule.setName("Front Right");
         backLeftModule.setName("Back Left");
-        backRightModule.setName("Back Right");
+        backRightModule.setName("Back Right");*/
     }
  
     public static DrivetrainSubsystem getInstance() {
@@ -122,7 +122,7 @@ private boolean m_autoControl = false;
         return instance;
     }
  
-    public boolean IsRobotMoving(){
+    /*public boolean IsRobotMoving(){
             if((backLeftModule.getCurrentVelocity()+
                 backRightModule.getCurrentVelocity()+
                 frontLeftModule.getCurrentVelocity()+
@@ -131,7 +131,7 @@ private boolean m_autoControl = false;
                 }else {
                         return true;
                 }
-    }
+    }*/
     public void movenodistance(double direction, double rotation, double speed){
         move(direction,rotation,speed,0,false);
     }
@@ -151,7 +151,7 @@ private boolean m_autoControl = false;
         double strafe=0;
         Translation2d targetTranslation;
         m_autoControl = true;
-        startDistance=backLeftModule.getCurrentDistance();
+        startDistance=0;//backLeftModule.getCurrentDistance();
         switch ((int) direction){
                 case 0:
                         forward=-1*speed;
@@ -193,11 +193,11 @@ private boolean m_autoControl = false;
                 drive(new Translation2d(forward, strafe), rotation, fieldCentric);
                 periodic();
         }else {
-                double distanceTravelled=backLeftModule.getCurrentDistance()-startDistance;
+                double distanceTravelled=0;//backLeftModule.getCurrentDistance()-startDistance;
                 while(distanceTravelled<=distance && m_autoControl){
                 drive(new Translation2d(forward, strafe), rotation, fieldCentric);
                 periodic();
-                distanceTravelled=Math.abs(backLeftModule.getCurrentDistance()-startDistance);
+                distanceTravelled=0;//Math.abs(backLeftModule.getCurrentDistance()-startDistance);
                 //      System.out.print("(" + forward + ", "+ strafe +") " + distanceTravelled + " / " + distance );
                 } 
         }
@@ -244,7 +244,7 @@ public void spin (double direction,double speed)
 }
     @Override
     public void periodic() {
-        frontLeftModule.updateSensors();
+        /*frontLeftModule.updateSensors();
         frontRightModule.updateSensors();
         backLeftModule.updateSensors();
         backRightModule.updateSensors();
@@ -259,7 +259,7 @@ public void spin (double direction,double speed)
         frontLeftModule.updateState(LoggedRobot.defaultPeriodSecs);
    frontRightModule.updateState(LoggedRobot.defaultPeriodSecs);
         backLeftModule.updateState(LoggedRobot.defaultPeriodSecs);
-        backRightModule.updateState(LoggedRobot.defaultPeriodSecs);
+        backRightModule.updateState(LoggedRobot.defaultPeriodSecs);*/
 
        /* SwerveModulePosition frontLeftPosition=new SwerveModulePosition(frontLeftModule.getCurrentDistance(),new Rotation2d(frontLeftModule.getCurrentAngle()));
         SwerveModulePosition frontRightPosition=new SwerveModulePosition(frontRightModule.getCurrentDistance(),new Rotation2d(frontRightModule.getCurrentAngle()));
@@ -286,17 +286,17 @@ public void spin (double direction,double speed)
             speeds = new ChassisSpeeds(translation.getX(), translation.getY(), rotation);
         }
  
-        SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
+        /*SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
         frontLeftModule.setTargetVelocity(states[0].speedMetersPerSecond, states[0].angle.getRadians());
         frontRightModule.setTargetVelocity(states[1].speedMetersPerSecond, states[1].angle.getRadians());
         backLeftModule.setTargetVelocity(states[2].speedMetersPerSecond, states[2].angle.getRadians());
         backRightModule.setTargetVelocity(states[3].speedMetersPerSecond, states[3].angle.getRadians());
        // System.out.println("Gyro " + m_gyroscope.getAngle().toDegrees() + " " + frontLeftModule.getCurrentAngle() + " " + fieldOriented);
-
+       */
 }
 
 //TOODO:
-    public double getFrontLeftAngleDegrees(){
+   /* public double getFrontLeftAngleDegrees(){
         return frontLeftModule.getCurrentAngle();
     }
     public double getFrontRightAngleDegrees(){
@@ -337,5 +337,5 @@ public void spin (double direction,double speed)
     public void resetDriveMode(){
         m_autoControl = false;
         stop();
-    }
+    }*/
 }

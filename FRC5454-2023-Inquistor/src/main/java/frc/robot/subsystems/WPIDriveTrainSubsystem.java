@@ -20,12 +20,19 @@ public class WPIDriveTrainSubsystem extends SubsystemBase{
 
     private NavX m_gyro;
 
+    public SwerveDriveKinematics m_driveKinematics = new SwerveDriveKinematics(
+            new Translation2d(TRACKWIDTH / 2.0, WHEELBASE / 2.0),
+            new Translation2d(TRACKWIDTH / 2.0, -WHEELBASE / 2.0),
+            new Translation2d(-TRACKWIDTH / 2.0, WHEELBASE / 2.0),
+            new Translation2d(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0)
+    );
+
     private final WPISwerveModule m_frontLeftModule=new WPISwerveModule(25, 
-                                    20, 0);
+                                    20, 1);
     private final WPISwerveModule m_frontRightModule=new WPISwerveModule(26, 
-                                    21, 0);
+                                    21, 2);
     private final WPISwerveModule m_backLeftModule=new WPISwerveModule(23, 
-                                    28, 0);
+                                    28, 3);
     private final WPISwerveModule m_backRightModule=new WPISwerveModule(22, 
                                     27, 0);
 
