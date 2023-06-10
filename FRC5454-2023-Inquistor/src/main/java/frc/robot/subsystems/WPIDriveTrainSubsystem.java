@@ -29,9 +29,9 @@ public class WPIDriveTrainSubsystem extends SubsystemBase{
     );
 
     private final WPISwerveModule m_frontLeftModule=new WPISwerveModule(this,25, 
-                                    20, 1);
+                                    20, 2);
     private final WPISwerveModule m_frontRightModule=new WPISwerveModule(this,26, 
-                                    21, 2);
+                                    21, 1);
     private final WPISwerveModule m_backLeftModule=new WPISwerveModule(this,23, 
                                     28, 3);
     private final WPISwerveModule m_backRightModule=new WPISwerveModule(this,22, 
@@ -53,14 +53,14 @@ public class WPIDriveTrainSubsystem extends SubsystemBase{
 
     public void resetAllDriveEncoders(){
         m_frontLeftModule.resetDriveEncoder();
-        m_frontLeftModule.resetDriveEncoder();
+        m_frontRightModule.resetDriveEncoder();
         m_backLeftModule.resetDriveEncoder();
         m_backRightModule.resetDriveEncoder();
     }
 
     public void stopAllModules(){
         m_frontLeftModule.stop();
-        m_frontLeftModule.stop();
+        m_frontRightModule.stop();
         m_backLeftModule.stop();
         m_backRightModule.stop();
     }
@@ -81,9 +81,10 @@ public class WPIDriveTrainSubsystem extends SubsystemBase{
 
     public void setModuleStates(SwerveModuleState[] desiredStates){
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates,Constants.WPISwerve.physicalMaxSpeedMetersPerSecond);
+        System.out.println("DesaturationY"+desiredStates[0].angle.getDegrees());
 
         m_frontLeftModule.setState(desiredStates[0]);
-        m_frontLeftModule.setState(desiredStates[1]);
+        m_frontRightModule.setState(desiredStates[1]);
         m_backLeftModule.setState(desiredStates[2]);
         m_backRightModule.setState(desiredStates[3]);
     }

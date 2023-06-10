@@ -48,7 +48,6 @@ public class Robot extends LoggedRobot {
     // and put our
     // autonomous chooser on the dashboard.
     Logger logger = Logger.getInstance();
-    m_robotContainer.clearAllStickyFaults();
     // Record metadata
     logger.recordMetadata("ProjectName", "2023-Inquistor");
     

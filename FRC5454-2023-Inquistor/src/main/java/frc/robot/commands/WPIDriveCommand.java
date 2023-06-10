@@ -24,11 +24,13 @@ public class WPIDriveCommand extends CommandBase {
   private final DoubleSupplier m_drive_rcw;
   private final BooleanSupplier m_fieldMode;
 
-  private final SlewRateLimiter xLimiter;
-  private final SlewRateLimiter yLimiter;
-  private final SlewRateLimiter turnLimiter;
+ // priv//ate final SlewRateLimiter xLimiter;
+ // private final SlewRateLimiter yLimiter;
+  //private final SlewRateLimiter turnLimiter;
 
-  private PIDController thetaController;
+  private final double xyLimit=8;
+  private final double rotLimit=2;
+
 
   private double initalHeading;
 
@@ -40,11 +42,9 @@ public class WPIDriveCommand extends CommandBase {
     m_drive_rcw = drive_rcw;
     m_fieldMode=isFieldMode;
     
-    xLimiter=new SlewRateLimiter(8);
-    yLimiter=new SlewRateLimiter(8);
-    turnLimiter=new SlewRateLimiter(2);
-
-    thetaController=new PIDController(0, 0, 0);
+    //this.xLimiter=new SlewRateLimiter(xyLimit);
+    //this.yLimiter=new SlewRateLimiter(xyLimit);
+    //this.turnLimiter=new SlewRateLimiter(rotLimit);
 
     initalHeading=m_WPIdrive.newHeading();
 
@@ -59,18 +59,22 @@ public class WPIDriveCommand extends CommandBase {
   public void execute() {
     double fwdSpeed=m_drive_fwd.getAsDouble();
     double strafeSpeed=m_drive_fwd.getAsDouble();
-    double rotSpeed=m_drive_rcw.getAsDouble()*8;
+    double rotSpeed=m_drive_rcw.getAsDouble();
 
     fwdSpeed=Math.abs(fwdSpeed)>0.05?fwdSpeed:0.0;
     strafeSpeed=Math.abs(strafeSpeed)>0.05?strafeSpeed:0.0;
     rotSpeed=Math.abs(rotSpeed)>0.05?rotSpeed:0.0;
 
-    fwdSpeed=yLimiter.calculate(fwdSpeed)*Constants.WPISwerve.physicalMaxSpeedMetersPerSecond;
-    strafeSpeed=xLimiter.calculate(strafeSpeed)*Constants.WPISwerve.physicalMaxSpeedMetersPerSecond;
-    rotSpeed=turnLimiter.calculate(rotSpeed)*Constants.WPISwerve.maxSwerveAngularSpeedRadianPerSecond;
-
+    //fwdSpeed=yLimiter.calculate(fwdSpeed)*Constants.WPISwerve.physicalMaxSpeedMetersPerSecond;
+    //strafeSpeed=xLimiter.calculate(strafeSpeed)*Constants.WPISwerve.physicalMaxSpeedMetersPerSecond;
+    //rotSpeed=turnLimiter.calculate(rotSpeed)*Constants.WPISwerve.maxSwerveAngularSpeedRadianPerSecond;
+   
     rotSpeed=Math.abs(rotSpeed)>0.05?rotSpeed:0.0;
     rotSpeed*=1;
+
+    System.out.println("Forward Speed " + fwdSpeed);
+    System.out.println("Strafe Speed " + strafeSpeed);
+    System.out.println("Rot Speed " + rotSpeed);
     
     if(rotSpeed>Constants.WPISwerve.physicalMaxAngularSpeedRadiansPerSecond){
       rotSpeed=Constants.WPISwerve.physicalMaxAngularSpeedRadiansPerSecond;
@@ -81,9 +85,13 @@ public class WPIDriveCommand extends CommandBase {
     ChassisSpeeds chassisSpeeds;
     chassisSpeeds=ChassisSpeeds.fromFieldRelativeSpeeds(strafeSpeed,fwdSpeed,rotSpeed,
                                       Rotation2d.fromDegrees(m_WPIdrive.getRobotDegrees()));
-                                 
-    SwerveModuleState[] moduleStates=m_WPIdrive.m_driveKinematics.toSwerveModuleStates(chassisSpeeds);
+    //System.out.println("FieldRelativeY"+chassisSpeeds.vxMetersPerSecond);
 
+    SwerveModuleState[] moduleStates=m_WPIdrive.m_driveKinematics.toSwerveModuleStates(chassisSpeeds);
+    //System.out.println("ModuleStates1 "+moduleStates[0].angle.getDegrees());
+   // System.out.println("ModuleStates2 "+moduleStates[1].angle.getDegrees());
+    //System.out.println("ModuleStates3 "+moduleStates[2].angle.getDegrees());
+    //System.out.println("ModuleStates4 "+moduleStates[3].angle.getDegrees());
     m_WPIdrive.setModuleStates(moduleStates);
   }
 

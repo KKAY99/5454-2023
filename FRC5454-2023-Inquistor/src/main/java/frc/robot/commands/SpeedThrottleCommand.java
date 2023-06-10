@@ -1,26 +1,28 @@
 package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.WPISwerve;
-import frc.robot.common.drivers.WPISwerveModule;
+import frc.robot.subsystems.WPIDriveTrainSubsystem;
 
 public class SpeedThrottleCommand extends CommandBase{
     private double m_throttle;
-    private WPISwerveModule m_WPIModule;
+    private WPIDriveTrainSubsystem m_WPIDrive;
 
-    public SpeedThrottleCommand(WPISwerveModule WPIModule, int throttle){
+    public SpeedThrottleCommand(WPIDriveTrainSubsystem WPIDrive, int throttle){
         m_throttle=throttle;
-        m_WPIModule=WPIModule;
+        m_WPIDrive=WPIDrive;
     }
 
     @Override
     public void execute(){
-        if(m_WPIModule.speedMultiplier==1.5||m_WPIModule.speedMultiplier==0.5){
+        if(m_WPIDrive.speedMultiplier==1.5&&m_throttle==1){
 
+        }else if(m_WPIDrive.speedMultiplier==0.5&&m_throttle==-1){
+            
         }else{
             if(m_throttle==-1){
-                m_WPIModule.speedMultiplier=m_WPIModule.speedMultiplier-0.1;
+                m_WPIDrive.speedMultiplier=m_WPIDrive.speedMultiplier-0.1;
             }else{
-                m_WPIModule.speedMultiplier=m_WPIModule.speedMultiplier+0.1;
+                m_WPIDrive.speedMultiplier=m_WPIDrive.speedMultiplier+0.1;
             }
         }
     }
