@@ -17,6 +17,7 @@ import frc.robot.common.drivers.NavX;
 public class WPIDriveTrainSubsystem extends SubsystemBase{
     private static final double TRACKWIDTH = 25;
     private static final double WHEELBASE = 31;
+    public double speedMultiplier=1;
 
     private NavX m_gyro;
 
@@ -27,13 +28,13 @@ public class WPIDriveTrainSubsystem extends SubsystemBase{
             new Translation2d(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0)
     );
 
-    private final WPISwerveModule m_frontLeftModule=new WPISwerveModule(25, 
+    private final WPISwerveModule m_frontLeftModule=new WPISwerveModule(this,25, 
                                     20, 1);
-    private final WPISwerveModule m_frontRightModule=new WPISwerveModule(26, 
+    private final WPISwerveModule m_frontRightModule=new WPISwerveModule(this,26, 
                                     21, 2);
-    private final WPISwerveModule m_backLeftModule=new WPISwerveModule(23, 
+    private final WPISwerveModule m_backLeftModule=new WPISwerveModule(this,23, 
                                     28, 3);
-    private final WPISwerveModule m_backRightModule=new WPISwerveModule(22, 
+    private final WPISwerveModule m_backRightModule=new WPISwerveModule(this,22, 
                                     27, 0);
 
     public WPIDriveTrainSubsystem(NavX gyro){
@@ -72,6 +73,10 @@ public class WPIDriveTrainSubsystem extends SubsystemBase{
         }else{
             return rawValue;
         }
+    }
+
+    public double newHeading(){
+        return m_gyro.getAngleAsDouble();
     }
 
     public void setModuleStates(SwerveModuleState[] desiredStates){

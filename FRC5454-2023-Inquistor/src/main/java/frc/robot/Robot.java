@@ -14,7 +14,6 @@ import frc.robot.Constants.AutoModes;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import java.io.File;
-
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
@@ -49,7 +48,7 @@ public class Robot extends LoggedRobot {
     // and put our
     // autonomous chooser on the dashboard.
     Logger logger = Logger.getInstance();
-
+    m_robotContainer.clearAllStickyFaults();
     // Record metadata
     logger.recordMetadata("ProjectName", "2023-Inquistor");
     
@@ -178,6 +177,7 @@ public class Robot extends LoggedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    m_robotContainer.clearAllStickyFaults();
     m_robotContainer.resetDriveModes();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();

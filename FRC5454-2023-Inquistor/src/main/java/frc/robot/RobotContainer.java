@@ -29,6 +29,7 @@ import frc.robot.classes.Limelight;
 import frc.robot.classes.LEDSChargedup.LEDMode;
 import frc.robot.commands.*;
 import frc.robot.common.drivers.NavX;
+import frc.robot.common.drivers.WPISwerveModule;
 import frc.robot.common.drivers.NavX.Axis;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -307,6 +308,8 @@ public class RobotContainer {
         
         final ClawSwapCommand swapClawCommand = new ClawSwapCommand(m_PnuematicsSubystem);
         final SolenoidPunchCommand punchSolenoidCommand = new SolenoidPunchCommand(m_PnuematicsSubystem);
+        final SpeedThrottleCommand throttleUPCommand=new SpeedThrottleCommand(m_WPIDrive,1);
+        final SpeedThrottleCommand throttleDownCommand=new SpeedThrottleCommand(m_WPIDrive,-1);
         // Auto commands
         final zBalanceRobotMobilityCommand balanceRobotCommand = new zBalanceRobotMobilityCommand(m_NavX,m_RobotDrive);
         final zMoveArmRetractABS retractCommand = new zMoveArmRetractABS(m_Elevator, m_Rotate,m_PnuematicsSubystem);
@@ -420,6 +423,7 @@ public class RobotContainer {
         Trigger swapClaw = new JoystickButton(m_xBoxOperator,ButtonConstants.OperatorClawSwap);
         swapClaw.toggleOnTrue(swapClawCommand);
 
+
         final SequentialCommandGroup autoLowMoveArm =new SequentialCommandGroup(//new ClawCommand(m_PnuematicsSubystem, true),
         //                                                   new PaddleMoveToCommand(m_paddle,Constants.Paddle.encoderMovePosLowShot,Constants.Paddle.autoMoveTolerance,Constants.Paddle.autoMoveOutSpeed),
                                                            new ColorSwapCommand(m_ledStrip, LEDMode.AUTOSCORING),
@@ -473,11 +477,11 @@ public class RobotContainer {
         Trigger driverGyroReset = new JoystickButton(m_xBoxDriver,ButtonConstants.DriverGyroReset);
         driverGyroReset.whileTrue(gyroResetCommand);
 
-        Trigger driverLowTape = new JoystickButton(m_xBoxDriver, ButtonConstants.DriverPipelineLowTape);
-        driverLowTape.toggleOnTrue(pipelineTapeLowCommand);
+        Trigger driverThrottleUp = new JoystickButton(m_xBoxDriver, ButtonConstants.DriverUpSpeed);
+        driverThrottleUp.toggleOnTrue(throttleUPCommand);
 
-        Trigger driverHighTape = new JoystickButton(m_xBoxDriver, ButtonConstants.DriverPipelineHighTape);
-        driverHighTape.toggleOnTrue(pipelineTapeHighCommand);
+        Trigger driverThrottleDown = new JoystickButton(m_xBoxDriver, ButtonConstants.DriverDownSpeed);
+        driverThrottleDown.toggleOnTrue(throttleDownCommand);
         
         Trigger driverPipelineAprilTag = new Trigger(() -> Math.abs(m_xBoxDriver.getRawAxis(3))>ButtonConstants.RightTriggerDeadBand);
         driverPipelineAprilTag.toggleOnTrue(pipelineAprilTagCommand);
@@ -688,5 +692,10 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
         return autoChooser.get();
-      }
+  }
+
+  public void clearAllStickyFaults(){
+        m_PnuematicsSubystem.clearPnuematicStickyFaults();
+        m_robotPDH.clearStickyFaults();
+  }
 }    

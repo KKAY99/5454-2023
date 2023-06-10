@@ -195,8 +195,8 @@ public final class Constants {
         public static final int DriverSolenoidPunch=1;
         public static final int DriverAutoBalance=2;
         public static final int DriverIntakeIn=3;
-        public static final int DriverPipelineHighTape=5;
-        public static final int DriverPipelineLowTape=6;
+        public static final int DriverDownSpeed=5;
+        public static final int DriverUpSpeed=6;
         public static final int DriverDriveMode=7;
         public static final int DriverGyroReset=8;
         

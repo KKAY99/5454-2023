@@ -27,13 +27,11 @@ public class WPIDriveCommand extends CommandBase {
   private final SlewRateLimiter xLimiter;
   private final SlewRateLimiter yLimiter;
   private final SlewRateLimiter turnLimiter;
-  /**
-   * Creates a new DefaultDrive.
-   *
-   * @param subsystem The drive subsystem this command wil run on.
-   * @param forward   The control input for driving left
-   * @param rotation  The control input for driving right
-   */
+
+  private PIDController thetaController;
+
+  private double initalHeading;
+
   public WPIDriveCommand(WPIDriveTrainSubsystem subsystem, DoubleSupplier drive_rcw, DoubleSupplier drive_fwd,
       DoubleSupplier drive_strafe,BooleanSupplier isFieldMode) {
     m_WPIdrive = subsystem;
@@ -45,6 +43,10 @@ public class WPIDriveCommand extends CommandBase {
     xLimiter=new SlewRateLimiter(8);
     yLimiter=new SlewRateLimiter(8);
     turnLimiter=new SlewRateLimiter(2);
+
+    thetaController=new PIDController(0, 0, 0);
+
+    initalHeading=m_WPIdrive.newHeading();
 
     addRequirements(m_WPIdrive);
   }
@@ -59,14 +61,17 @@ public class WPIDriveCommand extends CommandBase {
     double strafeSpeed=m_drive_fwd.getAsDouble();
     double rotSpeed=m_drive_rcw.getAsDouble()*8;
 
-    fwdSpeed=Math.abs(m_drive_fwd.getAsDouble())>0.05?m_drive_fwd.getAsDouble():0.0;
-    strafeSpeed=Math.abs(m_drive_strafe.getAsDouble())>0.05?m_drive_strafe.getAsDouble():0.0;
-    rotSpeed=Math.abs(m_drive_rcw.getAsDouble())>0.05?m_drive_rcw.getAsDouble():0.0;
+    fwdSpeed=Math.abs(fwdSpeed)>0.05?fwdSpeed:0.0;
+    strafeSpeed=Math.abs(strafeSpeed)>0.05?strafeSpeed:0.0;
+    rotSpeed=Math.abs(rotSpeed)>0.05?rotSpeed:0.0;
 
     fwdSpeed=yLimiter.calculate(fwdSpeed)*Constants.WPISwerve.physicalMaxSpeedMetersPerSecond;
     strafeSpeed=xLimiter.calculate(strafeSpeed)*Constants.WPISwerve.physicalMaxSpeedMetersPerSecond;
-    rotSpeed=turnLimiter.calculate(rotSpeed)*Constants.WPISwerve.physicalMaxAngularSpeedRadiansPerSecond;
+    rotSpeed=turnLimiter.calculate(rotSpeed)*Constants.WPISwerve.maxSwerveAngularSpeedRadianPerSecond;
 
+    rotSpeed=Math.abs(rotSpeed)>0.05?rotSpeed:0.0;
+    rotSpeed*=1;
+    
     if(rotSpeed>Constants.WPISwerve.physicalMaxAngularSpeedRadiansPerSecond){
       rotSpeed=Constants.WPISwerve.physicalMaxAngularSpeedRadiansPerSecond;
     }else if(rotSpeed< -Constants.WPISwerve.physicalMaxAngularSpeedRadiansPerSecond){
@@ -74,7 +79,6 @@ public class WPIDriveCommand extends CommandBase {
     }
 
     ChassisSpeeds chassisSpeeds;
-
     chassisSpeeds=ChassisSpeeds.fromFieldRelativeSpeeds(strafeSpeed,fwdSpeed,rotSpeed,
                                       Rotation2d.fromDegrees(m_WPIdrive.getRobotDegrees()));
                                  

@@ -1,27 +1,29 @@
 package frc.robot.common.drivers;
 
 import edu.wpi.first.math.controller.PIDController;
+import frc.robot.RobotContainer;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.net.WPINetJNI;
 import edu.wpi.first.wpilibj.AnalogEncoder;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-
 import java.io.Console;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANSparkMax.IdleMode;
+import frc.robot.subsystems.WPIDriveTrainSubsystem;
 
 public class WPISwerveModule {
     private double m_wheelRadius=2.0;
@@ -29,7 +31,6 @@ public class WPISwerveModule {
     private double m_maxAngularAcceleration=2 * Math.PI;
     private int m_encoderResolution=4096;
     
-
     private CANSparkMax m_driveMotor;
     private CANSparkMax m_turningMotor; 
 
@@ -40,7 +41,9 @@ public class WPISwerveModule {
 
     private PIDController m_turningPIDController;
 
-    public WPISwerveModule(int driveMotorPort,int turningMotorPort, int absoluteEncoderPort){
+    private WPIDriveTrainSubsystem m_WPIDrive;
+
+    public WPISwerveModule(WPIDriveTrainSubsystem WPIDrive,int driveMotorPort,int turningMotorPort, int absoluteEncoderPort){
         m_driveMotor=new CANSparkMax(driveMotorPort,MotorType.kBrushless);
         m_turningMotor=new CANSparkMax(turningMotorPort,MotorType.kBrushless);
 
@@ -69,6 +72,8 @@ public class WPISwerveModule {
 
         m_driveMotor.setSmartCurrentLimit(40);
         m_turningMotor.setSmartCurrentLimit(20);
+
+        m_WPIDrive=WPIDrive;
 
         resetDriveEncoder();
     }
@@ -120,14 +125,14 @@ public class WPISwerveModule {
 
     public void setState(SwerveModuleState state){ 
 
-        if(Math.abs(state.speedMetersPerSecond)>0.001){
+        if(Math.abs(state.speedMetersPerSecond)<0.001){
             stop();
             return;
         }
 
         state=SwerveModuleState.optimize(state, getState().angle);
 
-        m_driveMotor.set(state.speedMetersPerSecond/Constants.WPISwerve.physicalMaxSpeedMetersPerSecond);
+        m_driveMotor.set(state.speedMetersPerSecond/Constants.WPISwerve.physicalMaxSpeedMetersPerSecond*m_WPIDrive.speedMultiplier);
 
         m_turningMotor.set(m_turningPIDController.calculate(getTurnPosition(),state.angle.getRadians()));
     }
