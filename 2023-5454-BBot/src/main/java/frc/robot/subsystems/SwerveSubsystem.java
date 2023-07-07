@@ -30,8 +30,8 @@ public class SwerveSubsystem extends SubsystemBase {
         public static final int frontLeftOffset = 0;
         public static final int frontRightOffset = 0;
     
-        public static final int backLeftOffset = -10;
-        public static final int backRightOffset = 256;
+        public static final int backLeftOffset = 0;
+        public static final int backRightOffset = 0;
 
         // TODO: Measure this (it's in meters);
         // Note the signs
@@ -119,6 +119,16 @@ public class SwerveSubsystem extends SubsystemBase {
                 backLeftAngle.setDouble(swerveModuleStates[2].angle.getDegrees());
                 backRightAngle.setDouble(swerveModuleStates[3].angle.getDegrees());
 
+                System.out.println("Front Left Desired Angle "+swerveModuleStates[0].angle.getDegrees());
+                System.out.println("Front Right Desired Angle "+swerveModuleStates[0].angle.getDegrees());
+                System.out.println("Back Left Desired Angle "+swerveModuleStates[0].angle.getDegrees());
+                System.out.println("Back Right Desired Angle "+swerveModuleStates[0].angle.getDegrees());
+
+                System.out.println("Front Left Current Angle "+m_frontLeft.getAngle());
+                System.out.println("Front Right Current Angle "+m_frontRight.getAngle());
+                System.out.println("Back Left Current Angle "+m_backLeft.getAngle());
+                System.out.println("Back Right Current Angle "+m_backRight.getAngle());
+
                 updateOdometry();
         }
 
@@ -133,7 +143,46 @@ public class SwerveSubsystem extends SubsystemBase {
                                 m_backRight.getState());
         */}
 
-        public void move(double direction, double speed, double distance, boolean stopAtFalse) {
+        public void move(double direction, double speed, double distance,double rotation, boolean stopAtFalse) {
                 // TODO - Nothing Currently
+        }
+
+        public void stop(){
+                // TODO - Nothing Currently
+        }
+
+        public void resetGyroscope(){
+                // TODO - Nothing Currently
+        }
+
+        public void spin(double direction, double speed){
+           // TODO - Nothing Currently     
+        }
+
+        public double getFrontLeftAngle(){
+                return 1;
+                // TODO - Nothing Currently  
+        }
+
+        public double getFrontRightAngle(){
+                return 1;
+                // TODO - Nothing Currently  
+        }
+
+        public double getBackLeftAngle(){
+                return 1;
+                // TODO - Nothing Currently  
+        }
+
+        public double getBackRightAngle(){
+                return 1;
+                // TODO - Nothing Currently  
+        }
+
+        public void currentAngle(){
+                System.out.println("Front Left Current Angle "+m_frontLeft.getAngle());
+                System.out.println("Front Right Current Angle "+m_frontRight.getAngle());
+                System.out.println("Back Left Current Angle "+m_backLeft.getAngle());
+                System.out.println("Back Right Current Angle "+m_backRight.getAngle());
         }
 }

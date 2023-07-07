@@ -6,7 +6,7 @@ package frc.robot.commands;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.classes.Limelight;
-import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.PIDSteering;
 import edu.wpi.first.math.filter.MedianFilter;
@@ -16,7 +16,7 @@ public class AlignMoveForward extends CommandBase {
   private int m_pipeline;
   private double m_targetHeight;
   private boolean m_done=false;
-  private DrivetrainSubsystem m_drive;
+  private SwerveSubsystem m_drive;
  // Limelight sensors tend to be quite noisy and susceptible to sudden outliers,
   // so measurements are filtered with a 5-sample median filter
   private final MedianFilter m_filter = new MedianFilter(3);
@@ -28,7 +28,7 @@ public class AlignMoveForward extends CommandBase {
   private double m_speed = 0.05;
 
   /** Creates a new PipelineSwap. */
-  public AlignMoveForward(Limelight limelight,DrivetrainSubsystem drive, int pipeline, double targetHeight) {
+  public AlignMoveForward(Limelight limelight,SwerveSubsystem drive, int pipeline, double targetHeight) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_limelight = limelight;
     m_pipeline = pipeline;

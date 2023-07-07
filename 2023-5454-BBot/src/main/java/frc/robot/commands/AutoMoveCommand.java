@@ -4,14 +4,14 @@ import frc.robot.subsystems.*;
 import frc.robot.Constants;
 /** An example command that uses an example subsystem. */
 public class AutoMoveCommand extends CommandBase {
-  private final DrivetrainSubsystem m_drive;
+  private final SwerveSubsystem m_drive;
   private final double m_direction;
   private final double m_distance;
   private final double m_rcw;
   private boolean m_useNavX=false;
   private boolean m_isFinished=false;
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})    
-  public AutoMoveCommand(DrivetrainSubsystem subsystem,double direction,double distance) {
+  public AutoMoveCommand(SwerveSubsystem subsystem,double direction,double distance) {
     m_drive=subsystem;
     m_direction=direction;
     m_distance=distance;
@@ -19,7 +19,7 @@ public class AutoMoveCommand extends CommandBase {
     m_useNavX=false;
     addRequirements(subsystem);
   }
-  public AutoMoveCommand(DrivetrainSubsystem subsystem,double direction,double rcw,double distance) {
+  public AutoMoveCommand(SwerveSubsystem subsystem,double direction,double rcw,double distance) {
     m_drive=subsystem;
     m_direction=direction;m_distance=distance;
     m_rcw=rcw;
@@ -27,7 +27,7 @@ public class AutoMoveCommand extends CommandBase {
     addRequirements(subsystem);
   }
 
-  public AutoMoveCommand(DrivetrainSubsystem subsystem,double direction) {
+  public AutoMoveCommand(SwerveSubsystem subsystem,double direction) {
     m_drive=subsystem;
     m_direction=0;
     m_distance=0;

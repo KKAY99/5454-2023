@@ -172,6 +172,7 @@ public class SwerveModuleGB {
                 final double driveOutput = m_drivePIDController.calculate(
                                 rpmToMetersPerSecond(m_driveEncoder.getVelocity()),
                                 state.speedMetersPerSecond);
+                System.out.println("DriveOutput " + driveOutput);
 
                 final double driveFeedforward = m_driveFeedforward.calculate(state.speedMetersPerSecond);
 
@@ -186,10 +187,10 @@ public class SwerveModuleGB {
                 // double steerVoltage = MathUtil.clamp(turnOutput + m_turnFeedforward, -1.0,
                 // 1.0);
 
-                m_driveOutput.setDouble(driveVoltage);
+                //m_driveOutput.setDouble(driveVoltage);
                 // m_steerOutput.setDouble(steerVoltage);
 
-                // m_driveMotor.setVoltage(driveVoltage);
+                m_driveMotor.setVoltage(driveVoltage);
 
                 final double current = m_turningMotor.getSelectedSensorPosition(Constants.SwerveDriveGB.kSlotIdx);
                 final double desired = (int) Math
@@ -202,5 +203,9 @@ public class SwerveModuleGB {
                 m_turningMotor.set(ControlMode.Position, newPosition);
 
                 System.out.println(m_name + ": " + m_turningMotor.getSelectedSensorPosition());
+        }
+
+        public double getAngle(){
+                return m_turningMotor.getSelectedSensorPosition();
         }
 }

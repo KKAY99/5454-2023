@@ -54,8 +54,8 @@ public class RobotContainer {
   //  private AHRS m_ahrs = new AHRS(SPI.Port.kMXP);
     private NavX m_NavX = new NavX(SPI.Port.kMXP);
    // private final DriveSubsystem m_RobotDrive = new DriveSubsystem(m_ahrs);
-   private final DrivetrainSubsystem m_RobotDrive = new DrivetrainSubsystem(m_NavX); 
-   //private final SwerveSubsystem m_RobotDrive = new SwerveSubsystem();+
+  // private final DrivetrainSubsystem m_RobotDrive = new DrivetrainSubsystem(m_NavX); 
+   private final SwerveSubsystem m_RobotDrive = new SwerveSubsystem();
 
     private final Limelight m_Limelight = new Limelight(Constants.LimeLightValues.targetHeight, Constants.LimeLightValues.limelightHeight, Constants.LimeLightValues.limelightAngle,Constants.LimeLightValues.kVisionXOffset,80);
      
@@ -266,8 +266,8 @@ public class RobotContainer {
      m_RobotDrive.setDefaultCommand(
                 new DefaultDriveCommand(m_RobotDrive,
                         () -> -m_xBoxDriver.getRightX(),
-                        () -> m_xBoxDriver.getLeftY(),
-                        () -> m_xBoxDriver.getLeftX()));
+                        () -> m_xBoxDriver.getLeftX(),
+                        () -> m_xBoxDriver.getLeftY()));
 
     }
     
@@ -380,7 +380,8 @@ public class RobotContainer {
         frontLeftAngle.setDouble(m_RobotDrive.getFrontLeftAngle());
         frontRightAngle.setDouble(m_RobotDrive.getFrontRightAngle());
         backLeftAngle.setDouble(m_RobotDrive.getBackLeftAngle());
-        backRightAngle.setDouble(m_RobotDrive.getbackRightAngle());
+        backRightAngle.setDouble(m_RobotDrive.getBackRightAngle());
+        m_RobotDrive.currentAngle();
         m_Limelight.update();
         //override disabled led mode
         if(m_disabled){
@@ -392,12 +393,12 @@ public class RobotContainer {
 }
     
      private void updateRobotMoving(){
-                if (m_RobotDrive.IsRobotMoving()){
+                /*if (m_RobotDrive.IsRobotMoving()){
                         shuffleboardRobotMoving.setString("True");
                 }
                 else{
                         shuffleboardRobotMoving.setString("False");     
-                }
+                }*/
         }
 
      public void disabledPerioidicUpdates(){
