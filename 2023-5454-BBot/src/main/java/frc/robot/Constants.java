@@ -288,14 +288,14 @@ public final class Constants {
         public static double kVisionGyroTolerance = 0.5;
 
         /* Motor Controllers */
-        public static int kFrontLeftSteering = 1;
-        public static int kFrontRightSteering = 3;
-        public static int kBackLeftSteering = 2;
-        public static int kBackRightSteering = 0;
-        public static int kFrontLeftDrive = 7;
-        public static int kFrontRightDrive = 4;
-        public static int kBackLeftDrive = 5;
-        public static int kBackRightDrive = 6;
+        public static int kFrontLeftSteering = 3;
+        public static int kFrontRightSteering = 1;
+        public static int kBackLeftSteering = 4;
+        public static int kBackRightSteering = 2;
+        public static int kFrontLeftDrive = 16;
+        public static int kFrontRightDrive = 6;
+        public static int kBackLeftDrive = 7;
+        public static int kBackRightDrive = 4;
         // #endr
     }
     public class LEDS {
