@@ -4,9 +4,10 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import javax.lang.model.util.ElementScanner6;
-import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 import edu.wpi.first.wpilibj.Timer;
-
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
 
 public class DriveSubsystem extends SubsystemBase {
@@ -14,17 +15,17 @@ public class DriveSubsystem extends SubsystemBase {
     // private PWMVictorSPX m_RightBackDrive = new PWMVictorSPX(2);
     // private PWMVictorSPX m_LeftFrontDrive = new PWMVictorSPX(8);
     // private PWMVictorSPX m_LeftBackDrive = new PWMVictorSPX(9);
-  
-  
+     
+   
     // The motors on the left side of the drive.
   private final MotorControllerGroup m_leftMotors =
-      new MotorControllerGroup(new PWMVictorSPX(8),
-                               new PWMVictorSPX(9));
+      new MotorControllerGroup(new WPI_TalonSRX(2),
+                               new WPI_VictorSPX(3));
 
   // The motors on the right side of the drive.
   private final MotorControllerGroup m_rightMotors =
-      new MotorControllerGroup(new PWMVictorSPX(1),
-                               new PWMVictorSPX(2));
+      new MotorControllerGroup(new WPI_TalonSRX(4),
+                               new WPI_VictorSPX(5));
 
   // The robot's drive
  

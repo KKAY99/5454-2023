@@ -42,13 +42,14 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
+    System.out.println("Starting");
     configureBindings();
     m_gyro.reset();
     m_gyro.zeroYaw();
     m_gyro.enableLogging(true);
-    while(m_gyro.isCalibrating()){
-      System.out.println("Calibrating");
-    }
+   // while(m_gyro.isCalibrating()){
+   //   System.out.println("Calibrating");
+   // }
     m_RobotDrive.setDefaultCommand(new DefaultDrive(m_RobotDrive,()->m_xBox.getLeftX()  , ()-> m_xBox.getLeftY()));
   }
 
