@@ -3,16 +3,16 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.classes.Limelight;
 
 
 public class GyroResetCommand extends CommandBase {
    
-  private final DrivetrainSubsystem m_drive;
+  private final SwerveSubsystem m_drive;
   private final Limelight m_limelight;
   private boolean m_isFinished=false;
-  public GyroResetCommand(DrivetrainSubsystem subsystem, Limelight limelight) {
+  public GyroResetCommand(SwerveSubsystem subsystem, Limelight limelight) {
     m_drive = subsystem;
     m_limelight=limelight;
     addRequirements(m_drive);

@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.Constants.PIDSteering;
 import frc.robot.classes.Limelight;
-import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.math.filter.MedianFilter;
 
 
@@ -14,14 +14,14 @@ private int m_gridChoice=0;
 private Limelight m_limeLight;
 private int m_pipeline=0;
 private double m_targetHeight;
-private DrivetrainSubsystem m_drive;
+private SwerveSubsystem m_drive;
 private final MedianFilter m_filter = new MedianFilter(5);
 private PIDController m_pidRight = new PIDController(Constants.PIDSteering.rightKP,PIDSteering.rightKI,PIDSteering.rightKD);
 private PIDController m_pidLeft = new PIDController(Constants.PIDSteering.leftKP,PIDSteering.leftKI,PIDSteering.leftKD);
 
 
 
-public zAutoTargetandMove(Limelight limelight,DrivetrainSubsystem drive,int gridChoice){
+public zAutoTargetandMove(Limelight limelight,SwerveSubsystem drive,int gridChoice){
         m_gridChoice=gridChoice;
         m_limeLight=limelight;
         m_drive=drive;
