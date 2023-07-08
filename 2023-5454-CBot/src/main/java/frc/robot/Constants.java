@@ -5,7 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
-import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
+//import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -37,5 +37,17 @@ public final class Constants {
       public static final int kXboxMain=1;
       public static final int kXboxPit=3;
 }
+
+    public class ArmSubsystem {
+      public static final double homePos=1;
+      public static final double shootPos1=1;
+      public static final double shootPos2=1;
+      public static final double intakePos=1;
+    }
+
+
+    public class zHomeArmCommand {
+      public static final double rotateSpeed=0.1;
+    }
   }
 }
