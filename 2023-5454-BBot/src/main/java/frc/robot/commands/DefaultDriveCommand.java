@@ -50,9 +50,9 @@ public class DefaultDriveCommand extends CommandBase {
     rotation = Math.copySign(Math.pow(rotation, 2.0), rotation);
     //System.out.println(forward + " -- " + strafe + " -- " + rotation);
    // m_drive.drive(new Translation2d(forward, strafe), rotation, true);
-     System.out.println("Strafe Speed " + strafe);
-     System.out.println("Forward Speed " + forward);
-     System.out.println("Rotation Speed " + rotation);
+     //System.out.println("Strafe Speed " + strafe);
+     //System.out.println("Forward Speed " + forward);
+     //System.out.println("Rotation Speed " + rotation);
       m_drive.drive(strafe,forward,rotation,true);
   }
 }

@@ -119,7 +119,7 @@ public class SwerveSubsystem extends SubsystemBase {
                 backLeftAngle.setDouble(swerveModuleStates[2].angle.getDegrees());
                 backRightAngle.setDouble(swerveModuleStates[3].angle.getDegrees());
 
-                System.out.println("Front Left Desired Angle "+swerveModuleStates[0].angle.getDegrees());
+                /*System.out.println("Front Left Desired Angle "+swerveModuleStates[0].angle.getDegrees());
                 System.out.println("Front Right Desired Angle "+swerveModuleStates[0].angle.getDegrees());
                 System.out.println("Back Left Desired Angle "+swerveModuleStates[0].angle.getDegrees());
                 System.out.println("Back Right Desired Angle "+swerveModuleStates[0].angle.getDegrees());
@@ -127,7 +127,7 @@ public class SwerveSubsystem extends SubsystemBase {
                 System.out.println("Front Left Current Angle "+m_frontLeft.getAngle());
                 System.out.println("Front Right Current Angle "+m_frontRight.getAngle());
                 System.out.println("Back Left Current Angle "+m_backLeft.getAngle());
-                System.out.println("Back Right Current Angle "+m_backRight.getAngle());
+                System.out.println("Back Right Current Angle "+m_backRight.getAngle());*/
 
                 updateOdometry();
         }
@@ -180,9 +180,9 @@ public class SwerveSubsystem extends SubsystemBase {
         }
 
         public void currentAngle(){
-                System.out.println("Front Left Current Angle "+m_frontLeft.getAngle());
+                /*System.out.println("Front Left Current Angle "+m_frontLeft.getAngle());
                 System.out.println("Front Right Current Angle "+m_frontRight.getAngle());
                 System.out.println("Back Left Current Angle "+m_backLeft.getAngle());
-                System.out.println("Back Right Current Angle "+m_backRight.getAngle());
+                System.out.println("Back Right Current Angle "+m_backRight.getAngle());*/
         }
 }
