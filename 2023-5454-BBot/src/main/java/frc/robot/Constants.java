@@ -292,7 +292,7 @@ public final class Constants {
         public static int kFrontRightSteering = 1;
         public static int kBackLeftSteering = 4;
         public static int kBackRightSteering = 2;
-        public static int kFrontLeftDrive = 16;
+        public static int kFrontLeftDrive = 32;
         public static int kFrontRightDrive = 6;
         public static int kBackLeftDrive = 7;
         public static int kBackRightDrive = 4;
