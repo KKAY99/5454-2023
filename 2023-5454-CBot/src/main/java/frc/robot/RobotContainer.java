@@ -4,11 +4,11 @@
 
 package frc.robot;
 
+import frc.robot.Constants.MoveArmCommand;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.testCommand;
 import frc.robot.commands.moveCommand;
-import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.DefaultDrive;
+import frc.robot.commands.zMoveArmToPos;
 import frc.robot.Constants.OperatorConstants.InputControllers;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -35,7 +36,7 @@ public class RobotContainer {
   private Joystick m_rightJoystick = new Joystick(InputControllers.kJoystickRight);
   private ExampleSubsystem m_subsystem = new ExampleSubsystem();
   private DriveSubsystem m_RobotDrive = new DriveSubsystem();
-  
+  private ArmSubsystem m_ArmSubsystem = new ArmSubsystem(Constants.ArmSubsystem.motorPort,Constants.ArmSubsystem.encoderPort,Constants.ArmSubsystem.homePos);
   private XboxController m_xBox = new XboxController(0);
 
 
@@ -73,7 +74,10 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-   
+    zMoveArmToPos moveArmPos1=new zMoveArmToPos(m_ArmSubsystem,Constants.ArmSubsystem.shootPos1);
+    zMoveArmToPos moveArmPos2=new zMoveArmToPos(m_ArmSubsystem,Constants.ArmSubsystem.shootPos2);
+    zMoveArmToPos moveArmPos3=new zMoveArmToPos(m_ArmSubsystem,Constants.ArmSubsystem.shootPos3);
+  
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

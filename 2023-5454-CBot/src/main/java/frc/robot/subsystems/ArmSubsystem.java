@@ -6,52 +6,69 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.controller.PIDController;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import frc.robot.Constants;
 
 public class ArmSubsystem extends SubsystemBase {
     
     private CANSparkMax m_leftArmMotor;
-    private CANSparkMax m_rightArmMotor;
-    RelativeEncoder m_leftRelativeEncoder;
+    //private CANSparkMax m_rightArmMotor;
+    DutyCycleEncoder m_leftAbsoluteEncoder;
     //RelativeEncoder m_rightRelativeEncoder;
     private double m_homePos;
-    private double m_shootPos1;
-    private double m_shootPos2;
-    private double m_intakePos;
     public double m_rotateSpeed;
     
 
 
-    public ArmSubsystem(int leftArmMotorport,int rightArmMotorport, int leftRelativeEncoderPort,  int rightRelativeEncoderPort, double homePos, double shootPos1, double shootPos2, double intakePos){
+    public ArmSubsystem(int leftArmMotorport,int encoderPort, double homePos){
 
-    m_leftArmMotor = new CANSparkMax(1 , MotorType.kBrushless);   
+    m_leftArmMotor = new CANSparkMax(1 , MotorType.kBrushed);   
     m_leftArmMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
     m_leftArmMotor.setSmartCurrentLimit(30);
-    m_leftRelativeEncoder= m_leftArmMotor.getEncoder();
+    m_leftAbsoluteEncoder = new DutyCycleEncoder(encoderPort);
 
-    m_rightArmMotor = new CANSparkMax(1 , MotorType.kBrushless);   
-    m_rightArmMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    m_rightArmMotor.setSmartCurrentLimit(30);
+    // m_rightArmMotor = new CANSparkMax(1 , MotorType.kBrushed);   
+    // m_rightArmMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    // m_rightArmMotor.setSmartCurrentLimit(30);
     //m_rightRelativeEncoder= m_leftArmMotor.getEncoder();
 
-    m_homePos=homePos;
-    m_shootPos1=shootPos1;
-    m_shootPos2=shootPos2;
-    m_intakePos=intakePos;
+        m_homePos=homePos;
 
 
     }
+
+    public double getEncoderPos(){
+        return m_leftAbsoluteEncoder.getAbsolutePosition();
+    }
+
     public void rotateArm(double rotateSpeed){
         m_rotateSpeed=rotateSpeed;
         m_leftArmMotor.set(rotateSpeed);
-        m_rightArmMotor.set(-rotateSpeed);
     }
 
-    public void stop(){
+    public void stopRotate(){
         rotateArm(0);
     }
 
     public void setHomePos(){
         m_homePos=m_leftArmMotor.getEncoder().getPosition();
     }
-
+    
+     public boolean goToPos(double pos){
+        boolean isAtPos;
+        
+     if(pos==getEncoderPos()){
+        isAtPos = true;
+        stopRotate();   
+     }else{
+        if(pos<getEncoderPos()){
+            isAtPos=false;
+            rotateArm(0.025);
+        }else{
+            isAtPos=false;
+             rotateArm(-0.025);
+        }
+     } 
+     return isAtPos;
+    }
 }

@@ -25,6 +25,19 @@ public final class Constants {
       public static final int motorPWM=5;
       public static final double spinspeed=0.3;
 }
+public class ArmSubsystem {
+  public static final double homePos=1;
+  public static final double shootPos1=5;
+  public static final double shootPos2=10;
+  public static final double shootPos3=-5;
+  public static final int motorPort=3;
+  public static final int encoderPort=4;
+  public static final double homePost=0;
+}
+public class MoveArmCommand {
+  public static final double minValue=-5;
+  public static final double maxValue=20;
+}
 
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
@@ -38,12 +51,6 @@ public final class Constants {
       public static final int kXboxPit=3;
 }
 
-    public class ArmSubsystem {
-      public static final double homePos=1;
-      public static final double shootPos1=1;
-      public static final double shootPos2=1;
-      public static final double intakePos=1;
-    }
 
 
     public class zHomeArmCommand {
