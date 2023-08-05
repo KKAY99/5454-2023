@@ -34,10 +34,21 @@ public class ArmSubsystem {
   public static final int encoderPort=4;
   public static final double homePost=0;
 }
+public class ShooterSubsystem{
+  double snowMotorSpeed=0.5;
+  //double shooterMotorSpeed = 1;
+}
 public class MoveArmCommand {
   public static final double minValue=-5;
   public static final double maxValue=20;
 }
+
+  public class buttonConstants {
+    public static final int shootPos1Button=1;
+    public static final int shootPos2Button=2;
+    public static final int homePosButton=3;
+  }
+
 
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;

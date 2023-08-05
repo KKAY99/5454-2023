@@ -63,10 +63,10 @@ public class ArmSubsystem extends SubsystemBase {
      }else{
         if(pos<getEncoderPos()){
             isAtPos=false;
-            rotateArm(0.025);
+            rotateArm(0.2);
         }else{
             isAtPos=false;
-             rotateArm(-0.025);
+             rotateArm(-0.2);
         }
      } 
      return isAtPos;

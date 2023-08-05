@@ -21,10 +21,15 @@ public void initialize(){
 }
 @Override
 public void execute(){
-    if(minLimit < m_ArmSubsystem.getEncoderPos() < maxLimit){
-        m_ArmSubsystem.rotateArm(m_rotateSpeed);
+    if(m_minLimit<m_ArmSubsystem.getEncoderPos()){
+        if(m_ArmSubsystem.getEncoderPos()<m_maxLimit)
+            m_ArmSubsystem.rotateArm(m_rotateSpeed);
+    }else{
+        m_ArmSubsystem.stopRotate();
     }
-}
+
+    }
+
 @Override
 public void end(boolean interrupted) {
     m_ArmSubsystem.stopRotate();

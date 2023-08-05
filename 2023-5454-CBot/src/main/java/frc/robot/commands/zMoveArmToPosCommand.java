@@ -4,12 +4,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.Constants;
 
-public class zMoveArmToPos extends CommandBase {
+public class zMoveArmToPosCommand extends CommandBase {
     double m_targetPos;
     ArmSubsystem m_ArmSubsystem;
 
      
-    public zMoveArmToPos(ArmSubsystem armSubsystem, double shootPos){
+    public zMoveArmToPosCommand(ArmSubsystem armSubsystem, double shootPos){
         m_ArmSubsystem=armSubsystem;
         m_targetPos=shootPos;
     }
