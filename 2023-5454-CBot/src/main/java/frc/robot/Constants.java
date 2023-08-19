@@ -25,6 +25,34 @@ public final class Constants {
       public static final int motorPWM=5;
       public static final double spinspeed=0.3;
 }
+public class Arm {
+  public static final double homePos=1;
+  public static final double shootPos1=0.944;
+  public static final double shootPos2=0.7816;
+  public static final double shootPos3=0.576;
+  public static final int motorPort=32;
+  public static final int encoderPort=0;
+  public static final double homePost=0;
+  public static final double fastSpeed=0.7;
+  public static final double slowSpeed=0.4;
+  public static final double manualSpeed=0.4;
+  public static final double minValue=0.45;
+  public static final double maxValue=0.95;
+}
+public class ShooterSubsystem{
+  double snowMotorSpeed=0.5;
+  //double shooterMotorSpeed = 1;
+}
+
+  public class buttonConstants {
+    public static final int moveArmUp=4;
+    public static final int moveArmDown=1;
+    public static final int shootPos1Button=2;
+    public static final int shootPos2Button=3;
+    public static final int shootPos3Button=5;
+    public static final int homePosButton=10;
+  }
+
 
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
@@ -32,18 +60,10 @@ public final class Constants {
     public static final double speed = 0;
 
     public static final class InputControllers{
-      public static final int kJoystickLeft=0;
-      public static final int kJoystickRight=1;
-      public static final int kXboxMain=1;
-      public static final int kXboxPit=3;
+      public static final int kXboxDriver=0;
+      public static final int kXboxOperator=1;
 }
 
-    public class ArmSubsystem {
-      public static final double homePos=1;
-      public static final double shootPos1=1;
-      public static final double shootPos2=1;
-      public static final double intakePos=1;
-    }
 
 
     public class zHomeArmCommand {

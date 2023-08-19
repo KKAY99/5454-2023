@@ -4,7 +4,6 @@ import frc.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 
 public class zHomeArmCommand extends CommandBase {
     private ArmSubsystem m_ArmSubsystem;
@@ -32,7 +31,7 @@ public class zHomeArmCommand extends CommandBase {
             m_ArmSubsystem.rotateArm(m_rotateSpeed);
             return false;
         }else{
-            m_ArmSubsystem.stop();
+            m_ArmSubsystem.stopRotate();
             m_ArmSubsystem.setHomePos();
             return true;
         }

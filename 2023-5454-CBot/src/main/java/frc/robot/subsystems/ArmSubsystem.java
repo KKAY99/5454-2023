@@ -6,52 +6,72 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.controller.PIDController;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import frc.robot.Constants;
 
 public class ArmSubsystem extends SubsystemBase {
     
     private CANSparkMax m_leftArmMotor;
-    private CANSparkMax m_rightArmMotor;
-    RelativeEncoder m_leftRelativeEncoder;
-    //RelativeEncoder m_rightRelativeEncoder;
+    DutyCycleEncoder m_leftAbsoluteEncoder;
     private double m_homePos;
-    private double m_shootPos1;
-    private double m_shootPos2;
-    private double m_intakePos;
+    public double m_fastSpeed;
+    public double m_slowSpeed;
     public double m_rotateSpeed;
-    
+    private final double kArmBuffer=0.05;
 
-
-    public ArmSubsystem(int leftArmMotorport,int rightArmMotorport, int leftRelativeEncoderPort,  int rightRelativeEncoderPort, double homePos, double shootPos1, double shootPos2, double intakePos){
-
-    m_leftArmMotor = new CANSparkMax(1 , MotorType.kBrushless);   
+    public ArmSubsystem(int leftArmMotorport,int encoderPort, double homePos,double fastSpeed, double slowSpeed){
+    System.out.print("Motor Port " + leftArmMotorport);
+    m_leftArmMotor = new CANSparkMax(leftArmMotorport , MotorType.kBrushed);   
     m_leftArmMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
     m_leftArmMotor.setSmartCurrentLimit(30);
-    m_leftRelativeEncoder= m_leftArmMotor.getEncoder();
-
-    m_rightArmMotor = new CANSparkMax(1 , MotorType.kBrushless);   
-    m_rightArmMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    m_rightArmMotor.setSmartCurrentLimit(30);
-    //m_rightRelativeEncoder= m_leftArmMotor.getEncoder();
-
+    m_leftAbsoluteEncoder = new DutyCycleEncoder(encoderPort);
     m_homePos=homePos;
-    m_shootPos1=shootPos1;
-    m_shootPos2=shootPos2;
-    m_intakePos=intakePos;
-
+    m_fastSpeed=fastSpeed;
+    m_slowSpeed=slowSpeed;
 
     }
+
+    public double getEncoderPos(){
+        return m_leftAbsoluteEncoder.getAbsolutePosition();
+    }
+
     public void rotateArm(double rotateSpeed){
-        m_rotateSpeed=rotateSpeed;
+     setSpeed(rotateSpeed);
+    }
+    private void setSpeed(double rotateSpeed){
+        System.out.println("Motor Speed" + rotateSpeed);
         m_leftArmMotor.set(rotateSpeed);
-        m_rightArmMotor.set(-rotateSpeed);
+        m_rotateSpeed=rotateSpeed;    
     }
 
-    public void stop(){
-        rotateArm(0);
-    }
+    public void stopRotate(){
+        setSpeed(0);
+        }
 
     public void setHomePos(){
         m_homePos=m_leftArmMotor.getEncoder().getPosition();
     }
+    
+     public boolean goToPos(double pos){
+        boolean isAtPos;
+        double distancetoPos;
+        distancetoPos=Math.abs(pos-getEncoderPos());
 
+     if((distancetoPos<kArmBuffer)){
+        isAtPos = true;
+        stopRotate();   
+     }else{
+        if(pos<getEncoderPos()){
+            isAtPos=false;
+            setSpeed(m_slowSpeed);
+
+        }else{
+            isAtPos=false;
+            setSpeed(-m_slowSpeed);
+             
+        }
+     }
+     System.out.println(isAtPos + " * * * " + distancetoPos); 
+     return isAtPos;
+    }
 }
