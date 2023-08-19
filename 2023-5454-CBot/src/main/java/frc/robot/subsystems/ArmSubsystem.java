@@ -12,28 +12,22 @@ import frc.robot.Constants;
 public class ArmSubsystem extends SubsystemBase {
     
     private CANSparkMax m_leftArmMotor;
-    //private CANSparkMax m_rightArmMotor;
     DutyCycleEncoder m_leftAbsoluteEncoder;
-    //RelativeEncoder m_rightRelativeEncoder;
     private double m_homePos;
+    public double m_fastSpeed;
+    public double m_slowSpeed;
     public double m_rotateSpeed;
-    
+    private final double kArmBuffer=0.05;
 
-
-    public ArmSubsystem(int leftArmMotorport,int encoderPort, double homePos){
-
-    m_leftArmMotor = new CANSparkMax(1 , MotorType.kBrushed);   
+    public ArmSubsystem(int leftArmMotorport,int encoderPort, double homePos,double fastSpeed, double slowSpeed){
+    System.out.print("Motor Port " + leftArmMotorport);
+    m_leftArmMotor = new CANSparkMax(leftArmMotorport , MotorType.kBrushed);   
     m_leftArmMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
     m_leftArmMotor.setSmartCurrentLimit(30);
     m_leftAbsoluteEncoder = new DutyCycleEncoder(encoderPort);
-
-    // m_rightArmMotor = new CANSparkMax(1 , MotorType.kBrushed);   
-    // m_rightArmMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    // m_rightArmMotor.setSmartCurrentLimit(30);
-    //m_rightRelativeEncoder= m_leftArmMotor.getEncoder();
-
-        m_homePos=homePos;
-
+    m_homePos=homePos;
+    m_fastSpeed=fastSpeed;
+    m_slowSpeed=slowSpeed;
 
     }
 
@@ -42,13 +36,17 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void rotateArm(double rotateSpeed){
-        m_rotateSpeed=rotateSpeed;
+     setSpeed(rotateSpeed);
+    }
+    private void setSpeed(double rotateSpeed){
+        System.out.println("Motor Speed" + rotateSpeed);
         m_leftArmMotor.set(rotateSpeed);
+        m_rotateSpeed=rotateSpeed;    
     }
 
     public void stopRotate(){
-        rotateArm(0);
-    }
+        setSpeed(0);
+        }
 
     public void setHomePos(){
         m_homePos=m_leftArmMotor.getEncoder().getPosition();
@@ -56,19 +54,24 @@ public class ArmSubsystem extends SubsystemBase {
     
      public boolean goToPos(double pos){
         boolean isAtPos;
-        
-     if(pos==getEncoderPos()){
+        double distancetoPos;
+        distancetoPos=Math.abs(pos-getEncoderPos());
+
+     if((distancetoPos<kArmBuffer)){
         isAtPos = true;
         stopRotate();   
      }else{
         if(pos<getEncoderPos()){
             isAtPos=false;
-            rotateArm(0.2);
+            setSpeed(m_slowSpeed);
+
         }else{
             isAtPos=false;
-             rotateArm(-0.2);
+            setSpeed(-m_slowSpeed);
+             
         }
-     } 
+     }
+     System.out.println(isAtPos + " * * * " + distancetoPos); 
      return isAtPos;
     }
 }

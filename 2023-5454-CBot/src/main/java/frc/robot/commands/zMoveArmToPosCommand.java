@@ -12,10 +12,15 @@ public class zMoveArmToPosCommand extends CommandBase {
     public zMoveArmToPosCommand(ArmSubsystem armSubsystem, double shootPos){
         m_ArmSubsystem=armSubsystem;
         m_targetPos=shootPos;
+        addRequirements(m_ArmSubsystem);
     }
     @Override
     public void execute() {
-        m_ArmSubsystem.goToPos(m_targetPos);
+        
+    }
+    @Override
+    public boolean isFinished(){
+        return m_ArmSubsystem.goToPos(m_targetPos);
     }
     @Override
     public void end(boolean interrupted) {

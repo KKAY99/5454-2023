@@ -4,8 +4,8 @@
 
 package frc.robot;
 
-import frc.robot.Constants.MoveArmCommand;
-import frc.robot.Constants.OperatorConstants;
+
+import frc.robot.Constants.*;
 import frc.robot.commands.testCommand;
 import frc.robot.commands.moveCommand;
 import frc.robot.commands.*;
@@ -24,7 +24,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.DefaultDrive;
 import frc.robot.commands.zMoveArmToPosCommand;
-import frc.robot.Constants.OperatorConstants.InputControllers;
 import edu.wpi.first.wpilibj.XboxController;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -35,12 +34,10 @@ import edu.wpi.first.wpilibj.XboxController;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   AHRS m_gyro = new AHRS(SPI.Port.kMXP);
-  private Joystick m_leftJoystick = new Joystick(InputControllers.kJoystickLeft);
-  private Joystick m_rightJoystick = new Joystick(InputControllers.kJoystickRight);
-  private ExampleSubsystem m_subsystem = new ExampleSubsystem();
   private DriveSubsystem m_RobotDrive = new DriveSubsystem();
-  private ArmSubsystem m_ArmSubsystem = new ArmSubsystem(Constants.ArmSubsystem.motorPort,Constants.ArmSubsystem.encoderPort,Constants.ArmSubsystem.homePos);
-  private XboxController m_xBox = new XboxController(0);
+  private ArmSubsystem m_ArmSubsystem = new ArmSubsystem(Constants.Arm.motorPort,Constants.Arm.encoderPort,Constants.Arm.homePos,Constants.Arm.fastSpeed,Constants.Arm.slowSpeed);
+  private XboxController m_xBoxDriver = new XboxController(0);
+  private XboxController m_xBoxOperator = new XboxController(0);
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -54,7 +51,7 @@ public class RobotContainer {
    // while(m_gyro.isCalibrating()){
    //   System.out.println("Calibrating");
    // }
-    m_RobotDrive.setDefaultCommand(new DefaultDrive(m_RobotDrive,()->m_xBox.getLeftX()  , ()-> m_xBox.getLeftY()));
+    m_RobotDrive.setDefaultCommand(new DefaultDrive(m_RobotDrive,()->m_xBoxDriver.getLeftX()  , ()-> m_xBoxDriver.getLeftY()));
   }
 
     
@@ -62,7 +59,7 @@ public class RobotContainer {
     SmartDashboard.putNumber("IMU_Yaw", m_gyro.getYaw());
     SmartDashboard.putNumber("IMU_Pitch", m_gyro.getPitch());
     SmartDashboard.putNumber("IMU_Roll", m_gyro.getRoll());
-
+  //  System.out.print("Encoder *** " + m_ArmSubsystem.getEncoderPos());
   } 
 
   
@@ -79,15 +76,26 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    zMoveArmToPosCommand moveArmPos1=new zMoveArmToPosCommand(m_ArmSubsystem,Constants.ArmSubsystem.shootPos1);
-    zMoveArmToPosCommand moveArmPos2=new zMoveArmToPosCommand(m_ArmSubsystem,Constants.ArmSubsystem.shootPos2);
-    zMoveArmToPosCommand moveArmPos3=new zMoveArmToPosCommand(m_ArmSubsystem,Constants.ArmSubsystem.shootPos3);
+    zMoveArmToPosCommand moveArmPos1=new zMoveArmToPosCommand(m_ArmSubsystem,Constants.Arm.shootPos1);
+    zMoveArmToPosCommand moveArmPos2=new zMoveArmToPosCommand(m_ArmSubsystem,Constants.Arm.shootPos2);
+    zMoveArmToPosCommand moveArmPos3=new zMoveArmToPosCommand(m_ArmSubsystem,Constants.Arm.shootPos3);
 
-    //final MoveArmCommand armCommand=new MoveArmCommand(m_ArmSubsystem,Constants.MoveArmCommand.minValue);
-  
- //   Trigger moveArmPos1=new JoystickButton(m_xBoxDriver, Constants.buttonConstants.shootPos1Button);
+    final MoveArmCommand armDownCommand=new MoveArmCommand(m_ArmSubsystem,-Constants.Arm.manualSpeed, Constants.Arm.minValue,Constants.Arm.maxValue);
+    Trigger moveArmDown= new JoystickButton(m_xBoxDriver, Constants.buttonConstants.moveArmDown);
+    moveArmDown.whileTrue(armDownCommand);
 
+    final MoveArmCommand armUpCommand=new MoveArmCommand(m_ArmSubsystem,Constants.Arm.manualSpeed, Constants.Arm.minValue,Constants.Arm.maxValue);
+    Trigger moveArmUp= new JoystickButton(m_xBoxDriver, Constants.buttonConstants.moveArmUp);
+    moveArmUp.whileTrue(armUpCommand);    
 
+    Trigger buttonArmPos1=new JoystickButton(m_xBoxDriver, Constants.buttonConstants.shootPos1Button);
+    Trigger buttonArmPos2=new JoystickButton(m_xBoxDriver, Constants.buttonConstants.shootPos2Button);
+    Trigger buttonArmPos3=new JoystickButton(m_xBoxDriver, Constants.buttonConstants.shootPos3Button);
+     
+    buttonArmPos1.onTrue(moveArmPos1);
+    buttonArmPos2.onTrue(moveArmPos2);
+    buttonArmPos3.onTrue(moveArmPos3);
+     
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

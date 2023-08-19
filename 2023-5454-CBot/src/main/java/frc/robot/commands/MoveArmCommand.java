@@ -8,23 +8,23 @@ public class MoveArmCommand extends CommandBase {
     double m_rotateSpeed;
     double m_minLimit;
     double m_maxLimit;
-    double m_armPos;
     
-public MoveArmCommand(double rotateSpeed, ArmSubsystem armSubsystem, double minLimit, double maxLimit, double armPos){
+public MoveArmCommand(ArmSubsystem armSubsystem, double rotateSpeed, double minLimit, double maxLimit){
     m_ArmSubsystem = armSubsystem;
     m_rotateSpeed = rotateSpeed;
     m_minLimit = minLimit;
     m_maxLimit = maxLimit;
-    m_armPos = armPos;
+    addRequirements(m_ArmSubsystem);
 }
 public void initialize(){
 }
 @Override
 public void execute(){
-    if(m_minLimit<m_ArmSubsystem.getEncoderPos()){
+    if((m_minLimit)<(m_ArmSubsystem.getEncoderPos()) && (m_maxLimit>m_ArmSubsystem.getEncoderPos())){
         if(m_ArmSubsystem.getEncoderPos()<m_maxLimit)
             m_ArmSubsystem.rotateArm(m_rotateSpeed);
     }else{
+       System.out.println("Manual Arm Soft Limit " + m_minLimit + " " + m_ArmSubsystem.getEncoderPos() + " " + m_maxLimit);
         m_ArmSubsystem.stopRotate();
     }
 
