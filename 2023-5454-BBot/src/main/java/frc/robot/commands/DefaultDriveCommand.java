@@ -35,17 +35,17 @@ public class DefaultDriveCommand extends CommandBase {
 
   @Override
   public void execute() {
-    double forward = Utilities.deadband(m_drive_fwd.getAsDouble(),Constants.driveDeadband);
+    double forward = Utilities.deadband(m_drive_fwd.getAsDouble(),Constants.SwerveDriveGB.driveDeadband);
     // Square the forward stick
     forward = Math.copySign(Math.pow(forward, 2.0), forward);
     
     double strafe = Utilities.deadband(m_drive_strafe.getAsDouble());
-    strafe = Utilities.deadband(strafe,Constants.driveDeadband);
+    strafe = Utilities.deadband(strafe,Constants.SwerveDriveGB.driveDeadband);
     // Square the strafe stick
     strafe = Math.copySign(Math.pow(strafe, 2.0), strafe);
     //System.out.println("Straffing - " + strafe);
     double rotation = Utilities.deadband(m_drive_rcw.getAsDouble());
-    rotation = Utilities.deadband(rotation,Constants.driveDeadband);
+    rotation = Utilities.deadband(rotation,Constants.SwerveDriveGB.driveDeadband);
     // Square the rotation stick
     rotation = Math.copySign(Math.pow(rotation, 2.0), rotation);
     //System.out.println(forward + " -- " + strafe + " -- " + rotation);

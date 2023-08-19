@@ -15,48 +15,36 @@ public class PneumaticsSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   private static Compressor m_Compressor;
   private static boolean m_pressureSwitch;
-  private static Solenoid m_solenoidIntakeArm;
-  private static Solenoid m_solenoidClimb;
-  private static Solenoid m_solenoidHookCables;
+  private static Solenoid m_clawSolenoid1;
+  private static Solenoid m_clawSolenoid2;
+  private static Solenoid m_armExtensionSolenoid;
   public static PneumaticsModuleType pModule = PneumaticsModuleType.CTREPCM;
-  public PneumaticsSubsystem(int nodeID) {
-    
-    m_Compressor = new Compressor(nodeID,pModule);      
-    m_solenoidIntakeArm = new Solenoid(pModule, Constants.Pneumatics.IntakeArmPort); 
-    m_solenoidClimb = new Solenoid (pModule,Constants.Pneumatics.ClimbArmPort);
-    m_solenoidHookCables= new Solenoid (pModule,Constants.Pneumatics.HookCablesPort);
-    setEnabled();
-    // m_solenoidLatch=new Solenoid(pModule,Constants.Pneumatics.LatchPort);   
-  
+
+  public PneumaticsSubsystem(int nodeID,int clawSolenoid1ID,int clawSolenoid2ID, int armExtensionSolenoidID) {
+    m_Compressor = new Compressor(nodeID,pModule);
+    m_clawSolenoid1=new Solenoid(pModule,clawSolenoid1ID);  
+    m_clawSolenoid2=new Solenoid(pModule,clawSolenoid2ID);      
+    m_armExtensionSolenoid=new Solenoid(pModule,armExtensionSolenoidID);
   }
 
-  
+  public void setExtensionSolenoid(boolean state){
+    m_armExtensionSolenoid.set(state);
+  }
 
-  public void setHookCables(boolean status){
-    m_solenoidHookCables.set(status);
- 
+  public void setTopClawSolenoid(boolean state){
+    m_clawSolenoid1.set(state);
   }
-  public boolean getHookCableStatus(){
-      return m_solenoidHookCables.get();
-  }
-  public void setIntakeArms(boolean status){
-    System.out.println("Setting Arm " + status);
-    m_solenoidIntakeArm.set(status);
-  
- 
-  }
-  public boolean getIntakeArmStatus(){
-    System.out.println("Status - " + m_solenoidIntakeArm.get());
-    return m_solenoidIntakeArm.get();
-  }
-  
-  public boolean getClimbArmStatus(){
-    return m_solenoidClimb.get();
 
+  public boolean getTopClawSolenoidState(){
+    return m_clawSolenoid1.get();
   }
-  public void setClimbArms(boolean status){
-    System.out.println("Setting Climb Arm" + status);
-    m_solenoidClimb.set(status);
+
+  public void setBottomClawSolenoid(boolean state){
+    m_clawSolenoid2.set(state);
+  }
+
+  public boolean getBottomClawSolenoidState(){
+    return m_clawSolenoid2.get();
   }
 
     public void setEnabled(){

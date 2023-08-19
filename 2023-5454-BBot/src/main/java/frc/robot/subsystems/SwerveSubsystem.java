@@ -27,11 +27,11 @@ public class SwerveSubsystem extends SubsystemBase {
         // public static final int backLeftOffset = -640;
         // public static final int backRightOffset = -914;
 
-        public static final int frontLeftOffset = 0;
-        public static final int frontRightOffset = 0;
+        public static final int frontLeftOffset = 1282;
+        public static final int frontRightOffset = -344;
     
-        public static final int backLeftOffset = 0;
-        public static final int backRightOffset = 0;
+        public static final int backLeftOffset = 538;
+        public static final int backRightOffset = -1270;
 
         // TODO: Measure this (it's in meters);
         // Note the signs
@@ -184,5 +184,13 @@ public class SwerveSubsystem extends SubsystemBase {
                 System.out.println("Front Right Current Angle "+m_frontRight.getAngle());
                 System.out.println("Back Left Current Angle "+m_backLeft.getAngle());
                 System.out.println("Back Right Current Angle "+m_backRight.getAngle());*/
+        }
+
+        @Override
+        public void periodic(){
+                frontLeftAngle.setDouble(m_frontLeft.getAngle());
+                frontRightAngle.setDouble(m_frontRight.getAngle());
+                backLeftAngle.setDouble(m_backLeft.getAngle());
+                backRightAngle.setDouble(m_backRight.getAngle());
         }
 }

@@ -175,7 +175,7 @@ public class SwerveModuleGB {
                 //System.out.println("DriveOutput " + driveOutput);
 
                 final double driveFeedforward = m_driveFeedforward.calculate(state.speedMetersPerSecond);
-                System.out.println("State Speed "+state.speedMetersPerSecond);
+                //System.out.println("State Speed "+state.speedMetersPerSecond);
 
                 // m_error.setDouble(m_turningPIDController.getPositionError());
 
@@ -190,8 +190,10 @@ public class SwerveModuleGB {
 
                 //m_driveOutput.setDouble(driveVoltage);
                 // m_steerOutput.setDouble(steerVoltage);
-                if(driveVoltage<0.001){
-                        driveVoltage=0;
+                if(driveVoltage>0.001||driveVoltage<-0.001){
+                        m_driveMotor.setVoltage(driveVoltage);     
+                }else{
+                        m_driveMotor.setVoltage(0);
                 }
                 m_driveMotor.setVoltage(driveVoltage);
                 System.out.println("Drive Voltage "+driveVoltage);
@@ -206,7 +208,7 @@ public class SwerveModuleGB {
 
                 m_turningMotor.set(ControlMode.Position, newPosition);
 
-                System.out.println(m_name + ": " + m_turningMotor.getSelectedSensorPosition());
+                //System.out.println(m_name + ": " + m_turningMotor.getSelectedSensorPosition());
         }
 
         public double getAngle(){

@@ -47,9 +47,9 @@ public class AutoMoveCommand extends CommandBase {
   public void execute() {
     m_isFinished=false;
     if(m_useNavX){
-      m_drive.spin(m_direction,Constants.AutoModes.MoveSpeed);
+      //m_drive.spin(m_direction,Constants.AutoModes.MoveSpeed);
     }else {
-       m_drive.move(m_direction ,m_rcw,Constants.AutoModes.MoveSpeed,m_distance,true);
+       //m_drive.move(m_direction ,m_rcw,Constants.AutoModes.MoveSpeed,m_distance,true);
     }
        m_isFinished=true;
   }

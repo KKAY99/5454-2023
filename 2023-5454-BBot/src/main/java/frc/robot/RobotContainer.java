@@ -25,7 +25,6 @@ import frc.robot.subsystems.*;
 import frc.robot.Constants.AutoModes;
 import frc.robot.Constants.ButtonConstants;
 import frc.robot.Constants.InputControllers;
-import frc.robot.Constants.zAutomation;
 import frc.robot.Constants.LEDS.Colors;
 import frc.robot.classes.Limelight;
 import frc.robot.classes.LEDStrip;
@@ -37,9 +36,9 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.common.control.PidController;
-import frc.robot.commands.AlignMoveForward;
-import frc.robot.commands.PhotonAlign;
 import frc.robot.classes.PhotonVision;
+import frc.robot.commands.*;
+
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -54,8 +53,11 @@ public class RobotContainer {
   //  private AHRS m_ahrs = new AHRS(SPI.Port.kMXP);
     private NavX m_NavX = new NavX(SPI.Port.kMXP);
    // private final DriveSubsystem m_RobotDrive = new DriveSubsystem(m_ahrs);
-  // private final DrivetrainSubsystem m_RobotDrive = new DrivetrainSubsystem(m_NavX); 
+  // private final DrivetrainSubsystem m_RobotDrive = new DrivetrainSubsystem(m_NavX);
    private final SwerveSubsystem m_RobotDrive = new SwerveSubsystem();
+   private final RotateArmSubsystem m_RotateArm = new RotateArmSubsystem(Constants.RotateArm.rotateMotorPort,Constants.RotateArm.rotateMotorPort);
+   private final PneumaticsSubsystem m_Pneumatics = new PneumaticsSubsystem(Constants.Pneumatics.CompressorID,Constants.Pneumatics.clawSolenoid1ID
+                                                ,Constants.Pneumatics.clawSolenoid2ID,Constants.Pneumatics.extensionSolenoidID);
 
     private final Limelight m_Limelight = new Limelight(Constants.LimeLightValues.targetHeight, Constants.LimeLightValues.limelightHeight, Constants.LimeLightValues.limelightAngle,Constants.LimeLightValues.kVisionXOffset,80);
      
@@ -227,9 +229,7 @@ public class RobotContainer {
     
     static GenericEntry shuffleboardLeftLimit=ShooterTab.add("Left Limit","").getEntry();
     static GenericEntry shuffleboardRightLimit=ShooterTab.add("Right Limit","").getEntry();
-    static GenericEntry shuffleboardShooterTop=ShooterTab.add("Top Speed",Constants.AutoModes.AutoShotTopSpeed).getEntry();
-    static GenericEntry shuffleboardShooterBottom=ShooterTab.add("Bottom Speed",Constants.AutoModes.AutoShotBottomSpeed).getEntry();
-
+    
     static GenericEntry shuffleboardShooterTopVel=ShooterTab.add("Top Velocity","").getEntry();
     static GenericEntry shuffleboardShooterBottomVel=ShooterTab.add("Bottom Velocity","").getEntry();
     static GenericEntry shuffleobardShooterMultipler=ShooterTab.add("Shooter Adjustment",1.0)
@@ -256,6 +256,9 @@ public class RobotContainer {
     private zAutoTargetandMove m_test = new zAutoTargetandMove(m_Limelight, m_RobotDrive, 2);
     private boolean m_turretHasReset =false;
     private PhotonAlign m_photonAlign = new PhotonAlign(m_RobotDrive,m_PhotonVision);
+
+    private SequentialCommandGroup autoScoreMoveBWD = new SequentialCommandGroup(new AutoMoveCommand(m_RobotDrive,180), new zMoveArmExtendABS(m_RotateArm,m_Pneumatics,m_Limelight,Constants.TargetHeight.MIDDLECONE,true,true),
+                                                        new zMoveArmRetractABS(m_RotateArm, m_Pneumatics), new ClawOpenCloseCommand(m_Pneumatics));
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
@@ -270,6 +273,10 @@ public class RobotContainer {
                         () -> m_xBoxDriver.getLeftY()));
 
     }
+
+    private void createAutoCommands(){
+        
+    }
     
     /**
      * Use this method to define your button->command mappings. Buttons can be
@@ -280,81 +287,8 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-        
-        //FIXIt when done getting shooter values
-        double topSpeed=shuffleboardShooterTop.getDouble(0);
-        double bottomSpeed=shuffleboardShooterBottom.getDouble(0);
-        //final ParallelCommandGroup LoadandShootCommand = new ParallelCommandGroup(new ShooterCommand(m_Shooter,m_Limelight,topSpeed,bottomSpeed,true),
-        //        new ConveyorCommand(m_Conveyor,Constants.conveyorUpSpeed),
-      
+
         final GyroResetCommand gyroResetCommand = new GyroResetCommand(m_RobotDrive,m_Limelight);
-        
-        //final LatchCommand latchCommand =new LatchCommand(m_Pnuematics);
-         
-        JoystickButton pipelineswitch0=new JoystickButton(m_xBoxDriver,ButtonConstants.DriverPipeline0);
-        JoystickButton pipelineswitch1=new JoystickButton(m_xBoxDriver,ButtonConstants.DriverPipeline1);
-        JoystickButton pipelineswitch2=new JoystickButton(m_xBoxDriver,ButtonConstants.DriverPipeline2);
-        pipelineswitch0.toggleOnTrue(m_photonAlign);
-        pipelineswitch1.toggleOnTrue(m_align);
-        pipelineswitch2.toggleOnTrue(m_pipelineswap2);
-        
-       
-        SpectrumAxisButton operatorAutoShoot = new SpectrumAxisButton(m_xBoxOperator,ButtonConstants.OperatorAutoShootAxis ,ButtonConstants.TriggerThreshold,SpectrumAxisButton.ThresholdType.GREATER_THAN);
-        shuffleboardAutoShootO.setString("Right Trigger");
-
-        SpectrumAxisButton operatorTurretOveride= new SpectrumAxisButton(m_xBoxOperator,ButtonConstants.OperatorOverrideAxis ,ButtonConstants.TriggerThreshold,SpectrumAxisButton.ThresholdType.GREATER_THAN);
-       
-    
-        JoystickButton operatorIntakeIn= new JoystickButton(m_xBoxOperator, ButtonConstants.OperatorIntakeIn );
-        shuffleboardIntakeInO.setString("O-Button " + ButtonConstants.OperatorIntakeIn);
-
-      
-
-        JoystickButton operatorIntakeOut= new JoystickButton(m_xBoxOperator, ButtonConstants.OperatorIntakeOut );
-        shuffleboardIntakeOutO.setString("O-Button " + ButtonConstants.OperatorIntakeOut);
-
-        JoystickButton driverIntakeArm = new JoystickButton(m_xBoxDriver,ButtonConstants.DriverIntakeArm);
-        shuffleboardIntakeArmD.setString("D-Button" + ButtonConstants.DriverIntakeArm);
-        JoystickButton operatorIntakeArm = new JoystickButton(m_xBoxOperator,ButtonConstants.OperatorIntakeArm);
-        shuffleboardIntakeArmO.setString("O-Button" + ButtonConstants.OperatorIntakeArm);
-        
-        JoystickButton driverGyroReset = new JoystickButton(m_xBoxDriver,ButtonConstants.DriverGyroReset);
-        shuffleboardGyroResetD.setString("D-Button " + Constants.ButtonConstants.DriverGyroReset);       
-        JoystickButton driverGyroReset2 = new JoystickButton(m_xBoxDriver,ButtonConstants.DriverGyroReset2);
-        JoystickButton operatorGyroReset = new JoystickButton(m_xBoxOperator,ButtonConstants.OperatorGyroReset);
-        shuffleboardGyroResetO.setString("O-Button " + Constants.ButtonConstants.OperatorGyroReset);
-        JoystickButton operatorGyroReset2 = new JoystickButton(m_xBoxOperator,ButtonConstants.OperatorGyroReset2);
-       
-        POVButton driverTurretLeftButton=new POVButton(m_xBoxDriver,ButtonConstants.TurretLeftPOV);
-        POVButton driverTurretRightButton=new POVButton(m_xBoxDriver,ButtonConstants.TurretRightPOV); 
-       
-        SpectrumAxisButton operatorTurretLeft = new SpectrumAxisButton(m_xBoxOperator,ButtonConstants.OperatorTurretAxis,ButtonConstants.JoystickLeftThreshold,SpectrumAxisButton.ThresholdType.GREATER_THAN);
-        SpectrumAxisButton operatorTurretRight = new SpectrumAxisButton(m_xBoxOperator,ButtonConstants.OperatorTurretAxis,ButtonConstants.JoystickRightThreshold,SpectrumAxisButton.ThresholdType.LESS_THAN);
-        SpectrumAxisButton operatorTurretAutoFind = new SpectrumAxisButton(m_xBoxOperator,ButtonConstants.OperatorTurretFindAxis,ButtonConstants.JoystickUpThreshold,SpectrumAxisButton.ThresholdType.GREATER_THAN);
-        SpectrumAxisButton operatorTurretAutoFindStop = new SpectrumAxisButton(m_xBoxOperator,ButtonConstants.OperatorTurretFindAxis,ButtonConstants.JoystickDownThreshold,SpectrumAxisButton.ThresholdType.LESS_THAN);
-
-        SpectrumAxisButton operatorClimbUp = new SpectrumAxisButton(m_xBoxOperator,ButtonConstants.OperatorClimbAxis,ButtonConstants.JoystickUpThreshold,SpectrumAxisButton.ThresholdType.LESS_THAN);
-        SpectrumAxisButton operatorClimbDown = new SpectrumAxisButton(m_xBoxOperator,ButtonConstants.OperatorClimbAxis,ButtonConstants.JoystickDownThreshold,SpectrumAxisButton.ThresholdType.GREATER_THAN);
-       
-        JoystickButton operatorPivotArm = new JoystickButton(m_xBoxOperator,ButtonConstants.OperatorPivotArm);
-        shuffleboardOperatorPivotArm.setString("O-Button " + Constants.ButtonConstants.OperatorPivotArm);
-       
-      //  JoystickButton operatorManualShoot =new JoystickButton(m_xBoxOperator,ButtonConstants.OperatorShootManual);
-      //  shuffleboardOperatorManualShoot.setString("O-Button " + Constants.ButtonConstants.OperatorShootManual);
-        JoystickButton operatorAutoFind =new JoystickButton(m_xBoxOperator,ButtonConstants.OperatorAutoTurretMode);
-        JoystickButton operatorClimbHooks= new JoystickButton(m_xBoxOperator,ButtonConstants.OperatorClimbHook);
-         
-
-        POVButton operatorShoot1Button=new POVButton(m_xBoxOperator,ButtonConstants.OperatorShooter1POV);
-        POVButton operatorShoot2Button=new POVButton(m_xBoxOperator,ButtonConstants.OperatorShooter2POV); 
-        POVButton operatorShoot3Button=new POVButton(m_xBoxOperator,ButtonConstants.OperatorShooter3POV);
-        POVButton operatorShoot4Button=new POVButton(m_xBoxOperator,ButtonConstants.OperatorShooter4POV); 
-       
-        driverGyroReset.whenPressed(gyroResetCommand);
-        driverGyroReset2.whenPressed(gyroResetCommand);
-        operatorGyroReset.whenPressed(gyroResetCommand);
-        operatorGyroReset2.whenPressed(gyroResetCommand);
-
     }
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -364,11 +298,7 @@ public class RobotContainer {
     public Command getAutonomousCommand(Integer selectedMode) {
         Command autoCommand = new AutoDoNothingCommand(); // Default Command is DoNothing
         System.out.println("Autonomouse Selected Mode = " + selectedMode);
-        switch (selectedMode) {
-          case AutoModes.autoMoveForward:
-             autoCommand= new AutoMoveCommand(m_RobotDrive,0,AutoModes.LeaveTarmacDistance);
-            break;
-                
+        switch (selectedMode) {            
           default:
             autoCommand = new AutoDoNothingCommand();
         }

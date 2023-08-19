@@ -25,45 +25,48 @@ public final class Constants {
         public static final double targetHeighMLowTape=24.125;  // middle of low tape in inches
         public static final double targetHeightHighTape=43.875; // middle of high tape in inches 
     }
-    public static final double kSpeedMultiplier = 1.0;
-    public static final int TopShooterPort=31;
-    public static final int BottomShooterPort=30;
-    public static final int ConveyorPort=33; //33
-    public static final int IntakePort=35;
-    public static final int IntakeInnerPort=37;
-    
-    public static final int TurretPort=32;
-    public static final int FeederPort=34;
-    public static final int ClimberPort=36;//36
-    public static final double intakeSpeed=-.95; //.65
-    public static final double intakeInnerSpeed=0.70;
-    public static final double FeederSpeed=-1.0;
-    public static final double FeederThresholdForLED=-.7;
-    public static final double conveyorUpSpeed=0.8;
-    public static final double conveyorDownSpeed=-0.5;
-    public static final double climbUpSpeed=.7;
-    public static final double climbDownSpeed=-.9;
-    public static final double climbUpLimit = 17.65; //17.65
-    public static final double climbDownLimit = 0 ;//2.5;
-    public static final double turretSpeed=0.50;
-    public static final double turretMinSpeed=0.15;
-    public static final double turretInitSpeed=-.30;
-    public static final double turretHomeSpeed=0.25;
-    public static final double turretHomePos=-4.00;
-    public static final double TurretTargetRange=5;
-    public static final double turretOuterLimit=.4;
-    public static final double turretInnerLimit=.2;
-    public static final double driveDeadband=0.05;
-    public static final String rightCamera = "photonvisioncamera";
-    public static final String leftCamera = "leftcamera";
 
     public static final class Pneumatics {
         public static final int CompressorID=0; 
         public static final int LatchPort=5;
-        public static final int ClimbArmPort=0;
-        public static final int IntakeArmPort=1;
-        public static final int HookCablesPort=3;
-        
+        public static final int clawSolenoid1ID=0;
+        public static final int clawSolenoid2ID=0;
+        public static final int extensionSolenoidID=0;
+    }
+
+    public static final class RotateArm{
+        public static final int rotateMotorPort=0;
+        public static final int absEncoderPort=0;
+        public static final double FWDSoftLimit=0;
+        public static final double BWDSoftLimit=0;
+    }
+
+    public static final class Rotate{
+        public static final double rotateAutoOutStage1Speed=-0.50;
+        public static final double rotateAutoOutStage2Speed=-0.13; 
+        public static final double rotateAutoInSpeed=0.8; 
+        public static final double angleLowConeStage1ABS=0.497;    
+        public static final double angleLowConeStage2ABS=0.484;    
+        public static final double angleMiddleConeStage1ABS=0.510;    
+        public static final double angleMiddleConeStage2ABS=0.499; 
+        public static final double angleHighConeStage1ABS=0.510;    
+        public static final double angleHighConeStage2ABS=0.495;
+        public static final double angleLowCubeStage1ABS=0.497;    
+        public static final double angleLowCubeStage2ABS=0.484; 
+        public static final double angleMiddleCubeStage1ABS=0.510;    
+        public static final double angleMiddleCubeStage2ABS=0.497; 
+        public static final double angleHighCubeStage1ABS=0.510;    
+        public static final double angleHighCubeStage2ABS=0.482;
+        public static final double anglePlayerStage1ABS=0.536;
+        public static final double anglePlayerStage2ABS=0.536;
+        public static final double angleSlideStage1ABS=0;
+        public static final double angleSlideStage2ABS=0;
+        public static final double angleIntakePos=0.02;
+        public static final double ABSHomePos = 0.536;
+        public static final double homeTimeFailsafe=5;
+        public static final double homeSpeedForward=0.06;
+        public static final double homeSpeedBackward=-0.06;
+        public static final double encoderLowScorePos=0;
     }
 
     public static final class PIDSteering{
@@ -83,62 +86,8 @@ public final class Constants {
     }
 
     public static final class ButtonConstants{
-       public static final int DriverPipeline0=1;
-       public static final int DriverPipeline1=2;
-       public static final int DriverPipeline2=3;
-       public static final int DriverIntakeArm=4;
-       public static final int DriverGyroReset=7;
-       public static final int DriverGyroReset2=8;
-       public static final int DriverTurretLeftPOV=270;
-       public static final int DriverTurretRightPOV=90;
-      
-       public static final int OperatorPivotArm=2;
-       //public static final int OperatorShootManual=1;
-       public static final int OperatorAutoTurretMode=1;
-       public static final int OperatorClimbHook=3;
-       public static final int OperatorIntakeArm=4;
-       public static final int OperatorIntakeOut=5;
-       public static final int OperatorIntakeIn=6;
-    
-       public static final int OperatorTurretAxis=0;
-       public static final int OperatorTurretFindAxis=1;
-       public static final int OperatorClimbAxis=5;
-       public static final int OperatorGyroReset=7;
-       public static final int OperatorGyroReset2=8;
-       public static final int OperatorAutoShootAxis=3;
-       public static final int OperatorOverrideAxis=2;
-       public static final int OperatorShooter1POV=270;
-       public static final int OperatorShooter2POV=90;
-       public static final int OperatorShooter3POV=270;
-       public static final int OperatorShooter4POV=90;
-       
-       public static final int ClimberDown=10;
-       public static final int ConveyerUpAxis=2;
-       public static final int ConveyerDownAxis=3;
-       public static final double TriggerThreshold=.5;
-       public static final double JoystickUpThreshold=-0.50;
-       public static final double JoystickDownThreshold=0.50;
-       public static final double JoystickLeftThreshold=.50;
-       public static final double JoystickRightThreshold=-0.50;
-       public static final int TurretLeftPOV=270;
-       public static final int TurretRightPOV=90;
-       public static final int ClimbUpPOV=0;
-       public static final int ClimbDownPOV=180;
-       public static final int GyroReset=7;
-       public static final int LeftStick=1;
     }
 
-    public static final class ManualShots{
-        public final static double Shot1Top=700;
-        public final static double Shot1Bottom=750;
-        public final static double Shot2Top=750;
-        public final static double Shot2Bottom=800;
-        public final static double Shot3Top=100;
-        public final static double Shot3Bottom=1050;
-        public final static double Shot4Top=1400;
-        public final static double Shot4Bottom=1450;
-
-    }
     public static final class LimitSwitches{
         public static final int ClimberBottom=9;
         public static final int TurretLeft=0;
@@ -151,61 +100,11 @@ public final class Constants {
     public static final class AutoModes {
         public static final String autoMode0="Do Nothing";
         public static final String autoMode1="Move Foward";
-        //public static final String autoMode2="Shoot /  Move";
-        //public static final String autoMode3="Outake / Move Backwars";
-        //public static final String autoMode4="Shoot / Move Backwards";
-        //public static final String autoMode5="Shoot Move Grab";
-        public static final String autoMode6="2 Ball (Move Staight)";
-        //public static final String autoMode7="Shoot Move Grab Move Left Grab Shoot 2";
-        public static final String autoMode8="3 Ball (Move Straight Then Right)";
-        //public static final String autoMode9="Move Grab Track Right / Shoot";
-        //public static final String autoMode10="Move Grab Track Left / Shoot";
-        public static final int defaultAutoMode=1;
+        public static final String autoMode2="Score-Move Back";
 
-        public static final int autoNothing = 0;
-        public static final int autoMoveForward = 1;
-        public static final int autoMoveShoot = 2;
-        public static final int autoMoveBackwardsOutake = 3;
-        public static final int autoMoveBackwardsShot = 4;
-        public static final int autoMoveShootMoveGrab = 5;
-        public static final int autoMoveShootMoveGrabShot1 = 6;
-        public static final int autoMoveShotMoveGrabMoveLeftGrabShot2 = 7;
-        public static final int autoMoveShotMoveGrabMoveRightGrabShot2 = 8;
-        public static final int autoMoveGrabTrackRightShoot = 9;
-        public static final int autoMoveGrabTrackLeftShoot = 10;
-        
-        public static final String delayMode0="0 Seconds";
-        public static final String delayMode1="3 Seconds";
-        public static final String delayMode2="5 Seconds";
-        public static final String delayMode3="8 Seconds";
-        public static final int delayValMode0=0;
-        public static final int delayValMode1=3;
-        public static final int delayValMode2=5;
-        public static final int delayValMode3=8;
-        public static final int defaultDelayMode=0;
-
-        public static final double LeaveTarmacDistance=80;
-        public static final double Get3BallDistanceOne=74;
-        public static final double Get3BallDistanceReturn=36;
-        public static final double Get2BallDistance=75;
-        public static final double Get2BallDistanceReturn=38;
-        public static final double GetBall2Distance=50;
-        public static final double Get3BallDistanceRotate=19;
-        public static final double Get3BallDistance=75;
-        public static final double MoveTowardsPlayerShort=30;
-        public static final double ball2Distance=.5;
-            
-        
-        public static final double DistanceToBall1=7;
-        public static final double MoveSpeed=.30;
-        public static final double AutoShotTopSpeed=800;
-        public static final double AutoShotBottomSpeed=800;
-        public static final double AutoMinVelocity=800;
-    }
-    public static final class zAutomation{
-        public static final double shooterSpinUp=2;
-        public static final double conveyorfeedBall=2;
-        public static final double intakeTime=.1;
+        public static final int autoNothing=0;
+        public static final int autoMoveForward=1;
+        public static final int autoScoreMoveBWD=2;
     }
 
     public static final class InputControllers {
@@ -288,7 +187,7 @@ public final class Constants {
         public static double kVisionGyroTolerance = 0.5;
 
         /* Motor Controllers */
-        public static int kFrontLeftSteering = 3;
+        public static int kFrontLeftSteering = 30;
         public static int kFrontRightSteering = 1;
         public static int kBackLeftSteering = 4;
         public static int kBackRightSteering = 2;
@@ -297,7 +196,15 @@ public final class Constants {
         public static int kBackLeftDrive = 7;
         public static int kBackRightDrive = 4;
         // #endr
+
+        public static final double driveDeadband=0.05;
     }
+
+    public static enum TargetHeight
+    {
+                    TOPCONE,MIDDLECONE,BOTTOMCONE,TOPCUBE,MIDDLECUBE,BOTTOMCUBE,PLAYERSTATION,SLIDE;	
+    }
+    
     public class LEDS {
         public static final int PORT = 0;
         public static final int COUNT = 215;

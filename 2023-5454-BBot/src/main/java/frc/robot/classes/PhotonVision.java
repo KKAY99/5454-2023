@@ -16,8 +16,6 @@ PhotonCamera m_rightcamera;
 PhotonCamera m_leftcamera;
 
 public PhotonVision(){
-    m_rightcamera = new PhotonCamera(Constants.rightCamera);
-    m_leftcamera = new PhotonCamera(Constants.leftCamera);
 }
 
 public boolean CanSeeAnyTarget(){
