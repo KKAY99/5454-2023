@@ -6,25 +6,18 @@ package frc.robot;
 
 
 import frc.robot.Constants.*;
-import frc.robot.commands.testCommand;
-import frc.robot.commands.moveCommand;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
-import edu.wpi.first.wpilibj.simulation.XboxControllerSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.DefaultDrive;
 import frc.robot.commands.zMoveArmToPosCommand;
-import edu.wpi.first.wpilibj.XboxController;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -33,7 +26,7 @@ import edu.wpi.first.wpilibj.XboxController;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  AHRS m_gyro = new AHRS(SPI.Port.kMXP);
+  ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
   private DriveSubsystem m_RobotDrive = new DriveSubsystem();
   private ArmSubsystem m_ArmSubsystem = new ArmSubsystem(Constants.Arm.motorPort,Constants.Arm.encoderPort,Constants.Arm.homePos,Constants.Arm.fastSpeed,Constants.Arm.slowSpeed);
   private XboxController m_xBoxDriver = new XboxController(0);
@@ -42,24 +35,17 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    // Configure the trigger bindings
-    System.out.println("Starting");
+    //Robot Instantiation
     configureBindings();
+    m_gyro.calibrate();
     m_gyro.reset();
-    m_gyro.zeroYaw();
-    m_gyro.enableLogging(true);
-   // while(m_gyro.isCalibrating()){
-   //   System.out.println("Calibrating");
-   // }
+    
     m_RobotDrive.setDefaultCommand(new DefaultDrive(m_RobotDrive,()->m_xBoxDriver.getLeftX()  , ()-> m_xBoxDriver.getLeftY()));
   }
 
     
   public void updateDashboard(){
-    SmartDashboard.putNumber("IMU_Yaw", m_gyro.getYaw());
-    SmartDashboard.putNumber("IMU_Pitch", m_gyro.getPitch());
-    SmartDashboard.putNumber("IMU_Roll", m_gyro.getRoll());
-  //  System.out.print("Encoder *** " + m_ArmSubsystem.getEncoderPos());
+    SmartDashboard.putNumber("Arm Position Encoder",+ m_ArmSubsystem.getEncoderPos());
   } 
 
   

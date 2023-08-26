@@ -16,6 +16,8 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorController;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  public static final int gyroPort=0;
+
   public class intake{
       public static final int motorPWM=4;
       public static final double speedIn=.5;
