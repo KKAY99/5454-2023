@@ -20,13 +20,13 @@ public void initialize(){
 }
 @Override
 public void execute(){
-    if((m_minLimit)<(m_ArmSubsystem.getEncoderPos()) && (m_maxLimit>m_ArmSubsystem.getEncoderPos())){
-        if(m_ArmSubsystem.getEncoderPos()<m_maxLimit)
+ //   if((m_minLimit)<(m_ArmSubsystem.getEncoderPos()) && (m_maxLimit>m_ArmSubsystem.getEncoderPos())){
+ //       if(m_ArmSubsystem.getEncoderPos()<m_maxLimit)
             m_ArmSubsystem.rotateArm(m_rotateSpeed);
-    }else{
-       System.out.println("Manual Arm Soft Limit " + m_minLimit + " " + m_ArmSubsystem.getEncoderPos() + " " + m_maxLimit);
-        m_ArmSubsystem.stopRotate();
-    }
+ //   }else{
+//       System.out.println("Manual Arm Soft Limit " + m_minLimit + " " + m_ArmSubsystem.getEncoderPos() + " " + m_maxLimit);
+ //       m_ArmSubsystem.stopRotate();
+ //   }
 
     }
 

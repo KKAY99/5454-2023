@@ -53,8 +53,7 @@ public class ShooterSubsystem{
   public static final double intakeSpeed=0.8;
   public static final int leftShootPort=10;
   public static final int rightShootPort=11;
-  public static final int leftSnowPort=12;
-  public static final int rightSnowPort=13;
+  public static final int snowMotorPort=12;
 }
 
   public class buttonConstants {
@@ -71,10 +70,6 @@ public class ShooterSubsystem{
   }
 
 
-  public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
-
-    public static final double speed = 0;
 
     public static final class InputControllers{
       public static final int kXboxDriver=0;
@@ -86,5 +81,31 @@ public class ShooterSubsystem{
     public class zHomeArmCommand {
       public static final double rotateSpeed=0.1;
     }
+    public static final class AutoModes {
+      public static final String autoMode0="Do Nothing";
+      public static final String autoMode1="Move Foward";
+      public static final String autoMode2="Score and Move Foward";
+      public static final String autoMode3="Score and Balance";
+    
+      public static final int autoNothing = 0;
+      public static final int autoMoveForward = 1;
+      public static final int autoMoveScoreMoveForward = 2;
+      public static final int autoMoveScoreBalance = 3;
+      
+      public static final String delayMode0="0 Seconds";
+      public static final String delayMode1="3 Seconds";
+      public static final String delayMode2="5 Seconds";
+      public static final String delayMode3="8 Seconds";
+      public static final int delayValMode0=0;
+      public static final int delayValMode1=3;
+      public static final int delayValMode2=5;
+      public static final int delayValMode3=8;
+      public static final int defaultDelayMode=0;
+      
+      public static final double MoveSpeed=0.2;
+      public static final double MoveOutDistance=10;
+      public static final double EngageDistance=5;
+
+
   }
 }

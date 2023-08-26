@@ -1,23 +1,26 @@
 package frc.robot.commands;
-import frc.robot.subsystems.PnuematicsSubystem;
+import frc.robot.subsystems.ClawSubsystem;
 import edu.wpi.first.wpilibj.PneumaticHub;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.classes.Limelight;
 
 public class ClawCommand extends CommandBase {
-    private PnuematicsSubystem m_Pnuematics;
+    private ClawSubsystem m_Claw;
     private Limelight m_limelight;
     private boolean checkForTargets = false;
     private boolean m_state;
     private String m_caller;
-    public ClawCommand(PnuematicsSubystem pnuematics,boolean state,String caller){
-        m_Pnuematics=pnuematics;
+    private static final double kClawRunTime=0.5;
+    private double m_endTime;
+    public ClawCommand(ClawSubsystem claw,boolean state,String caller){
+        m_Claw=claw;
         m_state=state;
         m_caller=caller;
     }
 
-    public ClawCommand(PnuematicsSubystem pnuematics, Limelight limelight,boolean state){
-        m_Pnuematics=pnuematics;
+    public ClawCommand(ClawSubsystem claw, Limelight limelight,boolean state){
+        m_Claw=claw;
         m_limelight = limelight;
         m_caller = "";
         m_state=state;
@@ -32,27 +35,30 @@ public class ClawCommand extends CommandBase {
     @Override
     public void execute() {
         //System.out.println("Setting Claw to state - " + m_state + " from caller " + m_caller);
-
+        
+        m_endTime=Timer.getFPGATimestamp()+kClawRunTime;    
         if(checkForTargets){
-            if(m_limelight.isTargetAvailible()){
-                m_Pnuematics.setClaw(m_state);
+            if(m_limelight.isTargetAvailible()){        
+                m_Claw.setClaw(m_state);
             }else{
                 System.out.println("CLAW DROP LOST TARGET - DROPPING ANYWAYS");
-                m_Pnuematics.setClaw(m_state);
+                m_Claw.setClaw(m_state);
             }
         }else{
-            m_Pnuematics.setClaw(m_state);
+            m_Claw.setClaw(m_state);
         }
     }
   
     @Override
     public void end(boolean interrupted) {
-    
+     m_Claw.stopClaw();
     }
   
     @Override
     public boolean isFinished() {
-     return true;
+     boolean returnValue=false;
+     returnValue=(m_endTime>Timer.getFPGATimestamp());
+     return returnValue;
     }
 
 }

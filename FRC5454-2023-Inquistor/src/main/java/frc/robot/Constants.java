@@ -66,6 +66,10 @@ public final class Constants {
         public static final int limitSwitch=3;
         public static final double maxLimit = -153;
     }
+    public class Claw{
+        public static final int clawMotorPort=44;
+        public static final double clawSpeed=.5;
+    }
     public class RotateArm{
         public static final int rotateArmPort1=50;
         public static final int rotateArmPort2=51;
@@ -169,7 +173,8 @@ public final class Constants {
         public static final double intakeRotateSpeed=0.5;
      
         public static final double intakehomeRotateSpeed=-0.15;
-        public static final int intakeMotorPort=44;
+        public static final int intakeMotorPort1=44;
+        public static final int intakeMotorPort2=54;
         public static final int rotateMotorPort=42;
         public static final double rotateHighLimit=5;
         public static final double rotateLowLimit=74;

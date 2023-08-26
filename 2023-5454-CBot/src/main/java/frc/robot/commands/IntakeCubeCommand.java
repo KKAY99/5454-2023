@@ -18,9 +18,9 @@ public void initialize(){
 
 @Override
 public boolean isFinished(){
-boolean returnValue=false;
-//returnValue=m_ShooterSubsystem.hasCube(); 
-return returnValue;
+    boolean returnValue=false;
+    returnValue=m_ShooterSubsystem.hasCube(); 
+    return returnValue;
 }
 
 @Override

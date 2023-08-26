@@ -1,9 +1,7 @@
 package frc.robot.common.drivers;
 
 import edu.wpi.first.math.controller.PIDController;
-import frc.robot.RobotContainer;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -68,8 +66,9 @@ public class WPISwerveModule {
 
         m_turningMotor.burnFlash();
 
-        m_absEncoder.setDistancePerRotation(m_absEncoder.getDistancePerRotation());
-
+        //KK Is Static Value
+        //m_absEncoder.setDistancePerRotation(m_absEncoder. .getDistancePerRotation());
+   
         m_driveMotor.setSmartCurrentLimit(40);
         m_turningMotor.setSmartCurrentLimit(20);
 
@@ -84,7 +83,7 @@ public class WPISwerveModule {
 
     public double getTurnPosition(){
       //  return m_turningEncoder.getPosition();
-      System.out.println("Wheel Angle "+ m_absEncoder.GetActualAngle() ;
+      System.out.println("Wheel Angle "+ m_absEncoder.GetActualAngle());
       return m_absEncoder.GetActualAngle();
     }
 
@@ -103,8 +102,10 @@ public class WPISwerveModule {
     public double getABSEncoderRad(){
         double angle;
 
-        angle=1-m_absEncoder.getAbsolutePosition();
-
+        //angle=1-m_absEncoder.getAbsolutePosition();
+        //KK Updates 8/26/23 
+        angle=1-m_absEncoder.GetActualPosition();
+        
         angle*=2.0*Math.PI;
 
         angle-=Constants.WPISwerve.absoluteEncoderOffsetRad;

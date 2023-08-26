@@ -16,19 +16,26 @@ import com.revrobotics.SparkMaxAlternateEncoder.Type;
 import com.revrobotics.CANSparkMax.IdleMode;
 
 public class FloorIntakeSubsystem extends SubsystemBase{
-    CANSparkMax m_intakeMotor;
+  CANSparkMax m_intakeMotor1;
+  CANSparkMax m_intakeMotor2;
     CANSparkMax m_rotateMotor;
     //DutyCycleEncoder m_rotateEncoder;
     RelativeEncoder m_rotateEncoder;
     double m_highLimit;
     double m_lowLimit;
     DigitalInput m_limitSwitch;
-    public FloorIntakeSubsystem(int intakeMotorPort,int rotateMotorPort, int limitSwitchport,double rotateLowLimit,double rotateHighLimit){ 
-        m_intakeMotor = new CANSparkMax(intakeMotorPort, MotorType.kBrushed);
-        m_intakeMotor.setOpenLoopRampRate(0.25);
-        m_intakeMotor.setSmartCurrentLimit(30);  // likely gets ignored due to brushed motor
-        m_intakeMotor.setSecondaryCurrentLimit(40); //Set as well at 30
-        m_intakeMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    public FloorIntakeSubsystem(int intakeMotorPort1,int intakeMotorPort2,int rotateMotorPort, int limitSwitchport,double rotateLowLimit,double rotateHighLimit){ 
+        m_intakeMotor1 = new CANSparkMax(intakeMotorPort1, MotorType.kBrushed);
+        m_intakeMotor1.setOpenLoopRampRate(0.25);
+        m_intakeMotor1.setSmartCurrentLimit(30);  // likely gets ignored due to brushed motor
+        m_intakeMotor1.setSecondaryCurrentLimit(40); //Set as well at 30
+        m_intakeMotor1.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    
+        m_intakeMotor2 = new CANSparkMax(intakeMotorPort1, MotorType.kBrushed);
+        m_intakeMotor2.setOpenLoopRampRate(0.25);
+        m_intakeMotor2.setSmartCurrentLimit(30);  // likely gets ignored due to brushed motor
+        m_intakeMotor2.setSecondaryCurrentLimit(40); //Set as well at 30
+        m_intakeMotor2.setIdleMode(CANSparkMax.IdleMode.kBrake);
     
         m_rotateMotor = new CANSparkMax(rotateMotorPort, MotorType.kBrushless);
         m_rotateMotor.setOpenLoopRampRate(0.25);
@@ -44,7 +51,9 @@ public class FloorIntakeSubsystem extends SubsystemBase{
 
     public void runIntake(double power) {
         //System.out.println("intake motor set" + power);
-      m_intakeMotor.set(power);
+      m_intakeMotor1.set(power);
+      m_intakeMotor2.set(power);
+   
     }
 
     public void rotate(double power){
@@ -78,7 +87,8 @@ public class FloorIntakeSubsystem extends SubsystemBase{
     }
      public void stopIntake() {
         //System.out.println("intake motor stopping");
-        m_intakeMotor.stopMotor();
+        m_intakeMotor1.stopMotor();
+        m_intakeMotor2.stopMotor();
    
   }
   public boolean getLimitSwitch(){
@@ -93,12 +103,14 @@ public class FloorIntakeSubsystem extends SubsystemBase{
 
   public void disableFloorIntakeBrakeMode(){
     m_rotateMotor.setIdleMode(IdleMode.kCoast);
-    m_intakeMotor.setIdleMode(IdleMode.kCoast);
+    m_intakeMotor1.setIdleMode(IdleMode.kCoast);
+    m_intakeMotor2.setIdleMode(IdleMode.kCoast);
   }
 
   public void resetFloorIntakeBrakeModeToNormal(){
     m_rotateMotor.setIdleMode(IdleMode.kBrake);
-    m_intakeMotor.setIdleMode(IdleMode.kBrake);
+    m_intakeMotor1.setIdleMode(IdleMode.kBrake);
+    m_intakeMotor2.setIdleMode(IdleMode.kBrake);
   }
 
     

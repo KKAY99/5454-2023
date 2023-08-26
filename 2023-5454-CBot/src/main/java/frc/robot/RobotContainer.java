@@ -10,6 +10,7 @@ import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -29,8 +30,7 @@ public class RobotContainer {
   private DriveSubsystem m_RobotDrive = new DriveSubsystem();
   private ArmSubsystem m_ArmSubsystem = new ArmSubsystem(Constants.Arm.motorPort,Constants.Arm.encoderPort,Constants.Arm.homePos,Constants.Arm.fastSpeed,Constants.Arm.slowSpeed);
   private ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem(Constants.ShooterSubsystem.leftShootPort , Constants.ShooterSubsystem .rightShootPort, 
-                                                Constants.ShooterSubsystem.leftSnowPort,Constants.ShooterSubsystem.rightShootPort,
-                                                Constants.ShooterSubsystem.snowMotorSpeed);
+                                                Constants.ShooterSubsystem.snowMotorPort,Constants.ShooterSubsystem.snowMotorSpeed);
   private XboxController m_xBoxDriver = new XboxController(0);
   private XboxController m_xBoxOperator = new XboxController(0);
 
@@ -106,15 +106,42 @@ public class RobotContainer {
     
   
   }
+  public void AutoMode(){
+    //DO LED or anything else we want to indicate AutoMode Engaged
+  }
     /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return null;
-  }
+    public Command getAutonomousCommand(Integer selectedMode) {
+      Command autoCommand = new AutoDoNothingCommand(); // Default Command is DoNothing
+      System.out.println("Autonomouse Selected Mode = " + selectedMode);
+      switch (selectedMode) {
+        case AutoModes.autoMoveForward:
+           autoCommand= new AutoMoveCommand(m_RobotDrive,0,AutoModes.MoveOutDistance);
+          break;
+          case AutoModes.autoMoveScoreMoveForward:
+             autoCommand=new SequentialCommandGroup(new zMoveArmToPosCommand(m_ArmSubsystem,Constants.Arm.shootPos3),
+                                  new ShootCubeCommand(m_ShooterSubsystem, Constants.ShooterSubsystem.shootHighSpeed,
+                                  Constants.ShooterSubsystem.delayHighShot,Constants.ShooterSubsystem.shootTime),
+                                  new AutoMoveCommand(m_RobotDrive,0,AutoModes.MoveOutDistance));
+          break;
+        case AutoModes.autoMoveScoreBalance:
+          autoCommand=new SequentialCommandGroup(new zMoveArmToPosCommand(m_ArmSubsystem,Constants.Arm.shootPos3),
+                                new ShootCubeCommand(m_ShooterSubsystem, Constants.ShooterSubsystem.shootHighSpeed,
+                                Constants.ShooterSubsystem.delayHighShot,Constants.ShooterSubsystem.shootTime),
+                                new AutoMoveCommand(m_RobotDrive,0,AutoModes.EngageDistance));
 
+                    
+        default:
+          autoCommand = new AutoDoNothingCommand();
+      }
+      
+      return autoCommand;
+      // return m_autoCommand;
+  } 
+  
   
 }
