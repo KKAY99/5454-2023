@@ -6,27 +6,47 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class ShootCubeCommand extends CommandBase{
     ShooterSubsystem m_ShooterSubsystem;
+    double m_shootTime;
     double m_startTime;
     double m_wait;
     double m_shootMotorSpeed;
-    double m_snowMotorSpeed;
-public ShootCubeCommand(ShooterSubsystem shooterSubsystem, double wait, double startTime, double shootMotorSpeed, double snowMotorSpeed){
+    
+public ShootCubeCommand(ShooterSubsystem shooterSubsystem,double shootMotorSpeed, double wait,double shootTime){
     m_ShooterSubsystem=shooterSubsystem;
     m_wait=wait;
-    m_startTime=startTime;
+    m_shootTime=shootTime;
     m_shootMotorSpeed=shootMotorSpeed;
-    m_snowMotorSpeed=snowMotorSpeed;
+    
 }
 public void initialize(){
-    m_startTime = Timer.getFPGATimestamp();
+ 
 }
 @Override
-public void execute(){
-    m_ShooterSubsystem.spinUpMotors(m_shootMotorSpeed);
-    if(Timer.getFPGATimestamp()-m_startTime  < m_wait){
-        m_ShooterSubsystem.expellCube(m_shootMotorSpeed, m_snowMotorSpeed);
-    }else{
-        
+public boolean isFinished(){
+boolean returnValue=false;
+double currentTime=Timer.getFPGATimestamp();
+//if the wait to shoot time passed
+if(currentTime>m_startTime){
+    //if the wait to finish shooting time is passed then stop shooting
+    if(currentTime>m_startTime+m_shootTime){
+        m_ShooterSubsystem.stop();
+        returnValue=true;
+    }else // if shoot time hasn't passed just keep/start shooting
+    {
+        m_ShooterSubsystem.expellCube(m_shootMotorSpeed);
+        returnValue=false;
     }
+}
+return returnValue;
+}
+
+@Override
+public void execute(){
+ 
+    m_ShooterSubsystem.spinUpShooterMotors(m_shootMotorSpeed); 
+    //set time to allow shooter to actually shoot
+    m_startTime = Timer.getFPGATimestamp();
+    m_shootTime=m_startTime+m_wait;
+   
 }
 }

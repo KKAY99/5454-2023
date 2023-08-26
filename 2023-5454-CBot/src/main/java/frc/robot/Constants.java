@@ -42,8 +42,19 @@ public class Arm {
   public static final double maxValue=0.95;
 }
 public class ShooterSubsystem{
-  double snowMotorSpeed=0.5;
-  //double shooterMotorSpeed = 1;
+  public static final double snowMotorSpeed=0.5;
+  public static final double shootLowSpeed=0.3;
+  public static final double shootMediumSpeed=0.6;
+  public static final double shootHighSpeed=0.9;
+  public static final double delayLowShot=0.2;
+  public static final double delayMediumShot=0.7;
+  public static final double delayHighShot=1.0;
+  public static final double shootTime=1;
+  public static final double intakeSpeed=0.8;
+  public static final int leftShootPort=10;
+  public static final int rightShootPort=11;
+  public static final int leftSnowPort=12;
+  public static final int rightSnowPort=13;
 }
 
   public class buttonConstants {
@@ -53,6 +64,10 @@ public class ShooterSubsystem{
     public static final int shootPos2Button=3;
     public static final int shootPos3Button=5;
     public static final int homePosButton=10;
+    public static final int intakeCube=1;
+    public static final int shootCubeHigh=2;
+    public static final int shootCubeMedium=3;
+    public static final int shootCubeLow=4;
   }
 
 

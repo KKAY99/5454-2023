@@ -8,6 +8,7 @@ package frc.robot;
 import frc.robot.Constants.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -16,8 +17,6 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.DefaultDrive;
-import frc.robot.commands.zMoveArmToPosCommand;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -26,9 +25,12 @@ import frc.robot.commands.zMoveArmToPosCommand;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
+  private ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
   private DriveSubsystem m_RobotDrive = new DriveSubsystem();
   private ArmSubsystem m_ArmSubsystem = new ArmSubsystem(Constants.Arm.motorPort,Constants.Arm.encoderPort,Constants.Arm.homePos,Constants.Arm.fastSpeed,Constants.Arm.slowSpeed);
+  private ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem(Constants.ShooterSubsystem.leftShootPort , Constants.ShooterSubsystem .rightShootPort, 
+                                                Constants.ShooterSubsystem.leftSnowPort,Constants.ShooterSubsystem.rightShootPort,
+                                                Constants.ShooterSubsystem.snowMotorSpeed);
   private XboxController m_xBoxDriver = new XboxController(0);
   private XboxController m_xBoxOperator = new XboxController(0);
 
@@ -46,6 +48,7 @@ public class RobotContainer {
     
   public void updateDashboard(){
     SmartDashboard.putNumber("Arm Position Encoder",+ m_ArmSubsystem.getEncoderPos());
+    SmartDashboard.putNumber("Max Snow Voltage",m_ShooterSubsystem.getMaxSnowVoltage());
   } 
 
   
@@ -82,8 +85,28 @@ public class RobotContainer {
     buttonArmPos2.onTrue(moveArmPos2);
     buttonArmPos3.onTrue(moveArmPos3);
      
+    final IntakeCubeCommand intakeCubeCommand = new IntakeCubeCommand(m_ShooterSubsystem,Constants.ShooterSubsystem.intakeSpeed);
+    Trigger intakeCube = new JoystickButton(m_xBoxOperator, Constants.buttonConstants.intakeCube);
+    intakeCube.onTrue(intakeCubeCommand);
+
+    final ShootCubeCommand shootLowCommand = new ShootCubeCommand(m_ShooterSubsystem, Constants.ShooterSubsystem.shootLowSpeed,
+                                             Constants.ShooterSubsystem.delayLowShot,Constants.ShooterSubsystem.shootTime);
+    Trigger shootLow=new JoystickButton(m_xBoxOperator, Constants.buttonConstants.shootCubeLow);
+    shootLow.toggleOnTrue(shootLowCommand);
+    
+    final ShootCubeCommand shootMidCommand = new ShootCubeCommand(m_ShooterSubsystem, Constants.ShooterSubsystem.shootMediumSpeed,
+                                             Constants.ShooterSubsystem.delayMediumShot,Constants.ShooterSubsystem.shootTime);
+    Trigger shootMid=new JoystickButton(m_xBoxOperator, Constants.buttonConstants.shootCubeMedium);
+    shootMid.toggleOnTrue(shootMidCommand);
+    
+    final ShootCubeCommand shootHighCommand = new ShootCubeCommand(m_ShooterSubsystem, Constants.ShooterSubsystem.shootHighSpeed,
+                                             Constants.ShooterSubsystem.delayHighShot,Constants.ShooterSubsystem.shootTime);
+    Trigger shootHigh=new JoystickButton(m_xBoxOperator, Constants.buttonConstants.shootCubeHigh);
+    shootHigh.toggleOnTrue(shootHighCommand);
+    
+  
   }
-  /**
+    /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
