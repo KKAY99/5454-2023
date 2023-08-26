@@ -196,7 +196,7 @@ public class SwerveModuleGB {
                         m_driveMotor.setVoltage(0);
                 }
                 m_driveMotor.setVoltage(driveVoltage);
-                System.out.println("Drive Voltage "+driveVoltage);
+                //System.out.println("Drive Voltage "+driveVoltage);
 
                 final double current = m_turningMotor.getSelectedSensorPosition(Constants.SwerveDriveGB.kSlotIdx);
                 final double desired = (int) Math

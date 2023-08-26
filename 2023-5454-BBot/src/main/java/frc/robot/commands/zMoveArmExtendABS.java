@@ -49,20 +49,18 @@ public class zMoveArmExtendABS extends CommandBase {
       addRequirements(m_rotate);  
       switch(targetLevel){
       case MIDDLECONE:
-        m_angleStage1ABS=Constants.Rotate.angleMiddleConeStage1ABS;
-        m_angleStage2ABS=Constants.Rotate.angleMiddleConeStage2ABS;
+        m_angleStage1ABS=Constants.Rotate.angleMiddleConeABS;
       break;
       case BOTTOMCONE:
-        m_angleStage1ABS=m_rotate.getRotatePos();
-        m_angleStage2ABS=m_rotate.getRotatePos();
+        m_angleStage1ABS=m_rotate.getABSPos();
+        m_angleStage2ABS=m_rotate.getABSPos();
         break;
       case MIDDLECUBE:
-        m_angleStage1ABS=Constants.Rotate.angleMiddleCubeStage1ABS;
-        m_angleStage2ABS=Constants.Rotate.angleMiddleCubeStage2ABS;
+        m_angleStage1ABS=Constants.Rotate.angleMiddleCubeABS;
       break;
       case BOTTOMCUBE:
-        m_angleStage1ABS=m_rotate.getRotatePos();
-        m_angleStage2ABS=m_rotate.getRotatePos();
+        m_angleStage1ABS=m_rotate.getABSPos();
+        m_angleStage2ABS=m_rotate.getABSPos();
         break;
     }
      

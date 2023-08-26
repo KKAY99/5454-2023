@@ -23,50 +23,50 @@ public final class Constants {
     public static final class ChargedUp {
         public static final double targetHeightAprilTag=0.4572;     // middle of April Tag in Distance
         public static final double targetHeighMLowTape=24.125;  // middle of low tape in inches
-        public static final double targetHeightHighTape=43.875; // middle of high tape in inches 
+        public static final double targetHeightHighTape=43.875;
+        public static final int apriltag=0;
+        public static final int middleTape=1;
     }
 
     public static final class Pneumatics {
         public static final int CompressorID=0; 
         public static final int LatchPort=5;
-        public static final int clawSolenoid1ID=0;
-        public static final int clawSolenoid2ID=0;
-        public static final int extensionSolenoidID=0;
+        public static final int clawSolenoid1ID=1;
+        public static final int clawSolenoid2ID=2;
+        public static final int extensionSolenoidID=3;
     }
 
     public static final class RotateArm{
-        public static final int rotateMotorPort=0;
+        public static final int rotateMotorPort=33;
         public static final int absEncoderPort=0;
-        public static final double FWDSoftLimit=0;
-        public static final double BWDSoftLimit=0;
+        public static final double FWDSoftLimitABS=0.07;
+        public static final double BWDSoftLimitABS=0.387;
     }
 
     public static final class Rotate{
         public static final double rotateAutoOutStage1Speed=-0.50;
         public static final double rotateAutoOutStage2Speed=-0.13; 
-        public static final double rotateAutoInSpeed=0.8; 
-        public static final double angleLowConeStage1ABS=0.497;    
-        public static final double angleLowConeStage2ABS=0.484;    
-        public static final double angleMiddleConeStage1ABS=0.510;    
-        public static final double angleMiddleConeStage2ABS=0.499; 
-        public static final double angleHighConeStage1ABS=0.510;    
-        public static final double angleHighConeStage2ABS=0.495;
-        public static final double angleLowCubeStage1ABS=0.497;    
-        public static final double angleLowCubeStage2ABS=0.484; 
-        public static final double angleMiddleCubeStage1ABS=0.510;    
-        public static final double angleMiddleCubeStage2ABS=0.497; 
-        public static final double angleHighCubeStage1ABS=0.510;    
-        public static final double angleHighCubeStage2ABS=0.482;
-        public static final double anglePlayerStage1ABS=0.536;
-        public static final double anglePlayerStage2ABS=0.536;
-        public static final double angleSlideStage1ABS=0;
-        public static final double angleSlideStage2ABS=0;
+        public static final double rotateAutoInSpeed=0.8;     
+        public static final double angleMiddleConeABS=0;
+        public static final double angleMiddleCubeABS=0;
+        public static final double anglePlayerStageABS=0;
+        public static final double angleSlideABS=0;
         public static final double angleIntakePos=0.02;
         public static final double ABSHomePos = 0.536;
         public static final double homeTimeFailsafe=5;
         public static final double homeSpeedForward=0.06;
         public static final double homeSpeedBackward=-0.06;
         public static final double encoderLowScorePos=0;
+        public static final double posMiddleConeFullLiftStage1=0;
+        public static final double posCubeOutofLimelight=0;
+
+        public static final double KP = 0.1;
+        public static final double KI = 1e-4;
+        public static final double KD = 1;
+        public static final double KIZ = 0;
+        public static final double KFF = 0;
+        public static final double maxOutput = 1;
+        public static final double minOutPut = -1;
     }
 
     public static final class PIDSteering{
@@ -86,6 +86,7 @@ public final class Constants {
     }
 
     public static final class ButtonConstants{
+        public static final double RotateDeadBand = 0.05;
     }
 
     public static final class LimitSwitches{

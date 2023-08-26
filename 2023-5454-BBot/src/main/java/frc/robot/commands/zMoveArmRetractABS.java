@@ -67,7 +67,7 @@ public class zMoveArmRetractABS extends CommandBase {
       case ROTATE:
       retracted=false;
       boolean rotated=false;
-      if(m_rotate.getRotatePos()<Constants.Rotate.ABSHomePos){
+      if(m_rotate.getABSPos()<Constants.Rotate.ABSHomePos){
        m_rotate.runWithLimits(Constants.Rotate.rotateAutoInSpeed);
       }else{
              m_rotate.stop();

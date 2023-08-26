@@ -55,7 +55,7 @@ public class RobotContainer {
    // private final DriveSubsystem m_RobotDrive = new DriveSubsystem(m_ahrs);
   // private final DrivetrainSubsystem m_RobotDrive = new DrivetrainSubsystem(m_NavX);
    private final SwerveSubsystem m_RobotDrive = new SwerveSubsystem();
-   private final RotateArmSubsystem m_RotateArm = new RotateArmSubsystem(Constants.RotateArm.rotateMotorPort,Constants.RotateArm.rotateMotorPort);
+   private final RotateArmSubsystem m_RotateArm = new RotateArmSubsystem(Constants.RotateArm.rotateMotorPort,Constants.RotateArm.absEncoderPort);
    private final PneumaticsSubsystem m_Pneumatics = new PneumaticsSubsystem(Constants.Pneumatics.CompressorID,Constants.Pneumatics.clawSolenoid1ID
                                                 ,Constants.Pneumatics.clawSolenoid2ID,Constants.Pneumatics.extensionSolenoidID);
 
@@ -95,6 +95,7 @@ public class RobotContainer {
     private static ShuffleboardTab ShooterTab=Shuffleboard.getTab("Shooter");
     private static ShuffleboardTab ControlTab = Shuffleboard.getTab("Controls");
     private static ShuffleboardTab PDPTab = Shuffleboard.getTab("PDP");
+    private static ShuffleboardTab EncoderTab = Shuffleboard.getTab("EncoderValues");
     // #endregion
     
    
@@ -256,6 +257,7 @@ public class RobotContainer {
     private zAutoTargetandMove m_test = new zAutoTargetandMove(m_Limelight, m_RobotDrive, 2);
     private boolean m_turretHasReset =false;
     private PhotonAlign m_photonAlign = new PhotonAlign(m_RobotDrive,m_PhotonVision);
+    private RotateArmCommand rotateArm= new RotateArmCommand(m_RotateArm,() -> (m_xBoxOperator.getLeftX()));
 
     private SequentialCommandGroup autoScoreMoveBWD = new SequentialCommandGroup(new AutoMoveCommand(m_RobotDrive,180), new zMoveArmExtendABS(m_RotateArm,m_Pneumatics,m_Limelight,Constants.TargetHeight.MIDDLECONE,true,true),
                                                         new zMoveArmRetractABS(m_RotateArm, m_Pneumatics), new ClawOpenCloseCommand(m_Pneumatics));
@@ -289,6 +291,9 @@ public class RobotContainer {
     private void configureButtonBindings() {
 
         final GyroResetCommand gyroResetCommand = new GyroResetCommand(m_RobotDrive,m_Limelight);
+
+        Trigger operatorRotate = new Trigger(() -> Math.abs(m_xBoxOperator.getLeftX())>ButtonConstants.RotateDeadBand);
+        operatorRotate.whileTrue(rotateArm);
     }
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.

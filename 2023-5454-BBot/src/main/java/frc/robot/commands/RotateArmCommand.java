@@ -1,22 +1,24 @@
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.RotateArmSubsystem;
 
 public class RotateArmCommand extends CommandBase{
     
     private RotateArmSubsystem m_rotateSubsystem;
-    private double m_speed;
+    private DoubleSupplier m_speed;
 
-    public RotateArmCommand(RotateArmSubsystem rotateSubsystem,double speed){
+    public RotateArmCommand(RotateArmSubsystem rotateSubsystem,DoubleSupplier speed){
         m_rotateSubsystem=rotateSubsystem;
-
         m_speed=speed;
     }
 
     @Override
     public void execute(){
-        m_rotateSubsystem.runWithLimits(m_speed);
+        double speed=m_speed.getAsDouble();
+        System.out.println("Speed" + speed);
+        m_rotateSubsystem.runWithLimits(speed);
     }
 
     @Override
