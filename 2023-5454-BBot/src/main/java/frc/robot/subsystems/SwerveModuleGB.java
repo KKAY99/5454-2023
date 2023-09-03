@@ -190,13 +190,18 @@ public class SwerveModuleGB {
 
                 //m_driveOutput.setDouble(driveVoltage);
                 // m_steerOutput.setDouble(steerVoltage);
-                if(driveVoltage>0.001||driveVoltage<-0.001){
-                        m_driveMotor.setVoltage(driveVoltage);     
+                if(state.speedMetersPerSecond==0){
+                      driveVoltage=0;
                 }else{
-                        m_driveMotor.setVoltage(0);
+              
+                        if(Math.abs(driveVoltage)<0.001){
+                                driveVoltage=0;    
+                        }
                 }
+        
+
                 m_driveMotor.setVoltage(driveVoltage);
-                //System.out.println("Drive Voltage "+driveVoltage);
+               // System.out.println("Drive Voltage "+driveVoltage);
 
                 final double current = m_turningMotor.getSelectedSensorPosition(Constants.SwerveDriveGB.kSlotIdx);
                 final double desired = (int) Math

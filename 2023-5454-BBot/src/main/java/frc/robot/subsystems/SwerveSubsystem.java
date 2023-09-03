@@ -84,6 +84,7 @@ public class SwerveSubsystem extends SubsystemBase {
          */
         @SuppressWarnings("ParameterName")
         public void drive(double xSpeed, double ySpeed, double rot) {
+                
                 drive(xSpeed, ySpeed, rot, false);
         }
 
@@ -109,6 +110,9 @@ public class SwerveSubsystem extends SubsystemBase {
                 m_backLeft.setDesiredState(swerveModuleStates[2]);
                 m_backRight.setDesiredState(swerveModuleStates[3]);
 
+                //System.out.println("Setting Speed " + swerveModuleStates[0].speedMetersPerSecond + " -- " + swerveModuleStates[1].speedMetersPerSecond
+                //                   + " _-" +  swerveModuleStates[2].speedMetersPerSecond + " -- " + swerveModuleStates[3].speedMetersPerSecond);
+               
                 frontLeftSpeed.setDouble(swerveModuleStates[0].speedMetersPerSecond);
                 frontRightSpeed.setDouble(swerveModuleStates[1].speedMetersPerSecond);
                 backLeftSpeed.setDouble(swerveModuleStates[2].speedMetersPerSecond);
