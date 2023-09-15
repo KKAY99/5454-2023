@@ -37,7 +37,8 @@ public class AutoMoveCommand extends CommandBase {
   @Override
   public void execute() {
     m_isFinished=false;
-    m_drive.commandDriveStraight(m_distance, m_direction);
+    //distance as time
+    m_drive.commandDriveStraight(.20,m_distance);
     m_isFinished=true;
   }
 

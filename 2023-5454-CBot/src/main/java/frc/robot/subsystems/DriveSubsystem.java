@@ -71,7 +71,7 @@ public class DriveSubsystem extends SubsystemBase {
     double currentTime;
     startTime=Timer.getFPGATimestamp();
     currentTime=startTime;
-    
+    System.out.println("Auto Drive Straight " + currentTime + " " + startTime+duration);
     while( currentTime <= startTime+duration){
       m_leftMotors.set(speed);
       m_rightMotors.set(-speed);

@@ -30,7 +30,8 @@ public class RobotContainer {
   private DriveSubsystem m_RobotDrive = new DriveSubsystem();
   private ArmSubsystem m_ArmSubsystem = new ArmSubsystem(Constants.Arm.motorPort,Constants.Arm.encoderPort,Constants.Arm.homePos,Constants.Arm.fastSpeed,Constants.Arm.slowSpeed);
   private ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem(Constants.ShooterSubsystem.leftShootPort , Constants.ShooterSubsystem .rightShootPort, 
-                                                Constants.ShooterSubsystem.snowMotorPort,Constants.ShooterSubsystem.snowMotorSpeed);
+                                                Constants.ShooterSubsystem.snowMotorPort,Constants.ShooterSubsystem.snowMotorSpeed,
+                                                Constants.ShooterSubsystem.limitSwitch);
   private XboxController m_xBoxDriver = new XboxController(InputControllers.kXboxDriver);
   private XboxController m_xBoxOperator = new XboxController(InputControllers.kXboxOperator);
 
@@ -47,8 +48,8 @@ public class RobotContainer {
 
     
   public void updateDashboard(){
-    SmartDashboard.putNumber("Arm Position Encoder",+ m_ArmSubsystem.getEncoderPos());
-    SmartDashboard.putNumber("Max Snow Voltage",m_ShooterSubsystem.getMaxSnowVoltage());
+   // SmartDashboard.putNumber("Arm Position Encoder",+ m_ArmSubsystem.getEncoderPos());
+   // SmartDashboard.putNumber("Max Snow Voltage",m_ShooterSubsystem.getMaxSnowVoltage());
   } 
 
   
@@ -87,7 +88,7 @@ public class RobotContainer {
      
     final IntakeCubeCommand intakeCubeCommand = new IntakeCubeCommand(m_ShooterSubsystem,Constants.ShooterSubsystem.intakeSpeed);
     Trigger intakeCube = new JoystickButton(m_xBoxOperator, Constants.buttonConstants.intakeCube);
-    intakeCube.onTrue(intakeCubeCommand);
+    intakeCube.whileTrue(intakeCubeCommand);
 
     final ShootCubeCommand shootLowCommand = new ShootCubeCommand(m_ShooterSubsystem, Constants.ShooterSubsystem.shootLowSpeed,
                                              Constants.ShooterSubsystem.delayLowShot,Constants.ShooterSubsystem.shootTime);
@@ -123,9 +124,8 @@ public class RobotContainer {
            autoCommand= new AutoMoveCommand(m_RobotDrive,0,AutoModes.MoveOutDistance);
           break;
           case AutoModes.autoMoveScoreMoveForward:
-             autoCommand=new SequentialCommandGroup(new zMoveArmToPosCommand(m_ArmSubsystem,Constants.Arm.shootPos3),
-                                  new ShootCubeCommand(m_ShooterSubsystem, Constants.ShooterSubsystem.shootHighSpeed,
-                                  Constants.ShooterSubsystem.delayHighShot,Constants.ShooterSubsystem.shootTime),
+             autoCommand=new SequentialCommandGroup(new ShootCubeCommand(m_ShooterSubsystem, Constants.ShooterSubsystem.shootMediumSpeed,
+                                  Constants.ShooterSubsystem.delayMediumShot,Constants.ShooterSubsystem.shootTime),
                                   new AutoMoveCommand(m_RobotDrive,0,AutoModes.MoveOutDistance));
           break;
         case AutoModes.autoMoveScoreBalance:
