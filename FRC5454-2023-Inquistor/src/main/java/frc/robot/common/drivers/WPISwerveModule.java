@@ -83,7 +83,7 @@ public class WPISwerveModule {
 
     public double getTurnPosition(){
       //  return m_turningEncoder.getPosition();
-      System.out.println("Wheel Angle "+ m_absEncoder.GetActualAngle());
+      //System.out.println("Wheel Angle "+ m_absEncoder.GetActualAngle());
       return m_absEncoder.GetActualAngle();
     }
 
@@ -140,7 +140,7 @@ public class WPISwerveModule {
         //m_turningMotor.set(m_turningPIDController.calculate(getTurnPosition(),state.angle.getRadians()));
     
         double diff = getTurnPosition()-state.angle.getRadians();
-        System.out.println("Diff is "+ diff);
+        //System.out.println("Diff is "+ diff);
         if (Math.abs(diff)>5){
             if(diff<0){
                 diff=Math.abs(diff);
@@ -151,8 +151,8 @@ public class WPISwerveModule {
         } else{
             m_turningMotor.set(0);
         }
-        System.out.println(getTurnPosition() + " ** " + state.angle.getRadians());
-        System.out.println("Drive Value"+state.speedMetersPerSecond/Constants.WPISwerve.physicalMaxSpeedMetersPerSecond*m_WPIDrive.speedMultiplier);
-        System.out.println("Turning Value"+m_turningPIDController.calculate(getTurnPosition(),state.angle.getRadians()));
+        //System.out.println(getTurnPosition() + " ** " + state.angle.getRadians());
+        //System.out.println("Drive Value"+state.speedMetersPerSecond/Constants.WPISwerve.physicalMaxSpeedMetersPerSecond*m_WPIDrive.speedMultiplier);
+        //System.out.println("Turning Value"+m_turningPIDController.calculate(getTurnPosition(),state.angle.getRadians()));
     }
 }

@@ -72,9 +72,9 @@ public class WPIDriveCommand extends CommandBase {
     rotSpeed=Math.abs(rotSpeed)>0.05?rotSpeed:0.0;
     rotSpeed*=1;
 
-    System.out.println("Forward Speed " + fwdSpeed);
-    System.out.println("Strafe Speed " + strafeSpeed);
-    System.out.println("Rot Speed " + rotSpeed);
+    //System.out.println("Forward Speed " + fwdSpeed);
+    //System.out.println("Strafe Speed " + strafeSpeed);
+    //System.out.println("Rot Speed " + rotSpeed);
     
     if(rotSpeed>Constants.WPISwerve.physicalMaxAngularSpeedRadiansPerSecond){
       rotSpeed=Constants.WPISwerve.physicalMaxAngularSpeedRadiansPerSecond;

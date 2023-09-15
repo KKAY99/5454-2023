@@ -31,7 +31,7 @@ public class FloorIntakeSubsystem extends SubsystemBase{
         m_intakeMotor1.setSecondaryCurrentLimit(40); //Set as well at 30
         m_intakeMotor1.setIdleMode(CANSparkMax.IdleMode.kBrake);
     
-        m_intakeMotor2 = new CANSparkMax(intakeMotorPort1, MotorType.kBrushed);
+        m_intakeMotor2 = new CANSparkMax(intakeMotorPort2,MotorType.kBrushed);
         m_intakeMotor2.setOpenLoopRampRate(0.25);
         m_intakeMotor2.setSmartCurrentLimit(30);  // likely gets ignored due to brushed motor
         m_intakeMotor2.setSecondaryCurrentLimit(40); //Set as well at 30
