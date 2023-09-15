@@ -31,8 +31,8 @@ public class RobotContainer {
   private ArmSubsystem m_ArmSubsystem = new ArmSubsystem(Constants.Arm.motorPort,Constants.Arm.encoderPort,Constants.Arm.homePos,Constants.Arm.fastSpeed,Constants.Arm.slowSpeed);
   private ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem(Constants.ShooterSubsystem.leftShootPort , Constants.ShooterSubsystem .rightShootPort, 
                                                 Constants.ShooterSubsystem.snowMotorPort,Constants.ShooterSubsystem.snowMotorSpeed);
-  private XboxController m_xBoxDriver = new XboxController(0);
-  private XboxController m_xBoxOperator = new XboxController(0);
+  private XboxController m_xBoxDriver = new XboxController(InputControllers.kXboxDriver);
+  private XboxController m_xBoxOperator = new XboxController(InputControllers.kXboxOperator);
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */

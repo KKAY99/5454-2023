@@ -23,10 +23,6 @@ public final class Constants {
       public static final double speedIn=.5;
       public static final double speedOut=.5;
   }
-  public class spindex{
-      public static final int motorPWM=5;
-      public static final double spinspeed=0.3;
-}
 public class Arm {
   public static final double homePos=1;
   public static final double shootPos1=0.944;
@@ -42,18 +38,18 @@ public class Arm {
   public static final double maxValue=0.95;
 }
 public class ShooterSubsystem{
-  public static final double snowMotorSpeed=0.5;
-  public static final double shootLowSpeed=0.3;
-  public static final double shootMediumSpeed=0.6;
-  public static final double shootHighSpeed=0.9;
+  public static final double snowMotorSpeed=0.9;
+  public static final double shootLowSpeed=0.2;
+  public static final double shootMediumSpeed=0.4;
+  public static final double shootHighSpeed=0.6;
   public static final double delayLowShot=0.2;
   public static final double delayMediumShot=0.7;
-  public static final double delayHighShot=1.0;
+  public static final double delayHighShot=2.0;
   public static final double shootTime=1;
-  public static final double intakeSpeed=0.8;
-  public static final int leftShootPort=10;
-  public static final int rightShootPort=11;
-  public static final int snowMotorPort=12;
+  public static final double intakeSpeed=0.4;
+  public static final int leftShootPort=21;
+  public static final int rightShootPort=22;
+  public static final int snowMotorPort=11;
 }
 
   public class buttonConstants {

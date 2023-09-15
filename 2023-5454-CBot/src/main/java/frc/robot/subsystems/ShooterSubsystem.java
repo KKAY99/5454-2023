@@ -25,11 +25,11 @@ public class ShooterSubsystem extends SubsystemBase{
     }
 
     public void intakeCube(double shootMotorSpeed){
-        m_leftShootMotor.set(ControlMode.PercentOutput,-shootMotorSpeed);
+        m_leftShootMotor.set(ControlMode.PercentOutput,shootMotorSpeed);
         m_rightShootMotor.set(ControlMode.PercentOutput,-shootMotorSpeed);
         m_SnowMotors.set(ControlMode.PercentOutput, -m_snowMotorSpeed);
         
-        double currentVoltage=m_SnowMotors.getMotorOutputVoltage();
+        double currentVoltage=Math.abs(m_SnowMotors.getMotorOutputVoltage());
         if(currentVoltage>m_maxSnowVoltage){
             m_maxSnowVoltage=currentVoltage;
         }
@@ -41,7 +41,7 @@ public class ShooterSubsystem extends SubsystemBase{
     }
 
     public void expellCube(double shootMotorSpeed){
-        m_leftShootMotor.set(ControlMode.PercentOutput,shootMotorSpeed);
+        m_leftShootMotor.set(ControlMode.PercentOutput,-shootMotorSpeed);
         m_rightShootMotor.set(ControlMode.PercentOutput,shootMotorSpeed);
         m_SnowMotors.set(ControlMode.PercentOutput, m_snowMotorSpeed);
         
@@ -51,6 +51,7 @@ public class ShooterSubsystem extends SubsystemBase{
         return m_maxSnowVoltage;
     }
     public boolean hasCube(){
+        System.out.print("Max Voltage - " + m_maxSnowVoltage + "Current Voltage - " + m_SnowMotors.getBusVoltage());
         if(m_maxSnowVoltage>kIntakeStallVoltage){
             return true;
         }else {

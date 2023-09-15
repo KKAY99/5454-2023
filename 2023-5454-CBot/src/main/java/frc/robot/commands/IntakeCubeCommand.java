@@ -20,7 +20,12 @@ public void initialize(){
 public boolean isFinished(){
     boolean returnValue=false;
     returnValue=m_ShooterSubsystem.hasCube(); 
+    System.out.println("Intake Running" + returnValue);
     return returnValue;
+}
+@Override
+public void end(boolean interrupted) {
+    m_ShooterSubsystem.stop();
 }
 
 @Override

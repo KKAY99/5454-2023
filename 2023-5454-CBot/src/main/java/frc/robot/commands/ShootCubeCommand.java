@@ -19,6 +19,10 @@ public ShootCubeCommand(ShooterSubsystem shooterSubsystem,double shootMotorSpeed
     
 }
 public void initialize(){
+    m_ShooterSubsystem.spinUpShooterMotors(m_shootMotorSpeed); 
+    //set time to allow shooter to actually shoot
+    m_startTime = Timer.getFPGATimestamp()+m_wait;
+    m_shootTime=m_startTime+m_shootTime;
  
 }
 @Override
@@ -26,13 +30,16 @@ public boolean isFinished(){
 boolean returnValue=false;
 double currentTime=Timer.getFPGATimestamp();
 //if the wait to shoot time passed
+System.out.println(currentTime +" " + m_startTime +" " + m_shootTime);
 if(currentTime>m_startTime){
     //if the wait to finish shooting time is passed then stop shooting
-    if(currentTime>m_startTime+m_shootTime){
+    if(currentTime>m_shootTime){
         m_ShooterSubsystem.stop();
+
         returnValue=true;
     }else // if shoot time hasn't passed just keep/start shooting
     {
+    
         m_ShooterSubsystem.expellCube(m_shootMotorSpeed);
         returnValue=false;
     }
@@ -43,10 +50,7 @@ return returnValue;
 @Override
 public void execute(){
  
-    m_ShooterSubsystem.spinUpShooterMotors(m_shootMotorSpeed); 
-    //set time to allow shooter to actually shoot
-    m_startTime = Timer.getFPGATimestamp();
-    m_shootTime=m_startTime+m_wait;
-   
+  
+
 }
 }
