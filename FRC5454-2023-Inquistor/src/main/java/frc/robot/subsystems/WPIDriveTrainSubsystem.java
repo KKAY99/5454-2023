@@ -81,7 +81,7 @@ public class WPIDriveTrainSubsystem extends SubsystemBase{
 
     public void setModuleStates(SwerveModuleState[] desiredStates){
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates,Constants.WPISwerve.physicalMaxSpeedMetersPerSecond);
-        System.out.println("DesaturationY"+desiredStates[0].angle.getDegrees());
+        //System.out.println("DesaturationY"+desiredStates[0].angle.getDegrees());
 
         m_frontLeftModule.setState(desiredStates[0]);
         m_frontRightModule.setState(desiredStates[1]);

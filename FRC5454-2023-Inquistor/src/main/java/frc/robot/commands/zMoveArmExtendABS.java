@@ -9,6 +9,8 @@ import frc.robot.subsystems.PnuematicsSubystem;
 import edu.wpi.first.util.concurrent.Event;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.classes.Limelight;
+import frc.robot.subsystems.ClawSubsystem;
+import edu.wpi.first.wpilibj.Timer;
 
 
 
@@ -18,7 +20,7 @@ public class zMoveArmExtendABS extends CommandBase {
   
   private final ElevatorSubsystem m_elevator;
   private final RotateArmSubsystem m_rotate;
-  private final PnuematicsSubystem m_pnuematics;
+  private final ClawSubsystem m_claw;
   private double m_posInitLift;
   private double m_posFullLiftStage1;
   private double m_posFullLiftStage2;
@@ -32,6 +34,10 @@ public class zMoveArmExtendABS extends CommandBase {
   private boolean m_openClaw;
   private int targetChecks=0;
   private final int kCheckTargetTimes=10;
+  private double kClawRunTime=0.5;
+  private boolean m_hasRun=false;
+  private double m_endTime;
+
   private static enum STATE
   {
                   CANSEETARGET,INITLIFT,ROTATE,EXTENDANDROTATE,EXTENDLIFT,FINALROTATE,OPENCLAW,ABORT,END
@@ -43,10 +49,10 @@ public class zMoveArmExtendABS extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public zMoveArmExtendABS(ElevatorSubsystem elevator, RotateArmSubsystem rotate,PnuematicsSubystem pnuematics, Limelight limelight, Constants.TargetHeight targetLevel, boolean checkForTarget, boolean shouldRotateClaw,boolean openClaw) {
+  public zMoveArmExtendABS(ElevatorSubsystem elevator, RotateArmSubsystem rotate,ClawSubsystem claw, Limelight limelight, Constants.TargetHeight targetLevel, boolean checkForTarget, boolean shouldRotateClaw,boolean openClaw) {
     m_elevator = elevator;
     m_rotate = rotate;
-    m_pnuematics = pnuematics;
+    m_claw = claw;
     m_limelight = limelight;
     m_checkForTarget = checkForTarget;
     m_targetLevel=targetLevel;
@@ -161,7 +167,6 @@ public class zMoveArmExtendABS extends CommandBase {
       }
       break;
       case INITLIFT:
-          m_pnuematics.setConveyorPunch(true);
           // Encoder is negative as it lifts up
           if(m_elevator.getElevatorPos()>m_posInitLift){
             m_elevator.runWithOutLimit(Constants.Lift.liftAutoExtendStage1Speed);
@@ -215,7 +220,7 @@ public class zMoveArmExtendABS extends CommandBase {
       
        if(m_elevator.getElevatorPos()>m_posFullLiftStage1){
         m_elevator.runWithOutLimit(Constants.Lift.liftAutoExtendStage1Speed);
-      } else{
+       }else{
           if(m_elevator.getElevatorPos()>m_posFullLiftStage2){
             m_elevator.runWithOutLimit(Constants.Lift.liftAutoExtendStage2Speed);
           }else{
@@ -235,11 +240,17 @@ public class zMoveArmExtendABS extends CommandBase {
             }    
           }
         }
+
       if(rotated && extended){
+        System.out.println("rotated && extended");
         if(m_openClaw){
-          System.out.println("Ending Auto Score - Open Claw");
-          m_state=STATE.OPENCLAW;
-        }else {
+          if(m_elevator.getElevatorPos()<m_posFullLiftStage2+2){
+              System.out.println("Ending Auto Score - Open Claw");
+              m_state=STATE.OPENCLAW;
+          }else{
+            m_elevator.runWithLimit(Constants.Lift.liftAutoExtendStage2Speed);
+          }
+        }else{
           System.out.println("Ending Auto Score - Not Opening Claw");
           m_state=STATE.END;
         }
@@ -261,14 +272,24 @@ public class zMoveArmExtendABS extends CommandBase {
        }*/
       break;
       case OPENCLAW:
-         m_pnuematics.openClaw();
-         m_state=STATE.END;
+         if(m_hasRun==false){
+          m_endTime=Timer.getFPGATimestamp()+kClawRunTime; 
+          m_claw.runClaw(0.5);
+          m_hasRun=true;
+         }
+
+         if(returnValue=(m_endTime<Timer.getFPGATimestamp()&&m_hasRun)){
+          m_claw.stopClaw();
+          m_hasRun=false;
+          m_state=STATE.END;
+         }
          break;
       case ABORT:
          System.out.println("Aborting Auto Score");
       case END:
       System.out.println("Ending Auto Score");
         //m_elevator.SetPosAndMove(m_posFullLiftStage2);
+        m_hasRun=false;
         m_elevator.stop();
         m_rotate.stopRotate();
         returnValue=true;

@@ -67,8 +67,8 @@ public final class Constants {
         public static final double maxLimit = -153;
     }
     public class Claw{
-        public static final int clawMotorPort=44;
-        public static final double clawSpeed=.5;
+        public static final int clawMotorPort=24;
+        public static final double clawSpeed=1;
     }
     public class RotateArm{
         public static final int rotateArmPort1=50;
@@ -110,8 +110,8 @@ public final class Constants {
         public static final double posInitLiftRetract=-46+kClawFlipOffset; // was -26+kClawFip
          public static final double posLowConeFullLiftStage1=-62+kClawFlipOffset;
         public static final double posLowConeFullLiftStage2=-72+kClawFlipOffset;
-        public static final double posMiddleConeFullLiftStage1=-80.00+kClawFlipOffset;
-        public static final double posMiddleConeFullLiftStage2=-98; 
+        public static final double posMiddleConeFullLiftStage1=-80;
+        public static final double posMiddleConeFullLiftStage2=-102.8; 
         public static final double posHighConeFullLiftStage1=-100+kClawFlipOffset;
         public static final double posHighConeFullLiftStage2=-140;
         public static final double posLowCubeFullLiftStage1=-62+kClawFlipOffset;
@@ -146,14 +146,14 @@ public final class Constants {
         public static final double rotateAutoInSpeed=0.8; 
         public static final double angleLowConeStage1ABS=0.497;    
         public static final double angleLowConeStage2ABS=0.484;    
-        public static final double angleMiddleConeStage1ABS=0.510;    
-        public static final double angleMiddleConeStage2ABS=0.499; 
+        public static final double angleMiddleConeStage1ABS=0.490;    
+        public static final double angleMiddleConeStage2ABS=0.480; 
         public static final double angleHighConeStage1ABS=0.510;    
         public static final double angleHighConeStage2ABS=0.495;
         public static final double angleLowCubeStage1ABS=0.497;    
         public static final double angleLowCubeStage2ABS=0.484; 
         public static final double angleMiddleCubeStage1ABS=0.510;    
-        public static final double angleMiddleCubeStage2ABS=0.497; 
+        public static final double angleMiddleCubeStage2ABS=0.495; 
         public static final double angleHighCubeStage1ABS=0.510;    
         public static final double angleHighCubeStage2ABS=0.482;
         public static final double anglePlayerStage1ABS=0.536;
@@ -234,7 +234,6 @@ public final class Constants {
         public static final double ElevatorDeadBand = 0.10;
         public static final double RotateDeadBand = 0.10;
         public static final double IntakeDeadBand = 0.30;
-        public static final double IntakeRotateDeadBand = 0.30;
         public static final double LeftTriggerDeadBand = 0.05;
         public static final double RightTriggerDeadBand = 0.05;
     }

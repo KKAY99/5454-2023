@@ -57,7 +57,7 @@ public class ClawCommand extends CommandBase {
     @Override
     public boolean isFinished() {
      boolean returnValue=false;
-     returnValue=(m_endTime>Timer.getFPGATimestamp());
+     returnValue=(m_endTime<Timer.getFPGATimestamp());
      return returnValue;
     }
 

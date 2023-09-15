@@ -24,15 +24,22 @@ public class ClawSubsystem extends SubsystemBase{
         m_clawMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
         m_clawSpeed=clawSpeed;        
     }
+    public boolean getClaw(){
+      return m_clawIsOpen;
+    }
+
+    public void runClaw(double speed){
+      m_clawMotor.set(speed);
+    }
 
     public void openClaw() {
         //System.out.println("intake motor set" + power);
       m_clawMotor.set(m_clawSpeed);
-      m_clawIsOpen=true;
+      m_clawIsOpen=false;
     }
     public void closeClaw (){
       m_clawMotor.set(-m_clawSpeed);
-      m_clawIsOpen=false;
+      m_clawIsOpen=true;   
     }
     
     public void stopClaw(){
