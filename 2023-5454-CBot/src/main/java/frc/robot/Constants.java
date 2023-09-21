@@ -28,7 +28,7 @@ public class Arm {
   public static final double homePost=0;
   public static final double fastSpeed=0.7;
   public static final double slowSpeed=0.4;
-  public static final double manualSpeed=0.4;
+  public static final double manualSpeed=0.5;
   public static final double minValue=0.45;
   public static final double maxValue=0.95;
 }
@@ -49,6 +49,7 @@ public class ShooterSubsystem{
 }
 
   public class buttonConstants {
+    public static final double DeadBand=0.06;
     public static final int moveArmUp=4;
     public static final int moveArmDown=1;
     public static final int shootPos1Button=2;

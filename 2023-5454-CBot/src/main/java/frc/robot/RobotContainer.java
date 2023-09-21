@@ -48,7 +48,7 @@ public class RobotContainer {
 
     
   public void updateDashboard(){
-   // SmartDashboard.putNumber("Arm Position Encoder",+ m_ArmSubsystem.getEncoderPos());
+    SmartDashboard.putNumber("Arm Position Encoder",+ m_ArmSubsystem.getEncoderPos());
    // SmartDashboard.putNumber("Max Snow Voltage",m_ShooterSubsystem.getMaxSnowVoltage());
   } 
 
@@ -77,6 +77,17 @@ public class RobotContainer {
     final MoveArmCommand armUpCommand=new MoveArmCommand(m_ArmSubsystem,Constants.Arm.manualSpeed, Constants.Arm.minValue,Constants.Arm.maxValue);
     Trigger moveArmUp= new JoystickButton(m_xBoxDriver, Constants.buttonConstants.moveArmUp);
     moveArmUp.whileTrue(armUpCommand);    
+
+    final MoveArmCommand armDown2Command=new MoveArmCommand(m_ArmSubsystem,-Constants.Arm.manualSpeed, Constants.Arm.minValue,Constants.Arm.maxValue);
+    final MoveArmCommand armUp2Command=new MoveArmCommand(m_ArmSubsystem,Constants.Arm.manualSpeed, Constants.Arm.minValue,Constants.Arm.maxValue);
+    
+    Trigger JoystickupUp = new Trigger(() -> (m_xBoxOperator.getLeftY())<-buttonConstants.DeadBand);
+    JoystickupUp.whileTrue(armUp2Command);
+
+    Trigger JoystickupDown = new Trigger(() -> (m_xBoxOperator.getLeftY())>buttonConstants.DeadBand);
+    JoystickupDown.whileTrue(armDown2Command);
+
+
 
     Trigger buttonArmPos1=new JoystickButton(m_xBoxDriver, Constants.buttonConstants.shootPos1Button);
     Trigger buttonArmPos2=new JoystickButton(m_xBoxDriver, Constants.buttonConstants.shootPos2Button);
