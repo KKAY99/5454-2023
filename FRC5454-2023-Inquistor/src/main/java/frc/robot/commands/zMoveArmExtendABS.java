@@ -20,6 +20,7 @@ public class zMoveArmExtendABS extends CommandBase {
   
   private final ElevatorSubsystem m_elevator;
   private final RotateArmSubsystem m_rotate;
+  private final PnuematicsSubystem m_pPnuematicsSubystem;
   private final ClawSubsystem m_claw;
   private double m_posInitLift;
   private double m_posFullLiftStage1;
@@ -49,9 +50,10 @@ public class zMoveArmExtendABS extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public zMoveArmExtendABS(ElevatorSubsystem elevator, RotateArmSubsystem rotate,ClawSubsystem claw, Limelight limelight, Constants.TargetHeight targetLevel, boolean checkForTarget, boolean shouldRotateClaw,boolean openClaw) {
+  public zMoveArmExtendABS(ElevatorSubsystem elevator, RotateArmSubsystem rotate,PnuematicsSubystem pnumatics, ClawSubsystem claw, Limelight limelight, Constants.TargetHeight targetLevel, boolean checkForTarget, boolean shouldRotateClaw,boolean openClaw) {
     m_elevator = elevator;
     m_rotate = rotate;
+    m_pPnuematicsSubystem=pnumatics;
     m_claw = claw;
     m_limelight = limelight;
     m_checkForTarget = checkForTarget;
@@ -167,7 +169,9 @@ public class zMoveArmExtendABS extends CommandBase {
       }
       break;
       case INITLIFT:
-          // Encoder is negative as it lifts up
+      m_pPnuematicsSubystem.setConveyorPunch(true);
+
+      // Encoder is negative as it lifts up
           if(m_elevator.getElevatorPos()>m_posInitLift){
             m_elevator.runWithOutLimit(Constants.Lift.liftAutoExtendStage1Speed);
           }else{

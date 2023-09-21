@@ -42,7 +42,8 @@ public class FloorIntakeSubsystem extends SubsystemBase{
         m_rotateMotor.setSmartCurrentLimit(20);  // likely gets ignored due to brushed motor
         m_rotateMotor.setSecondaryCurrentLimit(30); //Set as well at 30
         m_rotateMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        m_rotateMotor.setInverted(true);
+       // m_rotateMotor.setInverted(true);
+       m_rotateMotor.setInverted(false);
         m_rotateEncoder=m_rotateMotor.getEncoder();
         m_limitSwitch=new DigitalInput(limitSwitchport);
         m_highLimit=rotateHighLimit;

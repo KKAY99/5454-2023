@@ -53,6 +53,7 @@ public final class Constants {
     
     public class Spindexer {
      //   public static final int motorPort=17;
+     // haha failed thing
         public static final double spinForward=1;
         public static final double spinBack=-1;
         public static final double spinForwardSlow=0.6;
@@ -174,12 +175,12 @@ public final class Constants {
      
         public static final double intakehomeRotateSpeed=-0.15;
         public static final int intakeMotorPort1=44;
-        public static final int intakeMotorPort2=54;
+        public static final int intakeMotorPort2=17;
         public static final int rotateMotorPort=42;
-        public static final double rotateHighLimit=5;
-        public static final double rotateLowLimit=74;
+        public static final double rotateHighLimit=2;
+        public static final double rotateLowLimit=130;
      
-        public static final double rotateOuttakePos=60.5;
+        public static final double rotateOuttakePos=98;
         
         public static final double rotateHandOff=30;
         public static final int intakeRotateEncoderPort=4;
@@ -192,8 +193,8 @@ public final class Constants {
         public static final int HubID=62;
         public static final PneumaticsModuleType moduleType=PneumaticsModuleType.REVPH;
     
-        public static final int clawSolenoid = 8;
-        public static final int punchSolenoid=9;
+        public static final int clawSolenoid = 9; // was 8 -jackson
+        public static final int punchSolenoid=8; //was 9 -jackson
     }
 
     public static final class ButtonConstants{
