@@ -4,8 +4,11 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.DigitalInput;
+
 import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase{
@@ -16,11 +19,16 @@ public class ShooterSubsystem extends SubsystemBase{
     private double m_shootMotorSpeed;
     private double m_snowMotorSpeed;
     private double m_maxSnowVoltage;
+    private DigitalInput m_IntakeLimitSwitch;
+
     private static final double kIntakeStallVoltage=13;
-    public ShooterSubsystem(int leftShootMotorPort, int rightShootMotorPort, int snowMotorPort,double snowMotorSpeed){
+    public ShooterSubsystem(int leftShootMotorPort, int rightShootMotorPort, int snowMotorPort,double snowMotorSpeed,int limitSwitch){
         m_leftShootMotor = new TalonSRX(leftShootMotorPort);
         m_rightShootMotor = new TalonSRX(rightShootMotorPort);
+        m_leftShootMotor.setNeutralMode(NeutralMode.Brake);
+        m_rightShootMotor.setNeutralMode(NeutralMode.Brake);
         m_SnowMotors =  new TalonSRX(snowMotorPort);
+        m_IntakeLimitSwitch = new DigitalInput(limitSwitch);
         m_snowMotorSpeed=snowMotorSpeed;
     }
 
@@ -41,7 +49,7 @@ public class ShooterSubsystem extends SubsystemBase{
     }
 
     public void expellCube(double shootMotorSpeed){
-        m_leftShootMotor.set(ControlMode.PercentOutput,-shootMotorSpeed);
+        m_leftShootMotor.set(ControlMode.PercentOutput,-shootMotorSpeed/2);
         m_rightShootMotor.set(ControlMode.PercentOutput,shootMotorSpeed);
         m_SnowMotors.set(ControlMode.PercentOutput, m_snowMotorSpeed);
         
@@ -51,15 +59,21 @@ public class ShooterSubsystem extends SubsystemBase{
         return m_maxSnowVoltage;
     }
     public boolean hasCube(){
-        System.out.print("Max Voltage - " + m_maxSnowVoltage + "Current Voltage - " + m_SnowMotors.getBusVoltage());
+      /*   System.out.print("Max Voltage - " + m_maxSnowVoltage + "Current Voltage - " + m_SnowMotors.getBusVoltage());
         if(m_maxSnowVoltage>kIntakeStallVoltage){
             return true;
         }else {
             return false;
         }
-        
-    }
+      */
+      if(m_IntakeLimitSwitch.get()){
+        return false;
+      }else{
+        return true;
+      }
+      }
     public void stop(){
+        System.out.println("Stopping");
         m_leftShootMotor.set(ControlMode.PercentOutput,0);
         m_rightShootMotor.set(ControlMode.PercentOutput,0);
         m_SnowMotors.set(ControlMode.PercentOutput, 0);

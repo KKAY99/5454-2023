@@ -7,14 +7,17 @@ import edu.wpi.first.wpilibj.Timer;
 public class ShootCubeCommand extends CommandBase{
     ShooterSubsystem m_ShooterSubsystem;
     double m_shootTime;
+    double m_shootTimeDelay;
     double m_startTime;
     double m_wait;
     double m_shootMotorSpeed;
     
 public ShootCubeCommand(ShooterSubsystem shooterSubsystem,double shootMotorSpeed, double wait,double shootTime){
     m_ShooterSubsystem=shooterSubsystem;
+    addRequirements(shooterSubsystem);
+   
     m_wait=wait;
-    m_shootTime=shootTime;
+    m_shootTimeDelay=shootTime;
     m_shootMotorSpeed=shootMotorSpeed;
     
 }
@@ -22,7 +25,7 @@ public void initialize(){
     m_ShooterSubsystem.spinUpShooterMotors(m_shootMotorSpeed); 
     //set time to allow shooter to actually shoot
     m_startTime = Timer.getFPGATimestamp()+m_wait;
-    m_shootTime=m_startTime+m_shootTime;
+    m_shootTime=m_startTime+m_shootTimeDelay;
  
 }
 @Override
@@ -45,6 +48,11 @@ if(currentTime>m_startTime){
     }
 }
 return returnValue;
+}
+@Override
+public void end(boolean interrupted) {
+
+    m_ShooterSubsystem.stop();
 }
 
 @Override

@@ -10,7 +10,8 @@ public class IntakeCubeCommand extends CommandBase{
 public IntakeCubeCommand(ShooterSubsystem shooterSubsystem,double intakeMotorSpeed){
     m_ShooterSubsystem=shooterSubsystem;
     m_intakeMotorSpeed=intakeMotorSpeed;
-    
+    addRequirements(shooterSubsystem);
+   
 }
 public void initialize(){
    
@@ -18,7 +19,7 @@ public void initialize(){
 
 @Override
 public boolean isFinished(){
-    boolean returnValue=false;
+  boolean returnValue=false;
     returnValue=m_ShooterSubsystem.hasCube(); 
     System.out.println("Intake Running" + returnValue);
     return returnValue;
