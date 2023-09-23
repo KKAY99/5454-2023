@@ -250,13 +250,7 @@ public class RobotContainer {
     private XboxController m_xBoxDriver = new XboxController(InputControllers.kXboxDrive);
     private XboxController m_xBoxOperator = new XboxController(InputControllers.kXboxOperator);
    
-    private PipelineSwapCommand m_pipelineswap0 = new PipelineSwapCommand(m_Limelight,m_RobotDrive ,0,Constants.ChargedUp.targetHeightAprilTag);
-    private PipelineSwapCommand m_pipelineswap1 = new PipelineSwapCommand(m_Limelight,m_RobotDrive ,1,Constants.ChargedUp.targetHeighMLowTape);
-    private PipelineSwapCommand m_pipelineswap2 = new PipelineSwapCommand(m_Limelight,m_RobotDrive ,2,Constants.ChargedUp.targetHeightHighTape);
-    private AlignMoveForward m_align = new AlignMoveForward(m_Limelight, m_RobotDrive,0,Constants.ChargedUp.targetHeighMLowTape);
-    private zAutoTargetandMove m_test = new zAutoTargetandMove(m_Limelight, m_RobotDrive, 2);
     private boolean m_turretHasReset =false;
-    private PhotonAlign m_photonAlign = new PhotonAlign(m_RobotDrive,m_PhotonVision);
     private RotateArmCommand rotateArm= new RotateArmCommand(m_RotateArm,() -> (m_xBoxOperator.getLeftX()));
 
     private SequentialCommandGroup autoScoreMoveBWD = new SequentialCommandGroup(new AutoMoveCommand(m_RobotDrive,180), new zMoveArmExtendABS(m_RotateArm,m_Pneumatics,m_Limelight,Constants.TargetHeight.MIDDLECONE,true,true),
@@ -270,7 +264,7 @@ public class RobotContainer {
 
      m_RobotDrive.setDefaultCommand(
                 new DefaultDriveCommand(m_RobotDrive,
-                        () -> -m_xBoxDriver.getRightX(),
+                        () -> m_xBoxDriver.getRightX(),
                         () -> m_xBoxDriver.getLeftX(),
                         () -> m_xBoxDriver.getLeftY()));
 
@@ -294,6 +288,20 @@ public class RobotContainer {
 
         Trigger operatorRotate = new Trigger(() -> Math.abs(m_xBoxOperator.getLeftX())>ButtonConstants.RotateDeadBand);
         operatorRotate.whileTrue(rotateArm);
+        Command clawOpenClose = new ClawOpenCloseCommand(m_Pneumatics);
+        Command topClawOpenClose = new OpenTopClawCommand(m_Pneumatics);
+        Command bottomClawOpen= new OpenBottomClawCommand(m_Pneumatics);
+        Command clawExtend=new ExtendClawCommand(m_Pneumatics);
+        Trigger fullClaw = new JoystickButton(m_xBoxOperator,1);
+        Trigger topClaw = new JoystickButton(m_xBoxOperator,2);
+        Trigger extendClaw  = new JoystickButton(m_xBoxOperator,3);
+        Trigger bottomClaw = new JoystickButton(m_xBoxOperator,4);
+        fullClaw.toggleOnTrue(clawOpenClose);
+        topClaw.toggleOnTrue(topClawOpenClose);
+        extendClaw.toggleOnTrue(clawExtend);
+        bottomClaw.toggleOnTrue(bottomClawOpen);
+        
+        
     }
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -303,9 +311,12 @@ public class RobotContainer {
     public Command getAutonomousCommand(Integer selectedMode) {
         Command autoCommand = new AutoDoNothingCommand(); // Default Command is DoNothing
         System.out.println("Autonomouse Selected Mode = " + selectedMode);
-        switch (selectedMode) {            
+        switch (selectedMode) {         
+          case Constants.AutoModes.autoMoveForward:
+      //     autoCommand = new SequentialCommandGroup(new AutoMoveCommand(m_RobotDrive,0,5),new AutoMoveCommand(m_RobotDrive,180,10));   
           default:
-            autoCommand = new AutoDoNothingCommand();
+          autoCommand = new SequentialCommandGroup(new AutoMoveCommand(m_RobotDrive,0,1),new AutoMoveCommand(m_RobotDrive,180,5));   
+          //autoCommand = new AutoDoNothingCommand();
         }
         return autoCommand;
         // return m_autoCommand;
@@ -331,7 +342,7 @@ public class RobotContainer {
                 /*if (m_RobotDrive.IsRobotMoving()){
                         shuffleboardRobotMoving.setString("True");
                 }
-                else{
+             System.out.println("dri   else{
                         shuffleboardRobotMoving.setString("False");     
                 }*/
         }

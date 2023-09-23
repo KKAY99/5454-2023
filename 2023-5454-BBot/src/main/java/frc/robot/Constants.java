@@ -32,8 +32,8 @@ public final class Constants {
         public static final int CompressorID=0; 
         public static final int LatchPort=5;
         public static final int clawSolenoid1ID=1;
-        public static final int clawSolenoid2ID=2;
-        public static final int extensionSolenoidID=3;
+        public static final int clawSolenoid2ID=0;
+        public static final int extensionSolenoidID=2;
     }
 
     public static final class RotateArm{
@@ -100,12 +100,14 @@ public final class Constants {
 
     public static final class AutoModes {
         public static final String autoMode0="Do Nothing";
-        public static final String autoMode1="Move Foward";
+        public static final String autoMode1="Move Foward/Back";
         public static final String autoMode2="Score-Move Back";
 
         public static final int autoNothing=0;
         public static final int autoMoveForward=1;
         public static final int autoScoreMoveBWD=2;
+
+        public static final double MoveSpeed =0.5;
     }
 
     public static final class InputControllers {

@@ -3,21 +3,21 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.PneumaticsSubsystem;
 
-public class OpenTopClawCommand extends CommandBase{
+public class OpenBottomClawCommand extends CommandBase{
 
     private PneumaticsSubsystem m_pneumatics;
 
-    public OpenTopClawCommand(PneumaticsSubsystem pneumatics){
+    public OpenBottomClawCommand(PneumaticsSubsystem pneumatics){
         m_pneumatics=pneumatics;
     }
 
     @Override
     public void execute(){
-        System.out.println("This is a top claw");
-        if(m_pneumatics.getTopClawSolenoidState()==true){
-            m_pneumatics.setTopClawSolenoid(false);
+        System.out.println("This is a bottom claw");
+        if(m_pneumatics.getBottomClawSolenoidState()==true){
+            m_pneumatics.setBottomClawSolenoid(false);
         }else{
-            m_pneumatics.setTopClawSolenoid(true);
+            m_pneumatics.setBottomClawSolenoid(true);
         }
     }
     @Override

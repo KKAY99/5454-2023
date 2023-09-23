@@ -13,8 +13,8 @@ public class ClawSubsystem extends SubsystemBase{
     private CANSparkMax m_clawMotor;
     private double m_clawSpeed;
     private boolean m_clawIsOpen=false;
-    private static boolean bClawClose=false;
-    private static boolean bClawOpen=true;
+    private static boolean bClawClose=true;
+    private static boolean bClawOpen=false;
   
     public ClawSubsystem(int clawMotorPort,double clawSpeed){ 
         m_clawMotor = new CANSparkMax(clawMotorPort, MotorType.kBrushed);
@@ -33,11 +33,12 @@ public class ClawSubsystem extends SubsystemBase{
     }
 
     public void openClaw() {
-        //System.out.println("intake motor set" + power);
+    System.out.println("Claw Open" );
       m_clawMotor.set(m_clawSpeed);
       m_clawIsOpen=false;
     }
     public void closeClaw (){
+      System.out.println("Claw Close" );
       m_clawMotor.set(-m_clawSpeed);
       m_clawIsOpen=true;   
     }

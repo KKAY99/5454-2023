@@ -54,7 +54,7 @@ public class Robot extends TimedRobot {
 
     m_autoChooser.addOption(AutoModes.autoMode0, AutoModes.autoNothing);
     m_autoChooser.addOption(AutoModes.autoMode1, AutoModes.autoMoveForward);
-    m_autoChooser.addOption(AutoModes.autoMode0, AutoModes.autoScoreMoveBWD);
+    m_autoChooser.addOption(AutoModes.autoMode2, AutoModes.autoScoreMoveBWD);
     
     SmartDashboard.putData("Auto Selector", m_autoChooser);
     SmartDashboard.putData("Delay Time", m_delayChooser);
@@ -116,7 +116,7 @@ public class Robot extends TimedRobot {
     m_robotContainer.LEDAutoMode();
     //m_robotContainer.resetTurret(); move to command groups
     m_autonomousCommand = m_robotContainer.getAutonomousCommand(m_autoChooser.getSelected());
-    
+    System.out.print("Auto Selected is " + m_autonomousCommand.toString());
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();

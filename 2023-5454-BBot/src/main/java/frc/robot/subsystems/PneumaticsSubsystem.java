@@ -22,16 +22,21 @@ public class PneumaticsSubsystem extends SubsystemBase {
 
   public PneumaticsSubsystem(int nodeID,int clawSolenoid1ID,int clawSolenoid2ID, int armExtensionSolenoidID) {
     m_Compressor = new Compressor(nodeID,pModule);
+    System.out.print("Compressor created - "+ m_Compressor.isEnabled());
     m_clawSolenoid1=new Solenoid(pModule,clawSolenoid1ID);  
     m_clawSolenoid2=new Solenoid(pModule,clawSolenoid2ID);      
     m_armExtensionSolenoid=new Solenoid(pModule,armExtensionSolenoidID);
   }
 
+ public boolean getExtendedState(){
+   return m_armExtensionSolenoid.get();
+ } 
   public void setExtensionSolenoid(boolean state){
     m_armExtensionSolenoid.set(state);
   }
 
   public void setTopClawSolenoid(boolean state){
+    System.out.println("Setting Top Claw");
     m_clawSolenoid1.set(state);
   }
 
@@ -40,6 +45,7 @@ public class PneumaticsSubsystem extends SubsystemBase {
   }
 
   public void setBottomClawSolenoid(boolean state){
+   System.out.print("Setting Bottom Claw");
     m_clawSolenoid2.set(state);
   }
 

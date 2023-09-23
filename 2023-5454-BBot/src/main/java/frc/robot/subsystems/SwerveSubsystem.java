@@ -12,6 +12,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTableEntry.*;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -104,12 +105,11 @@ public class SwerveSubsystem extends SubsystemBase {
                                                 ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot,
                                                                 m_gyro.getRotation2d())
                                                 : new ChassisSpeeds(xSpeed, ySpeed, rot));
-                SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, kMaxSpeed);
+                SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, 1); //CHANGED
                 m_frontLeft.setDesiredState(swerveModuleStates[0]);
                 m_frontRight.setDesiredState(swerveModuleStates[1]);
                 m_backLeft.setDesiredState(swerveModuleStates[2]);
                 m_backRight.setDesiredState(swerveModuleStates[3]);
-
                 //System.out.println("Setting Speed " + swerveModuleStates[0].speedMetersPerSecond + " -- " + swerveModuleStates[1].speedMetersPerSecond
                 //                   + " _-" +  swerveModuleStates[2].speedMetersPerSecond + " -- " + swerveModuleStates[3].speedMetersPerSecond);
                
@@ -147,10 +147,60 @@ public class SwerveSubsystem extends SubsystemBase {
                                 m_backRight.getState());
         */}
 
-        public void move(double direction, double speed, double distance,double rotation, boolean stopAtFalse) {
+        public void xmove(double direction, double speed, double distance,double rotation, boolean stopAtFalse) {
                 // TODO - Nothing Currently
-        }
 
+        }
+        public void move (double direction, double speed, double time, boolean stopAtEnd)
+        {       double startDistance;
+                double forward=0;
+                double strafe=0;
+                Translation2d targetTranslation;
+                switch ((int) direction){
+                        case 0:
+                                forward=1*speed;
+                                strafe=0;
+                                break;
+                        case 45:
+                                forward=1*speed;
+                                strafe=1*speed;
+                                break;
+                       
+                        case 90:
+                                forward=0;
+                                strafe=1*speed;
+                                break;
+                        case 135:
+                                forward=-1*speed;
+                                strafe=1*speed;
+                                break;
+                        case 180:
+                                forward=-1*speed;
+                                strafe=0;
+                                break;
+                        case 225:
+                                forward=-1*speed;
+                                strafe=-1*speed;
+                                break;
+                        case 270:
+                                forward=0;
+                                strafe=-1*speed;
+                                break;
+                        case 315:
+                                forward=1*speed;
+                                strafe=-1*speed;
+                                break;
+                        
+                }
+                System.out.println("Auto Driving");
+                double startTime=Timer.getFPGATimestamp();
+                double endTime=startTime+time; 
+                do {
+                      drive(forward,strafe,0);
+                      periodic();
+                      System.out.print("(" + forward + ", "+ strafe +") " + Timer.getFPGATimestamp() + " / " + endTime);
+                } while(Timer.getFPGATimestamp()<endTime);
+        }
         public void stop(){
                 // TODO - Nothing Currently
         }

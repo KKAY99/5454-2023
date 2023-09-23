@@ -277,8 +277,10 @@ public class zMoveArmExtendABS extends CommandBase {
       break;
       case OPENCLAW:
          if(m_hasRun==false){
+          //pivot down
+          //m_pPnuematicsSubystem.setClaw(false);
           m_endTime=Timer.getFPGATimestamp()+kClawRunTime; 
-          m_claw.runClaw(0.5);
+          m_claw.runClaw(0.3); //was .5
           m_hasRun=true;
          }
 

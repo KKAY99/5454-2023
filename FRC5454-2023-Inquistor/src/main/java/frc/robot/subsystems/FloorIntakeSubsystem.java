@@ -67,8 +67,12 @@ public class FloorIntakeSubsystem extends SubsystemBase{
     
     }
     public boolean checkRotateLimits(double power){
-        return false;
+     if (power<0) {
+      return getLimitSwitch();
+     } else {
+      return false;
     }
+  }
     public boolean xcheckRotateLimits(double power){
         double rotatePosition= m_rotateEncoder.getPosition();
        boolean returnValue=false;

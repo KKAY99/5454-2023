@@ -144,13 +144,13 @@ public class DrivetrainSubsystem extends SubsystemBase {
                         break;
                 
         }
-
+        System.out.println("Auto Code");
         double distanceTravelled=backLeftModule.getCurrentDistance()-startDistance;
         do {
               drive(new Translation2d(forward, strafe), rotation, false);
               periodic();
               distanceTravelled=Math.abs(backLeftModule.getCurrentDistance()-startDistance);
-        //      System.out.print("(" + forward + ", "+ strafe +") " + distanceTravelled + " / " + distance );
+              System.out.print("(" + forward + ", "+ strafe +") " + distanceTravelled + " / " + distance );
         } while(distanceTravelled<=distance);
         if (stopAtEnd) {
                 drive(new Translation2d(0,0), 0, true);

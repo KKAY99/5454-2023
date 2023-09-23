@@ -112,9 +112,10 @@ public final class Constants {
          public static final double posLowConeFullLiftStage1=-62+kClawFlipOffset;
         public static final double posLowConeFullLiftStage2=-72+kClawFlipOffset;
         public static final double posMiddleConeFullLiftStage1=-80;
-        public static final double posMiddleConeFullLiftStage2=-102.8; 
-        public static final double posHighConeFullLiftStage1=-100+kClawFlipOffset;
-        public static final double posHighConeFullLiftStage2=-140;
+        public static final double posMiddleConeFullLiftStage2=-88; //mid cone auto for lift --JACKSON CHNG
+        public static final double posHighConeFullLiftStage1=-95;
+       // public static final double posHighConeFullLiftStage2=-140;
+        public static final double posHighConeFullLiftStage2=-126;
         public static final double posLowCubeFullLiftStage1=-62+kClawFlipOffset;
         public static final double posLowCubeFullLiftStage2=-72+kClawFlipOffset;
         public static final double posMiddleCubeFullLiftStage1=-70.00+kClawFlipOffset;
@@ -147,8 +148,8 @@ public final class Constants {
         public static final double rotateAutoInSpeed=0.8; 
         public static final double angleLowConeStage1ABS=0.497;    
         public static final double angleLowConeStage2ABS=0.484;    
-        public static final double angleMiddleConeStage1ABS=0.490;    
-        public static final double angleMiddleConeStage2ABS=0.480; 
+        public static final double angleMiddleConeStage1ABS=0.50;    
+        public static final double angleMiddleConeStage2ABS=0.50; //Absolute value for mid cone --JACKSON CHNG0
         public static final double angleHighConeStage1ABS=0.510;    
         public static final double angleHighConeStage2ABS=0.495;
         public static final double angleLowCubeStage1ABS=0.497;    

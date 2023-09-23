@@ -17,6 +17,7 @@ public class ClawCommand extends CommandBase {
         m_Claw=claw;
         m_state=state;
         m_caller=caller;
+        checkForTargets=false;
     }
 
     public ClawCommand(ClawSubsystem claw, Limelight limelight,boolean state){
@@ -29,14 +30,14 @@ public class ClawCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        m_endTime=Timer.getFPGATimestamp()+kClawRunTime;    
      
     }  
 
     @Override
     public void execute() {
-        //System.out.println("Setting Claw to state - " + m_state + " from caller " + m_caller);
+        System.out.println("Setting Claw to state - " + m_state + " from caller " + m_caller);
         
-        m_endTime=Timer.getFPGATimestamp()+kClawRunTime;    
         if(checkForTargets){
             if(m_limelight.isTargetAvailible()){        
                 m_Claw.setClaw(m_state);
@@ -57,6 +58,7 @@ public class ClawCommand extends CommandBase {
     @Override
     public boolean isFinished() {
      boolean returnValue=false;
+     System.out.println("checking claw timer " + m_endTime + " " + Timer.getFPGATimestamp());
      returnValue=(m_endTime<Timer.getFPGATimestamp());
      return returnValue;
     }

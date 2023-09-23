@@ -81,7 +81,7 @@ public class RobotContainer {
                                                        Constants.RotateArm.encoderBackLimit);
      private final ClawSubsystem m_Claw= new ClawSubsystem(Constants.Claw.clawMotorPort,Constants.Claw.clawSpeed);
 
-     private final LEDSChargedup m_ledStrip = new LEDSChargedup(Constants.LEDS.UPPERPORT,Constants.LEDS.BOTTOMPORT, Constants.LEDS.UPPERCOUNT,Constants.LEDS.BOTTOMPORT);
+     private final LEDSChargedup m_ledStrip = new LEDSChargedup(Constants.LEDS.UPPERPORT, Constants.LEDS.UPPERCOUNT);
      private boolean m_disabled=true;
      private boolean m_homed=false;
      private boolean m_isButtonToggled=false;
@@ -170,6 +170,8 @@ public class RobotContainer {
     private XboxController m_xBoxDriver = new XboxController(InputControllers.kXboxDrive);
     private XboxController m_xBoxOperator = new XboxController(InputControllers.kXboxOperator);
     private Joystick m_CustomController = new Joystick(InputControllers.kCustomController);
+ 
+ // reversed 9/21
     private boolean bClawClose=false;
     private boolean bClawOpen=true;
     private boolean bOpenClawatEnd=true;
@@ -207,12 +209,13 @@ public class RobotContainer {
                                                           new zMoveArmRetractABS(m_Elevator,m_Rotate,m_PnuematicsSubystem));
     autoChooser.addOption(AutoModes.autoMode1, commandScore);
     
-    Command commandAutoScoreLeave = new SequentialCommandGroup(new ClawCommand(m_Claw, bClawClose, "auto"),
-                                                              new zMoveArmExtendABS(m_Elevator, m_Rotate,m_PnuematicsSubystem, m_Claw,
+    Command commandAutoScoreLeave = new SequentialCommandGroup(new ClawCommand(m_Claw, bClawClose, "auto")
+                                                              ,new zMoveArmExtendABS(m_Elevator, m_Rotate,m_PnuematicsSubystem, m_Claw,
                                                                 m_Limelight,Constants.TargetHeight.TOPCUBE, false,true,bOpenClawatEnd),
                                                           //    new ClawCommand(m_claw, bClawOpen, "auto"),
                                                               new zMoveArmRetractABS(m_Elevator,m_Rotate,m_PnuematicsSubystem),
-                                                              new AutoMoveCommand(m_RobotDrive,0,AutoModes.LeaveCommunityDistance));
+                                                              new AutoMoveCommand(m_RobotDrive,0,AutoModes.LeaveCommunityDistance)
+                                                              );
     autoChooser.addOption(AutoModes.autoMode2,commandAutoScoreLeave);
  
     Command commandAutoScoreEngage = new SequentialCommandGroup(new zAutoTargetandMoveCommand(m_Limelight, m_RobotDrive ,
