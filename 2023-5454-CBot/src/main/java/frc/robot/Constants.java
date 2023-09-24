@@ -28,15 +28,16 @@ public class Arm {
   public static final double homePost=0;
   public static final double fastSpeed=0.7;
   public static final double slowSpeed=0.4;
-  public static final double manualSpeed=0.5;
+  public static final double manualSpeed=0.6;
   public static final double minValue=0.45;
   public static final double maxValue=0.95;
 }
 public class ShooterSubsystem{
   public static final double snowMotorSpeed=1.0;
   public static final double shootLowSpeed=0.2;
-  public static final double shootMediumSpeed=0.3;
-  public static final double shootHighSpeed=0.5;
+  public static final double shootMediumSpeed=0.4;
+  public static final double shootHighSpeed=0.60;
+  public static final double shootSuperSpeed=0.90;
   public static final double delayLowShot=0.2;
   public static final double delayMediumShot=0.7;
   public static final double delayHighShot=1.0;
@@ -58,6 +59,7 @@ public class ShooterSubsystem{
     public static final int homePosButton=10;
     public static final int intakeCube=1;
     public static final int shootCubeHigh=2;
+    public static final int shootCubeHSuper=6;
     public static final int shootCubeMedium=3;
     public static final int shootCubeLow=4;
   }
