@@ -83,7 +83,7 @@ public class LEDSChargedup {
                     break;
                 case AUTOMODE:
                     m_upperLEDStrip.setColor(Colors.PURPLE);
-                    m_upperLEDStrip.setMode(LEDMODE_RAINBOW);
+                    m_upperLEDStrip.setMode(LEDMODE_SOLID);
                     // m_bottomLEDStrip.setColor(Colors.PURPLE);
                     // m_bottomLEDStrip.setMode(LEDMODE_RAINBOW);
                     m_ledFlash = false;
