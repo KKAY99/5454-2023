@@ -15,8 +15,9 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+// import frc.robot.common.drivers.NavX;
 import frc.robot.Constants;
+import frc.robot.common.util.Rotation2d;
 
 /** Represents a swerve drive style drivetrain. */
 public class SwerveSubsystem extends SubsystemBase {
@@ -29,7 +30,7 @@ public class SwerveSubsystem extends SubsystemBase {
         // public static final int backRightOffset = -914;
 
         public static final int frontLeftOffset = 1282;
-        public static final int frontRightOffset = -344;
+        public static final int frontRightOffset = -402;
     
         public static final int backLeftOffset = 538;
         public static final int backRightOffset = -1270;
@@ -64,15 +65,17 @@ public class SwerveSubsystem extends SubsystemBase {
         private final SwerveModuleGB m_backRight = new SwerveModuleGB(Constants.SwerveDriveGB.kBackRightDrive,
                         Constants.SwerveDriveGB.kBackRightSteering, "Back Right", backRightOffset);
 
-        private final AHRS m_gyro = new AHRS(SPI.Port.kMXP);
-
+       private final AHRS m_gyro = new AHRS(SPI.Port.kMXP);
+//        private final NavX m_gyro;
         private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
                         m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation, m_backRightLocation);
         //TODO : Fix for 2023
        // private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(m_kinematics, m_gyro.getRotation2d());
         public SwerveSubsystem() {
                 System.out.println("***Swerve instanciated***");
-                m_gyro.reset();
+               // m_gyro.reset();
+        //        m_gyro=gyro;
+               m_gyro.calibrate();
         }
 
         /**
@@ -103,9 +106,9 @@ public class SwerveSubsystem extends SubsystemBase {
                 var swerveModuleStates = m_kinematics.toSwerveModuleStates(
                                 fieldRelative
                                                 ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot,
-                                                                m_gyro.getRotation2d())
+                                                m_gyro.getRotation2d())
                                                 : new ChassisSpeeds(xSpeed, ySpeed, rot));
-                SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, 1); //CHANGED
+                SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, 0.8); //CHANGED
                 m_frontLeft.setDesiredState(swerveModuleStates[0]);
                 m_frontRight.setDesiredState(swerveModuleStates[1]);
                 m_backLeft.setDesiredState(swerveModuleStates[2]);
