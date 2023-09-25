@@ -39,18 +39,19 @@ public class ArmSubsystem extends SubsystemBase {
      setSpeed(rotateSpeed);
     }
     private boolean HitLimits(double rotateSpeed){
-        boolean returnValue=false;
-        //HARDCODED SOFT LIMITS BAD BAD BAD BAD
-        if(rotateSpeed>0 && getEncoderPos()<.46){ // moving to back of robot
-            returnValue=true;
-            System.out.println("Top Soft Limit");
-        }else{
-            if(rotateSpeed<0 && getEncoderPos()>.95){ // moving to back of robot
-                returnValue=true;
-                System.out.println("Bottom Soft Limit");
-            }   
-        }
-        return returnValue;
+        return false;
+        // boolean returnValue=false;
+        // //HARDCODED SOFT LIMITS BAD BAD BAD BAD
+        // if(rotateSpeed>0 && getEncoderPos()<.46){ // moving to back of robot
+        //     returnValue=true;
+        //     System.out.println("Top Soft Limit");
+        // }else{
+        //     if(rotateSpeed<0 && getEncoderPos()>.95){ // moving to back of robot
+        //         returnValue=true;
+        //         System.out.println("Bottom Soft Limit");
+        //     }   
+        // }
+        // return returnValue;
 
     }
     private void setSpeed(double rotateSpeed){

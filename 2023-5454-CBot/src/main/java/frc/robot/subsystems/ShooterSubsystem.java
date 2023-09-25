@@ -35,7 +35,8 @@ public class ShooterSubsystem extends SubsystemBase{
     public void intakeCube(double shootMotorSpeed){
         m_leftShootMotor.set(ControlMode.PercentOutput,shootMotorSpeed);
         m_rightShootMotor.set(ControlMode.PercentOutput,-shootMotorSpeed);
-        m_SnowMotors.set(ControlMode.PercentOutput, -m_snowMotorSpeed);
+        //turn down by 30%
+        m_SnowMotors.set(ControlMode.PercentOutput, -m_snowMotorSpeed*.7);
         
         double currentVoltage=Math.abs(m_SnowMotors.getMotorOutputVoltage());
         if(currentVoltage>m_maxSnowVoltage){

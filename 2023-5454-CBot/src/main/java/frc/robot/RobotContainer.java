@@ -14,8 +14,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.SPI;
+// import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
@@ -35,6 +36,8 @@ public class RobotContainer {
   private XboxController m_xBoxDriver = new XboxController(InputControllers.kXboxDriver);
   private XboxController m_xBoxOperator = new XboxController(InputControllers.kXboxOperator);
 
+  SlewRateLimiter filter = new SlewRateLimiter(5);
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -43,7 +46,8 @@ public class RobotContainer {
     m_gyro.calibrate();
     m_gyro.reset();
     
-    m_RobotDrive.setDefaultCommand(new DefaultDrive(m_RobotDrive,()->m_xBoxDriver.getLeftX()  , ()-> m_xBoxDriver.getLeftY()));
+    m_RobotDrive.setDefaultCommand(new DefaultDrive(m_RobotDrive,()->  m_xBoxDriver.getLeftX()  , ()-> m_xBoxDriver.getLeftY()));
+    // m_RobotDrive.setDefaultCommand(new DefaultDrive(m_RobotDrive,()->  filter.calculate(m_xBoxDriver.getLeftX())  , ()-> m_xBoxDriver.getLeftY()));
   }
 
     
@@ -66,17 +70,17 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    zMoveArmToPosCommand moveArmPos1=new zMoveArmToPosCommand(m_ArmSubsystem,Constants.Arm.shootPos1);
-    zMoveArmToPosCommand moveArmPos2=new zMoveArmToPosCommand(m_ArmSubsystem,Constants.Arm.shootPos2);
-    zMoveArmToPosCommand moveArmPos3=new zMoveArmToPosCommand(m_ArmSubsystem,Constants.Arm.shootPos3);
+    // zMoveArmToPosCommand moveArmPos1=new zMoveArmToPosCommand(m_ArmSubsystem,Constants.Arm.shootPos1);
+    // zMoveArmToPosCommand moveArmPos2=new zMoveArmToPosCommand(m_ArmSubsystem,Constants.Arm.shootPos2);
+    // zMoveArmToPosCommand moveArmPos3=new zMoveArmToPosCommand(m_ArmSubsystem,Constants.Arm.shootPos3);
 
-    final MoveArmCommand armDownCommand=new MoveArmCommand(m_ArmSubsystem,-Constants.Arm.manualSpeed, Constants.Arm.minValue,Constants.Arm.maxValue);
-    Trigger moveArmDown= new JoystickButton(m_xBoxDriver, Constants.buttonConstants.moveArmDown);
-    moveArmDown.whileTrue(armDownCommand);
+    // final MoveArmCommand armDownCommand=new MoveArmCommand(m_ArmSubsystem,-Constants.Arm.manualSpeed, Constants.Arm.minValue,Constants.Arm.maxValue);
+    // Trigger moveArmDown= new JoystickButton(m_xBoxDriver, Constants.buttonConstants.moveArmDown);
+    // moveArmDown.whileTrue(armDownCommand);
 
-    final MoveArmCommand armUpCommand=new MoveArmCommand(m_ArmSubsystem,Constants.Arm.manualSpeed, Constants.Arm.minValue,Constants.Arm.maxValue);
-    Trigger moveArmUp= new JoystickButton(m_xBoxDriver, Constants.buttonConstants.moveArmUp);
-    moveArmUp.whileTrue(armUpCommand);    
+    // final MoveArmCommand armUpCommand=new MoveArmCommand(m_ArmSubsystem,Constants.Arm.manualSpeed, Constants.Arm.minValue,Constants.Arm.maxValue);
+    // Trigger moveArmUp= new JoystickButton(m_xBoxDriver, Constants.buttonConstants.moveArmUp);
+    // moveArmUp.whileTrue(armUpCommand);    
 
     final MoveArmCommand armDown2Command=new MoveArmCommand(m_ArmSubsystem,-Constants.Arm.manualSpeed, Constants.Arm.minValue,Constants.Arm.maxValue);
     final MoveArmCommand armUp2Command=new MoveArmCommand(m_ArmSubsystem,Constants.Arm.manualSpeed, Constants.Arm.minValue,Constants.Arm.maxValue);
@@ -89,13 +93,13 @@ public class RobotContainer {
 
 
 
-    Trigger buttonArmPos1=new JoystickButton(m_xBoxDriver, Constants.buttonConstants.shootPos1Button);
-    Trigger buttonArmPos2=new JoystickButton(m_xBoxDriver, Constants.buttonConstants.shootPos2Button);
-    Trigger buttonArmPos3=new JoystickButton(m_xBoxDriver, Constants.buttonConstants.shootPos3Button);
+    // Trigger buttonArmPos1=new JoystickButton(m_xBoxDriver, Constants.buttonConstants.shootPos1Button);
+    // Trigger buttonArmPos2=new JoystickButton(m_xBoxDriver, Constants.buttonConstants.shootPos2Button);
+    // Trigger buttonArmPos3=new JoystickButton(m_xBoxDriver, Constants.buttonConstants.shootPos3Button);
      
-    buttonArmPos1.onTrue(moveArmPos1);
-    buttonArmPos2.onTrue(moveArmPos2);
-    buttonArmPos3.onTrue(moveArmPos3);
+    // buttonArmPos1.onTrue(moveArmPos1);
+    // buttonArmPos2.onTrue(moveArmPos2);
+    // buttonArmPos3.onTrue(moveArmPos3);
      
     final IntakeCubeCommand intakeCubeCommand = new IntakeCubeCommand(m_ShooterSubsystem,Constants.ShooterSubsystem.intakeSpeed);
     Trigger intakeCube = new JoystickButton(m_xBoxOperator, Constants.buttonConstants.intakeCube);
@@ -115,7 +119,11 @@ public class RobotContainer {
                                              Constants.ShooterSubsystem.delayHighShot,Constants.ShooterSubsystem.shootTime);
     Trigger shootHigh=new JoystickButton(m_xBoxOperator, Constants.buttonConstants.shootCubeHigh);
     shootHigh.toggleOnTrue(shootHighCommand);
-    
+ 
+    final ShootCubeCommand shootSuperCommand = new ShootCubeCommand(m_ShooterSubsystem, Constants.ShooterSubsystem.shootSuperSpeed,
+                                             Constants.ShooterSubsystem.delayHighShot,Constants.ShooterSubsystem.shootTime);
+    Trigger shootSuper=new JoystickButton(m_xBoxOperator, Constants.buttonConstants.shootCubeHSuper);
+    shootSuper.toggleOnTrue(shootSuperCommand);
   
   }
   public void AutoMode(){
