@@ -51,7 +51,7 @@ import frc.robot.commands.*;
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
   //  private AHRS m_ahrs = new AHRS(SPI.Port.kMXP);
-    private NavX m_NavX = new NavX(SPI.Port.kMXP);
+//     private NavX m_NavX = new NavX(SPI.Port.kMXP);
    // private final DriveSubsystem m_RobotDrive = new DriveSubsystem(m_ahrs);
   // private final DrivetrainSubsystem m_RobotDrive = new DrivetrainSubsystem(m_NavX);
    private final SwerveSubsystem m_RobotDrive = new SwerveSubsystem();
@@ -78,7 +78,7 @@ public class RobotContainer {
      private static final int LEDMODE_RAINBOW = 2;
      private static final int LEDMODE_SOLID = 3;
      private static final int LEDMODE_OFF = 4;
-     private LEDMode m_oldLEDmode=LEDMode.NOTSET;  
+     private LEDMode m_oldLEDmode=LEDMode.NOTSET; 
      
                                                   
     // #region Shuffleboard
@@ -307,7 +307,7 @@ public class RobotContainer {
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
      * @return the command to run in autonomous
-     */
+     */ 
     public Command getAutonomousCommand(Integer selectedMode) {
         Command autoCommand = new AutoDoNothingCommand(); // Default Command is DoNothing
         System.out.println("Autonomouse Selected Mode = " + selectedMode);
@@ -315,7 +315,7 @@ public class RobotContainer {
           case Constants.AutoModes.autoMoveForward:
       //     autoCommand = new SequentialCommandGroup(new AutoMoveCommand(m_RobotDrive,0,5),new AutoMoveCommand(m_RobotDrive,180,10));   
           default:
-          autoCommand = new SequentialCommandGroup(new AutoMoveCommand(m_RobotDrive,0,1),new AutoMoveCommand(m_RobotDrive,180,5));   
+          autoCommand = new SequentialCommandGroup(new AutoMoveCommand(m_RobotDrive,180,0.7),new AutoMoveCommand(m_RobotDrive,0,1.8));   
           //autoCommand = new AutoDoNothingCommand();
         }
         return autoCommand;
@@ -361,7 +361,7 @@ public class RobotContainer {
             m_disabled=false;
     }
     public void resetDriveModes(){
-//        m_RobotDrive.resetDriveMode();
+//        m_RobotDriveeDriveMode();
     }
     private void LEDUpdate(){            
         if(m_LEDMode!=m_oldLEDmode){            
