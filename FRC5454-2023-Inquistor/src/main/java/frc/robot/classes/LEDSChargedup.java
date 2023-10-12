@@ -170,7 +170,11 @@ public class LEDSChargedup {
 
     }
 
-    public void setPipelineLED(int overrideValue) {
+    public void setPipelineLED(int led){
+        //Bad leds
+    }
+
+    public void XsetPipelineLED(int overrideValue) {
         try {
             if (m_LEDMode == LEDMode.AUTOSCORING || m_LEDMode == LEDMode.DISABLED || m_LEDMode == LEDMode.AUTOMODE) {
             } else {

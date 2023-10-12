@@ -48,7 +48,8 @@ public class ClawSubsystem extends SubsystemBase{
     }
  
     public void setClaw(boolean status){
-      if(status=bClawOpen){
+      System.out.println("Status "+ status);
+      if(status==bClawOpen){
         openClaw();
       }else {
         closeClaw();

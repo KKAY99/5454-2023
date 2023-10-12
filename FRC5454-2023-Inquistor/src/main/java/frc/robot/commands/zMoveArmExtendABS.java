@@ -9,6 +9,7 @@ import frc.robot.subsystems.PnuematicsSubystem;
 import edu.wpi.first.util.concurrent.Event;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.classes.Limelight;
+import frc.robot.commands.FloorIntakeCommand.STATE;
 import frc.robot.subsystems.ClawSubsystem;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -65,10 +66,10 @@ public class zMoveArmExtendABS extends CommandBase {
       addRequirements(m_rotate);  
       switch(targetLevel){
       case TOPCONE:
-      m_posFullLiftStage1=Constants.Lift.posHighConeFullLiftStage1;
-      m_posFullLiftStage2=Constants.Lift.posHighConeFullLiftStage2;
-      m_angleStage1ABS=Constants.Rotate.angleHighConeStage1ABS;
-      m_angleStage2ABS=Constants.Rotate.angleHighConeStage2ABS;
+        m_posFullLiftStage1=Constants.Lift.posHighConeFullLiftStage1;
+        m_posFullLiftStage2=Constants.Lift.posHighConeFullLiftStage2;
+        m_angleStage1ABS=Constants.Rotate.angleHighConeStage1ABS;
+        m_angleStage2ABS=Constants.Rotate.angleHighConeStage2ABS;
       break;
       case MIDDLECONE:
         m_posFullLiftStage1=Constants.Lift.posMiddleConeFullLiftStage1;
@@ -248,12 +249,7 @@ public class zMoveArmExtendABS extends CommandBase {
       if(rotated && extended){
         System.out.println("rotated && extended");
         if(m_openClaw){
-          if(m_elevator.getElevatorPos()<m_posFullLiftStage2+2){
-              System.out.println("Ending Auto Score - Open Claw");
               m_state=STATE.OPENCLAW;
-          }else{
-            m_elevator.runWithLimit(Constants.Lift.liftAutoExtendStage2Speed);
-          }
         }else{
           System.out.println("Ending Auto Score - Not Opening Claw");
           m_state=STATE.END;
@@ -276,7 +272,8 @@ public class zMoveArmExtendABS extends CommandBase {
        }*/
       break;
       case OPENCLAW:
-         if(m_hasRun==false){
+      if(m_openClaw){
+        if(m_hasRun==false){
           //pivot down
           //m_pPnuematicsSubystem.setClaw(false);
           m_endTime=Timer.getFPGATimestamp()+kClawRunTime; 
@@ -289,6 +286,9 @@ public class zMoveArmExtendABS extends CommandBase {
           m_hasRun=false;
           m_state=STATE.END;
          }
+      }else{
+        m_state=STATE.END;
+      }
          break;
       case ABORT:
          System.out.println("Aborting Auto Score");

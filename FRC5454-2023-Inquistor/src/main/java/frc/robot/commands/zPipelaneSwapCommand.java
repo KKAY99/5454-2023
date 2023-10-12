@@ -76,7 +76,7 @@ public class zPipelaneSwapCommand extends CommandBase {
 
   @Override
   public void initialize() {
-    useableLeds.setPipelineLED(m_pipeline);
+    //useableLeds.setPipelineLED(m_pipeline);
     if (m_limeLight.getPipeline() != m_pipeline) {
       System.out.println("Switching Pipeline - " + m_pipeline + " from " + m_limeLight.getPipeline());
       m_limeLight.setPipeline(m_pipeline);

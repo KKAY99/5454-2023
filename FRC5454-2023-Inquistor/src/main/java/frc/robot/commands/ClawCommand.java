@@ -52,7 +52,7 @@ public class ClawCommand extends CommandBase {
   
     @Override
     public void end(boolean interrupted) {
-     m_Claw.stopClaw();
+    m_Claw.stopClaw();
     }
   
     @Override

@@ -122,7 +122,7 @@ public zAutoTargetandMoveCommand(Limelight limelight,DrivetrainSubsystem drive,i
       //allow driver overiride by moving joystick
       //System.out.println(m_driver.getLeftX() + " " + m_driver.getLeftY());
       
-      if((Math.abs(m_driver.getLeftX())>Constants.swerveDrive.driveDeadband) || (Math.abs(m_driver.getLeftY())>Constants.swerveDrive.driveDeadband)) {
+      if((Math.abs(m_driver.getLeftX())>Constants.swerveDrive.driveDeadband*2) || (Math.abs(m_driver.getLeftY())>Constants.swerveDrive.driveDeadband*2)) {
         System.out.println("Driver Control Aboring Targeting");
         m_state=STATE.ABORT;
       }
