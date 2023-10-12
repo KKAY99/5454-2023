@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import frc.robot.Constants.RobotMap;
@@ -24,15 +25,18 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private static final double TRACKWIDTH = 20;
     private static final double WHEELBASE = 25;
 
-    private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(349-180);//(164.53+180); //30.6 last 6.5 - was 161.8
-    private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(299.54+180);
-    private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(22.1);//+180 22.1
-    private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(180+69.84);//+180
+    private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(349-180);//349-180
+    private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(299.54+180);//299.54+180
+    private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(22.1+180);//+180 22.1
+    private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(180+69.84);//(180+69.84
 
+    
     private static DrivetrainSubsystem instance;
 
     private NavX m_gyroscope;
-    private final SwerveModule frontLeftModule = new Mk2SwerveModuleBuilder(
+  // private AHRS m_gyroscope;
+   
+   private final SwerveModule frontLeftModule = new Mk2SwerveModuleBuilder(
             new Vector2(TRACKWIDTH / 2.0, WHEELBASE / 2.0))
             .angleEncoder(new AnalogInput(RobotMap.DRIVETRAIN_FRONT_LEFT_ANGLE_ENCODER), FRONT_LEFT_ANGLE_OFFSET)
             .angleMotor(new CANSparkMax(RobotMap.DRIVETRAIN_FRONT_LEFT_ANGLE_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless),
@@ -73,9 +77,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
     );
 
         
-    public DrivetrainSubsystem(NavX navX) {
-        m_gyroscope = navX;
+    public DrivetrainSubsystem() {
+        // TODO: Fix
+        m_gyroscope = new NavX(null);
         m_gyroscope.calibrate();
+       // m_gyroscope.setAngleAdjustment(180);
         m_gyroscope.setInverted(true); // You might not need to invert the gyro
 
         frontLeftModule.setName("Front Left");
@@ -86,7 +92,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
  
     public static DrivetrainSubsystem getInstance() {
         if (instance == null) {
-            instance = new DrivetrainSubsystem(new NavX(SPI.Port.kMXP));
+            instance = new DrivetrainSubsystem();
         }
 
         return instance;
@@ -162,12 +168,14 @@ public void stop(){
         periodic();       
 }
 public void spin (double direction,double speed)
-{       double startAngle;
+{       /* 
+        double startAngle;
         double endAngle;
         double forward=0;
         double strafe=0;
         Translation2d targetTranslation;
-        startAngle=m_gyroscope.getAngle().toDegrees();
+        startAngle=m_gyroscope.getAngle();
+                //startAngle=m_gyroscope.getAngle().toDegrees();
         endAngle=direction+startAngle;
         
         do {
@@ -178,7 +186,7 @@ public void spin (double direction,double speed)
        //stop driving
         drive(new Translation2d(0,0), 0, true);
         periodic();                
-
+*/
 }
     @Override
     public void periodic() {

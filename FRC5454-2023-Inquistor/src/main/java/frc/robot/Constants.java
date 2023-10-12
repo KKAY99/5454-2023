@@ -121,8 +121,8 @@ public final class Constants {
         public static final double posMiddleCubeFullLiftStage2=-82; 
         public static final double posHighCubeFullLiftStage1=-90+kClawFlipOffset;
         public static final double posHighCubeFullLiftStage2=-110;
-        public static final double posPlayerLiftStage1=-60;  
-        public static final double posPlayerLiftStage2=-76;
+        public static final double posPlayerLiftStage1=-55;  
+        public static final double posPlayerLiftStage2=-74; //WAS -76 --JACKSON
         public static final double posSlideStage1=-70;   
         public static final double posSlideStage2=-79; 
         public static final double posShelf=-98+kClawFlipOffset;
@@ -315,7 +315,7 @@ public final class Constants {
         public static final int FLASH_DELAY=5;
 
         public class Colors {
-            public static final int RED = 0;
+            // public static final int RED = 0;
             public static final int PINK = 1;
             public static final int PURPLE = 2;
             public static final int BLUE = 3;

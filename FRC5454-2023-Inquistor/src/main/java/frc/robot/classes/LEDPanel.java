@@ -306,9 +306,9 @@ public class LEDPanel {
         
         int hue = 0;
         switch (color) {
-            case Colors.RED:
-                hue = 0;
-                break;
+            // case Colors.RED:
+            //     hue = 0;
+            //     break;
 
             case Colors.PINK:
                 hue = 175;
