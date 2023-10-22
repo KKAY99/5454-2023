@@ -18,14 +18,16 @@ public class PneumaticsSubsystem extends SubsystemBase {
   private static Solenoid m_clawSolenoid1;
   private static Solenoid m_clawSolenoid2;
   private static Solenoid m_armExtensionSolenoid;
+  private static Solenoid m_armHoldSolenoid;
   public static PneumaticsModuleType pModule = PneumaticsModuleType.CTREPCM;
 
-  public PneumaticsSubsystem(int nodeID,int clawSolenoid1ID,int clawSolenoid2ID, int armExtensionSolenoidID) {
+  public PneumaticsSubsystem(int nodeID,int clawSolenoid1ID,int clawSolenoid2ID, int armExtensionSolenoidID, int armHoldSolenoidID) {
     m_Compressor = new Compressor(nodeID,pModule);
     System.out.print("Compressor created - "+ m_Compressor.isEnabled());
     m_clawSolenoid1=new Solenoid(pModule,clawSolenoid1ID);  
     m_clawSolenoid2=new Solenoid(pModule,clawSolenoid2ID);      
     m_armExtensionSolenoid=new Solenoid(pModule,armExtensionSolenoidID);
+    m_armHoldSolenoid=new Solenoid(pModule,armHoldSolenoidID);
   }
 
  public boolean getExtendedState(){
@@ -42,6 +44,10 @@ public class PneumaticsSubsystem extends SubsystemBase {
 
   public boolean getTopClawSolenoidState(){
     return m_clawSolenoid1.get();
+  }
+
+  public void setArmHoldCynlinder(boolean state){
+    m_armHoldSolenoid.set(state);
   }
 
   public void setBottomClawSolenoid(boolean state){

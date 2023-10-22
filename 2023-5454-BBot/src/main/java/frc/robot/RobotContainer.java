@@ -57,7 +57,7 @@ public class RobotContainer {
    private final SwerveSubsystem m_RobotDrive = new SwerveSubsystem();
    private final RotateArmSubsystem m_RotateArm = new RotateArmSubsystem(Constants.RotateArm.rotateMotorPort,Constants.RotateArm.absEncoderPort);
    private final PneumaticsSubsystem m_Pneumatics = new PneumaticsSubsystem(Constants.Pneumatics.CompressorID,Constants.Pneumatics.clawSolenoid1ID
-                                                ,Constants.Pneumatics.clawSolenoid2ID,Constants.Pneumatics.extensionSolenoidID);
+                                                ,Constants.Pneumatics.clawSolenoid2ID,Constants.Pneumatics.extensionSolenoidID,Constants.Pneumatics.holdSolenoidID);
 
     private final Limelight m_Limelight = new Limelight(Constants.LimeLightValues.targetHeight, Constants.LimeLightValues.limelightHeight, Constants.LimeLightValues.limelightAngle,Constants.LimeLightValues.kVisionXOffset,80);
      
@@ -255,6 +255,11 @@ public class RobotContainer {
 
     private SequentialCommandGroup autoScoreMoveBWD = new SequentialCommandGroup(new AutoMoveCommand(m_RobotDrive,180), new zMoveArmExtendABS(m_RotateArm,m_Pneumatics,m_Limelight,Constants.TargetHeight.MIDDLECONE,true,true),
                                                         new zMoveArmRetractABS(m_RotateArm, m_Pneumatics), new ClawOpenCloseCommand(m_Pneumatics));
+
+    private SetPositionCommand setRestingPosCommand = new SetPositionCommand(m_RotateArm, m_Pneumatics,Constants.SETPOSPOSITIONS.STARTING);
+    private SetPositionCommand setPlayerPosCommand = new SetPositionCommand(m_RotateArm, m_Pneumatics,Constants.SETPOSPOSITIONS.PLAYERSTATION);                                                  
+    private SetPositionCommand setScorePosCommand = new SetPositionCommand(m_RotateArm, m_Pneumatics,Constants.SETPOSPOSITIONS.SCORE);                                                  
+    /**
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
@@ -300,6 +305,14 @@ public class RobotContainer {
         topClaw.toggleOnTrue(topClawOpenClose);
         extendClaw.toggleOnTrue(clawExtend);
         bottomClaw.toggleOnTrue(bottomClawOpen);
+        Trigger restingPositionAuto = new Trigger(() -> Math.abs(m_xBoxOperator.getRawAxis(2))>Constants.ButtonConstants.RotateDeadBand);
+        restingPositionAuto.toggleOnTrue(setRestingPosCommand);
+
+        Trigger playerStationAuto = new JoystickButton(m_xBoxOperator,5);
+        playerStationAuto.toggleOnTrue(setPlayerPosCommand);
+
+        Trigger playerScoreAuto = new JoystickButton(m_xBoxOperator,6);
+        playerScoreAuto.toggleOnTrue(setScorePosCommand);
         
         
     }

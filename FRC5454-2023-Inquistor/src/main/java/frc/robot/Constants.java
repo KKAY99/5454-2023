@@ -122,7 +122,7 @@ public final class Constants {
         public static final double posHighCubeFullLiftStage1=-90+kClawFlipOffset;
         public static final double posHighCubeFullLiftStage2=-110;
         public static final double posPlayerLiftStage1=-55;  
-        public static final double posPlayerLiftStage2=-74; //WAS -76 --JACKSON
+        public static final double posPlayerLiftStage2=-83; //WAS -76 --JACKSON
         public static final double posSlideStage1=-70;   
         public static final double posSlideStage2=-79; 
         public static final double posShelf=-98+kClawFlipOffset;

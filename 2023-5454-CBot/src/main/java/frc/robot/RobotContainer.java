@@ -85,10 +85,10 @@ public class RobotContainer {
     final MoveArmCommand armDown2Command=new MoveArmCommand(m_ArmSubsystem,-Constants.Arm.manualSpeed, Constants.Arm.minValue,Constants.Arm.maxValue);
     final MoveArmCommand armUp2Command=new MoveArmCommand(m_ArmSubsystem,Constants.Arm.manualSpeed, Constants.Arm.minValue,Constants.Arm.maxValue);
     
-    Trigger JoystickupUp = new Trigger(() -> (m_xBoxOperator.getLeftY())<-buttonConstants.DeadBand);
+    Trigger JoystickupUp = new Trigger(() -> (m_xBoxDriver.getRightY())<-buttonConstants.DeadBand);
     JoystickupUp.whileTrue(armUp2Command);
 
-    Trigger JoystickupDown = new Trigger(() -> (m_xBoxOperator.getLeftY())>buttonConstants.DeadBand);
+    Trigger JoystickupDown = new Trigger(() -> (m_xBoxDriver.getRightY())>buttonConstants.DeadBand);
     JoystickupDown.whileTrue(armDown2Command);
 
 
@@ -102,27 +102,27 @@ public class RobotContainer {
     // buttonArmPos3.onTrue(moveArmPos3);
      
     final IntakeCubeCommand intakeCubeCommand = new IntakeCubeCommand(m_ShooterSubsystem,Constants.ShooterSubsystem.intakeSpeed);
-    Trigger intakeCube = new JoystickButton(m_xBoxOperator, Constants.buttonConstants.intakeCube);
+    Trigger intakeCube = new JoystickButton(m_xBoxDriver, Constants.buttonConstants.intakeCube);
     intakeCube.whileTrue(intakeCubeCommand);
 
     final ShootCubeCommand shootLowCommand = new ShootCubeCommand(m_ShooterSubsystem, Constants.ShooterSubsystem.shootLowSpeed,
                                              Constants.ShooterSubsystem.delayLowShot,Constants.ShooterSubsystem.shootTime);
-    Trigger shootLow=new JoystickButton(m_xBoxOperator, Constants.buttonConstants.shootCubeLow);
+    Trigger shootLow=new JoystickButton(m_xBoxDriver, Constants.buttonConstants.shootCubeLow);
     shootLow.toggleOnTrue(shootLowCommand);
     
     final ShootCubeCommand shootMidCommand = new ShootCubeCommand(m_ShooterSubsystem, Constants.ShooterSubsystem.shootMediumSpeed,
                                              Constants.ShooterSubsystem.delayMediumShot,Constants.ShooterSubsystem.shootTime);
-    Trigger shootMid=new JoystickButton(m_xBoxOperator, Constants.buttonConstants.shootCubeMedium);
+    Trigger shootMid=new JoystickButton(m_xBoxDriver, Constants.buttonConstants.shootCubeMedium);
     shootMid.toggleOnTrue(shootMidCommand);
     
     final ShootCubeCommand shootHighCommand = new ShootCubeCommand(m_ShooterSubsystem, Constants.ShooterSubsystem.shootHighSpeed,
                                              Constants.ShooterSubsystem.delayHighShot,Constants.ShooterSubsystem.shootTime);
-    Trigger shootHigh=new JoystickButton(m_xBoxOperator, Constants.buttonConstants.shootCubeHigh);
+    Trigger shootHigh=new JoystickButton(m_xBoxDriver, Constants.buttonConstants.shootCubeHigh);
     shootHigh.toggleOnTrue(shootHighCommand);
  
     final ShootCubeCommand shootSuperCommand = new ShootCubeCommand(m_ShooterSubsystem, Constants.ShooterSubsystem.shootSuperSpeed,
                                              Constants.ShooterSubsystem.delayHighShot,Constants.ShooterSubsystem.shootTime);
-    Trigger shootSuper=new JoystickButton(m_xBoxOperator, Constants.buttonConstants.shootCubeHSuper);
+    Trigger shootSuper=new JoystickButton(m_xBoxDriver, Constants.buttonConstants.shootCubeHSuper);
     shootSuper.toggleOnTrue(shootSuperCommand);
   
   }

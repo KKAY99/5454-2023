@@ -26,6 +26,8 @@ public final class Constants {
         public static final double targetHeightHighTape=43.875;
         public static final int apriltag=0;
         public static final int middleTape=1;
+        public static final int BottomTapePipeline=0;
+        public static final double swerveDeadband=0.05;
     }
 
     public static final class Pneumatics {
@@ -34,11 +36,12 @@ public final class Constants {
         public static final int clawSolenoid1ID=1;
         public static final int clawSolenoid2ID=0;
         public static final int extensionSolenoidID=2;
+        public static final int holdSolenoidID=3;
     }
 
     public static final class RotateArm{
         public static final int rotateMotorPort=33;
-        public static final int absEncoderPort=0;
+        public static final int absEncoderPort=1;
         public static final double FWDSoftLimitABS=0.07;
         public static final double BWDSoftLimitABS=0.387;
     }
@@ -67,6 +70,14 @@ public final class Constants {
         public static final double KFF = 0;
         public static final double maxOutput = 1;
         public static final double minOutPut = -1;
+
+        public static final double autoRotateStarting=0.997;
+        public static final double autoRotatePlayerStation=0.897;
+        public static final double autoRotateScore=0.548;
+    }
+
+    public enum SETPOSPOSITIONS{
+        STARTING,PLAYERSTATION,SCORE
     }
 
     public static final class PIDSteering{

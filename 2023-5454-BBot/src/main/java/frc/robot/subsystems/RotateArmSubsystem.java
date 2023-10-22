@@ -75,7 +75,12 @@ public class RotateArmSubsystem extends SubsystemBase{
     }
 
     public double getABSPos(){
-        return m_absEncoder.getAbsolutePosition();
+        double currentPos=m_absEncoder.getAbsolutePosition();
+        if(currentPos<0.20){
+            //BAD BAD HACK FOR what apepars to be hitting 1.0 point
+            currentPos=currentPos+1;
+        }
+        return currentPos;
     }
 
     public boolean hasHitFWDSoftLimit(){
@@ -105,6 +110,6 @@ public class RotateArmSubsystem extends SubsystemBase{
 
     @Override
     public void periodic(){
-        rotateABSPos.setDouble(m_absEncoder.getAbsolutePosition());
+        rotateABSPos.setDouble(getABSPos());
     }
 }
