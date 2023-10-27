@@ -35,10 +35,17 @@ public class DrivetrainSubsystem extends SubsystemBase {
 */
 //USE RADIANS
 //3.04 radians is half a rotation
+// π/180
 private static final double FRONT_LEFT_ANGLE_OFFSET = -0.75; ///-0.850
-private static final double FRONT_RIGHT_ANGLE_OFFSET =0.25; // -4.72+3.04;//-1.45
-private static final double BACK_LEFT_ANGLE_OFFSET = -3.81-3.04;//-3.77+3.04;//-0.78
-private static final double BACK_RIGHT_ANGLE_OFFSET = -2.17-3.04; //-2.42-3.04
+
+//private static final double FRONT_RIGHT_ANGLE_OFFSET = 3.29; //0.25; //-4.72+3.04;//-1.45
+private static final double FRONT_RIGHT_ANGLE_OFFSET = 3.39; //0.25; //-4.72+3.04;//-1.45
+
+private static final double BACK_LEFT_ANGLE_OFFSET = -1.25;//-77+3.04;//-0.78
+
+//private static final double BACK_RIGHT_ANGLE_OFFSET =-2.17-3.04; //-2.42-3.04
+private static final double BACK_RIGHT_ANGLE_OFFSET =-2.35-3.04; //-2.42-3.04
+
 
 private boolean m_autoControl = false;
 
@@ -253,6 +260,11 @@ public void spin (double direction,double speed)
         SmartDashboard.putNumber("Front Right Module Angle", Math.toDegrees(frontRightModule.getCurrentAngle()));
         SmartDashboard.putNumber("Back Left Module Angle", Math.toDegrees(backLeftModule.getCurrentAngle()));
         SmartDashboard.putNumber("Back Right Module Angle", Math.toDegrees(backRightModule.getCurrentAngle()));
+
+        //SmartDashboard.putNumber("Front Left Module Radian", Math.toDegrees(frontLeftModule);
+        //SmartDashboard.putNumber("Front Right Module Radian", Math.toDegrees(frontRightModule.getCurrentAngle()));
+        //SmartDashboard.putNumber("Back Left Module Radain", Math.toDegrees(backLeftModule.getCurrentAngle()));
+        //SmartDashboard.putNumber("Back Right Module Radain", Math.toDegrees(backRightModule.getCurrentAngle()));
 
         SmartDashboard.putNumber("Gyroscope Angle", m_gyroscope.getAngle().toDegrees());
 
