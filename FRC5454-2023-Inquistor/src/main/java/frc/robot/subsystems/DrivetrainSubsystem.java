@@ -44,7 +44,7 @@ private static final double FRONT_RIGHT_ANGLE_OFFSET = 3.39; //0.25; //-4.72+3.0
 private static final double BACK_LEFT_ANGLE_OFFSET = -1.25;//-77+3.04;//-0.78
 
 //private static final double BACK_RIGHT_ANGLE_OFFSET =-2.17-3.04; //-2.42-3.04
-private static final double BACK_RIGHT_ANGLE_OFFSET =-2.35-3.04; //-2.42-3.04
+private static final double BACK_RIGHT_ANGLE_OFFSET =-2.17-3.04; //-2.42-3.04
 
 
 private boolean m_autoControl = false;
