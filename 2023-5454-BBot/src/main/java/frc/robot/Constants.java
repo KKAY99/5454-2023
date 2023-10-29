@@ -36,7 +36,7 @@ public final class Constants {
         public static final int clawSolenoid1ID=1;
         public static final int clawSolenoid2ID=0;
         public static final int extensionSolenoidID=2;
-        public static final int holdSolenoidID=3;
+        public static final int holdSolenoidID=4;
     }
 
     public static final class RotateArm{

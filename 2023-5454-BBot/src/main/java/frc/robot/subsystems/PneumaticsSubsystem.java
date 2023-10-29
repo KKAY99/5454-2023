@@ -46,6 +46,9 @@ public class PneumaticsSubsystem extends SubsystemBase {
     return m_clawSolenoid1.get();
   }
 
+  public boolean getArmHoldCylender(){
+     return m_armHoldSolenoid.get();
+  }
   public void setArmHoldCynlinder(boolean state){
     m_armHoldSolenoid.set(state);
   }

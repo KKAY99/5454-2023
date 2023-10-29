@@ -59,13 +59,16 @@ public class SetPositionCommand extends CommandBase{
     public boolean isFinished(){
         switch(m_state){
             case HOLDSOLENOID:
+            System.out.println("Holding Solenoid state");
             if(m_activateHoldSolenoid){
+                System.out.println("solenoid state to true");
                 m_Pneumatics.setArmHoldCynlinder(true);
                 m_activateHoldSolenoid=false;
             }else{
                 m_state=STATE.ROTATE;
                 if(m_targetPos!=Constants.Rotate.autoRotatePlayerStation){
-                    m_Pneumatics.setArmHoldCynlinder(false);
+                    //disabling auto
+                    // m_Pneumatics.setArmHoldCynlinder(false);
                 }
             }
             break;

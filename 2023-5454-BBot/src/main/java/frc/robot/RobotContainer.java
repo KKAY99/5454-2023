@@ -259,6 +259,7 @@ public class RobotContainer {
     private SetPositionCommand setRestingPosCommand = new SetPositionCommand(m_RotateArm, m_Pneumatics,Constants.SETPOSPOSITIONS.STARTING);
     private SetPositionCommand setPlayerPosCommand = new SetPositionCommand(m_RotateArm, m_Pneumatics,Constants.SETPOSPOSITIONS.PLAYERSTATION);                                                  
     private SetPositionCommand setScorePosCommand = new SetPositionCommand(m_RotateArm, m_Pneumatics,Constants.SETPOSPOSITIONS.SCORE);                                                  
+    private HoldArmSwapCommand swapHoldArm = new HoldArmSwapCommand(m_Pneumatics);
     /**
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -301,6 +302,7 @@ public class RobotContainer {
         Trigger topClaw = new JoystickButton(m_xBoxOperator,2);
         Trigger extendClaw  = new JoystickButton(m_xBoxOperator,3);
         Trigger bottomClaw = new JoystickButton(m_xBoxOperator,4);
+        
         fullClaw.toggleOnTrue(clawOpenClose);
         topClaw.toggleOnTrue(topClawOpenClose);
         extendClaw.toggleOnTrue(clawExtend);
@@ -314,6 +316,8 @@ public class RobotContainer {
         Trigger playerScoreAuto = new JoystickButton(m_xBoxOperator,6);
         playerScoreAuto.toggleOnTrue(setScorePosCommand);
         
+        Trigger swapArmHold = new JoystickButton(m_xBoxOperator,7);
+        swapArmHold.toggleOnTrue(swapHoldArm);
         
     }
     /**

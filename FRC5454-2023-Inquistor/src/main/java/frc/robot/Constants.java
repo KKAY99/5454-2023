@@ -113,8 +113,8 @@ public final class Constants {
         public static final double posLowConeFullLiftStage2=-72+kClawFlipOffset;
         public static final double posMiddleConeFullLiftStage1=-80;
         public static final double posMiddleConeFullLiftStage2=-92; //mid cone auto for lift --JACKSON CHNG
-        public static final double posHighConeFullLiftStage1=-95;
-        public static final double posHighConeFullLiftStage2=-136;
+        public static final double posHighConeFullLiftStage1=-70; //was 95
+        public static final double posHighConeFullLiftStage2=-133; //was -136
         public static final double posLowCubeFullLiftStage1=-62+kClawFlipOffset;
         public static final double posLowCubeFullLiftStage2=-72+kClawFlipOffset;
         public static final double posMiddleCubeFullLiftStage1=-70.00+kClawFlipOffset;
